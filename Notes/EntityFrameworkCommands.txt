@@ -1,0 +1,3 @@
+remove-migration -force
+Add-Migration -name ItemzMigration
+udpate-database

@@ -1,0 +1,30 @@
+﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using ItemzApp.API.Models;
+using System;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+
+
+namespace ItemzApp.API.ValidationAttributes
+{
+    public class ItemzNameMustNotStartWithABCAttribute : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object value,
+            ValidationContext validationContext)
+        {
+            var itemz = (ManipulateItemzDTO)value;
+
+            // TODO: THIS validation rule was configured just to learn and test if it's working as expected.
+            // it should be removed later on.
+
+            if (itemz.Name.ToUpper().StartsWith("ABC"))
+            {
+                return new ValidationResult("Name should never start with keyword like ABC! Issue found with item having name - '" + itemz.Name + "'",
+                    new[] { nameof(ManipulateItemzDTO) });
+            }
+            return ValidationResult.Success;
+        }
+    }
+}

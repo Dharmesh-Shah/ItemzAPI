@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ItemzApp.API</name>
+    </assembly>
+    <members>
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollection(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Gets collection of Itemzs without any Pagination
+            </summary>
+            <param name="ids">Array of Itemz Id (in GUID form) for which details has to be returned to the caller</param>
+            <returns>Collection of Itemz that are requested via Array of Itemz Id</returns>
+            <response code="200">Collection of Itemzs property details based on Itemz Ids that were passed in as parameter</response>
+            <response code="500">Bad Request - Itemz Ids should be passed in as parameter</response>
+            <response code="404">No Itemzs were found based on provided list of Itemz Ids</response>
+            <remarks>
+            Sample request (this request will get itemz by Ids) \
+            GET api/ItemzCollection/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.CreateItemzCollection(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
+            <summary>
+            Used for creating new multiple Itemz record in the database
+            </summary>
+            <param name="itemzCollection">Array of CreateItemzDTO Used for populating information in the newly created itemzs in the database</param>
+            <returns>Collection of Newly created Itemzs property details</returns>
+            <response code="201">Collection of Newly created Itemzs property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzCollection controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemz(System.Guid)">
+            <summary>
+            Get an Itemz by ID (represented by a GUID)
+            </summary>
+            <param name="ItemzId">GUID representing an unique ID of the Itemz that you want to get</param>
+            <returns>A single Itemz record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested Itemz</response>
+            <response code="404">Requested Itemz not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemzs(ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
+            <summary>
+            Gets collection of Itemzs
+            </summary>
+            <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+            <returns>Collection of Itemz based on expectated pagination and sorting order.</returns>
+            <response code="200">Returns collection of Itemzs based on pagination</response>
+            <response code="404">No Itemzs were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemz(ItemzApp.API.Models.CreateItemzDTO)">
+            <summary>
+            Used for creating new Itemz record in the database
+            </summary>
+            <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            <returns>Newly created Itemz property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPut(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
+            <summary>
+            Updating exsting Itemz based on Itemz Id (GUID)
+            </summary>
+            <param name="itemzId">GUID representing an unique ID of the Itemz that you want to get</param>
+            <param name="itemzToBeUpdated">required Itemz properties to be updated</param>
+            <returns>No contents are returned but only Status 204 indicating that Item was updated successfully </returns>
+            <response code="204">No content are returned but status of 204 indicated that item was successfully updated</response>
+            <response code="404">Itemz based on itemzId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzDTO})">
+            <summary>
+            Partially updating a single **Itemz**
+            </summary>
+            <param name="itemzId">Id of the Itemz representated by a GUID.</param>
+            <param name="itemzPatchDocument">The set of operations to apply to the Itemz via JsonPatchDocument</param>
+            <returns>an ActionResult of type Itemz</returns>
+            <response code="204">No content are returned but status of 204 indicated that itemz was successfully updated</response>
+            <response code="404">Itemz based on itemzId was not found</response>
+            <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
+            <remarks> Sample request (this request updates an **Itemz's name**)   
+            Documentation regarding JSON Patch can be found at 
+            *[ASP.NET Core - JSON Patch Operations](https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#operations)* 
+            
+                PATCH /api/Itemzs/{id}  
+                [  
+                    {   
+                        "op": "replace",   
+                        "path": "/name",   
+                        "value": "PATCH Updated Name field"  
+                    }   
+                ]
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteItemz(System.Guid)">
+            <summary>
+            Deleting a specific Itemz
+            </summary>
+            <param name="itemzId">GUID representing an unique ID of the Itemz that you want to get</param>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified Itemz was successful</returns>
+            <response code="404">Itemz based on itemzId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the Itemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemz(ItemzApp.API.Entities.Itemz)">
+            <summary>
+            This option is designed only to be used for adding a new record while testing ItemzApp API.
+            Used for creating new Itemz record in the database that also 
+            accepts Itemz ID as part of input parameter
+            </summary>
+            <param name="itemz">Parameter that contains necessary properties for creating new Itemz in the database</param>
+            <returns>Newly created Itemz property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.GetItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the ONLYforTestingItemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.CreateProject(ItemzApp.API.Entities.Project)">
+            <summary>
+            This option is designed only to be used for adding a new record while testing ItemzApp API.
+            Used for creating new Project record in the database that also 
+            accepts Project ID as part of input parameter
+            </summary>
+            <param name="project">Parameter that contains necessary properties for creating new project in the database</param>
+            <returns>Newly created Project property details</returns>
+            <response code="201">Returns newly created project's property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.GetProjectsOptions">
+            <summary>
+            Get list of supported HTTP Options for the ONLYforTestingProjects controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProject(System.Guid)">
+            <summary>
+            Get a Project by ID (represented by a GUID)
+            </summary>
+            <param name="ProjectId">GUID representing an unique ID of the Project that you want to get</param>
+            <returns>A single Project record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested Project</response>
+            <response code="404">Requested Project not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjects">
+            <summary>
+            Gets collection of Projects
+            </summary>
+            <returns>Collection of Projects based on expectated sorting order.</returns>
+            <response code="200">Returns collection of Projects based on sorting order</response>
+            <response code="404">No Projects were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.CreateProject(ItemzApp.API.Models.CreateProjectDTO)">
+            <summary>
+            Used for creating new Project record in the database
+            </summary>
+            <param name="createProjectDTO">Used for populating information in the newly created Project in the database</param>
+            <returns>Newly created Project property details</returns>
+            <response code="201">Returns newly created Projects property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPut(System.Guid,ItemzApp.API.Models.UpdateProjectDTO)">
+            <summary>
+            Updating exsting Project based on Project Id (GUID)
+            </summary>
+            <param name="projectId">GUID representing an unique ID of the Project that you want to get</param>
+            <param name="projectToBeUpdated">required Project properties to be updated</param>
+            <returns>No contents are returned but only Status 204 indicating that Project was updated successfully </returns>
+            <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
+            <response code="404">Project based on projectId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateProjectDTO})">
+            <summary>
+            Partially updating a single **Project**
+            </summary>
+            <param name="projectId">Id of the Project representated by a GUID.</param>
+            <param name="projectPatchDocument">The set of operations to apply to the Project via JsonPatchDocument</param>
+            <returns>an ActionResult of type Project</returns>
+            <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
+            <response code="404">Project based on projectId was not found</response>
+            <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
+            <remarks> Sample request (this request updates an **Project's name**)   
+            Documentation regarding JSON Patch can be found at 
+            *[ASP.NET Core - JSON Patch Operations](https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#operations)* 
+            
+                PATCH /api/Projects/{id}  
+                [  
+                    {   
+                        "op": "replace",   
+                        "path": "/name",   
+                        "value": "PATCH Updated Name field"  
+                    }   
+                ]
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.DeleteProject(System.Guid)">
+            <summary>
+            Deleting a specific Project
+            </summary>
+            <param name="projectId">GUID representing an unique ID of the Project that you want to get</param>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified Project was successful</returns>
+            <response code="404">Project based on projectId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsOptions">
+            <summary>
+            Get list of supported HTTP Options for the Projects controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="T:ItemzApp.API.Models.CreateItemzDTO">
+            <summary>
+            CreateItemzDTO shall be used for sending in request for creating new Itemz. 
+            It will expose necessary properties to allow successful creation of new Itemz.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.CreateProjectDTO">
+            <summary>
+            CreateProjectDTO shall be used for sending in request for creating new Project.
+            It will expose necessary properties to allow successful creation of the Project.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.GetItemzDTO">
+            <summary>
+            Itemz class containing several properties that represents it.
+            This Itemz class is returned by the "ItemzApp.API" in most of the cases when
+            user sends request to read an Itemz record.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Id">
+            <summary>
+            Id of the Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Name">
+            <summary>
+            Name or Title of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Status">
+            <summary>
+            Status of the itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Priority">
+            <summary>
+            Priority of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Description">
+            <summary>
+            Description of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.CreatedBy">
+            <summary>
+            User who created the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.CreatedDate">
+            <summary>
+            Date and Time when Itemz was created
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.GetProjectDTO">
+            <summary>
+            ProjectDTO is a POCO used for serving requests like GetProjects or GetProject by ProjectID.
+            It will carry specified set of data that are exposed when project details are requested throgh "ItemzApp.API"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.Id">
+            <summary>
+            Id of the Project representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.Name">
+            <summary>
+            Project Name 
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.Status">
+            <summary>
+            Status of the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.Description">
+            <summary>
+            Description of the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.CreatedBy">
+            <summary>
+            User who created the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetProjectDTO.CreatedDate">
+            <summary>
+            Date and Time when Project was created
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.ManipulateItemzDTO">
+            <summary>
+            ManipulateItemzDTO is used for updating Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Name">
+            <summary>
+            Name or Title of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Status">
+            <summary>
+            Status of the itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Priority">
+            <summary>
+            Priority of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Description">
+            <summary>
+            Description of the Itemz
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.ManipulateProjectDTO">
+            <summary>
+            ManipulateProjectDTO is used for updating Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Name">
+            <summary>
+            Name of the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Status">
+            <summary>
+            Status of the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Description">
+            <summary>
+            Description of the Project
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.UpdateItemzDTO">
+            <summary>
+            UpdateItemzDTO shall be used for sending in request for updating
+            existing Itemz. It will expose necessary properties to allow existing Itemz 
+            to be updated with new values for those properties.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.UpdateProjectDTO">
+            <summary>
+            UpdateProjectDTO shall be used for sending in request for updating
+            existing Project. It will expose necessary properties to allow existing
+            Project to be updated with new values for those properties.
+            </summary>
+        </member>
+    </members>
+</doc>
