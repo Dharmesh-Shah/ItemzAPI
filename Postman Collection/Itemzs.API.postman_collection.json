@@ -6,6 +6,617 @@
 	},
 	"item": [
 		{
+			"name": "Check for Orphand Itemz",
+			"item": [
+				{
+					"name": "POST Project and Itemz Association for Orphand Itemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17e417b8-6c75-432f-af82-18aba555847a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"0fa2f0eb-ed40-4265-8c0c-c24bbc84799f\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Bulk Insert Itemz by Project",
+			"item": [
+				{
+					"name": "POST 1st 100 Itemz Collection By Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9483ad9-8886-49d2-9e8e-3ec3e4664c0c",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Item 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 13\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 14\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 15\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 16\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 17\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 18\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 19\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 20\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 21\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 22\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 23\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 24\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 25\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 26\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 27\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 28\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 29\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 30\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 31\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 32\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 33\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 34\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 35\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 36\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 37\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 38\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 39\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 40\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 41\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 42\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 43\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 44\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 45\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 46\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 47\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 48\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 49\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 50\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 51\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 52\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 53\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 54\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 55\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 56\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 57\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 58\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 59\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 60\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 61\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 62\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 63\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 64\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 65\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 66\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 67\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 68\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 69\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 70\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 71\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 72\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 73\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 74\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 75\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 76\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 77\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 78\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 79\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 80\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 81\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 82\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 83\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 84\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 85\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 86\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 87\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 88\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 89\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 90\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 91\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 92\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 93\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 94\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 95\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 96\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 97\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 98\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 99\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 100\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 101\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 102\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 103\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 104\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 105\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST 2nd 100 Itemz Collection By Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bdfca07f-28b3-4cee-bdf2-7e2506fb5f3c",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Item 106\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 107\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 108\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 109\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 110\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 111\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 112\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 113\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 114\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 115\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 116\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 117\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 118\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 119\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 120\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 121\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 122\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 123\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 124\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 125\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 126\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 127\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 128\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 129\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 130\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 131\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 132\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 133\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 134\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 135\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 136\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 137\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 138\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 139\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 140\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 141\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 142\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 143\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 144\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 145\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 146\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 147\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 148\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 149\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 150\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 151\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 152\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 153\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 154\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 155\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 156\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 157\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 158\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 159\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 160\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 161\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 162\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 163\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 164\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 165\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 166\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 167\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 168\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 169\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 170\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 171\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 172\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 173\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 174\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 175\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 176\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 177\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 178\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 179\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 180\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 181\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 182\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 183\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 184\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 185\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 186\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 187\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 188\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 189\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 190\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 191\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 192\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 193\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 194\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 195\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 196\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 197\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 198\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 199\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 200\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 201\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 202\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 203\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 204\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 205\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n  ]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST 3rd 99 Itemz Collection By Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2b353fd-25b2-47e1-8c45-62ca33bc0953",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n {\r\n    \"Name\": \"Item 206\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 207\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 208\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 209\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 210\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 211\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 212\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 213\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 214\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 215\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 216\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 217\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 218\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 219\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 220\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 221\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 222\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 223\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 224\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 225\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 226\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 227\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 228\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 229\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 230\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 231\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 232\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 233\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 234\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 235\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 236\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 237\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 238\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 239\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 240\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 241\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 242\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 243\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 244\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 245\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 246\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 247\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 248\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 249\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 250\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 251\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 252\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 253\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 254\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 255\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 256\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 257\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 258\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 259\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 260\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 261\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 262\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 263\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 264\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 265\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 266\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 267\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 268\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 269\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 270\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 271\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 272\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 273\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 274\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 275\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 276\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 277\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 278\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 279\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 280\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 281\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 282\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 283\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 284\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 285\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 286\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 287\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 288\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 289\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 290\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 291\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 292\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 293\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 294\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 295\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 296\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 297\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 298\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 299\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 300\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 301\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 302\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 303\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 304\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs (pageNumber = 5, pageSize = 5)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f13a1d1-7fa9-4ab3-9232-a659fdddd9f4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Page Size is always less then 20\", function () {",
+									"   pm.response.to.have.header(\"X-Pagination\");",
+									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs?pageNumber=5&pageSize=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "5"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs (pageNumber = 500, pageSize = 40 )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0ee6ef2b-4872-46e8-87a6-10e23481cd08",
+								"exec": [
+									"// Such a large PageNumber will newer return any data unless we have 10 million records in the DB",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs?pageNumber=500000&pageSize=40",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "500000"
+								},
+								{
+									"key": "pageSize",
+									"value": "40"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST 1st 100 Itemz Collection By Project (Wrong ProjectID)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c0ac76e-5e75-48c1-999e-f2f3748d858b",
+								"exec": [
+									"// Trying to insert record with Wrong Project ID and so it should return Status Code  404 Not Found.",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Item 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 13\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 14\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 15\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 16\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 17\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 18\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 19\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 20\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 21\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 22\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 23\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 24\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 25\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 26\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 27\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 28\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 29\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 30\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 31\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 32\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 33\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 34\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 35\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 36\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 37\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 38\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 39\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 40\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 41\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 42\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 43\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 44\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 45\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 46\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 47\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 48\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 49\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 50\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 51\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 52\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 53\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 54\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 55\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 56\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 57\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 58\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 59\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 60\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 61\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 62\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 63\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 64\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 65\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 66\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 67\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 68\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 69\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 70\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 71\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 72\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 73\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 74\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 75\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 76\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 77\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 78\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 79\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 80\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 81\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 82\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 83\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 84\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 85\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 86\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 87\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 88\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 89\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 90\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 91\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 92\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 93\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 94\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 95\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 96\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 97\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 98\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 99\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 100\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 101\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 102\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 103\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 104\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 105\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/02f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"02f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Verify Assocating Itemz to Project",
+			"item": [
+				{
+					"name": "DELETE Project and Itemz Association",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "049fc67b-efcb-44ae-a6dd-1c9662eadd18",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/?",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET CheckExists Project Itemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17c589fe-1552-42f5-bc09-bf041ea9f049",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/CheckExists/?projectId=42f62a6c-fcda-4dac-a06c-406ac1c17770&ItemzId=9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"CheckExists",
+								""
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "42f62a6c-fcda-4dac-a06c-406ac1c17770"
+								},
+								{
+									"key": "ItemzId",
+									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project and Itemz Association After Deleting it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e7c1bfa2-63a7-4a99-bf72-b1cf15961b60",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET CheckExists Project Itemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e072e4ae-25c8-415d-adfe-6a099d4d21af",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ProjectItemzs/CheckExists/?projectId=42f62a6c-fcda-4dac-a06c-406ac1c17770&ItemzId=9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ProjectItemzs",
+								"CheckExists",
+								""
+							],
+							"query": [
+								{
+									"key": "projectId",
+									"value": "42f62a6c-fcda-4dac-a06c-406ac1c17770"
+								},
+								{
+									"key": "ItemzId",
+									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "GET Itemz",
 			"event": [
 				{
@@ -92,6 +703,92 @@
 						"api",
 						"Projects",
 						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Project Itemz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "17566360-b6e0-4647-aaae-977c1d98a1e3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Project Itemz (WrongID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "00675d0a-bb89-4f38-870a-d6233dfdba75",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/02f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"02f62a6c-fcda-4dac-a06c-406ac1c17770"
 					]
 				}
 			},
@@ -203,49 +900,6 @@
 					"path": [
 						"api",
 						"Projects",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Itemzs Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "fc4351b0-ce2b-4b73-8f11-bc369a8be989",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:51087/api/Itemzs/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"Itemzs",
 						""
 					]
 				}
@@ -444,6 +1098,156 @@
 					"path": [
 						"api",
 						"Itemzs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Itemz By Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a64f78b-5a22-4188-8aa1-d2630b14847c",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"name\": \"Item 7\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n    }\r\n]\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Itemz By Project (Without-Itemz)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2ad1d79-2782-4e01-b4e0-91a61f2fe47e",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    }\r\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Itemz By Project (WrongId)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9fdad3e-2c7a-47d8-82ab-c9c0953d69a6",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n    \"name\": \"Item 7\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n    }\r\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/02f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"02f62a6c-fcda-4dac-a06c-406ac1c17770"
 					]
 				}
 			},
@@ -986,56 +1790,6 @@
 			"response": []
 		},
 		{
-			"name": "GET Itemzs (pageNumber = 5, pageSize = 5) Copy",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8f13a1d1-7fa9-4ab3-9232-a659fdddd9f4",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:51087/api/Itemzs?pageNumber=5&pageSize=5",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"Itemzs"
-					],
-					"query": [
-						{
-							"key": "pageNumber",
-							"value": "5"
-						},
-						{
-							"key": "pageSize",
-							"value": "5"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "GET Itemzs (pageNumber = 5, pageSize = )",
 			"event": [
 				{
@@ -1079,64 +1833,6 @@
 						{
 							"key": "pageSize",
 							"value": ""
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET Itemzs (pageNumber = 500, pageSize = 40 )",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0ee6ef2b-4872-46e8-87a6-10e23481cd08",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"",
-							"pm.test(\"Page Size is always less then 20\", function () {",
-							"   pm.response.to.have.header(\"X-Pagination\");",
-							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-							"});",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "http://localhost:51087/api/Itemzs?pageNumber=500&pageSize=40",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"Itemzs"
-					],
-					"query": [
-						{
-							"key": "pageNumber",
-							"value": "500"
-						},
-						{
-							"key": "pageSize",
-							"value": "40"
 						}
 					]
 				}
@@ -1641,6 +2337,116 @@
 						"api",
 						"Projects",
 						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Move Itemz Between Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b2b145c-ff43-4d2c-8bae-54c128b4453d",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "conten",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Undo Previous Move Itemz Between Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4fc4ce9f-0e0f-4fc1-a880-3a9b798b42e7",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "conten",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/b69cf0d7-70ad-4f73-aa4a-8daad5181e1e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"
 					]
 				}
 			},
@@ -2644,70 +3450,15 @@
 			"response": []
 		},
 		{
-			"name": "DELETE Project by ID",
+			"name": "POST Project and Itemz Association After Recreating Itemz Copy",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "fde8cc67-aa56-41c8-ab13-7fd7f9bff94e",
+						"id": "f03cda14-103e-4fac-8b6e-e8af04f9f444",
 						"exec": [
-							"pm.test(\"Status code is 204\", function () {",
-							"    pm.response.to.have.status(204);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"Projects",
-						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "POST ProjectAfter Deleting it",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "8e7139d6-d90e-43d4-90bf-1ab10e471d5b",
-						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -2718,55 +3469,6 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:51087/api/ONLYforTestingProjects",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"ONLYforTestingProjects"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE All Itemz",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "07953873-a462-45d2-860b-dd30656418c9",
-						"exec": [
-							"pm.test(\"Status code is 405\", function () {",
-							"    pm.response.to.have.status(405);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
 						"key": "Content-Type",
 						"type": "text",
 						"value": "application/json"
@@ -2779,7 +3481,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "",
+					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2787,7 +3489,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:51087/api/Itemzs/",
+					"raw": "http://localhost:51087/api/ProjectItemzs/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -2795,62 +3497,8 @@
 					"port": "51087",
 					"path": [
 						"api",
-						"Itemzs",
+						"ProjectItemzs",
 						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE All Projects",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "7c83044e-a3fd-4cd8-ba03-1d5bb1a1fc48",
-						"exec": [
-							"pm.test(\"Status code is 405\", function () {",
-							"    pm.response.to.have.status(405);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:51087/api/Projects",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"Projects"
 					]
 				}
 			},

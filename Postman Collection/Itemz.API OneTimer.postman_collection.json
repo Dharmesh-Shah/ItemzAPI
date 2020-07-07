@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "451eb023-8cfd-4ff9-8676-4978a5729644",
+		"name": "Itemz.API OneTimer",
+		"description": "This should be executed only once to verify that expected features are working as expected.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "DELETE Project by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "df8b496f-a599-48d2-b1eb-5a77be3bfa04",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Projects",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST ProjectAfter Deleting it",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "38b2f46f-8f9a-4ddf-9e16-ef01b7cabce0",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ONLYforTestingProjects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ONLYforTestingProjects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Project and Itemz Association After Recreating Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d379ed9-9228-48e3-9e1e-f406e12e6237",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ProjectItemzs/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ProjectItemzs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE All Itemz",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd3c26d4-63d8-4684-bbe8-13614cc58597",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE All Projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b114b45-5c8b-4a0b-8cdd-8472814752c9",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/Projects",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Projects"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

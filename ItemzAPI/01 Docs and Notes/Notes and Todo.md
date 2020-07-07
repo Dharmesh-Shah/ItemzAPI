@@ -152,3 +152,8 @@ In above example ` _customerById` has will always be availabel and there isnot n
 
 Now that team has started expanding their entities and tables in the DB, it does not make good sense to continue calling DBContext as ItemzContext. We should think of some appropriate name that is generic so that every type of entity can use it in their concrete implementation of CRUD operations against the DB. 
 
+### [EF Core User Defined Function in Linq Where Clause](https://channel9.msdn.com/Shows/Visual-Studio-Toolbox/Entity-Framework-Core-In-Depth-Part-8)
+In this Channel9 video, <span style="background-color: #99ff66">[Phil Japikse](https://twitter.com/skimedic) </span> explains how to effectively use SQL Server User Defined functions in ASP .NET Core application that utilizes Entity Framework Core.
+
+Instead of calling [Raw SQL Queries](https://docs.microsoft.com/en-us/ef/core/querying/raw-sql), it will ideal to use the technique shared by Phil Japikse in his demo.
+

@@ -17,6 +17,7 @@ using ItemzApp.API.Helper;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace ItemzApp.API.Controllers
 {
@@ -95,7 +96,15 @@ namespace ItemzApp.API.Controllers
             }
 
             var itemzsFromRepo = _itemzRepository.GetItemzs(itemzResourceParameter);
-            if (itemzsFromRepo == null)
+
+            // EXPLANATION : Check if list is IsNullOrEmpty
+            // By default we don't have option baked in the .NET to check
+            // for null or empty for List type. In the following code we are first checking
+            // for nullable itemzsFromRepo? and then for count great then zero via Any()
+            // If any of above is true then we return true. This way we log that no itemz were
+            // found in the database.
+            // Ref: https://stackoverflow.com/a/54549818
+            if (!itemzsFromRepo?.Any() ?? true)
             {
                 _logger.LogDebug("No Items found");
                 return NotFound();
@@ -168,7 +177,7 @@ namespace ItemzApp.API.Controllers
         /// <response code="204">No content are returned but status of 204 indicated that item was successfully updated</response>
         /// <response code="404">Itemz based on itemzId was not found</response>
 
-        [HttpPut("{itemzId}", Name = "__PUT_Update_Itemz_By_GUID_ID")]
+        [HttpPut("{itemzId}", Name = "__PUT_Update_Itemz_By_GUID_ID__ ")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]

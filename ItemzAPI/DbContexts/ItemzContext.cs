@@ -16,6 +16,7 @@ namespace ItemzApp.API.DbContexts
         }
         public DbSet<Itemz> Itemzs { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectJoinItemz> ProjectJoinItemz { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // seed the database with dummy data
