@@ -157,3 +157,47 @@ In this Channel9 video, <span style="background-color: #99ff66">[Phil Japikse](h
 
 Instead of calling [Raw SQL Queries](https://docs.microsoft.com/en-us/ef/core/querying/raw-sql), it will ideal to use the technique shared by Phil Japikse in his demo.
 
+### [Exception Handling in Asynchronous Code is tricky](https://hamidmosalla.com/2018/06/19/exception-handling-in-asynchronous-code/)
+
+Great article by <span style="background-color: #99ff66">[Hamid Mosalla](https://twitter.com/Xellarix) </span>
+Soon in ItemzAPI, we are going to start using Async for Endpoints and DB Repository related activities. It will be ideal to make sure that we prepare well for handling errors via exception handling. 
+
+Above article contains very nice details about exception handling via simple examples. 
+
+Also note that if we throw our own custom errors then we have to use AggregateException and then check for InnerException for our custom errors.
+
+For example, in the below code, we are checking if we received our custom exception.
+
+
+ ```csharp
+
+try
+{
+    // await (call) async function that is expected to throw MyOwnCustomExceptionException 
+{
+
+catch (Exception e)
+when (((e as AggregateException)?.InnerException ?? e) is MyOwnCustomExceptionException duplicateException)
+{
+     // Now we know that it's MyOwnCustomExceptionException  and so handle it gracefully. 
+}
+
+ ```
+
+### [Hierarchyid is not supported in EF Core 3.1](https://github.com/dotnet/efcore/issues/365)
+
+This is going to be an issue. That said, there is an unofficial version that was published by EF Core Team member at ...[here](https://github.com/efcore/EFCore.SqlServer.HierarchyId)
+
+Instead of using old Parent / Child (self referencing PK and FK in the same table) way of handling hierarchy, it will be ideal to use hierarchyid as supported in SQL Server natively.
+
+What is concerning is the fact that in above issue, one of the team member wrote... 
+
+> It was contributed to EF6--we just clicked merge. 
+> We probably would have done this on EF Core as part of the spatial 
+> implementation if Microsoft.SqlServer.Types was 
+> supported on .NET Core or even if there was a third-party l
+> ibrary like NTS for hierarchyid. <span style="background-color: #99ff66"> Basically, it
+>  doesn't seem prudent for our small team to implement, support, 
+> and maintain a HierarchyId library for .NET right now, 
+> so we're effectively blocked on implementing this <span>.
+
