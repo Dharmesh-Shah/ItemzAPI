@@ -17,6 +17,10 @@ namespace ItemzApp.API.DbContexts
         public DbSet<Itemz> Itemzs { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+
+        public DbSet<ItemzType> ItemzTypes { get; set; }
+        public DbSet<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // seed the database with dummy data
@@ -43,7 +47,7 @@ namespace ItemzApp.API.DbContexts
                 },
                 new Itemz()
                 {
-                    // Id = Guid.Parse("9B683E61-8EA0-429D-8B55-FFEECFCE11D0"),
+                    Id = Guid.Parse("885b8e56-ffe6-4bc9-82e2-ce23230991db"),
                     Name = "Item 3",
                     Status = "New",
                     Priority = "Low",
@@ -53,7 +57,7 @@ namespace ItemzApp.API.DbContexts
                 },
                 new Itemz()
                 {
-                    // Id = Guid.Parse("A64C64DE-5D3A-4534-93B4-55D813E71A5E"),
+                    Id = Guid.Parse("0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"),
                     Name = "Item 4",
                     Status = "New",
                     Priority = "Low",
@@ -63,7 +67,7 @@ namespace ItemzApp.API.DbContexts
                 },
                 new Itemz()
                 {
-                    // Id = Guid.Parse("0BB5FBCB-C166-4E2D-9008-B5FC2FAAB67B"),
+                    Id = Guid.Parse("4adde56d-8081-45ea-bd37-5c830b63873b"),
                     Name = "Item 5",
                     Status = "New",
                     Priority = "Low",
@@ -71,7 +75,7 @@ namespace ItemzApp.API.DbContexts
                     CreatedBy = "User 5",
                     CreatedDate = new DateTime(2019, 7, 05),
                 }
-                );
+            );
 
             // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
             // SQL Server Database as well.
@@ -144,6 +148,79 @@ namespace ItemzApp.API.DbContexts
                     ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
                 }
                  );
+
+
+
+
+
+
+
+
+            // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
+            // SQL Server Database as well.
+
+            modelBuilder.Entity<ItemzType>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+            modelBuilder.Entity<ItemzType>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedOnAdd();
+            });
+
+            // EXPLANATION: Here we are defining a composite key for a join table.
+            // it will use ItemzTypeID + Itemz ID as it's composite key.
+
+            modelBuilder.Entity<ItemzTypeJoinItemz>()
+                .HasKey(t => new { t.ItemzTypeId, t.ItemzId });
+
+            // EXPLANATION: Here we are defining Many to Many relationship between
+            // ItemzType and Itemz
+
+            modelBuilder.Entity<ItemzTypeJoinItemz>()
+                .HasOne(itji => itji.ItemzType)
+                .WithMany(it => it.ItemzTypeJoinItemz)
+                .HasForeignKey(itji => itji.ItemzTypeId);
+            modelBuilder.Entity<ItemzTypeJoinItemz>()
+                .HasOne(itji => itji.Itemz)
+                .WithMany(i => i.ItemzTypeJoinItemz)
+                .HasForeignKey(itji => itji.ItemzId);
+
+
+            modelBuilder.Entity<ItemzType>().HasData(
+                new ItemzType()
+                {
+                    Id = Guid.Parse("611639db-577a-48f6-9b08-f6aef477368f"),
+                    Name = "ItemzType 1",
+                    Status = "Active",
+                    Description = "This is ItemzType 1",
+                    CreatedBy = "User 1",
+                    CreatedDate = new DateTime(2019, 7, 01),
+                },
+                new ItemzType()
+                {
+                    Id = Guid.Parse("8414bf58-6331-4b3e-bbf0-f780950a337b"),
+                    Name = "ItemzType 2",
+                    Status = "Active",
+                    Description = "This is ItemzType 2",
+                    CreatedBy = "User 1",
+                    CreatedDate = new DateTime(2019, 7, 01),
+                }
+            );
+            modelBuilder.Entity<ItemzTypeJoinItemz>().HasData(
+                 new ItemzTypeJoinItemz()
+                 {
+                     ItemzTypeId = new Guid("611639db-577a-48f6-9b08-f6aef477368f"),
+                     ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
+                 },
+                new ItemzTypeJoinItemz()
+                {
+                    ItemzTypeId = new Guid("8414bf58-6331-4b3e-bbf0-f780950a337b"),
+                    ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
+                }
+            );
+
+
+
+
 
             base.OnModelCreating(modelBuilder);
         }

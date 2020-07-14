@@ -14,36 +14,7 @@
     <PropertyGroup>
 	    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200416133727_AddPublisher.cs" />
-    <Compile Remove="Migrations\20200416133727_AddPublisher.Designer.cs" />
-    <Compile Remove="Migrations\20200416135420_AddPublisher.cs" />
-    <Compile Remove="Migrations\20200416135420_AddPublisher.Designer.cs" />
-    <Compile Remove="Migrations\20200417091144_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417091144_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417093109_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417093109_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417095553_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417095553_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417111856_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417111856_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417113320_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417113320_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417114113_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417114113_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417114759_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417114759_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417114857_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417114857_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417115105_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417115105_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417123316_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417123316_ItemzMigration.Designer.cs" />
-    <Compile Remove="Migrations\20200417134806_ItemzMigration.cs" />
-    <Compile Remove="Migrations\20200417134806_ItemzMigration.Designer.cs" />
-  </ItemGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.3" />

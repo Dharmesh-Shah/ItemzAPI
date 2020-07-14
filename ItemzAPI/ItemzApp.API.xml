@@ -108,6 +108,143 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzType(System.Guid)">
+            <summary>
+            Get a ItemzType by ID (represented by a GUID)
+            </summary>
+            <param name="ItemzTypeId">GUID representing an unique ID of the ItemzType that you want to get</param>
+            <returns>A single ItemzType record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested ItemzType</response>
+            <response code="404">Requested ItemzType not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypes">
+            <summary>
+            Gets collection of ItemzTypes
+            </summary>
+            <returns>Collection of ItemzTypes based on expectated sorting order.</returns>
+            <response code="200">Returns collection of ItemzTypes based on sorting order</response>
+            <response code="404">No ItemzTypes were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.CreateItemzType(ItemzApp.API.Models.CreateItemzTypeDTO)">
+            <summary>
+            Used for creating new ItemzType record in the database
+            </summary>
+            <param name="createItemzTypeDTO">Used for populating information in the newly created ItemzType in the database</param>
+            <returns>Newly created ItemzType property details</returns>
+            <response code="201">Returns newly created ItemzTypes property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePut(System.Guid,ItemzApp.API.Models.UpdateItemzTypeDTO)">
+            <summary>
+            Updating exsting ItemzType based on ItemzType Id (GUID)
+            </summary>
+            <param name="ItemzTypeId">GUID representing an unique ID of the ItemzType that you want to get</param>
+            <param name="ItemzTypeToBeUpdated">required ItemzType properties to be updated</param>
+            <returns>No contents are returned but only Status 204 indicating that ItemzType was updated successfully </returns>
+            <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
+            <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzTypeDTO})">
+            <summary>
+            Partially updating a single **ItemzType**
+            </summary>
+            <param name="ItemzTypeId">Id of the ItemzType representated by a GUID.</param>
+            <param name="ItemzTypePatchDocument">The set of operations to apply to the ItemzType via JsonPatchDocument</param>
+            <returns>an ActionResult of type ItemzType</returns>
+            <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
+            <response code="404">ItemzType based on ItemzTypeId was not found</response>
+            <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
+            <remarks> Sample request (this request updates an **ItemzType's name**)   
+            Documentation regarding JSON Patch can be found at 
+            *[ASP.NET Core - JSON Patch Operations](https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#operations)* 
+            
+                PATCH /api/ItemzTypes/{id}  
+                [  
+                    {   
+                        "op": "replace",   
+                        "path": "/name",   
+                        "value": "PATCH Updated Name field"  
+                    }   
+                ]
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzType(System.Guid)">
+            <summary>
+            Deleting a specific ItemzType
+            </summary>
+            <param name="ItemzTypeId">GUID representing an unique ID of the ItemzType that you want to get</param>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified ItemzType was successful</returns>
+            <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypesOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzTypes controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzsByItemzType(System.Guid,ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
+            <summary>
+            Gets collection of Itemzs by ItemzType ID
+            </summary>
+            <param name="ItemzTypeId">ItemzType ID for which Itemz are queried</param>
+            <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+            <returns>Collection of Itemz based on expectated pagination and sorting order.</returns>
+            <response code="200">Returns collection of Itemzs based on pagination</response>
+            <response code="404">No Itemzs were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CheckItemzTypeItemzAssociationExists(System.Guid,System.Guid)">
+            <summary>
+            Check if specific ItemzType and Itemz association exists
+            </summary>
+            <param name="ItemzTypeId">Provide ItemzType Id</param>
+            <param name="itemzId">Provide Itemz Id</param>
+            <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
+            <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
+            <response code="404">No ItemzType and Itemzs association was found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzCollectionByItemzType(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
+            <summary>
+            Used for creating new Itemz record in the database by ItemzType ID
+            </summary>
+            <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
+            <param name="itemzCollection">Used for populating information in the newly created itemz in the database by ItemzType ID</param>
+            <returns>Newly created Itemzs property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.AssociateItemzToItemzType(ItemzApp.API.Models.ItemzTypeItemzDTO)">
+            <summary>
+            Used for Associating Itemz to ItemzType 
+            </summary>
+            <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
+            <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
+            <response code="200">Itemz to ItemzType association was either found or added successfully</response>
+            <response code="404">Either Itemz or ItemzType was not found </response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypes(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
+            <summary>
+            Move Itemz from one ItemzType to another
+            </summary>
+            <param name="ItemzTypeId">GUID representing an unique ID of the Target ItemzType for moving Itemz into</param>
+            <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
+            <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
+            <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
+            <response code="404">Either Itemz or ItemzType was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.DeleteItemzTypeAndItemzAssociation(ItemzApp.API.Models.ItemzTypeItemzDTO)">
+            <summary>
+            Deleting a specific Itemz and ItemzType association. This will not delete Itemz or ItemzType from the database,
+            instead it will only remove their association if found. 
+            </summary>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified ItemzType and Itemz association was successful</returns>
+            <response code="404">ItemzType and Itemz association not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzTypeItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the Itemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemz(ItemzApp.API.Entities.Itemz)">
             <summary>
             This option is designed only to be used for adding a new record while testing ItemzApp API.
@@ -121,6 +258,23 @@
         <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.GetItemzOptions">
             <summary>
             Get list of supported HTTP Options for the ONLYforTestingItemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.CreateItemzType(ItemzApp.API.Entities.ItemzType)">
+            <summary>
+            This option is designed only to be used for adding a new record while testing ItemzApp API.
+            Used for creating new ItemzType record in the database that also 
+            accepts ItemzType ID as part of input parameter
+            </summary>
+            <param name="itemzType">Parameter that contains necessary properties for creating new itemzType in the database</param>
+            <returns>Newly created ItemzType property details</returns>
+            <response code="201">Returns newly created itemzType's property details</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.GetItemzTypesOptions">
+            <summary>
+            Get list of supported HTTP Options for the ONLYforTestingItemzTypes controller.
             </summary>
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
@@ -285,6 +439,12 @@
             It will expose necessary properties to allow successful creation of new Itemz.
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Models.CreateItemzTypeDTO">
+            <summary>
+            CreateItemzTypeDTO shall be used for sending in request for creating new ItemzType.
+            It will expose necessary properties to allow successful creation of the ItemzType.
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.CreateProjectDTO">
             <summary>
             CreateProjectDTO shall be used for sending in request for creating new Project.
@@ -333,6 +493,42 @@
             Date and Time when Itemz was created
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Models.GetItemzTypeDTO">
+            <summary>
+            ItemzTypeDTO is a POCO used for serving requests like GetItemzTypes or GetItemzType by ItemzTypeID.
+            It will carry specified set of data that are exposed when ItemzType details are requested throgh "ItemzApp.API"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.Id">
+            <summary>
+            Id of the ItemzType representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.Name">
+            <summary>
+            ItemzType Name 
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.Status">
+            <summary>
+            Status of the ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.Description">
+            <summary>
+            Description of the ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.CreatedBy">
+            <summary>
+            User who created the ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.CreatedDate">
+            <summary>
+            Date and Time when ItemzType was created
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.GetProjectDTO">
             <summary>
             ProjectDTO is a POCO used for serving requests like GetProjects or GetProject by ProjectID.
@@ -369,6 +565,16 @@
             Date and Time when Project was created
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.ItemzTypeItemzDTO.ItemzId">
+            <summary>
+            Id of the Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ItemzTypeItemzDTO.ItemzTypeId">
+            <summary>
+            Id of the ItemzType representated by a GUID.
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.ManipulateItemzDTO">
             <summary>
             ManipulateItemzDTO is used for updating Itemz
@@ -392,6 +598,26 @@
         <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Description">
             <summary>
             Description of the Itemz
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.ManipulateItemzTypeDTO">
+            <summary>
+            ManipulateItemzTypeDTO is used for updating ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzTypeDTO.Name">
+            <summary>
+            Name of the ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzTypeDTO.Status">
+            <summary>
+            Status of the ItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzTypeDTO.Description">
+            <summary>
+            Description of the ItemzType
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.ManipulateProjectDTO">
@@ -429,6 +655,13 @@
             UpdateItemzDTO shall be used for sending in request for updating
             existing Itemz. It will expose necessary properties to allow existing Itemz 
             to be updated with new values for those properties.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.UpdateItemzTypeDTO">
+            <summary>
+            UpdateItemzTypeDTO shall be used for sending in request for updating
+            existing ItemzType. It will expose necessary properties to allow existing
+            ItemzType to be updated with new values for those properties.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.UpdateProjectDTO">

@@ -327,7 +327,7 @@ namespace ItemzApp.API.Controllers
         [HttpOptions (Name ="__OPTIONS_for_Itemz_Controller__")]
         public IActionResult GetItemzOptions()
         {
-            Response.Headers.Add("Allow","GET,OPTIONS,POST,PUT,PATCH,DELETE");
+            Response.Headers.Add("Allow","GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
             return Ok();
         }
 

@@ -36,15 +36,6 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
 					"protocol": "http",
@@ -62,7 +53,7 @@
 			"response": []
 		},
 		{
-			"name": "POST ProjectAfter Deleting it",
+			"name": "POST Project After Deleting it",
 			"event": [
 				{
 					"listen": "test",
@@ -159,6 +150,156 @@
 					"path": [
 						"api",
 						"ProjectItemzs",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ItemzType by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1cbee31d-1c1e-4670-b096-fd428c094c4e",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes",
+						"611639db-577a-48f6-9b08-f6aef477368f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST ItemzType After Deleting it",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5771c48d-253c-4c8c-aec9-f00e3394c060",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n    \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\",\r\n  \"itemzTypeJoinItemz\": [\r\n    {\r\n      \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n      \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ONLYforTestingItemzTypes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ONLYforTestingItemzTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST ItemzType and Itemz Association After Recreating ItemzType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06c97a04-5bdb-482a-be8b-adda5124bb34",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypeItemzs",
 						""
 					]
 				}
@@ -269,6 +410,60 @@
 					"path": [
 						"api",
 						"Projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE All ItemzTypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8367ee04-e87e-45f7-bf85-e54386d0d5f5",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes"
 					]
 				}
 			},

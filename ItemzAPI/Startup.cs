@@ -132,6 +132,7 @@ namespace ItemzApp.API
 
             services.AddScoped<IItemzRepository, ItemzRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IItemzTypeRepository, ItemzTypeRepository>();
 
             services.AddDbContext<ItemzContext>(options =>
             {
