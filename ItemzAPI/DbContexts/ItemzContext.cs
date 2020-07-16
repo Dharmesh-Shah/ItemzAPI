@@ -16,7 +16,7 @@ namespace ItemzApp.API.DbContexts
         }
         public DbSet<Itemz> Itemzs { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+        //public DbSet<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
         public DbSet<ItemzType> ItemzTypes { get; set; }
         public DbSet<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
@@ -97,23 +97,23 @@ namespace ItemzApp.API.DbContexts
                     .ValueGeneratedOnAdd();
             });
 
-            // EXPLANATION: Here we are defining a composite key for a join table.
-            // it will use ProjectID + Itemz ID as it's composite key.
+            //// EXPLANATION: Here we are defining a composite key for a join table.
+            //// it will use ProjectID + Itemz ID as it's composite key.
 
-            modelBuilder.Entity<ProjectJoinItemz>()
-                .HasKey(t => new { t.ProjectId, t.ItemzId });
+            //modelBuilder.Entity<ProjectJoinItemz>()
+            //    .HasKey(t => new { t.ProjectId, t.ItemzId });
 
-            // EXPLANATION: Here we are defining Many to Many relationship between
-            // Project and Itemz
+            //// EXPLANATION: Here we are defining Many to Many relationship between
+            //// Project and Itemz
 
-            modelBuilder.Entity<ProjectJoinItemz>()
-                .HasOne(p => p.Project)
-                .WithMany(itemz => itemz.ProjectJoinItemz)
-                .HasForeignKey(p => p.ProjectId);
-            modelBuilder.Entity<ProjectJoinItemz>()
-                .HasOne(itemz => itemz.Itemz)
-                .WithMany(p => p.ProjectJoinItemz)
-                .HasForeignKey(itemz => itemz.ItemzId);
+            //modelBuilder.Entity<ProjectJoinItemz>()
+            //    .HasOne(p => p.Project)
+            //    .WithMany(itemz => itemz.ProjectJoinItemz)
+            //    .HasForeignKey(p => p.ProjectId);
+            //modelBuilder.Entity<ProjectJoinItemz>()
+            //    .HasOne(itemz => itemz.Itemz)
+            //    .WithMany(p => p.ProjectJoinItemz)
+            //    .HasForeignKey(itemz => itemz.ItemzId);
 
 
             modelBuilder.Entity<Project>().HasData(
@@ -136,18 +136,18 @@ namespace ItemzApp.API.DbContexts
                     CreatedDate = new DateTime(2019, 7, 01),
                 }
                 );
-            modelBuilder.Entity<ProjectJoinItemz>().HasData(
-                 new ProjectJoinItemz()
-                 {
-                     ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-                     ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
-                 },
-                new ProjectJoinItemz()
-                {
-                    ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-                    ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
-                }
-                 );
+            //modelBuilder.Entity<ProjectJoinItemz>().HasData(
+            //     new ProjectJoinItemz()
+            //     {
+            //         ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
+            //         ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
+            //     },
+            //    new ProjectJoinItemz()
+            //    {
+            //        ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
+            //        ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
+            //    }
+            //     );
 
 
 

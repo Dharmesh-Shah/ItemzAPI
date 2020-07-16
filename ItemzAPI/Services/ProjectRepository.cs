@@ -68,6 +68,9 @@ namespace ItemzApp.API.Services
             }
         }
 
+        //TODO: decide if we need GetProjects by passing in collection of projectIds
+        // if yes, then we need to implement action method in ProjectController for the same
+        // so that Swagger docs shows GET method under Projects section.
         public IEnumerable<Project> GetProjects(IEnumerable<Guid> projectIds)
         {
             if(projectIds == null)
@@ -142,6 +145,5 @@ namespace ItemzApp.API.Services
                 // dispose resources when needed
             }
         }
-
     }
 }

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ItemzApp.API.Entities
 {
-    public class ProjectJoinItemz
-    {
-        public Guid ProjectId { get; set; }
-        public Project Project { get; set; }
+    //public class ProjectJoinItemz
+    //{
+    //    public Guid ProjectId { get; set; }
+    //    public Project Project { get; set; }
 
-        public Guid ItemzId { get; set; }
-        public Itemz Itemz { get; set; }
-    }
+    //    public Guid ItemzId { get; set; }
+    //    public Itemz Itemz { get; set; }
+    //}
 }

@@ -32,7 +32,7 @@ namespace ItemzApp.API.Entities
         [Required]
         public DateTimeOffset CreatedDate { get; set; } = DateTime.Now;
 
-        public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+        //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
     }
 }

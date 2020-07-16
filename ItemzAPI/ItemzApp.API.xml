@@ -296,69 +296,6 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.GetItemzsByProject(System.Guid,ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
-            <summary>
-            Gets collection of Itemzs by Project ID
-            </summary>
-            <param name="ProjectId">Project ID for which Itemz are queried</param>
-            <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
-            <returns>Collection of Itemz based on expectated pagination and sorting order.</returns>
-            <response code="200">Returns collection of Itemzs based on pagination</response>
-            <response code="404">No Itemzs were found</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.CheckProjectItemzAssociationExists(System.Guid,System.Guid)">
-            <summary>
-            Check if specific Project and Itemz association exists
-            </summary>
-            <param name="projectId">Provide Project Id</param>
-            <param name="itemzId">Provide Itemz Id</param>
-            <returns>GetItemzDTO for the Itemz that has specified Project association</returns>
-            <response code="200">Returns GetItemzDTO for the Itemz that has specified Project association</response>
-            <response code="404">No Project and Itemzs association was found</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.CreateItemzCollectionByProject(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
-            <summary>
-            Used for creating new Itemz record in the database by Project ID
-            </summary>
-            <param name="projectId">Project ID in Guid Form. New Itemzs will be associated with provided Project Id</param>
-            <param name="itemzCollection">Used for populating information in the newly created itemz in the database by Project ID</param>
-            <returns>Newly created Itemzs property details</returns>
-            <response code="201">Returns newly created itemzs property details</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.AssociateItemzToProject(ItemzApp.API.Models.ProjectItemzDTO)">
-            <summary>
-            Used for Associating Itemz to Project 
-            </summary>
-            <param name="projectItemzDTO">Used for Associating Itemz to Project through ItemzId and ProjectId Respectively</param>
-            <returns>GetItemzDTO for the Itemz that has specified Project association</returns>
-            <response code="200">Itemz to Project association was either found or added successfully</response>
-            <response code="404">Either Itemz or Project was not found </response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.MoveItemzBetweenProjects(System.Guid,ItemzApp.API.Models.ProjectItemzDTO)">
-            <summary>
-            Move Itemz from one project to another
-            </summary>
-            <param name="projectId">GUID representing an unique ID of the Target Project for moving Itemz into</param>
-            <param name="targetProjectItemzDTO">Details about target Project and Itemz association</param>
-            <returns>No contents are returned when expected Project and Itemz association is established</returns>
-            <response code="204">No content are returned but status of 204 indicated that expected Project and Itemz association is established</response>
-            <response code="404">Either Itemz or Project was not found</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.DeleteProjectAndItemzAssociation(ItemzApp.API.Models.ProjectItemzDTO)">
-            <summary>
-            Deleting a specific Itemz and Project association. This will not delete Itemz or project from the database,
-            instead it will only remove their association if found. 
-            </summary>
-            <returns>Status code 204 is returned without any content indicating that deletion of the specified Project and Itemz association was successful</returns>
-            <response code="404">Project and Itemz association not found</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectItemzsController.GetProjectItemzOptions">
-            <summary>
-            Get list of supported HTTP Options for the Itemz controller.
-            </summary>
-            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
-        </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProject(System.Guid)">
             <summary>
             Get a Project by ID (represented by a GUID)
@@ -638,16 +575,6 @@
         <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Description">
             <summary>
             Description of the Project
-            </summary>
-        </member>
-        <member name="P:ItemzApp.API.Models.ProjectItemzDTO.ItemzId">
-            <summary>
-            Id of the Itemz representated by a GUID.
-            </summary>
-        </member>
-        <member name="P:ItemzApp.API.Models.ProjectItemzDTO.ProjectId">
-            <summary>
-            Id of the Project representated by a GUID.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.UpdateItemzDTO">

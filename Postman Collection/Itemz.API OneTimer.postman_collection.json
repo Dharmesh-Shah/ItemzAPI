@@ -102,61 +102,6 @@
 			"response": []
 		},
 		{
-			"name": "POST Project and Itemz Association After Recreating Project",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "5d379ed9-9228-48e3-9e1e-f406e12e6237",
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					},
-					{
-						"key": "Accept",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:51087/api/ProjectItemzs/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "51087",
-					"path": [
-						"api",
-						"ProjectItemzs",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "DELETE ItemzType by ID",
 			"event": [
 				{

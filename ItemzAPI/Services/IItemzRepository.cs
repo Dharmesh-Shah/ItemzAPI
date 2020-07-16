@@ -20,14 +20,14 @@ namespace ItemzApp.API.Services
 
         PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
-        PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter);
+        //PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter);
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
         public IEnumerable<Itemz> GetItemzs(IEnumerable<Guid> itemzIds);
 
         void AddItemz(Itemz itemz);
 
-        void AddItemzByProject(Itemz itemz, Guid projectId);
+        //void AddItemzByProject(Itemz itemz, Guid projectId);
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
@@ -35,28 +35,28 @@ namespace ItemzApp.API.Services
 
         public bool ItemzExists(Guid itemzId);
 
-        public bool ProjectExists(Guid projectId);
+        //public bool ProjectExists(Guid projectId);
 
         public bool ItemzTypeExists(Guid itemzTypeId);
 
         public void UpdateItemz(Itemz itemz);
 
-        public bool ProjectItemzExists(ProjectItemzDTO projectItemzDTO);
+        //public bool ProjectItemzExists(ProjectItemzDTO projectItemzDTO);
 
         public bool ItemzTypeItemzExists(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
-        public void RemoveItemzFromProject(ProjectItemzDTO projectItemzDTO);
+        //public void RemoveItemzFromProject(ProjectItemzDTO projectItemzDTO);
 
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
         void DeleteItemz(Itemz itemz);
 
-        public void AssociateItemzToProject(ProjectItemzDTO projectItemzDTO);
+        //public void AssociateItemzToProject(ProjectItemzDTO projectItemzDTO);
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
-        public void MoveItemzFromOneProjectToAnother(ProjectItemzDTO sourceProjectItemzDTO, 
-                                                     ProjectItemzDTO targetProjectItemzDTO);
+        //public void MoveItemzFromOneProjectToAnother(ProjectItemzDTO sourceProjectItemzDTO, 
+        //                                             ProjectItemzDTO targetProjectItemzDTO);
 
         public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO,
                                                        ItemzTypeItemzDTO targetItemzTypeItemzDTO);
