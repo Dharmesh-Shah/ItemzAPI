@@ -34,5 +34,6 @@ namespace ItemzApp.API.Entities
 
         //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
+        public List<ItemzType> ItemzTypes { get; set; }
     }
 }

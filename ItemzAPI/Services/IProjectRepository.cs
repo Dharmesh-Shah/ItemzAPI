@@ -24,6 +24,6 @@ namespace ItemzApp.API.Services
         public void UpdateProject(Project project);
 
         public void DeleteProject(Project project);
-
+        public bool HasProjectWithName(string v);
     }
 }

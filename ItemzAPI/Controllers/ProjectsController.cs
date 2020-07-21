@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ItemzApp.API.BusinessRules.Project;
 
 namespace ItemzApp.API.Controllers
 {
@@ -31,10 +32,12 @@ namespace ItemzApp.API.Controllers
         private readonly IMapper _mapper;
         // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ProjectsController> _logger;
+        private readonly IProjectRules _projectRules;
         public ProjectsController(IProjectRepository projectRepository,
                                  IMapper mapper,
                                  //IPropertyMappingService propertyMappingService,
-                                 ILogger<ProjectsController> logger)
+                                 ILogger<ProjectsController> logger,
+                                 IProjectRules projectRules)
         {
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
             _mapper = mapper ??
@@ -42,6 +45,8 @@ namespace ItemzApp.API.Controllers
             //_propertyMappingService = propertyMappingService ??
             //    throw new ArgumentNullException(nameof(propertyMappingService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _projectRules = projectRules ?? throw new ArgumentNullException(nameof(projectRules));
+
 
         }
 
@@ -145,24 +150,42 @@ namespace ItemzApp.API.Controllers
         /// <param name="createProjectDTO">Used for populating information in the newly created Project in the database</param>
         /// <returns>Newly created Project property details</returns>
         /// <response code="201">Returns newly created Projects property details</response>
+        /// <response code="409">Project with the same name already exists in the repository</response>
 
         [HttpPost(Name = "__POST_Create_Project__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult<GetProjectDTO> CreateProject(CreateProjectDTO createProjectDTO)
         {
             var projectEntity = _mapper.Map<Entities.Project>(createProjectDTO);
-            _projectRepository.AddProject(projectEntity);
-            _projectRepository.Save();
 
+            if (_projectRules.UniqueProjectNameRule(createProjectDTO.Name))
+            {
+                return Conflict($"Project with name '{createProjectDTO.Name}' already exists in the repository");
+
+            }
+            //if ((_projectRepository.HasProjectWithName(createProjectDTO.Name.Trim().ToLower())))
+            //{
+            //    _logger.LogDebug("Project with name \"{projectEntityName}\" already exists in the repository", projectEntity.Name);
+            //    return Conflict($"Project with name '{projectEntity.Name}' already exists in the repository");
+            //}
+
+            try
+            {
+                _projectRepository.AddProject(projectEntity);
+                _projectRepository.Save();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                return Conflict($"Project with name '{projectEntity.Name}' already exists in the repository");
+            }
             _logger.LogDebug("Created new Project with ID {ProjectId}", projectEntity.Id);
             return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { ProjectId = projectEntity.Id },
                 _mapper.Map<GetProjectDTO>(projectEntity) // Converting to DTO as this is going out to the consumer
                 );
-
-
         }
-
 
         /// <summary>
         /// Updating exsting Project based on Project Id (GUID)
@@ -172,10 +195,12 @@ namespace ItemzApp.API.Controllers
         /// <returns>No contents are returned but only Status 204 indicating that Project was updated successfully </returns>
         /// <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
         /// <response code="404">Project based on projectId was not found</response>
+        /// <response code="409">Project with updated name already exists in the repository</response>
 
         [HttpPut("{projectId}", Name = "__PUT_Update_Project_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateProjectPut(Guid projectId, UpdateProjectDTO projectToBeUpdated)
         {
@@ -193,15 +218,27 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
+            if (_projectRules.UniqueProjectNameRule(projectToBeUpdated.Name, projectFromRepo.Name))
+            {
+                return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
+            }
+
             _mapper.Map(projectToBeUpdated, projectFromRepo);
+            try 
+            { 
             _projectRepository.UpdateProject(projectFromRepo);
             _projectRepository.Save();
 
-            _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} processed successfully", projectId);
+        }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
+    }
+    _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} processed successfully", projectId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
 
         }
-
 
         /// <summary>
         /// Partially updating a single **Project**
@@ -211,6 +248,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>an ActionResult of type Project</returns>
         /// <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
         /// <response code="404">Project based on projectId was not found</response>
+        /// <response code="409">Project with updated name already exists in the repository</response>
         /// <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
         /// <remarks> Sample request (this request updates an **Project's name**)   
         /// Documentation regarding JSON Patch can be found at 
@@ -229,6 +267,7 @@ namespace ItemzApp.API.Controllers
         [HttpPatch("{projectId}", Name = "__PATCH_Update_Project_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateProjectPatch(Guid projectId, JsonPatchDocument<UpdateProjectDTO> projectPatchDocument)
         {
@@ -260,9 +299,22 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
+            if (_projectRules.UniqueProjectNameRule(projectToPatch.Name, projectFromRepo.Name))
+            {
+                return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
+            }
+
             _mapper.Map(projectToPatch, projectFromRepo);
-            _projectRepository.UpdateProject(projectFromRepo);
-            _projectRepository.Save();
+            try
+            {
+                _projectRepository.UpdateProject(projectFromRepo);
+                _projectRepository.Save();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
+            }
 
             _logger.LogDebug("HttpPatch - Update request for Project for ID {ProjectId} processed successfully", projectId);
             return NoContent();
@@ -324,7 +376,7 @@ namespace ItemzApp.API.Controllers
         [HttpOptions(Name = "__OPTIONS_for_Projects_Controller__")]
         public IActionResult GetProjectsOptions()
         {
-            Response.Headers.Add("Allow","GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
+            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
             return Ok();
         }
 

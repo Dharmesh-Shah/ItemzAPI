@@ -85,7 +85,7 @@ namespace ItemzApp.API.Services
 
         public void AddProject(Project project)
         {
-            if (project ==null)
+            if (project == null)
             {
                 throw new ArgumentNullException(nameof(project));
             }
@@ -144,6 +144,11 @@ namespace ItemzApp.API.Services
             {
                 // dispose resources when needed
             }
+        }
+
+        public bool HasProjectWithName(string projectName)
+        {
+            return _context.Projects.AsNoTracking().Any(p => p.Name.ToLower() == projectName.ToLower());
         }
     }
 }

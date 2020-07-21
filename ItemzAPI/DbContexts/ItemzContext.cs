@@ -97,6 +97,15 @@ namespace ItemzApp.API.DbContexts
                     .ValueGeneratedOnAdd();
             });
 
+            // EXPLANATION: This way, we are adding Unique Index for Project Name.
+            // It's not possible to use Attribute for creating Unique Index in
+            // EF Core 3.1. That is why I'm using Fluent API for the same.
+            // Docs ca be found at ...
+            // https://docs.microsoft.com/en-us/ef/core/modeling/indexes
+            modelBuilder.Entity<Project>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+
             //// EXPLANATION: Here we are defining a composite key for a join table.
             //// it will use ProjectID + Itemz ID as it's composite key.
 
@@ -184,6 +193,10 @@ namespace ItemzApp.API.DbContexts
                 .WithMany(i => i.ItemzTypeJoinItemz)
                 .HasForeignKey(itji => itji.ItemzId);
 
+            modelBuilder.Entity<ItemzType>()
+                .HasOne(it => it.Project)
+                .WithMany(p => p.ItemzTypes)
+                .HasForeignKey(it => it.ProjectId);
 
             modelBuilder.Entity<ItemzType>().HasData(
                 new ItemzType()
@@ -194,6 +207,7 @@ namespace ItemzApp.API.DbContexts
                     Description = "This is ItemzType 1",
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
+                    ProjectId = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770")
                 },
                 new ItemzType()
                 {
@@ -203,6 +217,7 @@ namespace ItemzApp.API.DbContexts
                     Description = "This is ItemzType 2",
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
+                    ProjectId = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e")
                 }
             );
             modelBuilder.Entity<ItemzTypeJoinItemz>().HasData(
@@ -217,10 +232,6 @@ namespace ItemzApp.API.DbContexts
                     ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
                 }
             );
-
-
-
-
 
             base.OnModelCreating(modelBuilder);
         }

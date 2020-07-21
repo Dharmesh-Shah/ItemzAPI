@@ -4,6 +4,23 @@
         <name>ItemzApp.API</name>
     </assembly>
     <members>
+        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.HasProjectWithName(System.String)">
+            <summary>
+            Use this method to check if the project with given name already exists. In General, 
+            This check shall be performed before inserting or updating project.
+            </summary>
+            <param name="projectName">Name of the project to be checked for uniqueness</param>
+            <returns>true if project with projectName found otherwise false</returns>
+        </member>
+        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.UniqueProjectNameRule(System.String,System.String)">
+            <summary>
+            Used for verifying if repository contains project with the 
+            same name as the one used for inserting or updating
+            </summary>
+            <param name="targetProjectName">New or updated project name</param>
+            <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
+            <returns>true if project with same name exist in the repository otherwise false</returns>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollection(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Gets collection of Itemzs without any Pagination
@@ -320,6 +337,7 @@
             <param name="createProjectDTO">Used for populating information in the newly created Project in the database</param>
             <returns>Newly created Project property details</returns>
             <response code="201">Returns newly created Projects property details</response>
+            <response code="409">Project with the same name already exists in the repository</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPut(System.Guid,ItemzApp.API.Models.UpdateProjectDTO)">
             <summary>
@@ -330,6 +348,7 @@
             <returns>No contents are returned but only Status 204 indicating that Project was updated successfully </returns>
             <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
             <response code="404">Project based on projectId was not found</response>
+            <response code="409">Project with updated name already exists in the repository</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateProjectDTO})">
             <summary>
@@ -340,6 +359,7 @@
             <returns>an ActionResult of type Project</returns>
             <response code="204">No content are returned but status of 204 indicated that Project was successfully updated</response>
             <response code="404">Project based on projectId was not found</response>
+            <response code="409">Project with updated name already exists in the repository</response>
             <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
             <remarks> Sample request (this request updates an **Project's name**)   
             Documentation regarding JSON Patch can be found at 

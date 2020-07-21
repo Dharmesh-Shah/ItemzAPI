@@ -1,6 +1,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using AutoMapper;
+using ItemzApp.API.BusinessRules.Project;
 using ItemzApp.API.DbContexts;
 using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -133,6 +134,7 @@ namespace ItemzApp.API
             services.AddScoped<IItemzRepository, ItemzRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IItemzTypeRepository, ItemzTypeRepository>();
+            services.AddScoped<IProjectRules,ProjectRules>();
 
             services.AddDbContext<ItemzContext>(options =>
             {
