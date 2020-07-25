@@ -201,6 +201,16 @@ namespace ItemzApp.API.DbContexts
             modelBuilder.Entity<ItemzType>().HasData(
                 new ItemzType()
                 {
+                    Id = Guid.Parse("473fe535-1420-42cf-8a40-224388b8df24"),
+                    Name = "Parking Lot",
+                    Status = "Active",
+                    Description = "This is Parking Lot system ItemzType",
+                    CreatedBy = "User 1",
+                    CreatedDate = new DateTime(2019, 7, 01),
+                    ProjectId = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770")
+                },
+                new ItemzType()
+                {
                     Id = Guid.Parse("611639db-577a-48f6-9b08-f6aef477368f"),
                     Name = "ItemzType 1",
                     Status = "Active",
@@ -208,6 +218,16 @@ namespace ItemzApp.API.DbContexts
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
                     ProjectId = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770")
+                },
+                new ItemzType()
+                {
+                    Id = Guid.Parse("1a069648-6ad6-4c8a-be05-be747bdeb8da"),
+                    Name = "Parking Lot",
+                    Status = "Active",
+                    Description = "This is Parking Lot system ItemzType",
+                    CreatedBy = "User 1",
+                    CreatedDate = new DateTime(2019, 7, 01),
+                    ProjectId = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e")
                 },
                 new ItemzType()
                 {

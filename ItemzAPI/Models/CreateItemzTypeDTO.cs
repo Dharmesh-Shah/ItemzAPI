@@ -1,6 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 
+using System.ComponentModel.DataAnnotations;
 
 namespace ItemzApp.API.Models
 {
@@ -10,5 +11,11 @@ namespace ItemzApp.API.Models
     /// </summary>
     public class CreateItemzTypeDTO : ManipulateItemzTypeDTO
     {
+        /// <summary>
+        /// Project ID in the Guid form. 
+        /// New ItemzType shall be created this project.
+        /// </summary>
+        [Required] // Such attributes are important as they are used for Validating incoming API calls.
+        public System.Guid ProjectId { get; set; }
     }
 }

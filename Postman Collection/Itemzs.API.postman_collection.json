@@ -1390,12 +1390,12 @@
 			"response": []
 		},
 		{
-			"name": "POST Project",
+			"name": "POST ItemzType",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "097760cb-ff1a-46f9-8d33-0bc6c5dcf954",
+						"id": "1f2cf7c2-bc8d-4da1-9959-795c33a216c2",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -1421,7 +1421,105 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Project 3\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 3\",\r\n}"
+					"raw": "{\r\n    \"name\": \"ItemzType 3\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 3.\",\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST ItemzType (WrongProjectId)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ae4f775-9966-42c3-a6b7-773ac537378e",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"ItemzType 3\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 3.\",\r\n    \"projectId\": \"02f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "097760cb-ff1a-46f9-8d33-0bc6c5dcf954",
+						"exec": [
+							"pm.test(\"Status code is either 201 or 409\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Project 3\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 3\"\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:51087/api/Projects",
@@ -4412,12 +4510,12 @@
 			"response": []
 		},
 		{
-			"name": "POST ItemzType and Itemz Association After Recreating it",
+			"name": "POST ItemzType and Itemz Association After Recreating ItemzType",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "6db758ec-dbab-4f01-b958-7b22b1a7477a",
+						"id": "42dd9b68-c1be-477d-9ce8-b499e98343ea",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",

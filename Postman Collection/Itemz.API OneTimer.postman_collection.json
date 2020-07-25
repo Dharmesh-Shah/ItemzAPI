@@ -7,6 +7,448 @@
 	},
 	"item": [
 		{
+			"name": "BusinessRule - UniqueProjectNameRule",
+			"item": [
+				{
+					"name": "POST Project First Time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7a490c3-d7c9-4aae-883f-3d6961ddf721",
+								"exec": [
+									"//pm.test(\"Status code is either 201 or 409\", function () {",
+									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"//});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f203a537-5d7a-4b0b-b173-555a962d2e0a",
+								"exec": [
+									"pm.variables.get(\"ProjectNumber\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Project {{ProjectNumber}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project {{ProjectNumber}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project Second Time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "60f77933-8af6-467f-bfe9-d78a0f308d01",
+								"exec": [
+									"//pm.test(\"Status code is either 201 or 409\", function () {",
+									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"//});",
+									"",
+									"var tempProjectNumber =  parseInt(pm.collectionVariables.get(\"ProjectNumber\"));",
+									"var tempProjectNumber = tempProjectNumber + 1;",
+									"",
+									"",
+									"",
+									"pm.collectionVariables.set(\"ProjectNumber\", tempProjectNumber);",
+									"",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Project {{ProjectNumber}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project {{ProjectNumber}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d6d9dd94-d1c1-4d85-900d-d99663c9fb4e",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueProjectNameRule - Project 1\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Project Verify Name has been updated after patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "55444694-8029-4690-b14b-f0c17fca3ed7",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('The `Project Name` is a specific value', () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueProjectNameRule - Project 1\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Project Name to Existing Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "958fda87-c7c1-4a64-bdaf-aef58ace0faf",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"Project 2\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17370c1f-d220-48a9-bcec-65c9ff7c0789",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "conten",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"PUT - UniqueProjectNameRule - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Project Verify Name has been updated after put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8d364f24-11b3-4599-8df9-f067af715c22",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('The `Project Name` is a specific value', () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueProjectNameRule - Project 1\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Project to Existing Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec244068-1a76-4429-8faf-8b6fc7d66714",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "conten",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Project 2\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "DELETE Project by ID",
 			"event": [
 				{
@@ -84,7 +526,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}"
+					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        }\r\n    ]\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:51087/api/ONLYforTestingProjects",
@@ -179,7 +621,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n    \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\",\r\n  \"itemzTypeJoinItemz\": [\r\n    {\r\n      \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n      \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n  ]\r\n}"
+					"raw": "{\r\n    \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n    \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\",\r\n  \"itemzTypeJoinItemz\": [\r\n    {\r\n      \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n      \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n  ],\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:51087/api/ONLYforTestingItemzTypes",
@@ -413,6 +855,35 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "247e5927-ac74-4c8f-874d-64d3a4a02481",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6bde445c-10ab-4d7c-8a1c-2d3f430d14d1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "95eb5c9a-de3d-4113-8198-29beea5a0678",
+			"key": "ProjectNumber",
+			"value": "100"
 		}
 	],
 	"protocolProfileBehavior": {}

@@ -90,6 +90,26 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(project));
             }
 
+            // EXPLANATION: Everytime a project is created then we have to 
+            // also add 'Parking Lot' ItemzType. 
+
+            var parkingLotItemzType = new ItemzType
+            {
+                Name = "Parking Lot",
+                Status = "Active",
+                Description = "Parking Lot System ItemzType",
+
+            };
+
+            if (project.ItemzTypes == null)
+            {
+                project.ItemzTypes = new List<Entities.ItemzType> { parkingLotItemzType };
+            }
+            else
+            {
+                project.ItemzTypes.Add(parkingLotItemzType);
+            }
+
             _context.Projects.Add(project);
         }
 

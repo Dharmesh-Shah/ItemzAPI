@@ -28,15 +28,18 @@ namespace ItemzApp.API.Controllers
     public class ItemzTypesController : ControllerBase
     {
         private readonly IItemzTypeRepository _ItemzTypeRepository;
+        private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
         // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ItemzTypesController> _logger;
-        public ItemzTypesController(IItemzTypeRepository ItemzTypeRepository,
+        public ItemzTypesController(IItemzTypeRepository itemzTypeRepository,
+            IProjectRepository projectRepository,
                                  IMapper mapper,
                                  //IPropertyMappingService propertyMappingService,
                                  ILogger<ItemzTypesController> logger)
         {
-            _ItemzTypeRepository = ItemzTypeRepository ?? throw new ArgumentNullException(nameof(ItemzTypeRepository));
+            _ItemzTypeRepository = itemzTypeRepository ?? throw new ArgumentNullException(nameof(itemzTypeRepository));
+            _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             //_propertyMappingService = propertyMappingService ??
@@ -145,12 +148,19 @@ namespace ItemzApp.API.Controllers
         /// <param name="createItemzTypeDTO">Used for populating information in the newly created ItemzType in the database</param>
         /// <returns>Newly created ItemzType property details</returns>
         /// <response code="201">Returns newly created ItemzTypes property details</response>
+        /// <response code="404">Expected Project with ID was not found in the repository</response>
 
         [HttpPost(Name = "__POST_Create_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         public ActionResult<GetItemzTypeDTO> CreateItemzType(CreateItemzTypeDTO createItemzTypeDTO)
         {
+            if (!_projectRepository.ProjectExists(createItemzTypeDTO.ProjectId))
+            {
+                _logger.LogDebug("HttpPost - Project with {ProjectId} could not be found while creating new ItemzType in the repository", createItemzTypeDTO.ProjectId);
+                return NotFound();
+            }    
             var ItemzTypeEntity = _mapper.Map<Entities.ItemzType>(createItemzTypeDTO);
             _ItemzTypeRepository.AddItemzType(ItemzTypeEntity);
             _ItemzTypeRepository.Save();

@@ -188,6 +188,8 @@ when (((e as AggregateException)?.InnerException ?? e) is MyOwnCustomExceptionEx
 
 This is going to be an issue. That said, there is an unofficial version that was published by EF Core Team member at ...[here](https://github.com/efcore/EFCore.SqlServer.HierarchyId)
 
+checkout this Blog which has Hiearchy related example ... [Here...](https://www.thereformedprogrammer.net/ef-core-in-depth-what-happens-when-ef-core-reads-from-the-database/)
+
 Instead of using old Parent / Child (self referencing PK and FK in the same table) way of handling hierarchy, it will be ideal to use hierarchyid as supported in SQL Server natively.
 
 What is concerning is the fact that in above issue, one of the team member wrote... 
@@ -200,4 +202,16 @@ What is concerning is the fact that in above issue, one of the team member wrote
 >  doesn't seem prudent for our small team to implement, support, 
 > and maintain a HierarchyId library for .NET right now, 
 > so we're effectively blocked on implementing this <span>.
+
+### [Soft Delete well described for EF Core](https://www.thereformedprogrammer.net/ef-core-in-depth-soft-deleting-data-with-global-query-filters/)
+
+Great Article by <span style="background-color: #99ff66">[Jon P Smith](https://twitter.com/thereformedprog) </span>
+
+This is an in-depth article about soft deleting data while using EF Core. It covers many options as well as things to consider while designing Soft Delete.
+
+> [!NOTE]
+> TODO: In ItemZApp, it will be very useful to have SoftDelete option to make sure that we give opportunity for people to undo their action. 
+> We have to think about how to implement the same while we have `Parking Lot` in place.
+
+
 

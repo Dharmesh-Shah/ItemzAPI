@@ -149,6 +149,7 @@
             <param name="createItemzTypeDTO">Used for populating information in the newly created ItemzType in the database</param>
             <returns>Newly created ItemzType property details</returns>
             <response code="201">Returns newly created ItemzTypes property details</response>
+            <response code="404">Expected Project with ID was not found in the repository</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePut(System.Guid,ItemzApp.API.Models.UpdateItemzTypeDTO)">
             <summary>
@@ -400,6 +401,12 @@
             <summary>
             CreateItemzTypeDTO shall be used for sending in request for creating new ItemzType.
             It will expose necessary properties to allow successful creation of the ItemzType.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.CreateItemzTypeDTO.ProjectId">
+            <summary>
+            Project ID in the Guid form. 
+            New ItemzType shall be created this project.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.CreateProjectDTO">
