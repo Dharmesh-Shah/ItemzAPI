@@ -25,5 +25,6 @@ namespace ItemzApp.API.Services
 
         public void DeleteItemzType(ItemzType itemzType);
 
+        public bool HasItemzTypeWithName(Guid projectId, string itemzTypeName);
     }
 }

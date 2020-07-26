@@ -1,9 +1,8 @@
-﻿using ItemzApp.API.Services;
+﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using ItemzApp.API.Services;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ItemzApp.API.BusinessRules.Project
 {

@@ -4,6 +4,25 @@
         <name>ItemzApp.API</name>
     </assembly>
     <members>
+        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.HasItemzTypeWithName(System.Guid,System.String)">
+            <summary>
+            Use this method to check if the ItemzType with given name already exists. In General, 
+            This check shall be performed before inserting or updating ItemzType.
+            </summary>
+            <param name="projectId">Project Id in Guid form in which we are checking for ItemzType with a specific name</param>
+            <param name="itemzTypeName">Name of the ItemzType to be checked for uniqueness</param>
+            <returns>true if ItemzType with ItemzTypeName found otherwise false</returns>
+        </member>
+        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.UniqueItemzTypeNameRule(System.Guid,System.String,System.String)">
+            <summary>
+            Used for verifying if project contains itemzType with the 
+            same name as the one used for inserting or updating
+            </summary>
+            <param name="projectId">Project Id in Guid form in which we are checking for ItemzType with a specific name</param>
+            <param name="targetItemzTypeName">New or updated itemzType name</param>
+            <param name="sourceItemzTypeName">Old itemzType name. No need to pass this for checking rule against creating itemzType action</param>
+            <returns>true if itemzType with same name exist in the repository otherwise false</returns>
+        </member>
         <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.HasProjectWithName(System.String)">
             <summary>
             Use this method to check if the project with given name already exists. In General, 
@@ -150,6 +169,7 @@
             <returns>Newly created ItemzType property details</returns>
             <response code="201">Returns newly created ItemzTypes property details</response>
             <response code="404">Expected Project with ID was not found in the repository</response>
+            <response code="409">ItemzType with the same name already exists in the target Project</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePut(System.Guid,ItemzApp.API.Models.UpdateItemzTypeDTO)">
             <summary>
@@ -160,6 +180,7 @@
             <returns>No contents are returned but only Status 204 indicating that ItemzType was updated successfully </returns>
             <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
             <response code="404">ItemzType based on ItemzTypeId was not found</response>
+            <response code="409">ItemzType with the same name already exists in the target Project</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzTypeDTO})">
             <summary>
@@ -170,6 +191,7 @@
             <returns>an ActionResult of type ItemzType</returns>
             <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
             <response code="404">ItemzType based on ItemzTypeId was not found</response>
+            <response code="409">ItemzType with the same name already exists in the target Project</response>
             <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
             <remarks> Sample request (this request updates an **ItemzType's name**)   
             Documentation regarding JSON Patch can be found at 

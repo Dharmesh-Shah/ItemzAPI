@@ -134,6 +134,11 @@ namespace ItemzApp.API.Services
                 // dispose resources when needed
             }
         }
+        public bool HasItemzTypeWithName(Guid projectId, string itemzTypeName)
+        {
+            return _context.ItemzTypes.AsNoTracking().Any(it => it.ProjectId.ToString().ToLower() == projectId.ToString().ToLower() && it.Name.ToLower() == itemzTypeName.ToLower());
+        }
+
 
     }
 }

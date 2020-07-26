@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ItemzApp.API.BusinessRules.ItemzType;
 
 namespace ItemzApp.API.Controllers
 {
@@ -32,11 +33,14 @@ namespace ItemzApp.API.Controllers
         private readonly IMapper _mapper;
         // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ItemzTypesController> _logger;
+        private readonly IItemzTypeRules _itemzTypeRules;
+
         public ItemzTypesController(IItemzTypeRepository itemzTypeRepository,
             IProjectRepository projectRepository,
                                  IMapper mapper,
                                  //IPropertyMappingService propertyMappingService,
-                                 ILogger<ItemzTypesController> logger)
+                                 ILogger<ItemzTypesController> logger,
+                                 IItemzTypeRules itemzTypeRules)
         {
             _ItemzTypeRepository = itemzTypeRepository ?? throw new ArgumentNullException(nameof(itemzTypeRepository));
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
@@ -45,6 +49,7 @@ namespace ItemzApp.API.Controllers
             //_propertyMappingService = propertyMappingService ??
             //    throw new ArgumentNullException(nameof(propertyMappingService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _itemzTypeRules = itemzTypeRules ?? throw new ArgumentNullException(nameof(itemzTypeRules));
 
         }
 
@@ -149,10 +154,12 @@ namespace ItemzApp.API.Controllers
         /// <returns>Newly created ItemzType property details</returns>
         /// <response code="201">Returns newly created ItemzTypes property details</response>
         /// <response code="404">Expected Project with ID was not found in the repository</response>
+        /// <response code="409">ItemzType with the same name already exists in the target Project</response>
 
         [HttpPost(Name = "__POST_Create_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult<GetItemzTypeDTO> CreateItemzType(CreateItemzTypeDTO createItemzTypeDTO)
         {
@@ -162,15 +169,27 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }    
             var ItemzTypeEntity = _mapper.Map<Entities.ItemzType>(createItemzTypeDTO);
-            _ItemzTypeRepository.AddItemzType(ItemzTypeEntity);
-            _ItemzTypeRepository.Save();
+
+            if (_itemzTypeRules.UniqueItemzTypeNameRule(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name))
+            {
+                return Conflict($"ItemzType with name '{createItemzTypeDTO.Name}' already exists in the project with Id '{createItemzTypeDTO.ProjectId}'");
+            }
+            try
+            {
+
+                _ItemzTypeRepository.AddItemzType(ItemzTypeEntity);
+                _ItemzTypeRepository.Save();
+            }
+            catch(Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                return Conflict($"ItemzType with name '{createItemzTypeDTO.Name}' already exists in the project with Id '{createItemzTypeDTO.ProjectId}'");
+            }
 
             _logger.LogDebug("Created new ItemzType with ID {ItemzTypeId}", ItemzTypeEntity.Id);
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { ItemzTypeId = ItemzTypeEntity.Id },
                 _mapper.Map<GetItemzTypeDTO>(ItemzTypeEntity) // Converting to DTO as this is going out to the consumer
                 );
-
-
         }
 
 
@@ -182,10 +201,12 @@ namespace ItemzApp.API.Controllers
         /// <returns>No contents are returned but only Status 204 indicating that ItemzType was updated successfully </returns>
         /// <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
         /// <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        /// <response code="409">ItemzType with the same name already exists in the target Project</response>
 
         [HttpPut("{ItemzTypeId}", Name = "__PUT_Update_ItemzType_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateItemzTypePut(Guid ItemzTypeId, UpdateItemzTypeDTO ItemzTypeToBeUpdated)
         {
@@ -203,9 +224,23 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
+            if (_itemzTypeRules.UniqueItemzTypeNameRule(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
+            {
+                return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
+            }
+
             _mapper.Map(ItemzTypeToBeUpdated, ItemzTypeFromRepo);
-            _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
-            _ItemzTypeRepository.Save();
+
+            try
+            {
+                _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
+                _ItemzTypeRepository.Save();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
+            }
 
             _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} processed successfully", ItemzTypeId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -221,6 +256,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>an ActionResult of type ItemzType</returns>
         /// <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
         /// <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        /// <response code="409">ItemzType with the same name already exists in the target Project</response>
         /// <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
         /// <remarks> Sample request (this request updates an **ItemzType's name**)   
         /// Documentation regarding JSON Patch can be found at 
@@ -239,6 +275,7 @@ namespace ItemzApp.API.Controllers
         [HttpPatch("{ItemzTypeId}", Name = "__PATCH_Update_ItemzType_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateItemzTypePatch(Guid ItemzTypeId, JsonPatchDocument<UpdateItemzTypeDTO> ItemzTypePatchDocument)
         {
@@ -270,9 +307,23 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
+            if (_itemzTypeRules.UniqueItemzTypeNameRule(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name, ItemzTypeFromRepo.Name))
+            {
+                return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
+            }
+           
             _mapper.Map(ItemzTypeToPatch, ItemzTypeFromRepo);
-            _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
-            _ItemzTypeRepository.Save();
+
+            try
+            {
+                _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
+                _ItemzTypeRepository.Save();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
+            }
 
             _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} processed successfully", ItemzTypeId);
             return NoContent();

@@ -238,6 +238,16 @@ namespace ItemzApp.API.DbContexts
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
                     ProjectId = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e")
+                },
+                new ItemzType()
+                {
+                    Id = Guid.Parse("52ca1dfc-b187-47fc-a379-57af33404b34"),
+                    Name = "TESTING - Unique ItemzType Name",
+                    Status = "Active",
+                    Description = "Used for testing that ItemzType Name remains unique within a given Project",
+                    CreatedBy = "User 1",
+                    CreatedDate = new DateTime(2019, 7, 01),
+                    ProjectId = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e")
                 }
             );
             modelBuilder.Entity<ItemzTypeJoinItemz>().HasData(

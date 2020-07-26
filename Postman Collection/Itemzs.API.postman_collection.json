@@ -1397,8 +1397,8 @@
 					"script": {
 						"id": "1f2cf7c2-bc8d-4da1-9959-795c33a216c2",
 						"exec": [
-							"pm.test(\"Status code is 201\", function () {",
-							"    pm.response.to.have.status(201);",
+							"pm.test(\"Status code is either 201 or 409\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
 							"});"
 						],
 						"type": "text/javascript"

@@ -449,6 +449,447 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "BusinessRule - UniqueItemzTypeNameRule",
+			"item": [
+				{
+					"name": "POST ItemzType First Time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8692210e-54a0-4d9e-8345-2893edf22574",
+								"exec": [
+									"//pm.test(\"Status code is either 201 or 409\", function () {",
+									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"//});",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b2b4dcf1-620a-481a-95b7-4987b46975ef",
+								"exec": [
+									"pm.variables.get(\"ItemzTypeNumber\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType {{ItemzTypeNumber}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType {{ItemzTypeNumber}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project Second Time",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1b2b4f34-c7f0-4b3c-a58f-3e2f390b387b",
+								"exec": [
+									"//pm.test(\"Status code is either 201 or 409\", function () {",
+									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"//});",
+									"",
+									"var tempItemzTypeNumber =  parseInt(pm.collectionVariables.get(\"ItemzTypeNumber\"));",
+									"var tempItemzTypeNumber = tempItemzTypeNumber + 1;",
+									"",
+									"",
+									"pm.collectionVariables.set(\"ItemzTypeNumber\", tempItemzTypeNumber);",
+									"",
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType {{ItemzTypeNumber}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType {{ItemzTypeNumber}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH ItemzType Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4620118-9b67-4674-acd0-2878f394db7e",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated ItemzType Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzType Verify Name has been updated after patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eebc03ea-a00f-4460-b641-bedeb242c896",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('The `ItemzType Name` is a specific value', () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData.name).to.eql(\"PATCH Updated ItemzType Name field\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH ItemzType Name to Existing ItemzType Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9e5c35c2-32ba-4976-928a-dffa52c277ec",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"ItemzType 2\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/52ca1dfc-b187-47fc-a379-57af33404b34",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"52ca1dfc-b187-47fc-a379-57af33404b34"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6fd0c06e-042b-46da-b110-fbab1bb3287a",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "conten",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"PUT - UniqueItemzTypeNameRule - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzType Verify Name has been updated after put",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "09552d67-2a82-41ac-93f0-bd0e48ceb825",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('The `ItemzType Name` is a specific value', () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueItemzTypeNameRule - ItemzType 1\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f\n"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Project to Existing Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3be87b4f-87d3-4740-b711-f00a1054dab8",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "conten",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/52ca1dfc-b187-47fc-a379-57af33404b34\n",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"52ca1dfc-b187-47fc-a379-57af33404b34\n"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "DELETE Project by ID",
 			"event": [
 				{
@@ -881,8 +1322,13 @@
 	],
 	"variable": [
 		{
-			"id": "95eb5c9a-de3d-4113-8198-29beea5a0678",
+			"id": "25c219db-ac04-48b4-b2a1-0ba6df212c7c",
 			"key": "ProjectNumber",
+			"value": "100"
+		},
+		{
+			"id": "e2dec508-9a78-4161-a654-d55f57ab8bef",
+			"key": "ItemzTypeNumber",
 			"value": "100"
 		}
 	],
