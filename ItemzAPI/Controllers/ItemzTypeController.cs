@@ -36,11 +36,11 @@ namespace ItemzApp.API.Controllers
         private readonly IItemzTypeRules _itemzTypeRules;
 
         public ItemzTypesController(IItemzTypeRepository itemzTypeRepository,
-            IProjectRepository projectRepository,
-                                 IMapper mapper,
-                                 //IPropertyMappingService propertyMappingService,
-                                 ILogger<ItemzTypesController> logger,
-                                 IItemzTypeRules itemzTypeRules)
+                                    IProjectRepository projectRepository,
+                                    IMapper mapper,
+                                    //IPropertyMappingService propertyMappingService,
+                                    ILogger<ItemzTypesController> logger,
+                                    IItemzTypeRules itemzTypeRules)
         {
             _ItemzTypeRepository = itemzTypeRepository ?? throw new ArgumentNullException(nameof(itemzTypeRepository));
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
@@ -201,11 +201,13 @@ namespace ItemzApp.API.Controllers
         /// <returns>No contents are returned but only Status 204 indicating that ItemzType was updated successfully </returns>
         /// <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
         /// <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        /// <response code="405">ItemzType is not allowed to be modified. example, ItemzType is a System one.</response>
         /// <response code="409">ItemzType with the same name already exists in the target Project</response>
 
         [HttpPut("{ItemzTypeId}", Name = "__PUT_Update_ItemzType_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateItemzTypePut(Guid ItemzTypeId, UpdateItemzTypeDTO ItemzTypeToBeUpdated)
@@ -222,6 +224,16 @@ namespace ItemzApp.API.Controllers
             {
                 _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository", ItemzTypeId);
                 return NotFound();
+            }
+
+            if (ItemzTypeFromRepo.IsSystem == true)
+            {
+                _logger.LogDebug("HttpPut - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                    ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
+                return StatusCode(
+                        Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
+                        $"System ItemzType with name '{ItemzTypeFromRepo.Name}' and Id '{ItemzTypeFromRepo.Id}' is NOT ALLOWED to be modified" 
+                    );
             }
 
             if (_itemzTypeRules.UniqueItemzTypeNameRule(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
@@ -247,7 +259,6 @@ namespace ItemzApp.API.Controllers
 
         }
 
-
         /// <summary>
         /// Partially updating a single **ItemzType**
         /// </summary>
@@ -256,6 +267,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>an ActionResult of type ItemzType</returns>
         /// <response code="204">No content are returned but status of 204 indicated that ItemzType was successfully updated</response>
         /// <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        /// <response code="405">ItemzType is not allowed to be modified. example, ItemzType is a System one.</response>
         /// <response code="409">ItemzType with the same name already exists in the target Project</response>
         /// <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
         /// <remarks> Sample request (this request updates an **ItemzType's name**)   
@@ -275,6 +287,7 @@ namespace ItemzApp.API.Controllers
         [HttpPatch("{ItemzTypeId}", Name = "__PATCH_Update_ItemzType_By_GUID_ID")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         public ActionResult UpdateItemzTypePatch(Guid ItemzTypeId, JsonPatchDocument<UpdateItemzTypeDTO> ItemzTypePatchDocument)
@@ -291,6 +304,16 @@ namespace ItemzApp.API.Controllers
             {
                 _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository", ItemzTypeId);
                 return NotFound();
+            }
+
+            if (ItemzTypeFromRepo.IsSystem == true)
+            {
+                _logger.LogDebug("HttpPatch - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                    ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
+                return StatusCode(
+                        Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
+                        $"System ItemzType with name '{ItemzTypeFromRepo.Name}' and Id '{ItemzTypeFromRepo.Id}' is NOT ALLOWED to be modified"
+                    );
             }
 
             var ItemzTypeToPatch = _mapper.Map<UpdateItemzTypeDTO>(ItemzTypeFromRepo);
@@ -348,15 +371,17 @@ namespace ItemzApp.API.Controllers
         /// <param name="ItemzTypeId">GUID representing an unique ID of the ItemzType that you want to get</param>
         /// <returns>Status code 204 is returned without any content indicating that deletion of the specified ItemzType was successful</returns>
         /// <response code="404">ItemzType based on ItemzTypeId was not found</response>
+        /// <response code="405">ItemzType is not allowed to be deleted. example, ItemzType is a System one.</response>
         [HttpDelete("{ItemzTypeId}", Name = "__DELETE_ItemzType_By_GUID_ID__")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesDefaultResponseType]
         public ActionResult DeleteItemzType(Guid ItemzTypeId)
         {
             if (!_ItemzTypeRepository.ItemzTypeExists(ItemzTypeId))
             {
-                _logger.LogDebug("Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found", ItemzTypeId);
+                _logger.LogDebug("HttpDelete - Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found", ItemzTypeId);
                 return NotFound();
             }
 
@@ -364,8 +389,18 @@ namespace ItemzApp.API.Controllers
 
             if (ItemzTypeFromRepo == null)
             {
-                _logger.LogDebug("Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found in the Repository", ItemzTypeId);
+                _logger.LogDebug("HttpDelete - Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found in the Repository", ItemzTypeId);
                 return NotFound();
+            }
+
+            if(ItemzTypeFromRepo.IsSystem == true)
+            {
+                _logger.LogDebug("HttpDelete - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be deleted",
+                    ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
+                return StatusCode(
+                        Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
+                        $"System ItemzType with name '{ItemzTypeFromRepo.Name}' and Id '{ItemzTypeFromRepo.Id}' is NOT ALLOWED to be deleted"
+                    );
             }
 
             _ItemzTypeRepository.DeleteItemzType(ItemzTypeFromRepo);
@@ -374,7 +409,6 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("Delete request for Projeect with ID {ItemzTypeId} processed successfully", ItemzTypeId);
             return NoContent();
         }
-
 
         /// <summary>
         /// Get list of supported HTTP Options for the ItemzTypes controller.

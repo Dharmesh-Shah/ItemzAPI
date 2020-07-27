@@ -35,5 +35,9 @@ namespace ItemzApp.API.Models
         /// Date and Time when ItemzType was created
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
+        /// <summary>
+        /// Returns true if it's system ItemzType otherwise false
+        /// </summary>
+        public bool IsSystem { get; set; }
     }
 }

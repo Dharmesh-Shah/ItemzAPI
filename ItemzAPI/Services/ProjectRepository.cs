@@ -98,7 +98,7 @@ namespace ItemzApp.API.Services
                 Name = "Parking Lot",
                 Status = "Active",
                 Description = "Parking Lot System ItemzType",
-
+                IsSystem = true
             };
 
             if (project.ItemzTypes == null)

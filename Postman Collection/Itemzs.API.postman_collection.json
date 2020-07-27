@@ -765,6 +765,11 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
+							"",
+							"pm.test('The `isSystem` is set to `true`', () => {",
+							"    var jsonData = pm.response.json(); ",
+							"    pm.expect(jsonData.isSystem).to.eql(false);",
+							"    });",
 							""
 						],
 						"type": "text/javascript"
@@ -791,6 +796,53 @@
 						"api",
 						"ItemzTypes",
 						"611639db-577a-48f6-9b08-f6aef477368f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ItemzType (Parking Lot System Type)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "077e5138-ae53-4edb-ae92-d7beef3ef19a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test('The `isSystem` is set to `true`', () => {",
+							"    var jsonData = pm.response.json(); ",
+							"    pm.expect(jsonData.isSystem).to.eql(true);",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes",
+						"473fe535-1420-42cf-8a40-224388b8df24"
 					]
 				}
 			},
@@ -2690,6 +2742,61 @@
 			"response": []
 		},
 		{
+			"name": "PUT ItemzType (Parking Lot System Type)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5effc5d0-5bac-4971-9723-a3c6934d5acf",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "conten",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Updated Parking Lot\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"Updating Parking Lot Type that should not be allowed\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes",
+						"473fe535-1420-42cf-8a40-224388b8df24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT Move Itemz Between ItemzTypes",
 			"event": [
 				{
@@ -3790,6 +3897,61 @@
 			"response": []
 		},
 		{
+			"name": "PATCH ItemzType Name (Parking Lot System Type)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2c502bc8-56f4-4f5b-8d11-73d10d6f6e76",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json-patch+json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Parking Lot ItemzType\"\r\n\t}\r\n]\r\n\t",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes",
+						"473fe535-1420-42cf-8a40-224388b8df24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "OPTIONS for Itemzs",
 			"event": [
 				{
@@ -4559,6 +4721,52 @@
 						"api",
 						"ItemzTypeItemzs",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ItemzType by ID (Parking Lot System Type)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac35d2b1-fee8-417a-9001-798f3132eb90",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {",
+							"    pm.response.to.have.status(405);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes",
+						"473fe535-1420-42cf-8a40-224388b8df24"
 					]
 				}
 			},

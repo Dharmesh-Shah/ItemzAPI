@@ -207,6 +207,7 @@ namespace ItemzApp.API.DbContexts
                     Description = "This is Parking Lot system ItemzType",
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
+                    IsSystem = true,
                     ProjectId = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770")
                 },
                 new ItemzType()
@@ -227,6 +228,7 @@ namespace ItemzApp.API.DbContexts
                     Description = "This is Parking Lot system ItemzType",
                     CreatedBy = "User 1",
                     CreatedDate = new DateTime(2019, 7, 01),
+                    IsSystem = true,
                     ProjectId = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e")
                 },
                 new ItemzType()
