@@ -213,5 +213,16 @@ This is an in-depth article about soft deleting data while using EF Core. It cov
 > TODO: In ItemZApp, it will be very useful to have SoftDelete option to make sure that we give opportunity for people to undo their action. 
 > We have to think about how to implement the same while we have `Parking Lot` in place.
 
+### [Consider MediatR Patter](https://www.youtube.com/watch?v=YzOBrVlthMk)
+
+This YouTube Video by <span style="background-color: #99ff66">[Nick Chapsas](https://twitter.com/nickchapsas)</span> provides great introduction to MediatR pattern and CQRS Pattern.
+
+We have to consider if we want to implement this pattern in ItemzApp. 
+
+It's good to have separation of concerns and decoupling introduced in controllers and handlers / services but then it required to create many classes in the project.
+
+It surely will help for better Unit Testing individual handlers / services as well as to keep code cleaner.
+
+Please also consider learning curve for new joiners to the project. It's good on one hand that people who has access to this code will see real world example of how MediatR is implemented but then one has to also consider what will happen when contributors would like to send pull requests to the project where learning curve is a concern.
 
 
