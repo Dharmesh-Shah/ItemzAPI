@@ -14,12 +14,14 @@ namespace ItemzApp.API.Services
 {
     public interface IItemzRepository
     {
-        Itemz GetItemz(Guid ItemzId);
+        // Itemz GetItemz(Guid ItemzId);
+        Task<Itemz> GetItemzAsync(Guid ItemzId);
 
         Itemz GetItemzForUpdating(Guid ItemzId);
 
         PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
+     
         //PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter);
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
@@ -27,11 +29,14 @@ namespace ItemzApp.API.Services
 
         void AddItemz(Itemz itemz);
 
+        //Task AddItemzAsync(Itemz itemz);
+
         //void AddItemzByProject(Itemz itemz, Guid projectId);
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
         bool Save();
+        Task<bool> SaveAsync();
 
         public bool ItemzExists(Guid itemzId);
 

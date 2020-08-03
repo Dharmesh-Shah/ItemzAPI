@@ -54,7 +54,7 @@
             GET api/ItemzCollection/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
             </remarks>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.CreateItemzCollection(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.CreateItemzCollectionAsync(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
             <summary>
             Used for creating new multiple Itemz record in the database
             </summary>
@@ -69,7 +69,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemz(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemzAsync(System.Guid)">
             <summary>
             Get an Itemz by ID (represented by a GUID)
             </summary>
@@ -87,7 +87,7 @@
             <response code="200">Returns collection of Itemzs based on pagination</response>
             <response code="404">No Itemzs were found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemz(ItemzApp.API.Models.CreateItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO)">
             <summary>
             Used for creating new Itemz record in the database
             </summary>
@@ -288,7 +288,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemz(ItemzApp.API.Entities.Itemz)">
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemzAsync(ItemzApp.API.Entities.Itemz)">
             <summary>
             This option is designed only to be used for adding a new record while testing ItemzApp API.
             Used for creating new Itemz record in the database that also 

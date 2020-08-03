@@ -86,7 +86,7 @@ namespace ItemzApp.API.Controllers
         [HttpPost (Name = "__POST_Create_Itemz_Collection__") ]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzDTO>> CreateItemzCollection(
+        public async Task<ActionResult<IEnumerable<GetItemzDTO>>> CreateItemzCollectionAsync(
             IEnumerable<CreateItemzDTO> itemzCollection)
         {
             var itemzEntities = _mapper.Map<IEnumerable<Entities.Itemz>>(itemzCollection);
@@ -94,7 +94,7 @@ namespace ItemzApp.API.Controllers
             {
                 _itemzRepository.AddItemz(itemz);
             }
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));

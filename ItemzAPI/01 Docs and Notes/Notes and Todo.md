@@ -225,4 +225,11 @@ It surely will help for better Unit Testing individual handlers / services as we
 
 Please also consider learning curve for new joiners to the project. It's good on one hand that people who has access to this code will see real world example of how MediatR is implemented but then one has to also consider what will happen when contributors would like to send pull requests to the project where learning curve is a concern.
 
+### [Fluent API better then Attributes and IEntityTypeConfiguration](https://dotnetcoretutorials.com/2020/06/27/a-cleaner-way-to-do-entity-configuration-with-ef-core/)
+
+This Blog provides convincing argument that Fluent API is better then Attributes for configuring DTOs and Entities in ASP .NET Core Web API and Entity Framework Core application.
+
+We should move away from Attribute in our ItemzAPP and consider using this clean way of configuring Entities via `IEntityTypeConfiguration` 
+
+
 

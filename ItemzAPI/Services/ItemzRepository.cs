@@ -27,7 +27,19 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(propertyMappingService));
         }
 
-        public Itemz GetItemz(Guid ItemzId)
+        //public Itemz GetItemz(Guid ItemzId)
+        //{
+
+        //    if (ItemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(ItemzId));
+        //    }
+
+        //    return _context.Itemzs
+        //        .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefault();
+        //}
+
+        public async Task<Itemz> GetItemzAsync(Guid ItemzId)
         {
 
             if (ItemzId == Guid.Empty)
@@ -35,9 +47,11 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return _context.Itemzs
-                .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefault();
+            return await _context.Itemzs
+                .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
         }
+
+
 
         public Itemz GetItemzForUpdating(Guid ItemzId)
         {
@@ -86,7 +100,7 @@ namespace ItemzApp.API.Services
                                                _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
 
                         itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
-                            itemzPropertyMappingDictionary).AsNoTracking();  
+                            itemzPropertyMappingDictionary).AsNoTracking();
                     }
 
                     // EXPLANATION: Pagging feature should be implemented at the end 
@@ -111,62 +125,62 @@ namespace ItemzApp.API.Services
             }
         }
 
-//        public PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter)
-//        {
-//            // TODO: Should we check for itemzResourceParameter being null?
-//            // There are chances that we just want to get all the itemz and
-//            // consumer of the API might now pass in necessary values for pagging.
+        //        public PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter)
+        //        {
+        //            // TODO: Should we check for itemzResourceParameter being null?
+        //            // There are chances that we just want to get all the itemz and
+        //            // consumer of the API might now pass in necessary values for pagging.
 
-//            if (itemzResourceParameter == null)
-//            {
-//                throw new ArgumentNullException(nameof(itemzResourceParameter));
-//            }
+        //            if (itemzResourceParameter == null)
+        //            {
+        //                throw new ArgumentNullException(nameof(itemzResourceParameter));
+        //            }
 
-//            if(projectId == Guid.Empty)
-//            {
-//                throw new ArgumentNullException(nameof(projectId));
-//            }
-//            try
-//            {
-//                if (_context.Itemzs.Count<Itemz>() > 0)
-//                {
-//                    var itemzCollection = _context.Itemzs
-//                        .Include(i => i.ProjectJoinItemz)
-////                        .ThenInclude(PjI => PjI.Project)
-//                        .Where(i => i.ProjectJoinItemz.Any(PjI => PjI.ProjectId == projectId));
-                        
-//                   //     .Where(i => i.  . AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+        //            if(projectId == Guid.Empty)
+        //            {
+        //                throw new ArgumentNullException(nameof(projectId));
+        //            }
+        //            try
+        //            {
+        //                if (_context.Itemzs.Count<Itemz>() > 0)
+        //                {
+        //                    var itemzCollection = _context.Itemzs
+        //                        .Include(i => i.ProjectJoinItemz)
+        ////                        .ThenInclude(PjI => PjI.Project)
+        //                        .Where(i => i.ProjectJoinItemz.Any(PjI => PjI.ProjectId == projectId));
 
-//                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
-//                    {
-//                        var itemzPropertyMappingDictionary =
-//                                               _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
+        //                   //     .Where(i => i.  . AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
-//                        itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
-//                            itemzPropertyMappingDictionary).AsNoTracking();
-//                    }
+        //                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+        //                    {
+        //                        var itemzPropertyMappingDictionary =
+        //                                               _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
 
-//                    // EXPLANATION: Pagging feature should be implemented at the end 
-//                    // just before calling ToList. This will make sure that any filtering,
-//                    // sorting, grouping, etc. that we implement on the data are 
-//                    // put in place before calling ToList. 
+        //                        itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
+        //                            itemzPropertyMappingDictionary).AsNoTracking();
+        //                    }
 
-//                    return PagedList<Itemz>.Create(itemzCollection,
-//                        itemzResourceParameter.PageNumber,
-//                        itemzResourceParameter.PageSize);
-//                }
-//                return null;
-//            }
-//            catch (Exception ex)
-//            {
-//                // TODO: It's not good that we capture Generic Exception and then 
-//                // return null here. Basically, I wanted to check if we have 
-//                // itemzs returned from the DB and if it does not then
-//                // it should simply return null back to the calling function.
-//                // One has to learn how to do this gracefully as part of Entity Framework 
-//                return null;
-//            }
-//        }
+        //                    // EXPLANATION: Pagging feature should be implemented at the end 
+        //                    // just before calling ToList. This will make sure that any filtering,
+        //                    // sorting, grouping, etc. that we implement on the data are 
+        //                    // put in place before calling ToList. 
+
+        //                    return PagedList<Itemz>.Create(itemzCollection,
+        //                        itemzResourceParameter.PageNumber,
+        //                        itemzResourceParameter.PageSize);
+        //                }
+        //                return null;
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                // TODO: It's not good that we capture Generic Exception and then 
+        //                // return null here. Basically, I wanted to check if we have 
+        //                // itemzs returned from the DB and if it does not then
+        //                // it should simply return null back to the calling function.
+        //                // One has to learn how to do this gracefully as part of Entity Framework 
+        //                return null;
+        //            }
+        //        }
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?
@@ -246,9 +260,25 @@ namespace ItemzApp.API.Services
 
             _context.Itemzs.Add(itemz);
         }
+
+        //public async Task AddItemzAsync(Itemz itemz)
+        //{
+        //    if (itemz == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemz));
+        //    }
+
+        //    await _context.Itemzs.AddAsync(itemz);
+        //}
+
         public bool Save()
         {
             return (_context.SaveChanges() >= 0);
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         //public void AddItemzByProject(Itemz itemz, Guid projectId)

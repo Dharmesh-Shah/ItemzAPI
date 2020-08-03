@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
 {
@@ -59,10 +60,10 @@ namespace ItemzApp.API.Controllers
         [HttpGet("{ItemzId:Guid}",
             Name = "__Single_Itemz_By_GUID_ID__")] // e.g. http://HOST:PORT/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c
         [HttpHead("{ItemzId:Guid}",Name ="__HEAD_Itemz_By_GUID_ID__")]
-        public ActionResult<GetItemzDTO> GetItemz(Guid ItemzId)
+        public async Task<ActionResult<GetItemzDTO>> GetItemzAsync(Guid ItemzId)
         {
             _logger.LogDebug("Processing request to get Itemz for ID {ItemzId}", ItemzId);
-            var itemzFromRepo = _itemzRepository.GetItemz(ItemzId);
+            var itemzFromRepo = await _itemzRepository.GetItemzAsync(ItemzId);
 
             if (itemzFromRepo == null)
             {
@@ -155,11 +156,11 @@ namespace ItemzApp.API.Controllers
         [HttpPost (Name ="__POST_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetItemzDTO> CreateItemz(CreateItemzDTO createItemzDTO)
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO)
         {
             var itemzEntity = _mapper.Map<Entities.Itemz>(createItemzDTO);
             _itemzRepository.AddItemz(itemzEntity);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("Created new Itemz with ID {ItemzId}", itemzEntity.Id);
             return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id }, 

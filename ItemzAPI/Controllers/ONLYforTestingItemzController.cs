@@ -7,6 +7,7 @@ using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
 {
@@ -37,15 +38,16 @@ namespace ItemzApp.API.Controllers
         [HttpPost(Name = "__POST_ONLY_FOR_TESTING_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetItemzDTO> CreateItemz(Itemz itemz)
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(Itemz itemz)
         {
             if (!_itemzRepository.ItemzExists(itemz.Id))
             {
                 _itemzRepository.AddItemz(itemz);
-                _itemzRepository.Save();
+                await _itemzRepository.SaveAsync();
                 _logger.LogDebug("Created new Itemz with ID {ItemzId} via __POST_ONLY_FOR_TESTING_Create_Itemz__", itemz.Id);
             }
-            return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = itemz.Id }, _itemzRepository.GetItemz(itemz.Id));
+            //            return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = itemz.Id }, _itemzRepository.GetItemz(itemz.Id));
+            return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = itemz.Id }, itemz);
         }
         /// <summary>
         /// Get list of supported HTTP Options for the ONLYforTestingItemz controller.
