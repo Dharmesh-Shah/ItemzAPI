@@ -182,15 +182,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateItemzPut(Guid itemzId, UpdateItemzDTO itemzToBeUpdated)
+        public async Task<ActionResult> UpdateItemzPutAsync(Guid itemzId, UpdateItemzDTO itemzToBeUpdated)
         {
-            if (!_itemzRepository.ItemzExists(itemzId))
+            if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
                 _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} could not be found", itemzId);
                 return NotFound();
             }
 
-            var itemzFromRepo = _itemzRepository.GetItemzForUpdating(itemzId);
+            var itemzFromRepo = await _itemzRepository.GetItemzForUpdatingAsync(itemzId);
 
             if (itemzFromRepo == null)
             {
@@ -200,7 +200,7 @@ namespace ItemzApp.API.Controllers
 
             _mapper.Map(itemzToBeUpdated, itemzFromRepo);
             _itemzRepository.UpdateItemz(itemzFromRepo);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} processed successfully", itemzId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -235,15 +235,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateItemzPatch(Guid itemzId, JsonPatchDocument<UpdateItemzDTO> itemzPatchDocument)
+        public async Task<ActionResult> UpdateItemzPatchAsync(Guid itemzId, JsonPatchDocument<UpdateItemzDTO> itemzPatchDocument)
         {
-            if (!_itemzRepository.ItemzExists(itemzId))
+            if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
                 _logger.LogDebug("HttpPatch - Update request for Itemz for ID {ItemzId} could not be found", itemzId);
                 return NotFound();
             }
 
-            var itemzFromRepo = _itemzRepository.GetItemzForUpdating(itemzId);
+            var itemzFromRepo = await _itemzRepository.GetItemzForUpdatingAsync(itemzId);
 
             if (itemzFromRepo == null)
             {
@@ -267,7 +267,7 @@ namespace ItemzApp.API.Controllers
 
             _mapper.Map(itemzToPatch, itemzFromRepo);
             _itemzRepository.UpdateItemz(itemzFromRepo);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("HttpPatch - Update request for Itemz for ID {ItemzId} processed successfully", itemzId);
             return NoContent();
@@ -296,15 +296,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult DeleteItemz(Guid itemzId)
+        public async Task<ActionResult> DeleteItemz(Guid itemzId)
         {
-            if (!_itemzRepository.ItemzExists(itemzId))
+            if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
                 _logger.LogDebug("Cannot Delete Itemz with ID {ItemzId} as it could not be found", itemzId);
                 return NotFound();
             }
 
-            var itemzFromRepo = _itemzRepository.GetItemzForUpdating(itemzId);
+            var itemzFromRepo = await _itemzRepository.GetItemzForUpdatingAsync(itemzId);
 
             if (itemzFromRepo == null)
             {
@@ -313,7 +313,7 @@ namespace ItemzApp.API.Controllers
             }
 
             _itemzRepository.DeleteItemz(itemzFromRepo);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("Delete request for Itemz with ID {ItemzId} processed successfully", itemzId);
             return NoContent();

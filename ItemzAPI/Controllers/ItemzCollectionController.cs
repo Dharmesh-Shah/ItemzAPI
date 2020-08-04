@@ -52,7 +52,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public IActionResult GetItemzCollection(
+        public async Task<IActionResult> GetItemzCollection(
             [FromRoute]
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
@@ -62,7 +62,7 @@ namespace ItemzApp.API.Controllers
                 return BadRequest();
             }
 
-            var itemzEntities = _itemzRepository.GetItemzs(ids);
+            var itemzEntities = await _itemzRepository.GetItemzsAsync(ids);
 
             if (ids.Count() != itemzEntities.Count())
             {

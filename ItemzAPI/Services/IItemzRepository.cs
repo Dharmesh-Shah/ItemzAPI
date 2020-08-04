@@ -17,15 +17,16 @@ namespace ItemzApp.API.Services
         // Itemz GetItemz(Guid ItemzId);
         Task<Itemz> GetItemzAsync(Guid ItemzId);
 
-        Itemz GetItemzForUpdating(Guid ItemzId);
+        // Itemz GetItemzForUpdating(Guid ItemzId);
+        Task<Itemz> GetItemzForUpdatingAsync(Guid ItemzId);
 
         PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
-     
         //PagedList<Itemz> GetItemzsByProject(Guid projectId, ItemzResourceParameter itemzResourceParameter);
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
-        public IEnumerable<Itemz> GetItemzs(IEnumerable<Guid> itemzIds);
+        //public IEnumerable<Itemz> GetItemzs(IEnumerable<Guid> itemzIds);
+        public Task<IEnumerable<Itemz>> GetItemzsAsync(IEnumerable<Guid> itemzIds);
 
         void AddItemz(Itemz itemz);
 
@@ -35,20 +36,24 @@ namespace ItemzApp.API.Services
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
-        bool Save();
+        // bool Save();
         Task<bool> SaveAsync();
 
-        public bool ItemzExists(Guid itemzId);
+        // public bool ItemzExists(Guid itemzId);
+
+        public Task<bool> ItemzExistsAsync(Guid itemzId);
 
         //public bool ProjectExists(Guid projectId);
 
-        public bool ItemzTypeExists(Guid itemzTypeId);
+        // public bool ItemzTypeExists(Guid itemzTypeId);
+        public Task<bool> ItemzTypeExistsAsync(Guid itemzTypeId);
 
         public void UpdateItemz(Itemz itemz);
 
         //public bool ProjectItemzExists(ProjectItemzDTO projectItemzDTO);
 
-        public bool ItemzTypeItemzExists(ItemzTypeItemzDTO itemzTypeItemzDTO);
+        // public bool ItemzTypeItemzExists(ItemzTypeItemzDTO itemzTypeItemzDTO);
+        public Task<bool> ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
         //public void RemoveItemzFromProject(ProjectItemzDTO projectItemzDTO);
 

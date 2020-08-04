@@ -95,7 +95,7 @@
             <returns>Newly created Itemz property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPut(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
             <summary>
             Updating exsting Itemz based on Itemz Id (GUID)
             </summary>
@@ -105,7 +105,7 @@
             <response code="204">No content are returned but status of 204 indicated that item was successfully updated</response>
             <response code="404">Itemz based on itemzId was not found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzDTO})">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzDTO})">
             <summary>
             Partially updating a single **Itemz**
             </summary>
@@ -225,7 +225,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzsByItemzType(System.Guid,ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzsByItemzTypeAsync(System.Guid,ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
             <summary>
             Gets collection of Itemzs by ItemzType ID
             </summary>
@@ -235,7 +235,7 @@
             <response code="200">Returns collection of Itemzs based on pagination</response>
             <response code="404">No Itemzs were found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CheckItemzTypeItemzAssociationExists(System.Guid,System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CheckItemzTypeItemzAssociationExistsAsync(System.Guid,System.Guid)">
             <summary>
             Check if specific ItemzType and Itemz association exists
             </summary>
@@ -245,7 +245,7 @@
             <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
             <response code="404">No ItemzType and Itemzs association was found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzCollectionByItemzType(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzCollectionByItemzTypeAsync(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
             <summary>
             Used for creating new Itemz record in the database by ItemzType ID
             </summary>
@@ -254,7 +254,7 @@
             <returns>Newly created Itemzs property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.AssociateItemzToItemzType(ItemzApp.API.Models.ItemzTypeItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.AssociateItemzToItemzTypeAsync(ItemzApp.API.Models.ItemzTypeItemzDTO)">
             <summary>
             Used for Associating Itemz to ItemzType 
             </summary>
@@ -263,7 +263,7 @@
             <response code="200">Itemz to ItemzType association was either found or added successfully</response>
             <response code="404">Either Itemz or ItemzType was not found </response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypes(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypesAsync(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
             <summary>
             Move Itemz from one ItemzType to another
             </summary>
@@ -273,7 +273,7 @@
             <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
             <response code="404">Either Itemz or ItemzType was not found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.DeleteItemzTypeAndItemzAssociation(ItemzApp.API.Models.ItemzTypeItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.DeleteItemzTypeAndItemzAssociationAsync(ItemzApp.API.Models.ItemzTypeItemzDTO)">
             <summary>
             Deleting a specific Itemz and ItemzType association. This will not delete Itemz or ItemzType from the database,
             instead it will only remove their association if found. 

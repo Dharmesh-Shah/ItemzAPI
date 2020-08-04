@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.CodeAnalysis;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
 {
@@ -60,7 +61,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzDTO>> GetItemzsByItemzType(Guid ItemzTypeId,
+        public async Task<ActionResult<IEnumerable<GetItemzDTO>>> GetItemzsByItemzTypeAsync(Guid ItemzTypeId,
             [FromQuery] ItemzResourceParameter itemzResourceParameter)
         {
             if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
@@ -70,7 +71,7 @@ namespace ItemzApp.API.Controllers
                 return BadRequest();
             }
 
-            if(!_itemzRepository.ItemzTypeExists(ItemzTypeId))
+            if(!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
                 _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeId);
                 return NotFound();
@@ -140,13 +141,13 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
 
-        public ActionResult<GetItemzDTO> CheckItemzTypeItemzAssociationExists([FromQuery] Guid ItemzTypeId, Guid itemzId) // TODO: Try from Query.
+        public async Task<ActionResult<GetItemzDTO>> CheckItemzTypeItemzAssociationExistsAsync([FromQuery] Guid ItemzTypeId, Guid itemzId) // TODO: Try from Query.
         {
             var tempItemzTypeItemzDTO = new ItemzTypeItemzDTO();
 
             tempItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
             tempItemzTypeItemzDTO.ItemzId = itemzId;
-            if (!_itemzRepository.ItemzTypeItemzExists(tempItemzTypeItemzDTO))  // Check if ItemzTypeItemz association exists or not
+            if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(tempItemzTypeItemzDTO)))  // Check if ItemzTypeItemz association exists or not
             {
                 _logger.LogDebug("HttpGet - ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
                     tempItemzTypeItemzDTO.ItemzTypeId,
@@ -171,11 +172,11 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzDTO>> CreateItemzCollectionByItemzType(
+        public async Task<ActionResult<IEnumerable<GetItemzDTO>>> CreateItemzCollectionByItemzTypeAsync(
              Guid ItemzTypeId,
             IEnumerable<CreateItemzDTO> itemzCollection)
         {
-            if (!_itemzRepository.ItemzTypeExists(ItemzTypeId))
+            if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
                 _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeId);
                 return NotFound();
@@ -186,7 +187,7 @@ namespace ItemzApp.API.Controllers
             {
                 _itemzRepository.AddItemzByItemzType(itemz, ItemzTypeId);
             }
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));
@@ -210,21 +211,21 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetItemzDTO> AssociateItemzToItemzType(ItemzTypeItemzDTO ItemzTypeItemzDTO)
+        public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync(ItemzTypeItemzDTO ItemzTypeItemzDTO)
         {
-            if (!_itemzRepository.ItemzTypeExists(ItemzTypeItemzDTO.ItemzTypeId))
+            if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeItemzDTO.ItemzTypeId)))
             {
                 _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeItemzDTO.ItemzTypeId);
                 return NotFound();
             }
-            if (!_itemzRepository.ItemzExists(ItemzTypeItemzDTO.ItemzId))
+            if (!(await _itemzRepository.ItemzExistsAsync(ItemzTypeItemzDTO.ItemzId)))
             {
                 _logger.LogDebug("Itemz with ID {itemzID} was not found in the repository", ItemzTypeItemzDTO.ItemzId);
                 return NotFound();
             }
 
             _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
             _logger.LogDebug("HttpPost - ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
                 " and Itemz Id {itemzId}", ItemzTypeItemzDTO.ItemzTypeId, ItemzTypeItemzDTO.ItemzId);
 
@@ -243,15 +244,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult MoveItemzBetweenItemzTypes(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
+        public async Task<ActionResult> MoveItemzBetweenItemzTypesAsync(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
         {
-            if (!_itemzRepository.ItemzExists(targetItemzTypeItemzDTO.ItemzId))// Check if Itemz exists
+            if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
 
             {
                 _logger.LogDebug("HttpPut - Itemz for ID {ItemzId} could not be found", targetItemzTypeItemzDTO.ItemzId);
                 return NotFound();
             }
-            if (!_itemzRepository.ItemzTypeExists(targetItemzTypeItemzDTO.ItemzTypeId))  // Check if Target ItemzType Exists
+            if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
             {
                 _logger.LogDebug("HttpPut - Target ItemzType for ID {ItemzTypeId} could not be found", targetItemzTypeItemzDTO.ItemzTypeId);
                 return NotFound();
@@ -261,7 +262,7 @@ namespace ItemzApp.API.Controllers
             sourceItemzTypeItemzDTO.ItemzId = targetItemzTypeItemzDTO.ItemzId;
             sourceItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
 
-            if (!_itemzRepository.ItemzTypeItemzExists(sourceItemzTypeItemzDTO))  // Check if Source ItemzTypeItemz association exists or not
+            if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
             {
                 _logger.LogDebug("HttpPut - Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
                     sourceItemzTypeItemzDTO.ItemzTypeId,
@@ -269,7 +270,7 @@ namespace ItemzApp.API.Controllers
 
             }
             _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("HttpPut - Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
                 "to Target ItemzType ID {targetItemzTypeID} was successfully completed", 
@@ -299,9 +300,9 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult DeleteItemzTypeAndItemzAssociation(ItemzTypeItemzDTO ItemzTypeItemzDTO)
+        public async Task<ActionResult> DeleteItemzTypeAndItemzAssociationAsync(ItemzTypeItemzDTO ItemzTypeItemzDTO)
         {
-            if (!_itemzRepository.ItemzTypeItemzExists(ItemzTypeItemzDTO))
+            if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO)))
             {
                 _logger.LogDebug("Cannot find ItemzType and Itemz asscoaition for ItemzType ID " +
                     "{ItemzTypeId} and Itemz ID {ItemzId}", 
@@ -311,7 +312,7 @@ namespace ItemzApp.API.Controllers
             }
 
             _itemzRepository.RemoveItemzFromItemzType(ItemzTypeItemzDTO);
-            _itemzRepository.Save();
+            await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("Delete ItemzType and Itemz asscoaition for ItemzType ID " +
                 "{ItemzTypeId} and Itemz ID {ItemzId}", 

@@ -51,9 +51,19 @@ namespace ItemzApp.API.Services
                 .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
         }
 
+        //public Itemz GetItemzForUpdating(Guid ItemzId)
+        //{
 
+        //    if (ItemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(ItemzId));
+        //    }
 
-        public Itemz GetItemzForUpdating(Guid ItemzId)
+        //    return _context.Itemzs
+        //        .Where(c => c.Id == ItemzId).FirstOrDefault();
+        //}
+
+        public async Task<Itemz> GetItemzForUpdatingAsync(Guid ItemzId)
         {
 
             if (ItemzId == Guid.Empty)
@@ -61,22 +71,34 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return _context.Itemzs
-                .Where(c => c.Id == ItemzId).FirstOrDefault();
+            return await _context.Itemzs
+                .Where(c => c.Id == ItemzId).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Itemz> GetItemzs(IEnumerable<Guid> itemzIds)
-        {
+        //public IEnumerable<Itemz> GetItemzs(IEnumerable<Guid> itemzIds)
+        //{
 
+        //    if (itemzIds == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzIds));
+        //    }
+
+        //    return _context.Itemzs.AsNoTracking().Where(a => itemzIds.Contains(a.Id))
+        //        .OrderBy(a => a.Name)
+        //        .ToList();
+
+        //}
+
+        public async Task<IEnumerable<Itemz>> GetItemzsAsync(IEnumerable<Guid> itemzIds)
+        {
             if (itemzIds == null)
             {
                 throw new ArgumentNullException(nameof(itemzIds));
             }
 
-            return _context.Itemzs.AsNoTracking().Where(a => itemzIds.Contains(a.Id))
+            return await _context.Itemzs.AsNoTracking().Where(a => itemzIds.Contains(a.Id))
                 .OrderBy(a => a.Name)
-                .ToList();
-
+                .ToListAsync();
         }
         public PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter)
         {
@@ -271,10 +293,10 @@ namespace ItemzApp.API.Services
         //    await _context.Itemzs.AddAsync(itemz);
         //}
 
-        public bool Save()
-        {
-            return (_context.SaveChanges() >= 0);
-        }
+        //public bool Save()
+        //{
+        //    return (_context.SaveChanges() >= 0);
+        //}
 
         public async Task<bool> SaveAsync()
         {
@@ -316,7 +338,30 @@ namespace ItemzApp.API.Services
             var itji = new ItemzTypeJoinItemz { Itemz = itemz, ItemzType = tempitemzType };
             _context.ItemzTypeJoinItemz.Add(itji);
         }
-        public bool ItemzExists(Guid itemzId)
+        //public bool ItemzExists(Guid itemzId)
+        //{
+        //    if (itemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzId));
+        //    }
+
+        //    // EXPLANATION: We expect ItemzExists to be used independently on it's own without
+        //    // expecting it to track the itemz that was found in the database. That's why it's not
+        //    // a good idea to use "!(_context.Itemzs.Find(itemzId) == null)" option
+        //    // to "Find()" Itemz. This is because Find is designed to track the itemz in the memory.
+        //    // In "Itemz Delete controller method", we are first checking if ItemzExists and then 
+        //    // we call Itemz Delete to actually remove it. This is going to be in the single scoped
+        //    // DBContext. If we use "Find()" method then it will start tracking the itemz and then we can't
+        //    // get the itemz once again from the DB as it's already being tracked. We have a choice here
+        //    // to decide if we should always use Find via ItemzExists and then yet again in the subsequent
+        //    // operations like Delete / Update or we use ItemzExists as independent method and not rely on 
+        //    // it for subsequent operations like Delete / Update.
+
+        //    return _context.Itemzs.AsNoTracking().Any(a => a.Id == itemzId);
+        //    // return  !(_context.Itemzs.Find(itemzId) == null);
+        //}
+
+        public async Task<bool> ItemzExistsAsync(Guid itemzId)
         {
             if (itemzId == Guid.Empty)
             {
@@ -335,10 +380,9 @@ namespace ItemzApp.API.Services
             // operations like Delete / Update or we use ItemzExists as independent method and not rely on 
             // it for subsequent operations like Delete / Update.
 
-            return _context.Itemzs.AsNoTracking().Any(a => a.Id == itemzId);
+            return await _context.Itemzs.AsNoTracking().AnyAsync(a => a.Id == itemzId);
             // return  !(_context.Itemzs.Find(itemzId) == null);
         }
-
         //public bool ProjectExists(Guid projectId)
         //{
         //    if (projectId == Guid.Empty)
@@ -352,7 +396,20 @@ namespace ItemzApp.API.Services
         //    return _context.Projects.AsNoTracking().Any(p => p.Id == projectId);
         //}
 
-        public bool ItemzTypeExists(Guid itemzTypeId)
+        //public bool ItemzTypeExists(Guid itemzTypeId)
+        //{
+        //    if (itemzTypeId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzTypeId));
+        //    }
+
+        //    // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
+        //    // public bool ItemzExists(Guid itemzId)
+
+        //    return _context.ItemzTypes.AsNoTracking().Any(it => it.Id == itemzTypeId);
+        //}
+
+        public async Task<bool> ItemzTypeExistsAsync(Guid itemzTypeId)
         {
             if (itemzTypeId == Guid.Empty)
             {
@@ -362,7 +419,7 @@ namespace ItemzApp.API.Services
             // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
             // public bool ItemzExists(Guid itemzId)
 
-            return _context.ItemzTypes.AsNoTracking().Any(it => it.Id == itemzTypeId);
+            return await _context.ItemzTypes.AsNoTracking().AnyAsync(it => it.Id == itemzTypeId);
         }
 
 
@@ -381,7 +438,21 @@ namespace ItemzApp.API.Services
         //}
 
 
-        public bool ItemzTypeItemzExists(ItemzTypeItemzDTO itemzTypeItemzDTO)
+        //public bool ItemzTypeItemzExists(ItemzTypeItemzDTO itemzTypeItemzDTO)
+        //{
+        //    if (itemzTypeItemzDTO == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzTypeItemzDTO));
+        //    }
+
+        //    // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
+        //    // public bool ItemzExists(Guid itemzId)
+
+        //    return _context.ItemzTypeJoinItemz.AsNoTracking().Any(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId
+        //                                                        && itji.ItemzTypeId == itemzTypeItemzDTO.ItemzTypeId);
+        //}
+
+        public async Task<bool> ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO itemzTypeItemzDTO)
         {
             if (itemzTypeItemzDTO == null)
             {
@@ -391,7 +462,7 @@ namespace ItemzApp.API.Services
             // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
             // public bool ItemzExists(Guid itemzId)
 
-            return _context.ItemzTypeJoinItemz.AsNoTracking().Any(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId
+            return await _context.ItemzTypeJoinItemz.AsNoTracking().AnyAsync(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId
                                                                 && itji.ItemzTypeId == itemzTypeItemzDTO.ItemzTypeId);
         }
 

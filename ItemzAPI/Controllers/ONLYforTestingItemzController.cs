@@ -40,7 +40,7 @@ namespace ItemzApp.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(Itemz itemz)
         {
-            if (!_itemzRepository.ItemzExists(itemz.Id))
+            if (!(await _itemzRepository.ItemzExistsAsync(itemz.Id)))
             {
                 _itemzRepository.AddItemz(itemz);
                 await _itemzRepository.SaveAsync();

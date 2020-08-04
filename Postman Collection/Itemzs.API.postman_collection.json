@@ -833,7 +833,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"raw": "http://localhost:51087/api/ItemzTypes/1a069648-6ad6-4c8a-be05-be747bdeb8da",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -842,7 +842,7 @@
 					"path": [
 						"api",
 						"ItemzTypes",
-						"473fe535-1420-42cf-8a40-224388b8df24"
+						"1a069648-6ad6-4c8a-be05-be747bdeb8da"
 					]
 				}
 			},
@@ -2632,6 +2632,61 @@
 			"response": []
 		},
 		{
+			"name": "PUT Itemz (WrongID)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e096086-9350-4e98-99be-c0b5000d5139",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "conten",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"WrongID Item Update - Should never make it into DB\",\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/0153a516-d69e-4364-b17e-03b87442e21c",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"0153a516-d69e-4364-b17e-03b87442e21c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT Project",
 			"event": [
 				{
@@ -2781,7 +2836,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"raw": "http://localhost:51087/api/ItemzTypes/1a069648-6ad6-4c8a-be05-be747bdeb8da",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -2790,7 +2845,7 @@
 					"path": [
 						"api",
 						"ItemzTypes",
-						"473fe535-1420-42cf-8a40-224388b8df24"
+						"1a069648-6ad6-4c8a-be05-be747bdeb8da"
 					]
 				}
 			},
@@ -3928,7 +3983,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Parking Lot ItemzType\"\r\n\t}\r\n]\r\n\t",
+					"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Parking Lot ItemzType that should not be allowed\"\r\n\t}\r\n]\r\n\t",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3936,7 +3991,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"raw": "http://localhost:51087/api/ItemzTypes/1a069648-6ad6-4c8a-be05-be747bdeb8da",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -3945,7 +4000,7 @@
 					"path": [
 						"api",
 						"ItemzTypes",
-						"473fe535-1420-42cf-8a40-224388b8df24"
+						"1a069648-6ad6-4c8a-be05-be747bdeb8da"
 					]
 				}
 			},
@@ -4757,7 +4812,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypes/473fe535-1420-42cf-8a40-224388b8df24",
+					"raw": "http://localhost:51087/api/ItemzTypes/1a069648-6ad6-4c8a-be05-be747bdeb8da",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -4766,7 +4821,7 @@
 					"path": [
 						"api",
 						"ItemzTypes",
-						"473fe535-1420-42cf-8a40-224388b8df24"
+						"1a069648-6ad6-4c8a-be05-be747bdeb8da"
 					]
 				}
 			},
