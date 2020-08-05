@@ -3,6 +3,7 @@
 using ItemzApp.API.Services;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.BusinessRules.ItemzType
 {
@@ -25,9 +26,9 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         /// <param name="projectId">Project Id in Guid form in which we are checking for ItemzType with a specific name</param>
         /// <param name="itemzTypeName">Name of the ItemzType to be checked for uniqueness</param>
         /// <returns>true if ItemzType with ItemzTypeName found otherwise false</returns>
-        private bool HasItemzTypeWithName(Guid projectId, string itemzTypeName)
+        private async Task<bool> HasItemzTypeWithNameAsync(Guid projectId, string itemzTypeName)
         {
-            if (_itemzTypeRepository.HasItemzTypeWithName(projectId ,itemzTypeName.Trim().ToLower()))
+            if (await _itemzTypeRepository.HasItemzTypeWithNameAsync(projectId ,itemzTypeName.Trim().ToLower()))
             {
                 _logger.LogDebug("ItemzType with name \"{itemzTypeName}\" already exists in the repository", itemzTypeName);
                 return true;
@@ -42,19 +43,19 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         /// <param name="targetItemzTypeName">New or updated itemzType name</param>
         /// <param name="sourceItemzTypeName">Old itemzType name. No need to pass this for checking rule against creating itemzType action</param>
         /// <returns>true if itemzType with same name exist in the repository otherwise false</returns>
-        public bool UniqueItemzTypeNameRule(System.Guid projectId, string targetItemzTypeName, string sourceItemzTypeName = null)
+        public async Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid projectId, string targetItemzTypeName, string sourceItemzTypeName = null)
         {
             if (sourceItemzTypeName != null)
             { // Update existing itemzType name
                 if (sourceItemzTypeName != targetItemzTypeName)
                 { // Source and Target are different names
-                    return HasItemzTypeWithName(projectId, targetItemzTypeName);
+                    return await HasItemzTypeWithNameAsync(projectId, targetItemzTypeName);
                 }
                 return false;
             }
             else
             { // Create new itemzType action
-                return HasItemzTypeWithName(projectId, targetItemzTypeName);
+                return await HasItemzTypeWithNameAsync(projectId, targetItemzTypeName);
             }
         }
     }

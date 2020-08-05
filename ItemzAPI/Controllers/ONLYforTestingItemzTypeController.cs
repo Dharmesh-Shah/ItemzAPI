@@ -7,6 +7,7 @@ using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
 {
@@ -26,7 +27,6 @@ namespace ItemzApp.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-
         /// <summary>
         /// This option is designed only to be used for adding a new record while testing ItemzApp API.
         /// Used for creating new ItemzType record in the database that also 
@@ -38,15 +38,15 @@ namespace ItemzApp.API.Controllers
         [HttpPost(Name = "__POST_ONLY_FOR_TESTING_Create_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetItemzTypeDTO> CreateItemzType(ItemzType itemzType)
+        public async Task<ActionResult<GetItemzTypeDTO>> CreateItemzTypeAsync(ItemzType itemzType)
         {
-            if (!_itemzTypeRepository.ItemzTypeExists(itemzType.Id))
+            if (!(await _itemzTypeRepository.ItemzTypeExistsAsync(itemzType.Id)))
             {
                 _itemzTypeRepository.AddItemzType(itemzType);
-                _itemzTypeRepository.Save();
+                await _itemzTypeRepository.SaveAsync();
                 _logger.LogDebug("Created new ItemzType with ID {ItemzTypeId} via __POST_ONLY_FOR_TESTING_Create_ItemzType__", itemzType.Id);
             }
-            return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { Controller = "ItemzTypes", ItemzTypeId = itemzType.Id }, _itemzTypeRepository.GetItemzType(itemzType.Id));
+            return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { Controller = "ItemzTypes", ItemzTypeId = itemzType.Id }, await _itemzTypeRepository.GetItemzTypeAsync(itemzType.Id));
         }
         /// <summary>
         /// Get list of supported HTTP Options for the ONLYforTestingItemzTypes controller.

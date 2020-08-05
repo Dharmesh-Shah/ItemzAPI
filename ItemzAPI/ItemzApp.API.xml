@@ -4,7 +4,7 @@
         <name>ItemzApp.API</name>
     </assembly>
     <members>
-        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.HasItemzTypeWithName(System.Guid,System.String)">
+        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.HasItemzTypeWithNameAsync(System.Guid,System.String)">
             <summary>
             Use this method to check if the ItemzType with given name already exists. In General, 
             This check shall be performed before inserting or updating ItemzType.
@@ -13,7 +13,7 @@
             <param name="itemzTypeName">Name of the ItemzType to be checked for uniqueness</param>
             <returns>true if ItemzType with ItemzTypeName found otherwise false</returns>
         </member>
-        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.UniqueItemzTypeNameRule(System.Guid,System.String,System.String)">
+        <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.UniqueItemzTypeNameRuleAsync(System.Guid,System.String,System.String)">
             <summary>
             Used for verifying if project contains itemzType with the 
             same name as the one used for inserting or updating
@@ -40,7 +40,7 @@
             <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
             <returns>true if project with same name exist in the repository otherwise false</returns>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollection(System.Collections.Generic.IEnumerable{System.Guid})">
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Gets collection of Itemzs without any Pagination
             </summary>
@@ -129,7 +129,7 @@
                 ]
             </remarks>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteItemz(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteItemzAsync(System.Guid)">
             <summary>
             Deleting a specific Itemz
             </summary>
@@ -144,7 +144,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzType(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
             </summary>
@@ -153,7 +153,7 @@
             <response code="200">Returns the requested ItemzType</response>
             <response code="404">Requested ItemzType not found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypes">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypesAsync">
             <summary>
             Gets collection of ItemzTypes
             </summary>
@@ -161,7 +161,7 @@
             <response code="200">Returns collection of ItemzTypes based on sorting order</response>
             <response code="404">No ItemzTypes were found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.CreateItemzType(ItemzApp.API.Models.CreateItemzTypeDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.CreateItemzTypeAsync(ItemzApp.API.Models.CreateItemzTypeDTO)">
             <summary>
             Used for creating new ItemzType record in the database
             </summary>
@@ -171,7 +171,7 @@
             <response code="404">Expected Project with ID was not found in the repository</response>
             <response code="409">ItemzType with the same name already exists in the target Project</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePut(System.Guid,ItemzApp.API.Models.UpdateItemzTypeDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzTypeDTO)">
             <summary>
             Updating exsting ItemzType based on ItemzType Id (GUID)
             </summary>
@@ -183,7 +183,7 @@
             <response code="405">ItemzType is not allowed to be modified. example, ItemzType is a System one.</response>
             <response code="409">ItemzType with the same name already exists in the target Project</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzTypeDTO})">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.UpdateItemzTypePatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateItemzTypeDTO})">
             <summary>
             Partially updating a single **ItemzType**
             </summary>
@@ -209,7 +209,7 @@
                 ]
             </remarks>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzType(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzTypeAsync(System.Guid)">
             <summary>
             Deleting a specific ItemzType
             </summary>
@@ -305,7 +305,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.CreateItemzType(ItemzApp.API.Entities.ItemzType)">
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.CreateItemzTypeAsync(ItemzApp.API.Entities.ItemzType)">
             <summary>
             This option is designed only to be used for adding a new record while testing ItemzApp API.
             Used for creating new ItemzType record in the database that also 

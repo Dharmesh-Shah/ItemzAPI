@@ -65,10 +65,10 @@ namespace ItemzApp.API.Controllers
         [HttpGet("{ItemzTypeId:Guid}",
             Name = "__Single_ItemzType_By_GUID_ID__")] // e.g. http://HOST:PORT/api/ItemzTypes/42f62a6c-fcda-4dac-a06c-406ac1c17770
         [HttpHead("{ItemzTypeId:Guid}", Name = "__HEAD_ItemzType_By_GUID_ID__")]
-        public ActionResult<GetItemzTypeDTO> GetItemzType(Guid ItemzTypeId)
+        public async Task<ActionResult<GetItemzTypeDTO>> GetItemzTypeAsync(Guid ItemzTypeId)
         {
             _logger.LogDebug("Processing request to get ItemzType for ID {ItemzTypeId}", ItemzTypeId);
-            var ItemzTypeFromRepo = _ItemzTypeRepository.GetItemzType(ItemzTypeId);
+            var ItemzTypeFromRepo = await _ItemzTypeRepository.GetItemzTypeAsync(ItemzTypeId);
 
             if (ItemzTypeFromRepo == null)
             {
@@ -92,7 +92,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzTypeDTO>> GetItemzTypes(
+        public async Task<ActionResult<IEnumerable<GetItemzTypeDTO>>> GetItemzTypesAsync(
             //[FromQuery] ItemzResourceParameter itemzResourceParameter
             )
         {
@@ -103,7 +103,7 @@ namespace ItemzApp.API.Controllers
             //    return BadRequest();
             //}
 
-            var ItemzTypesFromRepo = _ItemzTypeRepository.GetItemzTypes();
+            var ItemzTypesFromRepo = await _ItemzTypeRepository.GetItemzTypesAsync();
             if (ItemzTypesFromRepo == null)
             {
                 _logger.LogDebug("No ItemzTypes found");
@@ -161,7 +161,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetItemzTypeDTO> CreateItemzType(CreateItemzTypeDTO createItemzTypeDTO)
+        public async Task<ActionResult<GetItemzTypeDTO>> CreateItemzTypeAsync(CreateItemzTypeDTO createItemzTypeDTO)
         {
             if (!_projectRepository.ProjectExists(createItemzTypeDTO.ProjectId))
             {
@@ -170,7 +170,7 @@ namespace ItemzApp.API.Controllers
             }    
             var ItemzTypeEntity = _mapper.Map<Entities.ItemzType>(createItemzTypeDTO);
 
-            if (_itemzTypeRules.UniqueItemzTypeNameRule(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name))
             {
                 return Conflict($"ItemzType with name '{createItemzTypeDTO.Name}' already exists in the project with Id '{createItemzTypeDTO.ProjectId}'");
             }
@@ -178,7 +178,7 @@ namespace ItemzApp.API.Controllers
             {
 
                 _ItemzTypeRepository.AddItemzType(ItemzTypeEntity);
-                _ItemzTypeRepository.Save();
+                await _ItemzTypeRepository.SaveAsync();
             }
             catch(Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
@@ -210,15 +210,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateItemzTypePut(Guid ItemzTypeId, UpdateItemzTypeDTO ItemzTypeToBeUpdated)
+        public async Task<ActionResult> UpdateItemzTypePutAsync(Guid ItemzTypeId, UpdateItemzTypeDTO ItemzTypeToBeUpdated)
         {
-            if (!_ItemzTypeRepository.ItemzTypeExists(ItemzTypeId))
+            if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
                 _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} could not be found", ItemzTypeId);
                 return NotFound();
             }
 
-            var ItemzTypeFromRepo = _ItemzTypeRepository.GetItemzTypeForUpdate(ItemzTypeId);
+            var ItemzTypeFromRepo = await _ItemzTypeRepository.GetItemzTypeForUpdateAsync(ItemzTypeId);
 
             if (ItemzTypeFromRepo == null)
             {
@@ -236,7 +236,7 @@ namespace ItemzApp.API.Controllers
                     );
             }
 
-            if (_itemzTypeRules.UniqueItemzTypeNameRule(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
             {
                 return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
@@ -246,7 +246,7 @@ namespace ItemzApp.API.Controllers
             try
             {
                 _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
-                _ItemzTypeRepository.Save();
+                await _ItemzTypeRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
@@ -290,15 +290,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateItemzTypePatch(Guid ItemzTypeId, JsonPatchDocument<UpdateItemzTypeDTO> ItemzTypePatchDocument)
+        public async Task<ActionResult> UpdateItemzTypePatchAsync(Guid ItemzTypeId, JsonPatchDocument<UpdateItemzTypeDTO> ItemzTypePatchDocument)
         {
-            if (!_ItemzTypeRepository.ItemzTypeExists(ItemzTypeId))
+            if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
                 _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} could not be found", ItemzTypeId);
                 return NotFound();
             }
 
-            var ItemzTypeFromRepo = _ItemzTypeRepository.GetItemzTypeForUpdate(ItemzTypeId);
+            var ItemzTypeFromRepo = await _ItemzTypeRepository.GetItemzTypeForUpdateAsync(ItemzTypeId);
 
             if (ItemzTypeFromRepo == null)
             {
@@ -330,7 +330,7 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            if (_itemzTypeRules.UniqueItemzTypeNameRule(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name, ItemzTypeFromRepo.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name, ItemzTypeFromRepo.Name))
             {
                 return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
@@ -340,7 +340,7 @@ namespace ItemzApp.API.Controllers
             try
             {
                 _ItemzTypeRepository.UpdateItemzType(ItemzTypeFromRepo);
-                _ItemzTypeRepository.Save();
+                await _ItemzTypeRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
@@ -377,15 +377,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
         [ProducesDefaultResponseType]
-        public ActionResult DeleteItemzType(Guid ItemzTypeId)
+        public async Task<ActionResult> DeleteItemzTypeAsync(Guid ItemzTypeId)
         {
-            if (!_ItemzTypeRepository.ItemzTypeExists(ItemzTypeId))
+            if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
                 _logger.LogDebug("HttpDelete - Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found", ItemzTypeId);
                 return NotFound();
             }
 
-            var ItemzTypeFromRepo = _ItemzTypeRepository.GetItemzTypeForUpdate(ItemzTypeId);
+            var ItemzTypeFromRepo = await _ItemzTypeRepository.GetItemzTypeForUpdateAsync(ItemzTypeId);
 
             if (ItemzTypeFromRepo == null)
             {
@@ -404,7 +404,7 @@ namespace ItemzApp.API.Controllers
             }
 
             _ItemzTypeRepository.DeleteItemzType(ItemzTypeFromRepo);
-            _ItemzTypeRepository.Save();
+            await _ItemzTypeRepository.SaveAsync();
 
             _logger.LogDebug("Delete request for Projeect with ID {ItemzTypeId} processed successfully", ItemzTypeId);
             return NoContent();

@@ -296,7 +296,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> DeleteItemz(Guid itemzId)
+        public async Task<ActionResult> DeleteItemzAsync(Guid itemzId)
         {
             if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
