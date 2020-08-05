@@ -7,6 +7,7 @@ using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
 {
@@ -39,15 +40,15 @@ namespace ItemzApp.API.Controllers
         [HttpPost(Name = "__POST_ONLY_FOR_TESTING_Create_Project__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetProjectDTO> CreateProject(Project project)
+        public async Task<ActionResult<GetProjectDTO>> CreateProjectAsync(Project project)
         {
-            if (!_projectRepository.ProjectExists(project.Id))
+            if (!(await _projectRepository.ProjectExistsAsync(project.Id)))
             {
                 _projectRepository.AddProject(project);
-                _projectRepository.Save();
+                await _projectRepository.SaveAsync();
                 _logger.LogDebug("Created new Project with ID {ProjectId} via __POST_ONLY_FOR_TESTING_Create_Project__", project.Id);
             }
-            return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { Controller = "Projects", ProjectId = project.Id }, _projectRepository.GetProject(project.Id));
+            return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { Controller = "Projects", ProjectId = project.Id }, await _projectRepository.GetProjectAsync(project.Id));
         }
         /// <summary>
         /// Get list of supported HTTP Options for the ONLYforTestingProjects controller.

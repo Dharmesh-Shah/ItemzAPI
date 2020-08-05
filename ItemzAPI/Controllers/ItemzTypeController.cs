@@ -163,7 +163,7 @@ namespace ItemzApp.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzTypeDTO>> CreateItemzTypeAsync(CreateItemzTypeDTO createItemzTypeDTO)
         {
-            if (!_projectRepository.ProjectExists(createItemzTypeDTO.ProjectId))
+            if (!(await _projectRepository.ProjectExistsAsync(createItemzTypeDTO.ProjectId)))
             {
                 _logger.LogDebug("HttpPost - Project with {ProjectId} could not be found while creating new ItemzType in the repository", createItemzTypeDTO.ProjectId);
                 return NotFound();

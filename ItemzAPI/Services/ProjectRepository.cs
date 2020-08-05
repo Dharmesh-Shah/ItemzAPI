@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ItemzApp.API.Services
 {
@@ -20,35 +21,83 @@ namespace ItemzApp.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Project GetProject(Guid ProjectId)
+        //public Project GetProject(Guid ProjectId)
+        //{
+        //    if (ProjectId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(ProjectId));
+        //    }
+
+        //    return _context.Projects
+        //        .Where(c => c.Id == ProjectId).AsNoTracking().FirstOrDefault();
+        //}
+
+        public async Task<Project> GetProjectAsync(Guid ProjectId)
         {
             if (ProjectId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
 
-            return _context.Projects
-                .Where(c => c.Id == ProjectId).AsNoTracking().FirstOrDefault();
+            return await _context.Projects
+                .Where(c => c.Id == ProjectId).AsNoTracking().FirstOrDefaultAsync();
         }
-        public Project GetProjectForUpdate(Guid ProjectId)
+        //public Project GetProjectForUpdate(Guid ProjectId)
+        //{
+        //    if (ProjectId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(ProjectId));
+        //    }
+
+        //    return _context.Projects
+
+        //        .Where(c => c.Id == ProjectId).FirstOrDefault();
+        //}
+
+        public async Task<Project> GetProjectForUpdateAsync(Guid ProjectId)
         {
             if (ProjectId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
 
-            return _context.Projects
-
-                .Where(c => c.Id == ProjectId).FirstOrDefault();
+            return await _context.Projects
+                .Where(c => c.Id == ProjectId).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Project> GetProjects()
+        //public IEnumerable<Project> GetProjects()
+        //{
+        //    try
+        //    {
+        //        if(_context.Projects.Count<Project>()>0)
+        //        {
+        //            var projectCollection = _context.Projects.AsNoTracking().AsQueryable<Project>().OrderBy(p => p.Name);
+
+        //            // TODO: We have to create simple implementation of sort by Project Name here 
+        //            // projectCollection = projectCollection.ApplySort("Name", null).AsNoTracking();
+
+        //            return projectCollection;
+        //        }
+        //        return null;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        // TODO: It's not good that we capture Generic Exception and then 
+        //        // return null here. Basically, I wanted to check if we have 
+        //        // projects returned from the DB and if it does not then
+        //        // it should simply return null back to the calling function.
+        //        // One has to learn how to do this gracefully as part of Entity Framework 
+        //        return null;
+        //    }
+        //}
+
+        public async Task<IEnumerable<Project>> GetProjectsAsync()
         {
             try
             {
-                if(_context.Projects.Count<Project>()>0)
+                if (await _context.Projects.CountAsync<Project>() > 0)
                 {
-                    var projectCollection = _context.Projects.AsNoTracking().AsQueryable<Project>().OrderBy(p => p.Name);
+                    var projectCollection = await _context.Projects.AsNoTracking().AsQueryable<Project>().OrderBy(p => p.Name).ToListAsync();
 
                     // TODO: We have to create simple implementation of sort by Project Name here 
                     // projectCollection = projectCollection.ApplySort("Name", null).AsNoTracking();
@@ -57,7 +106,7 @@ namespace ItemzApp.API.Services
                 }
                 return null;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // TODO: It's not good that we capture Generic Exception and then 
                 // return null here. Basically, I wanted to check if we have 
@@ -67,20 +116,34 @@ namespace ItemzApp.API.Services
                 return null;
             }
         }
+        ////TODO: decide if we need GetProjects by passing in collection of projectIds
+        //// if yes, then we need to implement action method in ProjectController for the same
+        //// so that Swagger docs shows GET method under Projects section.
+        //public IEnumerable<Project> GetProjects(IEnumerable<Guid> projectIds)
+        //{
+        //    if(projectIds == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(projectIds));
+        //    }
+
+        //    return _context.Projects.AsNoTracking().Where(a => projectIds.Contains(a.Id))
+        //        .OrderBy(p => p.Name)
+        //        .ToList();
+        //}
 
         //TODO: decide if we need GetProjects by passing in collection of projectIds
         // if yes, then we need to implement action method in ProjectController for the same
         // so that Swagger docs shows GET method under Projects section.
-        public IEnumerable<Project> GetProjects(IEnumerable<Guid> projectIds)
+        public async Task<IEnumerable<Project>> GetProjectsAsync(IEnumerable<Guid> projectIds)
         {
-            if(projectIds == null)
+            if (projectIds == null)
             {
                 throw new ArgumentNullException(nameof(projectIds));
             }
 
-            return _context.Projects.AsNoTracking().Where(a => projectIds.Contains(a.Id))
+            return await _context.Projects.AsNoTracking().Where(a => projectIds.Contains(a.Id))
                 .OrderBy(p => p.Name)
-                .ToList();
+                .ToListAsync();
         }
 
         public void AddProject(Project project)
@@ -113,14 +176,42 @@ namespace ItemzApp.API.Services
             _context.Projects.Add(project);
         }
 
-        public bool Save()
+        //public bool Save()
+        //{
+        //    return (_context.SaveChanges() >= 0);
+        //}
+
+        public async Task<bool> SaveAsync()
         {
-            return (_context.SaveChanges() >= 0);
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
-        public bool ProjectExists(Guid projectId)
+        //public bool ProjectExists(Guid projectId)
+        //{
+        //    if(projectId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(projectId));
+        //    }
+
+        //    // EXPLANATION: We expect ProjectExists to be used independently on it's own without
+        //    // expecting it to track the Project that was found in the database. That's why it's not
+        //    // a good idea to use "!(_context.Projects.Find(projectId) == null)" option
+        //    // to "Find()" Project. This is because Find is designed to track the Project in the memory.
+        //    // In "Project Delete controller method", we are first checking if ProjectExists and then 
+        //    // we call Project Delete to actually remove it. This is going to be in the single scoped
+        //    // DBContext. If we use "Find()" method then it will start tracking the Project and then we can't
+        //    // get the Project once again from the DB as it's already being tracked. We have a choice here
+        //    // to decide if we should always use Find via ProjectExists and then yet again in the subsequent
+        //    // operations like Delete / Update or we use ProjectExists as independent method and not rely on 
+        //    // it for subsequent operations like Delete / Update.
+
+        //    return _context.Projects.AsNoTracking().Any(p => p.Id == projectId);
+
+        //}
+
+        public async Task<bool> ProjectExistsAsync(Guid projectId)
         {
-            if(projectId == Guid.Empty)
+            if (projectId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(projectId));
             }
@@ -137,7 +228,7 @@ namespace ItemzApp.API.Services
             // operations like Delete / Update or we use ProjectExists as independent method and not rely on 
             // it for subsequent operations like Delete / Update.
 
-            return _context.Projects.AsNoTracking().Any(p => p.Id == projectId);
+            return await _context.Projects.AsNoTracking().AnyAsync(p => p.Id == projectId);
 
         }
 
@@ -166,9 +257,14 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public bool HasProjectWithName(string projectName)
+        //public bool HasProjectWithName(string projectName)
+        //{
+        //    return _context.Projects.AsNoTracking().Any(p => p.Name.ToLower() == projectName.ToLower());
+        //}
+
+        public async Task<bool> HasProjectWithNameAsync(string projectName)
         {
-            return _context.Projects.AsNoTracking().Any(p => p.Name.ToLower() == projectName.ToLower());
+            return await _context.Projects.AsNoTracking().AnyAsync(p => p.Name.ToLower() == projectName.ToLower());
         }
     }
 }

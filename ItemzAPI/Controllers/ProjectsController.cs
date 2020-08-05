@@ -62,10 +62,10 @@ namespace ItemzApp.API.Controllers
         [HttpGet("{ProjectId:Guid}",
             Name = "__Single_Project_By_GUID_ID__")] // e.g. http://HOST:PORT/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770
         [HttpHead("{ProjectId:Guid}", Name = "__HEAD_Project_By_GUID_ID__")]
-        public ActionResult<GetProjectDTO> GetProject(Guid ProjectId)
+        public async Task<ActionResult<GetProjectDTO>> GetProjectAsync(Guid ProjectId)
         {
             _logger.LogDebug("Processing request to get Project for ID {ProjectId}", ProjectId);
-            var projectFromRepo = _projectRepository.GetProject(ProjectId);
+            var projectFromRepo = await _projectRepository.GetProjectAsync(ProjectId);
 
             if (projectFromRepo == null)
             {
@@ -89,7 +89,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetProjectDTO>> GetProjects(
+        public async Task<ActionResult<IEnumerable<GetProjectDTO>>> GetProjectsAsync(
             //[FromQuery] ItemzResourceParameter itemzResourceParameter
             )
         {
@@ -100,7 +100,7 @@ namespace ItemzApp.API.Controllers
             //    return BadRequest();
             //}
 
-            var projectsFromRepo = _projectRepository.GetProjects();
+            var projectsFromRepo = await _projectRepository.GetProjectsAsync();
             if (projectsFromRepo == null)
             {
                 _logger.LogDebug("No Projects found");
@@ -156,11 +156,11 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult<GetProjectDTO> CreateProject(CreateProjectDTO createProjectDTO)
+        public async Task<ActionResult<GetProjectDTO>> CreateProjectAsync(CreateProjectDTO createProjectDTO)
         {
             var projectEntity = _mapper.Map<Entities.Project>(createProjectDTO);
 
-            if (_projectRules.UniqueProjectNameRule(createProjectDTO.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(createProjectDTO.Name))
             {
                 return Conflict($"Project with name '{createProjectDTO.Name}' already exists in the repository");
 
@@ -174,7 +174,7 @@ namespace ItemzApp.API.Controllers
             try
             {
                 _projectRepository.AddProject(projectEntity);
-                _projectRepository.Save();
+                await _projectRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
@@ -202,15 +202,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateProjectPut(Guid projectId, UpdateProjectDTO projectToBeUpdated)
+        public async Task<ActionResult> UpdateProjectPutAsync(Guid projectId, UpdateProjectDTO projectToBeUpdated)
         {
-            if (!_projectRepository.ProjectExists(projectId))
+            if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
                 _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} could not be found", projectId);
                 return NotFound();
             }
 
-            var projectFromRepo = _projectRepository.GetProjectForUpdate(projectId);
+            var projectFromRepo = await _projectRepository.GetProjectForUpdateAsync(projectId);
 
             if (projectFromRepo == null)
             {
@@ -218,7 +218,7 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            if (_projectRules.UniqueProjectNameRule(projectToBeUpdated.Name, projectFromRepo.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(projectToBeUpdated.Name, projectFromRepo.Name))
             {
                 return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
             }
@@ -227,7 +227,7 @@ namespace ItemzApp.API.Controllers
             try 
             { 
             _projectRepository.UpdateProject(projectFromRepo);
-            _projectRepository.Save();
+            await _projectRepository.SaveAsync();
 
         }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
@@ -269,15 +269,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        public ActionResult UpdateProjectPatch(Guid projectId, JsonPatchDocument<UpdateProjectDTO> projectPatchDocument)
+        public async Task<ActionResult> UpdateProjectPatchAsync(Guid projectId, JsonPatchDocument<UpdateProjectDTO> projectPatchDocument)
         {
-            if (!_projectRepository.ProjectExists(projectId))
+            if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
                 _logger.LogDebug("HttpPatch - Update request for Project for ID {ProjectId} could not be found", projectId);
                 return NotFound();
             }
 
-            var projectFromRepo = _projectRepository.GetProjectForUpdate(projectId);
+            var projectFromRepo = await _projectRepository.GetProjectForUpdateAsync(projectId);
 
             if (projectFromRepo == null)
             {
@@ -299,7 +299,7 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            if (_projectRules.UniqueProjectNameRule(projectToPatch.Name, projectFromRepo.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(projectToPatch.Name, projectFromRepo.Name))
             {
                 return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
             }
@@ -308,7 +308,7 @@ namespace ItemzApp.API.Controllers
             try
             {
                 _projectRepository.UpdateProject(projectFromRepo);
-                _projectRepository.Save();
+                await _projectRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
@@ -343,15 +343,15 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult DeleteProject(Guid projectId)
+        public async Task<ActionResult> DeleteProjectAsync(Guid projectId)
         {
-            if (!_projectRepository.ProjectExists(projectId))
+            if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
                 _logger.LogDebug("Cannot Delete Project with ID {ProjectId} as it could not be found", projectId);
                 return NotFound();
             }
 
-            var projectFromRepo = _projectRepository.GetProjectForUpdate(projectId);
+            var projectFromRepo = await _projectRepository.GetProjectForUpdateAsync(projectId);
 
             if (projectFromRepo == null)
             {
@@ -360,7 +360,7 @@ namespace ItemzApp.API.Controllers
             }
 
             _projectRepository.DeleteProject(projectFromRepo);
-            _projectRepository.Save();
+            await _projectRepository.SaveAsync();
 
             _logger.LogDebug("Delete request for Projeect with ID {ProjectId} processed successfully", projectId);
             return NoContent();

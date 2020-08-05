@@ -95,7 +95,7 @@ namespace ItemzApp.API.Services
         {
             try
             {
-                if (_context.ItemzTypes.Count<ItemzType>() > 0)
+                if (await _context.ItemzTypes.CountAsync<ItemzType>() > 0)
                 {
                     var itemzTypeCollection = await _context.ItemzTypes.AsNoTracking().AsQueryable<ItemzType>().OrderBy(p => p.Name).ToListAsync();
 

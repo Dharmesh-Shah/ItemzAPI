@@ -23,7 +23,7 @@
             <param name="sourceItemzTypeName">Old itemzType name. No need to pass this for checking rule against creating itemzType action</param>
             <returns>true if itemzType with same name exist in the repository otherwise false</returns>
         </member>
-        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.HasProjectWithName(System.String)">
+        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.HasProjectWithNameAsync(System.String)">
             <summary>
             Use this method to check if the project with given name already exists. In General, 
             This check shall be performed before inserting or updating project.
@@ -31,7 +31,7 @@
             <param name="projectName">Name of the project to be checked for uniqueness</param>
             <returns>true if project with projectName found otherwise false</returns>
         </member>
-        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.UniqueProjectNameRule(System.String,System.String)">
+        <member name="M:ItemzApp.API.BusinessRules.Project.ProjectRules.UniqueProjectNameRuleAsync(System.String,System.String)">
             <summary>
             Used for verifying if repository contains project with the 
             same name as the one used for inserting or updating
@@ -322,7 +322,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.CreateProject(ItemzApp.API.Entities.Project)">
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.CreateProjectAsync(ItemzApp.API.Entities.Project)">
             <summary>
             This option is designed only to be used for adding a new record while testing ItemzApp API.
             Used for creating new Project record in the database that also 
@@ -339,7 +339,7 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProject(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectAsync(System.Guid)">
             <summary>
             Get a Project by ID (represented by a GUID)
             </summary>
@@ -348,7 +348,7 @@
             <response code="200">Returns the requested Project</response>
             <response code="404">Requested Project not found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjects">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsAsync">
             <summary>
             Gets collection of Projects
             </summary>
@@ -356,7 +356,7 @@
             <response code="200">Returns collection of Projects based on sorting order</response>
             <response code="404">No Projects were found</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.CreateProject(ItemzApp.API.Models.CreateProjectDTO)">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.CreateProjectAsync(ItemzApp.API.Models.CreateProjectDTO)">
             <summary>
             Used for creating new Project record in the database
             </summary>
@@ -365,7 +365,7 @@
             <response code="201">Returns newly created Projects property details</response>
             <response code="409">Project with the same name already exists in the repository</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPut(System.Guid,ItemzApp.API.Models.UpdateProjectDTO)">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPutAsync(System.Guid,ItemzApp.API.Models.UpdateProjectDTO)">
             <summary>
             Updating exsting Project based on Project Id (GUID)
             </summary>
@@ -376,7 +376,7 @@
             <response code="404">Project based on projectId was not found</response>
             <response code="409">Project with updated name already exists in the repository</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPatch(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateProjectDTO})">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.UpdateProjectPatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateProjectDTO})">
             <summary>
             Partially updating a single **Project**
             </summary>
@@ -401,7 +401,7 @@
                 ]
             </remarks>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ProjectsController.DeleteProject(System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.DeleteProjectAsync(System.Guid)">
             <summary>
             Deleting a specific Project
             </summary>

@@ -112,7 +112,7 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs.Count<Itemz>() > 0)
+                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and ust CountAsync
                 {
                     var itemzCollection = _context.Itemzs.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
