@@ -28,14 +28,9 @@ Another alternative is to decorate one of the navigation properties with the `[J
 > 
 > Also considering `Newtonsoft.Json.ReferenceLoopHandling.Ignore` to be used in `ConfigureServices` method.
 
-### [Repository to use Asynchronous DB Queries methods](https://docs.microsoft.com/en-us/ef/core/querying/async)
+### [DONE: Repository to use Asynchronous DB Queries methods](https://docs.microsoft.com/en-us/ef/core/querying/async)
 
-
-> [!NOTE]  
-> TODO: All existing calls to DB should be Async. This way if customer has powerful server with multiple cores then it can be utilized by Itemz App more efficiently. This will increase throughput of Itemz App and ultimately help in achieving better user experience. 
-> 
-> This should be part of the checklist while updating classes that runs DB queries against the context.
-
+> DONE: Most of the DB calls are now Async apart from the one where we are returning PagedList due to custom implementation of OrderBy on top of `IQueryable`.
 
 ### [Building Expressions for Dynamic Queries in EF Core](https://docs.microsoft.com/en-us/ef/core/querying/how-query-works)
 
