@@ -231,5 +231,22 @@ This Blog provides convincing argument that Fluent API is better then Attributes
 
 We should move away from Attribute in our ItemzAPP and consider using this clean way of configuring Entities via `IEntityTypeConfiguration` 
 
+### [What happens in ASP.NET Core 3.1 Requests explained very well](https://www.youtube.com/watch?v=0UZf_7c_EeE)
+
+This YouTube Video by <span style="background-color: #99ff66">[Steve Gorden](https://twitter.com/stevejgordon)</span> provides great introduction to Anatomy of ASP.NET Core Requests. 
+
+Very well explained about what happens to request when it goes from the client all the way to Controller + Action Method and back to the client. It covers topics like...
+
+- TCP + TLS
+- Kestrel
+- HttpContext
+- Middleware
+- Endpoint Routing
+- MVC Filter Pipleline
+- Model Binding
+
+Watching this video once is highly recommended for team members who will work on Itemz API.
+
+
 
 
