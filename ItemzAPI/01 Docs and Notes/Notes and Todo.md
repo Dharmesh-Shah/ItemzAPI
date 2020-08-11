@@ -227,4 +227,18 @@ This Blog provides convincing argument that Fluent API is better then Attributes
 We should move away from Attribute in our ItemzAPP and consider using this clean way of configuring Entities via `IEntityTypeConfiguration` 
 
 
+### [ASP.NET Core Beyond the Basics](https://www.youtube.com/watch?v=6czpapfDu-c)
+
+From Stockholm, Sweden, <span style="background-color: #99ff66">[Chris Klug](https://twitter.com/ZeroKoll) presents following key concepts in NDC {Porto} 21-24 April 2020.
+
+Checkout following table for topics that are covered as well as their timing in the video.
+
+|Start Time| Desription  |
+|--|--|
+| 3:00  | Using inline Anonymous method for inserting inline middleware within Startup.cs file. Then he moves it into it's own file which is a better way to organize custom middleware in ASP .NET Core. |
+| 14:25 | Great demo on how to implement custom headers and different formatters for output. Chris uses `XmlSerializerOutputFormatter` against custom accept headers which is very useful. Chris also uses Custom Attribute that inherits from Attribute and IActionConstraint to demonstrate how to decorate action method with your own attribute |
+|34:45 |Good practices to introduce `ValidateAntiForgeryToken` in ASP .NET Core application |
+|44:30 | How does ASP.NET Core introduces "Intellisense" in my application without adding any code in my application? This is well described by Chris and he demonstrates how to enable your own extensions that can be identified via dll files that are just placed in your server. |
+
+
 
