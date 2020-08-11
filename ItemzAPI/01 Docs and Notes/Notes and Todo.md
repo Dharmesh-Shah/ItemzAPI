@@ -28,14 +28,9 @@ Another alternative is to decorate one of the navigation properties with the `[J
 > 
 > Also considering `Newtonsoft.Json.ReferenceLoopHandling.Ignore` to be used in `ConfigureServices` method.
 
-### [Repository to use Asynchronous DB Queries methods](https://docs.microsoft.com/en-us/ef/core/querying/async)
+### [DONE: Repository to use Asynchronous DB Queries methods](https://docs.microsoft.com/en-us/ef/core/querying/async)
 
-
-> [!NOTE]  
-> TODO: All existing calls to DB should be Async. This way if customer has powerful server with multiple cores then it can be utilized by Itemz App more efficiently. This will increase throughput of Itemz App and ultimately help in achieving better user experience. 
-> 
-> This should be part of the checklist while updating classes that runs DB queries against the context.
-
+> DONE: Most of the DB calls are now Async apart from the one where we are returning PagedList due to custom implementation of OrderBy on top of `IQueryable`.
 
 ### [Building Expressions for Dynamic Queries in EF Core](https://docs.microsoft.com/en-us/ef/core/querying/how-query-works)
 
@@ -247,6 +242,20 @@ Very well explained about what happens to request when it goes from the client a
 
 Watching this video once is highly recommended for team members who will work on Itemz API.
 
+
+
+### [ASP.NET Core Beyond the Basics](https://www.youtube.com/watch?v=6czpapfDu-c)
+
+From Stockholm, Sweden, <span style="background-color: #99ff66">[Chris Klug](https://twitter.com/ZeroKoll) presents following key concepts in NDC {Porto} 21-24 April 2020.
+
+Checkout following table for topics that are covered as well as their timing in the video.
+
+|Start Time| Desription  |
+|--|--|
+| 3:00  | Using inline Anonymous method for inserting inline middleware within Startup.cs file. Then he moves it into it's own file which is a better way to organize custom middleware in ASP .NET Core. |
+| 14:25 | Great demo on how to implement custom headers and different formatters for output. Chris uses `XmlSerializerOutputFormatter` against custom accept headers which is very useful. Chris also uses Custom Attribute that inherits from Attribute and IActionConstraint to demonstrate how to decorate action method with your own attribute |
+|34:45 |Good practices to introduce `ValidateAntiForgeryToken` in ASP .NET Core application |
+|44:30 | How does ASP.NET Core introduces "Intellisense" in my application without adding any code in my application? This is well described by Chris and he demonstrates how to enable your own extensions that can be identified via dll files that are just placed in your server. |
 
 
 
