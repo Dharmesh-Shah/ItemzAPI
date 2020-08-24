@@ -416,6 +416,11 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="T:ItemzApp.API.Entities.ItemzSeverity">
+            <summary>
+            Itemz Severity list values as ENUM
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.CreateItemzDTO">
             <summary>
             CreateItemzDTO shall be used for sending in request for creating new Itemz. 
@@ -480,6 +485,11 @@
         <member name="P:ItemzApp.API.Models.GetItemzDTO.CreatedDate">
             <summary>
             Date and Time when Itemz was created
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzDTO.Severity">
+            <summary>
+            Severity of the Itemz
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetItemzTypeDTO">
@@ -592,6 +602,11 @@
         <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Description">
             <summary>
             Description of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateItemzDTO.Severity">
+            <summary>
+            Severity of the Itemz
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.ManipulateItemzTypeDTO">

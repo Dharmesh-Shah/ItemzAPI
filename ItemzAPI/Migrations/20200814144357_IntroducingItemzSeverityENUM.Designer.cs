@@ -4,14 +4,16 @@ using ItemzApp.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItemzApp.API.Migrations
 {
     [DbContext(typeof(ItemzContext))]
-    partial class ItemzContextModelSnapshot : ModelSnapshot
+    [Migration("20200814144357_IntroducingItemzSeverityENUM")]
+    partial class IntroducingItemzSeverityENUM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,10 +51,7 @@ namespace ItemzApp.API.Migrations
 
                     b.Property<string>("Severity")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128)
-                        .HasDefaultValue("Medium");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()

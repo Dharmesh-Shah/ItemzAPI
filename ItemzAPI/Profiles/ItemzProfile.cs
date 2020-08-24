@@ -12,11 +12,14 @@ namespace ItemzApp.API.Profiles
     {
         public ItemzProfile ()
         {
-            CreateMap<Entities.Itemz, Models.GetItemzDTO>();    // Used for creating GetItemzDTO based on Itemz object.
-            CreateMap<Models.CreateItemzDTO, Entities.Itemz>(); // Used for creating Itemz based on CreateItemzDTO object.
-            CreateMap<Models.UpdateItemzDTO, Entities.Itemz>(); // Used for updating Itemz based on UpdateItemzDTO object.
-            CreateMap<Entities.Itemz,Models.UpdateItemzDTO>();  // Used for updating UpdateItemzDTO based on Itemz object.
+            CreateMap<Entities.Itemz, Models.GetItemzDTO>()
+                .ForMember(dto => dto.Severity, i => i.MapFrom(o => o.Severity));    // Used for creating GetItemzDTO based on Itemz object.
+            CreateMap<Models.CreateItemzDTO, Entities.Itemz>()
+                .ForMember(i => i.Severity , dto => dto.MapFrom(d => d.Severity)); // Used for creating Itemz based on CreateItemzDTO object.
+            CreateMap<Models.UpdateItemzDTO, Entities.Itemz>()
+                .ForMember(i => i.Severity, dto => dto.MapFrom(d => d.Severity));// Used for updating Itemz based on UpdateItemzDTO object.
+            CreateMap<Entities.Itemz,Models.UpdateItemzDTO>()
+                .ForMember(dto => dto.Severity, i => i.MapFrom(o => o.Severity));// Used for updating UpdateItemzDTO based on Itemz object.
         }
-
     }
 }

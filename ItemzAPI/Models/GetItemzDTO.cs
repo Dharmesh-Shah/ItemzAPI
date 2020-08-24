@@ -40,6 +40,9 @@ namespace ItemzApp.API.Models
         /// Date and Time when Itemz was created
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
-
+        /// <summary>
+        /// Severity of the Itemz
+        /// </summary>
+        public string Severity { get; set; }
     }
 }

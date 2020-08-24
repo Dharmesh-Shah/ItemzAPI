@@ -158,7 +158,16 @@ namespace ItemzApp.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO)
         {
-            var itemzEntity = _mapper.Map<Entities.Itemz>(createItemzDTO);
+            Itemz itemzEntity;
+            try
+            {
+                itemzEntity = _mapper.Map<Entities.Itemz>(createItemzDTO);
+            }
+            catch (AutoMapper.AutoMapperMappingException amm_ex)
+            {
+                _logger.LogDebug("HttpPatch - Could not create new Itemz due to issue with value provided for {fieldname}", amm_ex.MemberMap.DestinationName);
+                return ValidationProblem();
+            }
             _itemzRepository.AddItemz(itemzEntity);
             await _itemzRepository.SaveAsync();
 
@@ -197,8 +206,16 @@ namespace ItemzApp.API.Controllers
                 _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} could not be found in the Repository", itemzId);
                 return NotFound();
             }
+            try
+            {
+                _mapper.Map(itemzToBeUpdated, itemzFromRepo);
+            }
+            catch (AutoMapper.AutoMapperMappingException amm_ex)
+            {
+                _logger.LogDebug("HttpPatch - Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}", itemzId, amm_ex.MemberMap.DestinationName);
+                return ValidationProblem();
+            }
 
-            _mapper.Map(itemzToBeUpdated, itemzFromRepo);
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
@@ -265,7 +282,16 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(itemzToPatch, itemzFromRepo);
+            try
+            {
+                _mapper.Map(itemzToPatch, itemzFromRepo);
+            }
+            catch (AutoMapper.AutoMapperMappingException amm_ex)
+            {
+                _logger.LogDebug("HttpPatch - Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}", itemzId, amm_ex.MemberMap.DestinationName);
+                return ValidationProblem();
+            }
+
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 

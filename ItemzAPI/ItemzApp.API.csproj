@@ -14,6 +14,11 @@
     <PropertyGroup>
 	    <IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Migrations\20200814162638_ChangedENUMDefaultForItemzSeverity.cs" />
+      <Compile Remove="Migrations\20200814162638_ChangedENUMDefaultForItemzSeverity.Designer.cs" />
+    </ItemGroup>
 	
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
@@ -28,6 +33,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="5.5.1" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.1.0" />
   </ItemGroup>
 

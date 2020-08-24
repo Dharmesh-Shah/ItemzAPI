@@ -1,5 +1,7 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+
+using ItemzApp.API.Entities;
 using ItemzApp.API.ValidationAttributes;
 using System;
 using System.Collections.Generic;
@@ -39,5 +41,10 @@ namespace ItemzApp.API.Models
         /// </summary>
         [MaxLength(1028)]
         public string Description { get; set; }
+        /// <summary>
+        /// Severity of the Itemz
+        /// </summary>
+        [MaxLength(128)]
+        public string Severity { get; set; } = EntityPropertyDefaultValues.ItemzSeverityDefaultValue;
     }
 }

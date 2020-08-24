@@ -4,7 +4,7 @@ using System;
 using ItemzApp.API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItemzApp.API.DbContexts
 {
@@ -86,6 +86,20 @@ namespace ItemzApp.API.DbContexts
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd();
             });
+
+            // EXPLANATION: Severity is controlled by build in ENUM which has a fixed 
+            // list of values. ItemzAPP API is going to control this values but 
+            // by design we are only storing string values into the database
+            // for selected Severity Value. 
+
+            modelBuilder.Entity<Itemz>()
+                 .Property(i => i.Severity)
+              .HasMaxLength(128)
+              .HasConversion(new EnumToStringConverter<ItemzSeverity>())
+              .HasDefaultValue((ItemzSeverity)Enum.Parse(
+                                    typeof(ItemzSeverity),
+                                    EntityPropertyDefaultValues.ItemzSeverityDefaultValue,
+                                    true));
 
             // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
             // SQL Server Database as well.

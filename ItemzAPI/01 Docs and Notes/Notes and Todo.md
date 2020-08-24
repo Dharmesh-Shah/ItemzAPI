@@ -246,7 +246,7 @@ Watching this video once is highly recommended for team members who will work on
 
 ### [ASP.NET Core Beyond the Basics](https://www.youtube.com/watch?v=6czpapfDu-c)
 
-From Stockholm, Sweden, <span style="background-color: #99ff66">[Chris Klug](https://twitter.com/ZeroKoll) presents following key concepts in NDC {Porto} 21-24 April 2020.
+From Stockholm, Sweden, <span style="background-color: #99ff66">[Chris Klug](https://twitter.com/ZeroKoll) </span> presents following key concepts in NDC {Porto} 21-24 April 2020.
 
 Checkout following table for topics that are covered as well as their timing in the video.
 
@@ -256,6 +256,37 @@ Checkout following table for topics that are covered as well as their timing in 
 | 14:25 | Great demo on how to implement custom headers and different formatters for output. Chris uses `XmlSerializerOutputFormatter` against custom accept headers which is very useful. Chris also uses Custom Attribute that inherits from Attribute and IActionConstraint to demonstrate how to decorate action method with your own attribute |
 |34:45 |Good practices to introduce `ValidateAntiForgeryToken` in ASP .NET Core application |
 |44:30 | How does ASP.NET Core introduces "Intellisense" in my application without adding any code in my application? This is well described by Chris and he demonstrates how to enable your own extensions that can be identified via dll files that are just placed in your server. |
+
+### [Enum to String Converter for Web API](https://github.com/bmitchinson/Classroom/blob/master/backend/Data/EntityConfigurations/CourseEntityConfiguration.cs)
+
+This Github repository has a nice example of how to use Enum for validating data that is posted via Web API against a specified property. 
+
+```csharp
+        public void Configure(EntityTypeBuilder<Course> entity)
+        {
+            entity.Property(_ => _.Level)
+            .HasConversion(new EnumToStringConverter<TopicLevel>());
+
+            entity.Property(_ => _.SoftDeleted)
+            .HasDefaultValue(false);
+        }
+```
+
+As you can see in the above code, it uses `EnumToStringConverter` as part of `HasConversion` for Level Property
+
+> [!NOTE]
+> TODO: Check if Web API validation for speicified values work as expected and then see if we want to use it in ItemzApp.
+
+### [EF Core Community Meeting 19th Aug 2020](https://www.youtube.com/watch?time_continue=3733&v=W1sxepfIMRM&feature=emb_logo)
+
+Great Demo by <span style="background-color: #99ff66"> [Arthur Vickers](https://twitter.com/ajcvickers)</span> where he covers following topics in his demo related to EF 5.0
+
+ - Many to Many relationship
+ - Indexer Properties e.g. private readonly Dictionary<string,object> _propertyValues = new Dictionary<string,object>();
+ - SharedEntity Type e.g. public class NamedEntity{...} instead of public class Product{...}
+ - Property Bags e.g. all entities in DBSets are registered with Dictionary<string,object>. Magic!!!
+
+FUNNY: EF Team themselves says that preview version is tagged as 6.0.0... consider them as EF Core 5.0.
 
 
 
