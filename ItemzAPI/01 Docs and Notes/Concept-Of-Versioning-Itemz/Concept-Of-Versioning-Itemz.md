@@ -142,3 +142,11 @@ Post performing deletion (that is **SQUASHING**) Itemz history upto a given poin
 
 ![Concept Of Project](./ItemzVersionSquash.jpg)
 
+### Check Periodically
+
+-	No Itemz history data shall be available in the repository Prior to the SQUASH time set for the Repository.
+-	No Itemz history data shall be available in the repository Prior to the SQUASH time set for the Project in which it is present
+-	No Itemz history data shall be available in the repository Prior to the SQUASH time set for the Itemz Type in which it is present
+-	No Itemz history data is available for the properties that are not associated with the Itemz
+
+
