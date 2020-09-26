@@ -198,6 +198,16 @@ What is concerning is the fact that in above issue, one of the team member wrote
 > and maintain a HierarchyId library for .NET right now, 
 > so we're effectively blocked on implementing this <span>.
 
+> [!NOTE - [02 Sep 2020]]
+> I just found this new BLOG published by user <span style="background-color: #99ff66">[Dmitry Pavlov](https://twitter.com/dr_dimaka) </span> with subject [Tree Structure in EF Core: How to configure a self-referencing table and use it](https://habr.com/en/post/516596/).
+> This blog has a working example of how to use self referencing column in the DB to show Hierarhcy data and how to configure the same.
+> This post was also endorsed by <span style="background-color: #99ff66">[Jeremy Likness](https://twitter.com/jeremylikness) </span> who happens to be hosting EF Core Community meetings and working very closely with EF Core Development Team.
+> We should consider trialing this approach as part of evaluating best possible way to handle Hierarchy data in ItemzApp.
+
+> [!Note - [02 Sep 2020]]
+> A separate blog that explains about using HierarchyID instead of self referencing Table. Check-it-out at ...
+> [Using SQL Server HierarchyId with Entity Framework Core](https://www.meziantou.net/using-hierarchyid-with-entity-framework-core.htm)
+
 ### [Soft Delete well described for EF Core](https://www.thereformedprogrammer.net/ef-core-in-depth-soft-deleting-data-with-global-query-filters/)
 
 Great Article by <span style="background-color: #99ff66">[Jon P Smith](https://twitter.com/thereformedprog) </span>
