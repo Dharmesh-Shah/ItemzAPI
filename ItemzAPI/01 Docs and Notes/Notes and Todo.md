@@ -236,6 +236,8 @@ This Blog provides convincing argument that Fluent API is better then Attributes
 
 We should move away from Attribute in our ItemzAPP and consider using this clean way of configuring Entities via `IEntityTypeConfiguration` 
 
+on 28th Sep 2020, I found this video on YouTube with title ["Migrations and Seed Data in Entity Framework Core](https://www.youtube.com/watch?v=5r_p8TiNX3Y). It has very good demo on how to use `IEntityTypeConfiguration<TEntity>` Interface. Also, there was this article written by Changhui Xu that explains how to configure Entity Types  in EF Core. Check it out at [here...](https://codeburst.io/ientitytypeconfiguration-t-in-entityframework-core-3fe7abc5ee7a)
+
 ### [What happens in ASP.NET Core 3.1 Requests explained very well](https://www.youtube.com/watch?v=0UZf_7c_EeE)
 
 This YouTube Video by <span style="background-color: #99ff66">[Steve Gorden](https://twitter.com/stevejgordon)</span> provides great introduction to Anatomy of ASP.NET Core Requests. 
@@ -297,6 +299,21 @@ Great Demo by <span style="background-color: #99ff66"> [Arthur Vickers](https://
  - Property Bags e.g. all entities in DBSets are registered with Dictionary<string,object>. Magic!!!
 
 FUNNY: EF Team themselves says that preview version is tagged as 6.0.0... consider them as EF Core 5.0.
+
+### [Schedule Background Jobs Using Hangfire in .NET Core]( https://codeburst.io/schedule-background-jobs-using-hangfire-in-net-core-2d98eb64b196)
+
+Written By … <span style="background-color: #99ff66"> [Changhui Xu]( https://twitter.com/changhuixu)</span>
+
+In this post Changhui talks about Hangfire which is an opensource utility that plugs in very nicely into ASP .NET Core application. It utilized Dependency Injection as well as `ConfigureServices (IServiceCollection services)` method in `Startup` class. Plus it can be configured in the ASP .Net Pipeline via `Configure(IApplicationBuilder app, IHostingEnvironment env)` method in `Startup` class.
+
+There are few things to be considered. First, Hangfire utilizes notation for scheduling background task using CRON Expressions. It will be ideal to understand more in details about CRON Expression for which information can be found on Wikipedia at …  [CRON Expression]( https://en.wikipedia.org/wiki/Cron#CRON_expression)
+
+Secondly, because Hangfire is utilizing Date and Time Scheduler for multiple regions, it will be ideal to understand how this has been done in this application. This will provide information about handling timezone issues in .NET Core application.
+
+Thirdly, Hangfire itself might be very useful to be used in ItemzApp application as it would be ideal to kick start some tasks in the background which are event driven in the application. 
+
+
+
 
 
 
