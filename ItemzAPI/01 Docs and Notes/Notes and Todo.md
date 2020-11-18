@@ -312,7 +312,33 @@ Secondly, because Hangfire is utilizing Date and Time Scheduler for multiple reg
 
 Thirdly, Hangfire itself might be very useful to be used in ItemzApp application as it would be ideal to kick start some tasks in the background which are event driven in the application. 
 
+### [Large File Upload in ASP .NET Core will require disabling of FormValueModelBinding](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-5.0#resource-filters)
 
+While reading about documentation for Filters as suppoted in ASP.NET Core,  I stumbled across this article specific information related to …
+
+ - **DisableFormValueModelBindingAttribute**:
+   - Prevents model binding from accessing the form data.
+   - Used for **large file uploads** to prevent the form data from being read into memory.
+
+In ItemzApp, we will require option to allow users to upload large files as attachments. This will be useful information to keep in mind while working on feature that allows large files uploads. 
+
+While searching on internet about best practices and example of users using  DisableFormValueModelBindingAttribute in application, I found following few code files where it’s actively used.
+
+[Ipfs-uploader](https://github.com/dtube/ipfs-uploader/blob/7766a5fffb9cf8cdc021ebfbcd27982d35680f97/Uploader.Web/Controllers/UploaderController.cs)
+
+[Csvapi]( https://github.com/keenua/csvapi/blob/985dda0a6e5bcb33fd79966cb83c3e29ed0a443b/src/Ireckonu.Api/Controllers/UploadController.cs)
+
+One can see that in 'Csvapi' it also uses 
+
+`[RequestSizeLimit(MaxFileSize)]`
+
+And 
+
+`[RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]`
+
+Along with   `[DisableFormValueModelBinding]`
+
+Here is the actual code for `[DisableFormValueModelBinding]` in [asp.net Entropy](https://github.com/aspnet/Entropy/blob/rel/2.0.0-preview2/samples/Mvc.FileUpload/Filters/DisableFormValueModelBindingAttribute.cs)
 
 
 
