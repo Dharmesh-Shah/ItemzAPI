@@ -340,6 +340,21 @@ Along with   `[DisableFormValueModelBinding]`
 
 Here is the actual code for `[DisableFormValueModelBinding]` in [asp.net Entropy](https://github.com/aspnet/Entropy/blob/rel/2.0.0-preview2/samples/Mvc.FileUpload/Filters/DisableFormValueModelBindingAttribute.cs)
 
+### [Improving your ASP.NET Core site's e-mailing capabilities](https://imar.spaanjaars.com/614/improving-your-aspnet-core-sites-e-mailing-capabilities)
+
+This is a great article by <span style="background-color: #99ff66"> [Imar Spaanjaars](https://twitter.com/ImarSpaanjaars)</span> on handling Emails from an ASP.NET Core Application.
+
+Couple of good points to be noted from this article are ...
+
+1. Don't use in-build SmtpClient anymore One can find more information about it at ... https://github.com/dotnet/platform-compat/blob/master/docs/DE0005.md
+
+2. It shows how to use <span style="background-color: #99ff66"> [MailKit](https://github.com/jstedfast/MailKit)  as alternative to SmtpClient. </span>
+
+3. Article explains how to manage sending emails in different environments like dev, test, SIT, UAT, Prod, etc. Article is well written considering testing of emailing system.
+
+4. Writing emails to Folder is a good alternative to be utilized in many different scenarios.
+
+5. Extensions methods to be used for registering different implementation of mail sending services is also a clean approach as explained in the article.
 
 
 

@@ -84,6 +84,16 @@ namespace ItemzApp.API
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .UseSerilog()
+
+                // Based on following Blogpost, we added UseDefaultServiceProvider 
+                // within CreateHostBuilder method.
+                // https://weblogs.asp.net/ricardoperes/asp-net-core-pitfalls-dependency-injection-lifetime-validation
+
+                .UseDefaultServiceProvider((context,options) =>
+                {
+                    options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
+                    options.ValidateOnBuild = true;
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
