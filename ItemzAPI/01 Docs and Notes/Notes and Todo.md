@@ -357,4 +357,19 @@ Couple of good points to be noted from this article are ...
 5. Extensions methods to be used for registering different implementation of mail sending services is also a clean approach as explained in the article.
 
 
+### [Hide actions from Swagger / OpenAPI documentation in ASP.NET Core](https://joonasw.net/view/hide-actions-from-swagger-openapi-documentation-in-aspnet-core)
+
+This blog has described option to hide generating Swagger docs for actions that are not supposed to be documented. This can be used to hide action details regarding ONLYFORTEST actions that we include in ItemzAPI. 
+
+Consider using this attribute ...
+
+``` C#
+[ApiExplorerSettings(IgnoreApi = true)]
+public class ONLYforTestingItemzController : ControllerBase
+{
+}
+```
+
+
+
 
