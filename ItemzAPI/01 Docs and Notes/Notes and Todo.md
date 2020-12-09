@@ -238,6 +238,51 @@ We should move away from Attribute in our ItemzAPP and consider using this clean
 
 on 28th Sep 2020, I found this video on YouTube with title ["Migrations and Seed Data in Entity Framework Core](https://www.youtube.com/watch?v=5r_p8TiNX3Y). It has very good demo on how to use `IEntityTypeConfiguration<TEntity>` Interface. Also, there was this article written by Changhui Xu that explains how to configure Entity Types  in EF Core. Check it out at [here...](https://codeburst.io/ientitytypeconfiguration-t-in-entityframework-core-3fe7abc5ee7a)
 
+On 9th December 2020, I also discovered this article by <span style="background-color: #99ff66">[Jon P Smith](https://github.com/JonPSmith)</span> who talks about [Tip: How to organise your configuration code](https://www.thereformedprogrammer.net/ef-core-in-depth-tips-and-techniques-for-configuring-ef-core/#tip-how-to-organise-your-configuration-code)
+
+As described by Jon, it's also possible to add individual Entity Configuration using 
+
+``` c#
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.ApplyConfiguration(new BookConfig());
+    modelBuilder.ApplyConfiguration(new BookAuthorConfig());
+    //… and so on.
+}
+```
+
+Here We are using `modelBuilder.Applyconfiguration` and passing in `new Bookconfig()` which has been defined as below.
+
+``` c#
+
+internal class BookConfig : IEntityTypeConfiguration<Book>
+{
+    public void Configure
+        (EntityTypeBuilder<Book> entity)
+    {
+        entity.Property(p => p.PublishedOn)           
+            .HasColumnType("date");    
+        entity.HasIndex(x => x.PublishedOn);                         
+ 
+        //HasPrecision is a EF Core 5 method
+        entity.Property(p => p.Price).HasPrecision(9,2);                       
+ 
+        entity.Property(x => x.ImageUrl).IsUnicode(false);                        
+ 
+        entity.HasQueryFilter(p => !p.SoftDeleted);   
+ 
+        //----------------------------
+        //one-to-one with only one navigational property must be defined
+ 
+        entity.HasOne(p => p.Promotion)               
+            .WithOne()                                
+            .HasForeignKey<PriceOffer>(p => p.BookId);
+    }
+}
+```
+
+
 ### [What happens in ASP.NET Core 3.1 Requests explained very well](https://www.youtube.com/watch?v=0UZf_7c_EeE)
 
 This YouTube Video by <span style="background-color: #99ff66">[Steve Gorden](https://twitter.com/stevejgordon)</span> provides great introduction to Anatomy of ASP.NET Core Requests. 
