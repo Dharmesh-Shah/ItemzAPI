@@ -415,6 +415,13 @@ public class ONLYforTestingItemzController : ControllerBase
 }
 ```
 
+### [DBContext shall be either Sealed or abstract. If it's just public then it should have two constructors as per best practice](https://docs.microsoft.com/en-us/ef/core/dbcontext-configuration/#dbcontextoptions-verses-dbcontextoptionstcontext)
+
+As you can see in this Microsoft Docs site, DB context shall be defined as Sealed or Abstract. Please consider given three scenarios for all the DBContext of ItemzAPI. 
+
+DBContext that are not supposed to be inherited shall be marked as Sealed. In our case, ItemzContext shall be marked as Sealed as we don't expect it to be inherited further. Please evaluate the same and consider using correct option for all DBContext. 
+
+
 
 
 
