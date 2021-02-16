@@ -421,6 +421,10 @@ As you can see in this Microsoft Docs site, DB context shall be defined as Seale
 
 DBContext that are not supposed to be inherited shall be marked as Sealed. In our case, ItemzContext shall be marked as Sealed as we don't expect it to be inherited further. Please evaluate the same and consider using correct option for all DBContext. 
 
+### [BLAZOR: Route precedence logic changed in Blazor apps](https://docs.microsoft.com/en-us/dotnet/core/compatibility/aspnet-core/5.0/blazor-routing-logic-changed)
+
+In Blazor Application a bug has been fixed in Release 5.0.1 which is related to matching route. Refer to above URL to learn more about the same and take appropriate action for ItemzApp.
+
 
 
 
