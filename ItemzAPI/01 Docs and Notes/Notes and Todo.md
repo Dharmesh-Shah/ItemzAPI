@@ -425,6 +425,26 @@ DBContext that are not supposed to be inherited shall be marked as Sealed. In ou
 
 In Blazor Application a bug has been fixed in Release 5.0.1 which is related to matching route. Refer to above URL to learn more about the same and take appropriate action for ItemzApp.
 
+### [BLAZOR SERVER: An example Blazor Server application that shows GitHub Items that are worked upon](/https://github.com/terrajobst/themesof.net)
+
+This application is hosted live at  [https://themesof.net/](https://themesof.net/)
+
+This site shows how one could build server side appplication that can extract data from GitHub repository and show it in a nicely presented tree along with multiple filters that can be applied. This site is bit slow because it's constantly connecting to GitHub APIs to get information but it does demonstrate some very nice features that can be implemented in Blazor application (both Server and WebAssembly)
+
+Few Features that I liked are ...
+
+ - Index.razor.cs - This file shows how to design code behind for Index.razor view which servers Tree of Items. It has got classes like PageTree, PageNode, etc. Based on this classes it renders the actual Tree Object to be displayed by the view.
+ - PrecompressedMiddleware.cs - A good example of how to implement pre-compression for js and css files. 
+ - Mainlayout.razor - Shows how to build your own layout by inheriting from LayoutComponentBase. It shows header section of the site.
+ - package.json - it show which java script packages are required to be installed and then using custom target in 'ThemesOfDotNet.csproj' file it calls 'npm install' command to makesure that required JavaScript packages are installed over Internet connection from NPM.
+ - webpack.config.js - shows how deal with .js and .css files as well as minification and bundling of the same for producing output in desired directory.
+ - App.razor - show how to pass global parameters to all the Razor Components via \<CascadingAuthenticationState\>
+ 
+
+
+
+
+
 
 
 
