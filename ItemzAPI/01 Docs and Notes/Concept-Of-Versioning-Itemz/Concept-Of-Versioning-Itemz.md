@@ -39,7 +39,7 @@ Itemz version record shall track following key details when itemz is either adde
 
 ItemzApp shall allow removing history of Itemz. Main usage of ItemzApp is to produce requirements that are suppose to be used as a basis for the future work / delivery. Many contributors shall provide input for maintaining Itemz within ItemzApp. Over period of time, such historical change log might not be that important and removing it would benefit overall performance of the application.
 
-Defined requirements generally goes through many rounds of review and adjustments. This changes are mainly cosmetic changes to the description and/or few other properties associated with the Itemz. What is important is to allow users to keep refining Itemz definition so that it becomes clearer and complete so that execution can be executed to the best possible quality to satisfy end-users. That said, such small changes are obsolete over time and they don&#39;t carry much value. That is why we have to design ItemzApp in such a way that that allows removing old and obsolete history change log.
+Defined requirements generally goes through many rounds of review and adjustments. This changes are mainly cosmetic changes to the description and/or few other properties associated with the Itemz. What is important is to allow users to keep refining Itemz definition so that it becomes clearer and complete so that execution can be executed to the best possible quality to satisfy end-users. That said, such small changes are obsolete over time and they don&#39;t carry much value. That is why we have to design ItemzApp in such a way that it would allows removing old and obsolete history change log.
 
 Let&#39;s take an example here to explain the same.
 
@@ -111,9 +111,9 @@ ItemzApp shall allow users to rollback to a given point in time which means data
 
 ### What about Links and Attachments?
 
-At the time of writing this document, we have not yet implemented concept of Links and Attachments. That said, they are considered as special type properties that holds specific data that is nothing be externally referenced data. Itemz links are referencing other Itemz in the repository where as Attachments are referencing to files that are uploaded by the users in the application.
+At the time of writing this document, we have not yet implemented concept of Links and Attachments. That said, they are considered as special type properties that holds specific data that is nothing but externally referenced data. Itemz links are referencing other Itemz in the repository where as Attachments are referencing to files that are uploaded by the users in the application.
 
-As far as removing history changelog is concerned, ItemzApp shall support adding audit entries in the History log as how we maintain changes information for other properties. This will also work well when we have to remove certain History change log for links and attachments related metadata.
+As far as removing history changelog is concerned, ItemzApp shall support adding audit entries in the History log as how we maintain changes information for other properties (i.e. System and User Properties). This will also work well when we have to remove certain History change log for links and attachments related metadata.
 
 ### What about properties that are now removed?
 
