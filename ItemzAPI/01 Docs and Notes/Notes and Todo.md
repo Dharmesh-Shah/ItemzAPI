@@ -440,9 +440,13 @@ Few Features that I liked are ...
  - webpack.config.js - shows how deal with .js and .css files as well as minification and bundling of the same for producing output in desired directory.
  - App.razor - show how to pass global parameters to all the Razor Components via \<CascadingAuthenticationState\>
  
+### [Query tags](https://docs.microsoft.com/en-us/ef/core/querying/tags)
 
+Query tags help correlate LINQ queries in code with generated SQL queries captured in logs. You annotate a LINQ query using the new `TagWith()` method: 
 
+We should use Query Tags to allow identifying complex Queries that are part of a given group of actions. This will help in debugging sessions as well as in future if we introduce EF Core [Interceptors](https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors).
 
+It's possible to add multiple QueryTags by using `TagWith()` method multiple times and it also supports multiline Query Tags too.
 
 
 
