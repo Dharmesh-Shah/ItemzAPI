@@ -4,6 +4,7 @@ using AutoMapper;
 using ItemzApp.API.BusinessRules.ItemzType;
 using ItemzApp.API.BusinessRules.Project;
 using ItemzApp.API.DbContexts;
+using ItemzApp.API.DbContexts.Interceptors;
 using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,7 +50,7 @@ namespace ItemzApp.API
                     // EXPLANATION: By including AddMvcOptions within controller, we are able to 
                     // configure global attribute values for StatusCodes which are expected to be 
                     // returned by every Controller in this API project. This is one way to resolve
-                    // issue related to explitely typing this information at Controller's class level
+                    // issue related to explicitly typing this information at Controller's class level
                     // in every controller. This setting is very useful for generating Swagger Documents 
                     // and Swagger UI with good documentations.
 
@@ -141,10 +142,19 @@ namespace ItemzApp.API
             services.AddScoped<IProjectRules,ProjectRules>();
             services.AddScoped<IItemzTypeRules, ItemzTypeRules>();
 
-            services.AddDbContext<ItemzContext>(options =>
+            // EXPLANATION: As described in the Blog Article, https://purple.telstra.com/blog/a-better-way-of-resolving-ef-core-interceptors-with-dependency-injection
+            // we are now registering ItemzContextInterceptor in the DI Container as Singleton service 
+            // and then utilizing it in AddDbContext method to register this Interceptor via provider.GetRequiredService.
+            // This way, just in case, if an Interceptor needs other services from the DI Container like logger, etc. then
+            // it will be possible to include them in the constructor parameter of the Interceptor.
+
+            services.AddSingleton<ItemzContexInterceptor>();
+
+            services.AddDbContext<ItemzContext>((provider,options) =>
             {
                 options.UseSqlServer(
-                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;")
+                .AddInterceptors(provider.GetRequiredService<ItemzContexInterceptor>()); 
             });
 
             services.AddSwaggerGen(setupAction =>
