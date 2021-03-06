@@ -69,6 +69,7 @@ namespace ItemzApp.API
                 //logger.LogInformation("Host created.");
 
                 host.Run();
+                Log.Information("Started...");
             }
             catch (Exception ex)
             {

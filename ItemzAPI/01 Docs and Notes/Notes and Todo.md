@@ -448,6 +448,15 @@ We should use Query Tags to allow identifying complex Queries that are part of a
 
 It's possible to add multiple QueryTags by using `TagWith()` method multiple times and it also supports multiline Query Tags too.
 
+### [EF Core 5.0: SaveChanges Events and Interceptors](https://jaliyaudagedara.blogspot.com/2020/12/ef-core-50-savechanges-events-and.html)
+
+As explained by Author <span style="background-color: #99ff66">Jaliya Udagedara [@JaliyaUdagedara](https://twitter.com/JaliyaUdagedara)</span>, One could utilize Events provided by DbContext base class itself to listen for events that are related to 
+
+ - SavingChanges
+ - SavedChanges
+ - SaveChangesFailed
+
+This way, one does not have to implement advanced concepts of Interceptors in EF Core. That said, please consider both the options for ItemzApp.
 
 
 
