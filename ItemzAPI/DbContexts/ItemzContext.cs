@@ -83,6 +83,7 @@ namespace ItemzApp.API.DbContexts
 
         public DbSet<ItemzType> ItemzTypes { get; set; }
         public DbSet<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
+        public DbSet<ItemzChangeHistory> ItemzChangeHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -200,7 +201,6 @@ namespace ItemzApp.API.DbContexts
             //    .HasOne(itemz => itemz.Itemz)
             //    .WithMany(p => p.ProjectJoinItemz)
             //    .HasForeignKey(itemz => itemz.ItemzId);
-
 
             modelBuilder.Entity<Project>().HasData(
                 new Project()
@@ -341,6 +341,17 @@ namespace ItemzApp.API.DbContexts
                     ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
                 }
             );
+
+            // EXPLANATION: We are setting relationship between ItemzChangeHistory
+            // and Itemz where by we only store ItemzId in the ItemzChangeHistory. 
+            // For now, there is not need to store ItemzChangeHistory in the Itemz
+            // Entity as we don't want to have Unique ID (Primary Key) for ItemzChangeHistory 
+            // table in the Database.
+
+            modelBuilder.Entity<ItemzChangeHistory>()
+                .HasOne(ich => ich.Itemz)
+                .WithMany()
+                .HasForeignKey(ich => ich.ItemzId);
 
             base.OnModelCreating(modelBuilder);
         }

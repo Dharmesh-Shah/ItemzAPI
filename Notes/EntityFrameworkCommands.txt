@@ -1,3 +1,5 @@
 remove-migration -force
 Add-Migration -name ItemzMigration
 Update-Database
+
+Add-Migration -name ItemzMigration -Context 'ItemzContext'

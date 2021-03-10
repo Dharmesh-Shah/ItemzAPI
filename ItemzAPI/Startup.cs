@@ -148,13 +148,20 @@ namespace ItemzApp.API
             // This way, just in case, if an Interceptor needs other services from the DI Container like logger, etc. then
             // it will be possible to include them in the constructor parameter of the Interceptor.
 
-            services.AddSingleton<ItemzContexInterceptor>();
+            services.AddScoped<ItemzContexInterceptor>();
 
             services.AddDbContext<ItemzContext>((provider,options) =>
             {
                 options.UseSqlServer(
                     @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;")
-                .AddInterceptors(provider.GetRequiredService<ItemzContexInterceptor>()); 
+                //.AddInterceptors(provider.GetRequiredService<ItemzContexInterceptor>()); 
+                .AddInterceptors(new ItemzContexInterceptor());
+            });
+
+            services.AddDbContext<ItemzChangeHistoryContext>((provider, options) =>
+            {
+                options.UseSqlServer(
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
             });
 
             services.AddSwaggerGen(setupAction =>
