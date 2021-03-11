@@ -11,8 +11,6 @@ namespace ItemzApp.API.DbContexts
 {
     public class ItemzContext : DbContext
     {
-        //private readonly ItemzContexInterceptor _itemzContexInterceptor = new ItemzContexInterceptor();
-      
         public ItemzContext(DbContextOptions<ItemzContext> options) : base(options)
         {
 
@@ -27,54 +25,6 @@ namespace ItemzApp.API.DbContexts
                    // EF Core team has provided this property and what is the real use 
                    // of the same.
             }
-            //#region Register_ItemzContexInterceptor_Only_Once
-            //// EXPLANATION: We don't want to register Interceptor more then once  
-            //// for capturing Audit Entries. Interceptors can be registered as options for 
-            //// services.AddDBContext within Startup.cs file. This is considered as Global 
-            //// registration and it's kind of one time registration for a given DBContext.
-            //// Now if we register Interceptor yet again via overriding OnConfiguring within
-            //// concrete implementation of DBContext (as you see here in this example) then 
-            //// we are actually registering the same interceptor twice. That means the 
-            //// SavedChanges, SavedChangesAsync, SavingChanges, SavingChangesAsync, etc. 
-            //// methods will be called twice (or as many times as we have registered DBContext).
-            //// In fact, each time user creates instance of concrete implementation of DBContext,
-            //// it will go to the ServiceProvider and get a new instance as DBContext are by default,
-            //// designed to be registered in DI Container as Scoped service. 
-            //// In following code, we are checking if a Global registration is already done 
-            //// in services.AddDBContext within Startup.cs then we do not register a second 
-            //// instance of Interceptor while creating a new instance of DBContext which is part of the 
-            //// scoped service.
-            //// Ref: Microsoft.EntityFrameworkCore.Diagnostics.ISaveChangesInterceptor
-            //// Ref: Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor
-
-            //foreach (var extension in optionsBuilder.Options.Extensions)
-            //{
-            //    if (extension.GetType().Equals(typeof(Microsoft.EntityFrameworkCore.Infrastructure.CoreOptionsExtension)))
-            //    {
-            //        if ((((Microsoft.EntityFrameworkCore.Infrastructure.CoreOptionsExtension)extension)
-            //                                    .Interceptors) is null)
-            //        {
-            //            break;
-            //        }
-            //        foreach (var interceptor in (((Microsoft.EntityFrameworkCore.Infrastructure.CoreOptionsExtension)extension).Interceptors))
-            //        {
-            //            if (interceptor.GetType().Equals(typeof(ItemzContexInterceptor)))
-            //            {
-            //                IsItemzContexInterceptorRegisteredAlready = true;
-            //                break;
-            //            }
-            //        }
-            //    }
-            //    if (IsItemzContexInterceptorRegisteredAlready)
-            //    {
-            //        break;
-            //    }
-            //}
-            //if (!IsItemzContexInterceptorRegisteredAlready)
-            //{
-            //    optionsBuilder.AddInterceptors(_itemzContexInterceptor);
-            //}
-            //#endregion Register_ItemzContexInterceptor_Only_Once
         }
 
         public DbSet<Itemz> Itemzs { get; set; }
