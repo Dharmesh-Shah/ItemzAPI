@@ -7,6 +7,7 @@ using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 
 namespace ItemzApp.API.DbContexts.Interceptors
@@ -14,27 +15,17 @@ namespace ItemzApp.API.DbContexts.Interceptors
     public class ItemzContexInterceptor : ISaveChangesInterceptor
     {
         private IList<ItemzChangeHistory> itemzChangeHistory;
-        private bool executingFirstTime = true;
 
-        // TODO: Utilizing dependency injection for Interceptor constructor is going to be 
-        // useful. This will allow Interceptor itself to utilize other registered services from
-        // dependency injection provider. e.g. having access to ILogger will be very useful for
-        // writing debug messages in the configured logger. Also, in the current solution we are
-        // configuring DbContextOptionsBuilder inside the Interceptor. By utilizing Dependency Injection
-        // service provider, we will keep all the options and configuration for connecting to the 
-        // database in the startup class itself.
+        public readonly ItemzChangeHistoryContext _injectedItemzChangeHistoryContext;
+        private readonly ILogger<ItemzContexInterceptor> _logger;
 
-        //public ItemzChangeHistoryContext _injectedItemzChangeHistoryContext;
-
-        //public ItemzContexInterceptor(ItemzChangeHistoryContext Injectedcontext)
-        //{
-        //    _injectedItemzChangeHistoryContext = Injectedcontext ?? throw new ArgumentNullException(nameof(Injectedcontext));
-        //}
-
-        public ItemzContexInterceptor()
+        public ItemzContexInterceptor(ItemzChangeHistoryContext InjectedItemzChangeHistoryContext,
+            ILogger<ItemzContexInterceptor> logger)
         {
-
+            _injectedItemzChangeHistoryContext = InjectedItemzChangeHistoryContext ?? throw new ArgumentNullException(nameof(InjectedItemzChangeHistoryContext));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+
         void ISaveChangesInterceptor.SaveChangesFailed(DbContextErrorEventData eventData)
         {
            
@@ -47,32 +38,14 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
         int ISaveChangesInterceptor.SavedChanges(SaveChangesCompletedEventData eventData, int result)
         {
-            //if (executingFirstTime)
-            //{
-            //    //var resultOfInsertSQL = ((ItemzContext)eventData.Context).ItemzChangeHistory.FromSqlInterpolated(
-            //    // $"INSERT INTO dbo.ITEMZCHANGEHISTORY ( ItemzId, CreatedDate, ChangeEvent) VALUES ('4adde56d-8081-45ea-bd37-5c830b63873b', '05-07-2019 00:00:00 +05:30', 'Modified')")
-            //    //    .AsNoTracking();
-
-            //    //var resultOfInsertSQL = ((ItemzChangeHistoryContext)eventData.Context).ItemzChangeHistory.FromSqlRaw(
-            //    // "INSERT INTO ITEMZCHANGEHISTORY ( ItemzId, CreatedDate, ChangeEvent) VALUES ('4adde56d-8081-45ea-bd37-5c830b63873b', '05-07-2019 00:00:00 +05:30', 'Modified')")
-            //    //    .AsNoTracking();
-
-
-
-            //    executingFirstTime = false;
-            //    //eventData.Context.SaveChanges();
-            //}
-            var optionsBuilder = new DbContextOptionsBuilder<ItemzChangeHistoryContext>();
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
-
-            //                using (ItemzChangeHistoryContext itemzChangeHistoryContext = new ItemzChangeHistoryContext(new DbContextOptions<ItemzChangeHistoryContext>()))
-            using (ItemzChangeHistoryContext itemzChangeHistoryContext = new ItemzChangeHistoryContext(optionsBuilder.Options))
+            if (itemzChangeHistory.Any())
             {
                 foreach (var ich in itemzChangeHistory)
                 {
-                    itemzChangeHistoryContext.Add(ich);
+                    _injectedItemzChangeHistoryContext.Add(ich);
                 }
-                itemzChangeHistoryContext.SaveChanges();
+                _injectedItemzChangeHistoryContext.SaveChanges();
+                _logger.LogDebug("ITEMZ_CHANGE_HISTORY: Saved {NumberOfChanges} Change History Records in the database", itemzChangeHistory.Count());
                 itemzChangeHistory.Clear();
             }
             return result;
@@ -80,38 +53,14 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
         async ValueTask<int> ISaveChangesInterceptor.SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken)
         {
-            //foreach (var ich in itemzChangeHistory)
-            //{
-            //    //var returnValue = _injectedContext.ItemzChangeHistory.FromSqlInterpolated(
-            //    //$"INSERT INTO \"ITEMZCHANGEHISTORY\" (\"ItemzId\", \"CreatedDate\",\"ChangeEvent\") VALUES ( \"4adde56d-8081-45ea-bd37-5c830b63873b\", \"05-07-2019 00:00:00 +05:30\", \"Modified\")" )
-            //    //    .ToList();
-            //    if (executingFirstTime)
-            //    {
-            //        //var resultOfInsertSQL = ((ItemzContext)eventData.Context).ItemzChangeHistory.FromSqlInterpolated(
-            //        // $"INSERT INTO dbo.ITEMZCHANGEHISTORY ( ItemzId, CreatedDate, ChangeEvent) VALUES ('4adde56d-8081-45ea-bd37-5c830b63873b', '05-07-2019 00:00:00 +05:30', 'Modified')")
-            //        //    .AsNoTracking();
-
-            //        //var resultOfInsertSQL = ((ItemzChangeHistoryContext)eventData.Context).ItemzChangeHistory.FromSqlRaw(
-            //        // "INSERT INTO ITEMZCHANGEHISTORY ( ItemzId, CreatedDate, ChangeEvent) VALUES ('4adde56d-8081-45ea-bd37-5c830b63873b', '05-07-2019 00:00:00 +05:30', 'Modified')")
-            //        //    .AsNoTracking();
-
-            //        executingFirstTime = false;
-            //        //eventData.Context.SaveChanges();
-            //    }
-            //}
-            ////await eventData.Context.SaveChangesAsync();
-
-            var optionsBuilder = new DbContextOptionsBuilder<ItemzChangeHistoryContext>();
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
-
-            //                using (ItemzChangeHistoryContext itemzChangeHistoryContext = new ItemzChangeHistoryContext(new DbContextOptions<ItemzChangeHistoryContext>()))
-            using (ItemzChangeHistoryContext itemzChangeHistoryContext = new ItemzChangeHistoryContext(optionsBuilder.Options))
+            if (itemzChangeHistory.Any())
             {
                 foreach (var ich in itemzChangeHistory)
                 {
-                    itemzChangeHistoryContext.Add(ich);
+                    _injectedItemzChangeHistoryContext.Add(ich);
                 }
-                itemzChangeHistoryContext.SaveChanges();
+                _injectedItemzChangeHistoryContext.SaveChanges();
+                _logger.LogDebug("ITEMZ_CHANGE_HISTORY: Saved {NumberOfChanges} Change History Records in the database", itemzChangeHistory.Count());
                 itemzChangeHistory.Clear();
             }
             return result;
@@ -129,7 +78,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
             return result;
         }
 
-        #region CreateAudit
+        #region CreateItemzChangeHistory
         private static IList<ItemzChangeHistory> CreateItemzChangeHistory(DbContext context)
         {
             context.ChangeTracker.DetectChanges();
@@ -142,6 +91,11 @@ namespace ItemzApp.API.DbContexts.Interceptors
                 {
                     continue;
                 }
+                else if(entry.State != EntityState.Added && entry.State != EntityState.Modified)
+                {
+                    continue;
+                }
+                
                 var itemzChangeHistory = new ItemzChangeHistory 
                     {
                     CreatedDate = DateTimeOffset.UtcNow,
@@ -158,17 +112,17 @@ namespace ItemzApp.API.DbContexts.Interceptors
                         itemzChangeHistory.ChangeEvent = nameof(EntityState.Added);
                         itemzChangeHistory.CreatedDate = (DateTimeOffset) entry.Properties.Where(property => property.Metadata.Name == "CreatedDate").FirstOrDefault().CurrentValue;
                         itemzChangeHistory.NewValues = CreateAddedChanges(entry);
+                        listOfItemzChangeHistory.Add(itemzChangeHistory);
                         break;
                     case EntityState.Modified:
                         itemzChangeHistory.ChangeEvent = nameof(EntityState.Modified);
                         itemzChangeHistory.OldValues = CreateOldValueModifiedChanges(entry);
                         itemzChangeHistory.NewValues = CreateNewValueModifiedChanges(entry);
+                        listOfItemzChangeHistory.Add(itemzChangeHistory);
                         break;
                     default:
                         break;
                 }
-
-                listOfItemzChangeHistory.Add(itemzChangeHistory);
             }
 
             return listOfItemzChangeHistory;
@@ -178,7 +132,6 @@ namespace ItemzApp.API.DbContexts.Interceptors
                         && property.Metadata.Name != "CreatedDate")
                    .Aggregate(
                     "",
-                   // $"Inserting {entry.Metadata.DisplayName()} with ",
                     (auditString, property) => 
                             auditString + 
                             $"{property.Metadata.Name}: '{property.CurrentValue}' " + 
@@ -192,8 +145,6 @@ namespace ItemzApp.API.DbContexts.Interceptors
                             auditString +
                             $"{property.Metadata.Name}: '{property.OriginalValue}' " +
                             Environment.NewLine + Environment.NewLine);
-
-
 
             string CreateNewValueModifiedChanges(EntityEntry entry)
                 => entry.Properties.Where(property => property.IsModified)
@@ -215,7 +166,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
             //                $"{property.Metadata.Name}: '{property.CurrentValue}' " + 
             //                Environment.NewLine + Environment.NewLine);
         }
-        #endregion
+        #endregion CreateItemzChangeHistory
 
     }
 }

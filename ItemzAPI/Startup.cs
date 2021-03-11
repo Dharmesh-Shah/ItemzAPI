@@ -150,12 +150,11 @@ namespace ItemzApp.API
 
             services.AddScoped<ItemzContexInterceptor>();
 
-            services.AddDbContext<ItemzContext>((provider,options) =>
+            services.AddDbContext<ItemzContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
                     @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;")
-                //.AddInterceptors(provider.GetRequiredService<ItemzContexInterceptor>()); 
-                .AddInterceptors(new ItemzContexInterceptor());
+                    .AddInterceptors(serviceProvider.GetRequiredService<ItemzContexInterceptor>()); 
             });
 
             services.AddDbContext<ItemzChangeHistoryContext>((provider, options) =>
