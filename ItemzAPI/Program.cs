@@ -48,6 +48,13 @@ namespace ItemzApp.API
 
                 // migrate the database. Best Practice = in main, using service scope
 
+                // EXPLAINED: All about ASP .NET Core start-up is explained very well by Andrew Lock in this
+                // blog article and blog series...
+                // https://andrewlock.net/running-async-tasks-on-app-startup-in-asp-net-core-part-1/
+                // We are utilizing '4. Manually running tasks in Program.cs' subtopic from above blog article
+                // for database set-up when it comes to initializing database with test data everytime
+                // application starts-up.
+
                 using (var scope = host.Services.CreateScope())
                 {
                     try
@@ -57,6 +64,7 @@ namespace ItemzApp.API
                         // we can start with a clean slate
                         context.Database.EnsureDeleted();
                         context.Database.Migrate();
+                        Log.Information("Database deleted >>> migrated >>> seeded completed");
                     }
                     catch (Exception ex)
                     {
@@ -67,9 +75,8 @@ namespace ItemzApp.API
                 }
 
                 //logger.LogInformation("Host created.");
-
+                Log.Information("Application Started...");
                 host.Run();
-                Log.Information("Started...");
             }
             catch (Exception ex)
             {
@@ -79,7 +86,6 @@ namespace ItemzApp.API
             {
                 Log.CloseAndFlush();
             }
-
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
