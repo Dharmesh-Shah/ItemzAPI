@@ -458,6 +458,12 @@ As explained by Author <span style="background-color: #99ff66">Jaliya Udagedara 
 
 This way, one does not have to implement advanced concepts of Interceptors in EF Core. That said, please consider both the options for ItemzApp.
 
+### [Josh Darnell - What the EF Common ORM Problems and How to Fix Them](https://www.youtube.com/watch?v=ld8_5BH2_U8)
+
+In this video, Josh Darnell shows different options for checking queries that are exected in SQL Server. He also shares nice tips and tricks about optimising performance via EF Core in this video.
+
+Check this out to see if any of it would be useful for ItemzApp.
+
 
 
 
