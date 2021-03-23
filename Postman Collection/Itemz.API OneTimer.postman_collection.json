@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "451eb023-8cfd-4ff9-8676-4978a5729644",
+		"_postman_id": "f8042eae-2bd4-496f-9c0e-ff1e62339cc5",
 		"name": "Itemz.API OneTimer",
 		"description": "This should be executed only once to verify that expected features are working as expected.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,7 +15,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a7a490c3-d7c9-4aae-883f-3d6961ddf721",
 								"exec": [
 									"//pm.test(\"Status code is either 201 or 409\", function () {",
 									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
@@ -32,7 +31,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f203a537-5d7a-4b0b-b173-555a962d2e0a",
 								"exec": [
 									"pm.variables.get(\"ProjectNumber\");"
 								],
@@ -79,7 +77,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60f77933-8af6-467f-bfe9-d78a0f308d01",
 								"exec": [
 									"//pm.test(\"Status code is either 201 or 409\", function () {",
 									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
@@ -139,7 +136,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d6d9dd94-d1c1-4d85-900d-d99663c9fb4e",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -194,7 +190,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "55444694-8029-4690-b14b-f0c17fca3ed7",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -240,7 +235,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "958fda87-c7c1-4a64-bdaf-aef58ace0faf",
 								"exec": [
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
@@ -295,7 +289,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "17370c1f-d220-48a9-bcec-65c9ff7c0789",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -350,7 +343,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8d364f24-11b3-4599-8df9-f067af715c22",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -396,7 +388,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ec244068-1a76-4429-8faf-8b6fc7d66714",
 								"exec": [
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
@@ -445,8 +436,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "BusinessRule - UniqueItemzTypeNameRule",
@@ -457,7 +447,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8692210e-54a0-4d9e-8345-2893edf22574",
 								"exec": [
 									"//pm.test(\"Status code is either 201 or 409\", function () {",
 									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
@@ -474,7 +463,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b2b4dcf1-620a-481a-95b7-4987b46975ef",
 								"exec": [
 									"pm.variables.get(\"ItemzTypeNumber\");"
 								],
@@ -521,7 +509,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1b2b4f34-c7f0-4b3c-a58f-3e2f390b387b",
 								"exec": [
 									"//pm.test(\"Status code is either 201 or 409\", function () {",
 									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
@@ -580,7 +567,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b4620118-9b67-4674-acd0-2878f394db7e",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -635,7 +621,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eebc03ea-a00f-4460-b641-bedeb242c896",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -681,7 +666,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9e5c35c2-32ba-4976-928a-dffa52c277ec",
 								"exec": [
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
@@ -736,7 +720,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6fd0c06e-042b-46da-b110-fbab1bb3287a",
 								"exec": [
 									"pm.test(\"Status code is 204\", function () {",
 									"    pm.response.to.have.status(204);",
@@ -791,7 +774,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "09552d67-2a82-41ac-93f0-bd0e48ceb825",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -837,7 +819,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3be87b4f-87d3-4740-b711-f00a1054dab8",
 								"exec": [
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
@@ -886,8 +867,240 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "ItemzChangeHistory",
+			"item": [
+				{
+					"name": "DELETE Itemz by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz After Deleting it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n    \"name\": \"ADDING after Deleting\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingItemz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingItemz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz. This means we should only have two  entries ",
+									"in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(2);",
+									"});",
+									"",
+									"",
+									"/* Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event and the second entry should be for 'Added' event.",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Added');",
+									"    });",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "DELETE Project by ID",
@@ -895,7 +1108,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "df8b496f-a599-48d2-b1eb-5a77be3bfa04",
 						"exec": [
 							"pm.test(\"Status code is 204\", function () {",
 							"    pm.response.to.have.status(204);",
@@ -941,7 +1153,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "38b2f46f-8f9a-4ddf-9e16-ef01b7cabce0",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -990,7 +1201,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "1cbee31d-1c1e-4670-b096-fd428c094c4e",
 						"exec": [
 							"pm.test(\"Status code is 204\", function () {",
 							"    pm.response.to.have.status(204);",
@@ -1036,7 +1246,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5771c48d-253c-4c8c-aec9-f00e3394c060",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -1085,7 +1294,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "06c97a04-5bdb-482a-be8b-adda5124bb34",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -1140,7 +1348,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bd3c26d4-63d8-4684-bbe8-13614cc58597",
 						"exec": [
 							"pm.test(\"Status code is 405\", function () {",
 							"    pm.response.to.have.status(405);",
@@ -1195,7 +1402,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3b114b45-5c8b-4a0b-8cdd-8472814752c9",
 						"exec": [
 							"pm.test(\"Status code is 405\", function () {",
 							"    pm.response.to.have.status(405);",
@@ -1249,7 +1455,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8367ee04-e87e-45f7-bf85-e54386d0d5f5",
 						"exec": [
 							"pm.test(\"Status code is 405\", function () {",
 							"    pm.response.to.have.status(405);",
@@ -1302,7 +1507,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "247e5927-ac74-4c8f-874d-64d3a4a02481",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1312,7 +1516,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6bde445c-10ab-4d7c-8a1c-2d3f430d14d1",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1322,15 +1525,12 @@
 	],
 	"variable": [
 		{
-			"id": "6f79f3eb-0663-4953-8b9e-16258e44e70e",
 			"key": "ProjectNumber",
 			"value": "100"
 		},
 		{
-			"id": "96457101-df4a-4f7b-add3-ae5a22e9b096",
 			"key": "ItemzTypeNumber",
 			"value": "100"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
