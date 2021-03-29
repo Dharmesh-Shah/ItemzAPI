@@ -465,6 +465,14 @@ In this video, Josh Darnell shows different options for checking queries that ar
 Check this out to see if any of it would be useful for ItemzApp.
 
 
+### [EF Core : Working with Stored Procedure / UDF and Linq over returning results.](https://youtu.be/3-Izu_qLDqY?list=PLdo4fOcmZ0oX0ObHwBrJ0vJpZ7PiYMqeA&t=3065)
+
+People coming from EF 6 may be not aware of
+EF 6 you could run Raw SQL queries. But We didn't had equivallent of the same in EF Core FromSQL could allow you to start with some SQL that you have written and then compose on that with LINQ. e.g. you could start with something that uses UDF and then put where clause and skip and take and that would work. That actually is very powerful part of EF Core. This does not come in EF 6. But in order to do that, it can't be stored procedure because SQL Server does not allow you to compose over Stored Procedure. You then have to use UDF or some other kind of SQL.
+
+I'm not returning IQueriable because the tool returns the list of the results of the stored procedure. That's how it works.
+
+So there is also an EF Core 5 that uses Table Value Function (TVF) table returning basically UDFs so that you can write functions that return result sets and that you can compose over. TVFs exactly.
 
 
 
