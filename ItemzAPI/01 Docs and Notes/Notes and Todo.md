@@ -474,5 +474,18 @@ I'm not returning IQueriable because the tool returns the list of the results of
 
 So there is also an EF Core 5 that uses Table Value Function (TVF) table returning basically UDFs so that you can write functions that return result sets and that you can compose over. TVFs exactly.
 
+### [ASP .NET Core Dependency Injection Tips and Tricks](https://www.youtube.com/watch?v=l7uvhj3VjZU)
+
+Published on 29-Mar-2021
+
+By <span style="background-color: #99ff66">Steve Collins [@stevetalkscode](https://twitter.com/stevetalkscode)</span>
+
+OVERALL EXCELLENT demo about Dependency Injection in .Net Core.
+
+Detailed explaination of how dependency injection works in .NET Core and what is supported out of the box by Microsoft DI Container. Steve also shows nice tips and tricks including Factory / Decorator patter to extend existing registered services. Very Very nice presentation by Steve.
+
+Ref:- [Steve's Blog Site](http://Stevetalkscode.co.uk)
+
+
 
 
