@@ -486,6 +486,11 @@ Detailed explaination of how dependency injection works in .NET Core and what is
 
 Ref:- [Steve's Blog Site](http://Stevetalkscode.co.uk)
 
+### [Search within Source code of .NET Core](https://source.dot.net/)
+
+Find type and member declarations, files, and assemblies.
+
+The link I have used here is to the excellent https://source.dot.net/  web site where you can easily search for .NET Core/5 code by type or member name instead of trawling through the ASP.NET Core GitHub repo.
 
 
 
