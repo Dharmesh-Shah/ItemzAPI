@@ -486,6 +486,11 @@ Detailed explaination of how dependency injection works in .NET Core and what is
 
 Ref:- [Steve's Blog Site](http://Stevetalkscode.co.uk)
 
+Steve also wrote this [Styles of Writing ASP.NET Core Middleware](http://stevetalkscode.co.uk/2021/02) in which he covers issues to be aware of while writing ASP .NET Core Middleware that requires services that are registered in Dependency Injection Containers. Steve talks about three different ways for registering middleware
+ - In-Line
+ - Middleware Factory
+ - Conventional based
+
 ### [Search within Source code of .NET Core](https://source.dot.net/)
 
 Find type and member declarations, files, and assemblies.
