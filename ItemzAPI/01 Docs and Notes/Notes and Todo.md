@@ -497,5 +497,44 @@ Find type and member declarations, files, and assemblies.
 
 The link I have used here is to the excellent https://source.dot.net/  web site where you can easily search for .NET Core/5 code by type or member name instead of trawling through the ASP.NET Core GitHub repo.
 
+### [EF Core - Constants in Expressions](https://youtu.be/xVD5thZ8RJY?t=2608)
+
+Published on 7th April 2021
+
+By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh). </span>
+Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
 
 
+It's not advisable to have constants in the query expressions because EF Core internally caches linq expressions. 
+
+Basically, EF Core caches each linq expressions but if we use constants direcly in the expresion body then EF Core will not cache the same. This will have performance implecations. It's ideal to make sure that ItemzAPI does not use constants in Linq Expressions. Following is the example shared by Khalid in his presentation
+
+```C#
+// two different expressions
+var first = database
+    .movie
+    .first(m => m.id == 1);
+var second = database
+    .movie
+    .first(m => m.id == 2);
+
+// same expression for two
+// different queries because 
+// EF Core will cache the expression.
+
+var id = 1;
+var first = database
+    .movie
+    .first(m => m.id == id);
+
+var id = 2;
+var second = database
+    .movie
+    .first(m => m.id == id);
+
+```
+
+This entire presentation from Khalid is a very good introduction to EF Core that covers many important topics.
+
+Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
+  
