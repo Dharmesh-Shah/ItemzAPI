@@ -537,4 +537,17 @@ var second = database
 This entire presentation from Khalid is a very good introduction to EF Core that covers many important topics.
 
 Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
-  
+
+### [EF Core - Returning Data from SQL Server View](https://www.youtube.com/watch?v=c5wAXWK33Ss)
+
+Published on 26th March 2021
+
+By <span style="background-color: #99ff66"> David Stovell </span> 
+
+David touches well upon key concepts of working with Database Views via EF Core. He covers key points like...
+
+ - Creating Model that matches data returned by View
+ - Utilizing views for read-only data access purposes
+ - Views generally does not have primary keys
+ - Writing custom migrations that are useful for creating view into database
+ - Utilizing `AsNoTracking` for data returned by views via EF Core.
