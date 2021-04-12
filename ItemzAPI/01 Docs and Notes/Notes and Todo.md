@@ -551,3 +551,24 @@ David touches well upon key concepts of working with Database Views via EF Core.
  - Views generally does not have primary keys
  - Writing custom migrations that are useful for creating view into database
  - Utilizing `AsNoTracking` for data returned by views via EF Core.
+
+###[JetBrains Space Dotnet SDK - Example Large API application](https://www.youtube.com/watch?v=w4wZ8G6QALs)
+
+Maarten Balliauw — Building and generating a .NET client for a large API
+
+Presentor - <span style="background-color: #99ff66">Maarten Balliauw[@maartenballiauw](https://twitter.com/maartenballiauw)
+
+Maarten Balliauw also has Blog site at [https://blog.maartenballiauw.be](https://blog.maartenballiauw.be)
+
+Feb 16 2021
+
+OVERALL - Excellent Demo
+
+In this presentation Martin showed excellent examples of how they have implemented code for Bug and Issue tracking application called as JetBrains space. It utilizes features like 
+
+- Code Generators
+- Feature Flags
+- Defaults for Nullable Reference Types
+- Automation of Enums for different types of Data-types
+
+Source code for Space SDK can be found at [https://github.com/JetBrains/space-dotnet-sdk](https://github.com/JetBrains/space-dotnet-sdk)
