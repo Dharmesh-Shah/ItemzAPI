@@ -592,3 +592,12 @@ This blog post gives example of most used SQL Relationships that are used within
 - Hierarchical Relationships
 
 Khalid warns about using Hierarchical relationships as it can have adverse impact on Performance of SQL Query. 
+
+### [Postman - Configure Postman API tests in Azure DevOps](https://dotnetthoughts.net/how-to-configure-postman-api-tests-in-azure-devops/)
+
+Published on 19th Dec 2020.
+
+By <span style="background-color: #99ff66">Anuraj Parameswaran [@anuraj](https://twitter.com/anuraj). </span>
+
+In this Blog Post Anuraj explains about how to configure Postman to run from Command Line Interface via newman from within Azure Devops build pipeline. This is useful in two ways. It can help for CI / CD based build workflow to include API testing via Postmane / Newman cli and secondly, it can be used from Developers machine as well to automate execution of all the tests via newman cli tool itself.
+
