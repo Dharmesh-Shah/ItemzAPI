@@ -552,7 +552,7 @@ David touches well upon key concepts of working with Database Views via EF Core.
  - Writing custom migrations that are useful for creating view into database
  - Utilizing `AsNoTracking` for data returned by views via EF Core.
 
-###[JetBrains Space Dotnet SDK - Example Large API application](https://www.youtube.com/watch?v=w4wZ8G6QALs)
+### [JetBrains Space Dotnet SDK - Example Large API application](https://www.youtube.com/watch?v=w4wZ8G6QALs)
 
 Maarten Balliauw — Building and generating a .NET client for a large API
 
@@ -572,3 +572,23 @@ In this presentation Martin showed excellent examples of how they have implement
 - Automation of Enums for different types of Data-types
 
 Source code for Space SDK can be found at [https://github.com/JetBrains/space-dotnet-sdk](https://github.com/JetBrains/space-dotnet-sdk)
+
+### [EF Core - Modeling Most SQL Relationships](https://khalidabuhakmeh.com/modeling-most-sql-relationships-in-entity-framework-core)
+
+Published on 6th April 2021
+
+By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh). </span>
+Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
+
+This blog post gives example of most used SQL Relationships that are used within EF Core. It shows information about following types of relationships
+
+- Non-Related Entities
+- One-to-One Bidirectional Relationship
+- One-to-one Owned Relationship
+- One-to-Many Relationships
+- One-to-Many Owned Relationships
+- Many To Many Transparent Relationship
+- Modeled Many-To-Many Relationship
+- Hierarchical Relationships
+
+Khalid warns about using Hierarchical relationships as it can have adverse impact on Performance of SQL Query. 
