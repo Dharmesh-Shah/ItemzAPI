@@ -591,7 +591,8 @@ This blog post gives example of most used SQL Relationships that are used within
 - Modeled Many-To-Many Relationship
 - Hierarchical Relationships
 
-Khalid warns about using Hierarchical relationships as it can have adverse impact on Performance of SQL Query. 
+Khalid warns about using Hierarchical relationships as it can have adverse impact on Performance of SQL Query. Later, Khalid wrote this excellent blog post explaining how to use Common Table Expressions (CTEs) for working with tables with recursive data like Manager / Employee as part of organization hierarchy.
+Blog can be found at [Recursive Data With Entity Framework Core and SQL Server](https://khalidabuhakmeh.com/recursive-data-with-entity-framework-core-and-sql-server)
 
 ### [Postman - Configure Postman API tests in Azure DevOps](https://dotnetthoughts.net/how-to-configure-postman-api-tests-in-azure-devops/)
 
