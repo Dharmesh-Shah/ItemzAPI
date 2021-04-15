@@ -975,6 +975,72 @@
 					"response": []
 				},
 				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz This means we should only have One entry  ",
+									"in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(1);",
+									"});",
+									"",
+									"",
+									"/* The only entry should be for 'Added' event at this stage. */",
+									"",
+									"",
+									"pm.test(\"Verify that single entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Added');",
+									"    });",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "PATCH Itemz Name",
 					"event": [
 						{
@@ -1063,6 +1129,273 @@
 									"    pm.expect(jsonData[1].changeEvent).to.eql('Added');",
 									"    });",
 									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz. This means we should only have two  entries ",
+									"in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(2);",
+									"});",
+									"",
+									"",
+									"/* ",
+									"",
+									"We Patched Itemz with the same values yet again. Because REST API Patch operation is supposed to be Idemopotent operation, we don't expect 3rd entry to be created in the ChangeHistory table. This is what we are testing here by patching this request second time with the same values.",
+									"",
+									"Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event and the second entry should be for 'Added' event.",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Added');",
+									"    });",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* This time we are patching the name with value PATCH SECOND TIME */",
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH SECOND TIME Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz twice. This means we should only have three  entries in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(3);",
+									"});",
+									"",
+									"",
+									"/* ",
+									"",
+									"We now patched with different value for Name field. We called it PATCH SECOND TIME ... ",
+									"",
+									"Now we expect one more entry to be added to ChangeHistory table. Two of them should be modified and last should be Added based on decending order by ChangeHistory date and time in descending order.",
+									"",
+									"Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event, then the second entry should be for 'Modified' event and then the third entry should be based on 'Added' event.s",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[2].changeEvent).to.eql('Added');",
+									"    });",
 									""
 								],
 								"type": "text/javascript"
@@ -1525,10 +1858,12 @@
 	],
 	"variable": [
 		{
+			"id": "d15a27d6-49fa-4184-b4cc-bb9419933623",
 			"key": "ProjectNumber",
 			"value": "100"
 		},
 		{
+			"id": "ac602fa9-da68-415c-ac23-43333df3efe8",
 			"key": "ItemzTypeNumber",
 			"value": "100"
 		}
