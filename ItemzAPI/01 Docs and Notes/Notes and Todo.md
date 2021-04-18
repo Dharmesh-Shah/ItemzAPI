@@ -602,3 +602,14 @@ By <span style="background-color: #99ff66">Anuraj Parameswaran [@anuraj](https:/
 
 In this Blog Post Anuraj explains about how to configure Postman to run from Command Line Interface via newman from within Azure Devops build pipeline. This is useful in two ways. It can help for CI / CD based build workflow to include API testing via Postmane / Newman cli and secondly, it can be used from Developers machine as well to automate execution of all the tests via newman cli tool itself.
 
+### [ASP .NET CORE - Utilizing EF Core and SQL Server DB to store application configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#custom-configuration-provider)
+
+For ItemzAPI, it might be desirable to store many configuration options in the SQL Server itself. This will make it easy to back-up and restore entire application data that includes configuration information as well.
+
+ASP .NET CORE docs provides information at this location about how to write you own custom configuration provider for this purposes and it actually shows example that uses Entity Framework Core. 
+
+### [Nice Tool for converting JSON to C# online](https://json2csharp.com/)
+
+This is a nice tool to convert JSON file over to C# object. This will help in developing faster by swiftly converting JSON file over to C# instead of writing it by hand.
+
+I believe many other tools that can generate source code from OpenAPI specification can also be very useful for generating C# code from JSON objects that are returned from REST API too.
