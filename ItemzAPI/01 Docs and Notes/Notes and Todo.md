@@ -28,6 +28,11 @@ Another alternative is to decorate one of the navigation properties with the `[J
 > 
 > Also considering `Newtonsoft.Json.ReferenceLoopHandling.Ignore` to be used in `ConfigureServices` method.
 
+
+> [!NOTE]
+> Official documentation for all settings for Newtonsoft AddJsonOptions lamda expression can be found at ... [Newtonsoft Serialization Settings](https://www.newtonsoft.com/json/help/html/SerializationSettings.htm)
+> 
+
 ### [DONE: Repository to use Asynchronous DB Queries methods](https://docs.microsoft.com/en-us/ef/core/querying/async)
 
 > DONE: Most of the DB calls are now Async apart from the one where we are returning PagedList due to custom implementation of OrderBy on top of `IQueryable`.
