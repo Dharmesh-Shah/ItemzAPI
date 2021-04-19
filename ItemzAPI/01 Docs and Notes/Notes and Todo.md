@@ -618,3 +618,24 @@ ASP .NET CORE docs provides information at this location about how to write you 
 This is a nice tool to convert JSON file over to C# object. This will help in developing faster by swiftly converting JSON file over to C# instead of writing it by hand.
 
 I believe many other tools that can generate source code from OpenAPI specification can also be very useful for generating C# code from JSON objects that are returned from REST API too.
+
+### [EF Core - Hidden Gems - Nice Demos](https://www.youtube.com/watch?v=rjwou1Nw8Bk)
+
+Published on 20th July 2020.
+
+By <span style="background-color: #99ff66">Igor Roncevic[@ironcev_](https://twitter.com/ironcev_). </span>
+
+Igor has shared some great tips and tricks about EF Core 3.1 that are nice to know. It includes techniques like
+
+- AsNoTracking
+- Value Conersions
+- HasNoKey (Database Views)
+- Defining Queries
+- Query Tags
+- Entity Constructors
+- Backing fields
+
+Igor maintains sample code that was used in his demonstration at [https://github.com/ironcev-talks/entity-framework-core-hidden-gems](https://github.com/ironcev-talks/entity-framework-core-hidden-gems)
+
+For ItemzAPI, I believe we could utilize HasNoKey for Database Views effectively as well as some concepts of Value Conversions. Others are also useful but I feel this two could be more useful compared to others.
+
