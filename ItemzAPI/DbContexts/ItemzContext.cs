@@ -210,6 +210,8 @@ namespace ItemzApp.API.DbContexts
 
             // EXPLANATION: Here we are defining Many to Many relationship between
             // ItemzType and Itemz
+            // This is described as Indirect Many-to-Many relationships in Microsoft Docs at ...
+            // https://docs.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key#indirect-many-to-many-relationships
 
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasOne(itji => itji.ItemzType)
