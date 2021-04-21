@@ -29,6 +29,31 @@ namespace ItemzApp.API.Services
                 .OrderByDescending(ich => ich.CreatedDate).AsNoTracking().ToListAsync();
         }
 
+        public async Task DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null)
+        {
+            if (DeleteUptoDateTime == null)
+            {
+                return;
+            }
+            var numberOfItemzChangeHistoryToBeRemoved = 0;
+            var foundItemzChangeHistory = _context.ItemzChangeHistory.Where(ich => ich.ItemzId == ItemzId);
+            if (foundItemzChangeHistory.Count() > 0)
+            {
+                foreach (var each_fich in foundItemzChangeHistory)
+                {
+                    if (each_fich.CreatedDate < DeleteUptoDateTime)
+                    {
+                        _context.Remove(each_fich);
+                        numberOfItemzChangeHistoryToBeRemoved += 1;
+                    }
+                }
+            }
+            if(numberOfItemzChangeHistoryToBeRemoved > 0)
+            {
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public void Dispose()
         {
             Dispose(true);

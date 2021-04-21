@@ -50,6 +50,14 @@
             <response code="404">Requested Itemz and/or it's change history records not found</response>
             
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.DeleteItemzChangeHistoryAsync(ItemzApp.API.Models.DeleteItemzChangeHistoryDTO)">
+            <summary>
+            Deleting ItemzChangeHistory for a given ItemzID upto provided Date and Time.
+            </summary>
+            <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
+            <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
+            <response code="404">Itemz based on itemzId was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Gets collection of Itemzs without any Pagination
@@ -453,6 +461,16 @@
             <summary>
             CreateProjectDTO shall be used for sending in request for creating new Project.
             It will expose necessary properties to allow successful creation of the Project.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.DeleteItemzChangeHistoryDTO.ItemzId">
+            <summary>
+            itemzId of the Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.DeleteItemzChangeHistoryDTO.UptoDateTime">
+            <summary>
+            Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetItemzChangeHistoryDTO">

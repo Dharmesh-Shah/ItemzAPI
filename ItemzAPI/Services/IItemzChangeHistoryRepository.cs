@@ -9,5 +9,9 @@ namespace ItemzApp.API.Services
     public interface IItemzChangeHistoryRepository
     {
         Task<IEnumerable<ItemzChangeHistory>> GetItemzChangeHistoryAsync(Guid ItemzId);
+
+        Task DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null);
+
+
     }
 }
