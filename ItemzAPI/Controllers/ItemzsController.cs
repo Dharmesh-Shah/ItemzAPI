@@ -62,15 +62,17 @@ namespace ItemzApp.API.Controllers
         [HttpHead("{ItemzId:Guid}",Name ="__HEAD_Itemz_By_GUID_ID__")]
         public async Task<ActionResult<GetItemzDTO>> GetItemzAsync(Guid ItemzId)
         {
-            _logger.LogDebug("Processing request to get Itemz for ID {ItemzId}", ItemzId);
+            var myLocation = GetControllerAndActionNames();
+
+            _logger.LogDebug("{myLocation} Processing request to get Itemz for ID {ItemzId}", myLocation, ItemzId);
             var itemzFromRepo = await _itemzRepository.GetItemzAsync(ItemzId);
 
             if (itemzFromRepo == null)
             {
-                _logger.LogDebug("Itemz for ID {ItemzId} could not be found", ItemzId);
+                _logger.LogDebug("{myLocation} Itemz for ID {ItemzId} could not be found", myLocation, ItemzId);
                 return NotFound();
             }
-            _logger.LogDebug("Found Itemz for ID {ItemzId} and now returning results", ItemzId);
+            _logger.LogDebug("{myLocation} Found Itemz for ID {ItemzId} and now returning results", myLocation, ItemzId);
             return Ok(_mapper.Map<GetItemzDTO>(itemzFromRepo));
         }
 
@@ -389,6 +391,13 @@ namespace ItemzApp.API.Controllers
                             pageSize = itemzResourceParameter.PageSize
                         });
             }
+        }
+        private string GetControllerAndActionNames()
+        {
+            var controller = ControllerContext.ActionDescriptor.ControllerName;
+            var action = ControllerContext.ActionDescriptor.ActionName;
+
+            return $"{controller} - {action}";
         }
     }
 }
