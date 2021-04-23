@@ -10,7 +10,7 @@ namespace ItemzApp.API.Services
     {
         Task<IEnumerable<ItemzChangeHistory>> GetItemzChangeHistoryAsync(Guid ItemzId);
 
-        Task DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null);
+        Task<int> DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null);
 
 
     }

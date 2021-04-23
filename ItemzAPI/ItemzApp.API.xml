@@ -56,6 +56,7 @@
             </summary>
             <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
             <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
+            <response code="200">Returns number of Itemz Change History records that were deleted</response>
             <response code="404">Itemz based on itemzId was not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
@@ -728,6 +729,16 @@
             existing Project. It will expose necessary properties to allow existing
             Project to be updated with new values for those properties.
             </summary>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(System.Guid,System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Used for deleting Itemz Change History based on ItemzId and provided Date and Time as Cut-off for deletion
+            
+            If no records are deleted then we return ZERO integer value. This is to make this method behave as an idempotent method.
+            </summary>
+            <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
+            <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
+            <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
         </member>
     </members>
 </doc>
