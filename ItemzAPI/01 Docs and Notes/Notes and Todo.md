@@ -506,7 +506,7 @@ The link I have used here is to the excellent https://source.dot.net/  web site 
 
 Published on 7th April 2021
 
-By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh). </span>
+By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh) </span>
 Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
 
 
@@ -582,7 +582,7 @@ Source code for Space SDK can be found at [https://github.com/JetBrains/space-do
 
 Published on 6th April 2021
 
-By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh). </span>
+By <span style="background-color: #99ff66">Khalid Abuhakmeh [@buhakmeh](https://twitter.com/buhakmeh) </span>
 Khalid also blogs about several topics at his Blog site at ... [https://khalidabuhakmeh.com/](https://khalidabuhakmeh.com/) 
 
 This blog post gives example of most used SQL Relationships that are used within EF Core. It shows information about following types of relationships
@@ -603,7 +603,7 @@ Blog can be found at [Recursive Data With Entity Framework Core and SQL Server](
 
 Published on 19th Dec 2020.
 
-By <span style="background-color: #99ff66">Anuraj Parameswaran [@anuraj](https://twitter.com/anuraj). </span>
+By <span style="background-color: #99ff66">Anuraj Parameswaran [@anuraj](https://twitter.com/anuraj) </span>
 
 In this Blog Post Anuraj explains about how to configure Postman to run from Command Line Interface via newman from within Azure Devops build pipeline. This is useful in two ways. It can help for CI / CD based build workflow to include API testing via Postmane / Newman cli and secondly, it can be used from Developers machine as well to automate execution of all the tests via newman cli tool itself.
 
@@ -623,7 +623,7 @@ I believe many other tools that can generate source code from OpenAPI specificat
 
 Published on 20th July 2020.
 
-By <span style="background-color: #99ff66">Igor Roncevic[@ironcev_](https://twitter.com/ironcev_). </span>
+By <span style="background-color: #99ff66">Igor Roncevic[@ironcev_](https://twitter.com/ironcev_) </span>
 
 Igor has shared some great tips and tricks about EF Core 3.1 that are nice to know. It includes techniques like
 
@@ -639,3 +639,12 @@ Igor maintains sample code that was used in his demonstration at [https://github
 
 For ItemzAPI, I believe we could utilize HasNoKey for Database Views effectively as well as some concepts of Value Conversions. Others are also useful but I feel this two could be more useful compared to others.
 
+### [WebAssembly - HttpClient Interceptor for handling exceptions at global level](https://www.youtube.com/watch?v=YVHRepxQTnM)
+
+Published on 10th April 2021
+
+By <span style="background-color: #99ff66@>Trevoir Williams [@trevoirwilliams](https://twitter.com/trevoirwilliams) </span>
+ 
+In this video, Trevoir talks about an opensource Nuget Library called as Toolbelt.Blazor.HttpClientInterceptor that helps in capturining HttpRequest and HttpResponse that is raised via HttpClient from within Blazor Application. It's a good introduction and technique to be used in Blazor WebAssembly application that has to be evaluated if ItemzAPP is going to use Blazor WebAssembly technology for client side development.
+
+GitHub Repository for Toolbelt.Blazor.HttpClientInterceptor is located at [https://github.com/jsakamoto/Toolbelt.Blazor.HttpClientInterceptor](https://github.com/jsakamoto/Toolbelt.Blazor.HttpClientInterceptor)
