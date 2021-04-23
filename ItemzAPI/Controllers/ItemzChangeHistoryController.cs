@@ -60,42 +60,23 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetItemzChangeHistoryDTO>>(itemzChangeHistoryFromRepo)); 
         }
 
-
         /// <summary>
         /// Deleting ItemzChangeHistory for a given ItemzID upto provided Date and Time.
         /// </summary>
         /// <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
         /// <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
+        /// <response code="200">Returns number of Itemz Change History records that were deleted</response>
         /// <response code="404">Itemz based on itemzId was not found</response>
         [HttpDelete(Name = "__DELETE_Itemz_Change_History_By_GUID_ID__")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> DeleteItemzChangeHistoryAsync(DeleteItemzChangeHistoryDTO deleteItemzChangeHistoryDTO)
+        public async Task<ActionResult<int>> DeleteItemzChangeHistoryAsync(DeleteItemzChangeHistoryDTO deleteItemzChangeHistoryDTO)
         {
-            //if (!(await _itemzChangeHistoryRepository.ItemzExistsAsync(itemzId)))
-            //{
-            //    _logger.LogDebug("Cannot Delete Itemz with ID {ItemzId} as it could not be found", itemzId);
-            //    return NotFound();
-            //}
+            var numberOfDeletedRecords = await _itemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.ItemzId,deleteItemzChangeHistoryDTO.UptoDateTime);
 
-            var itemzChangeHistoryFromRepo = await _itemzChangeHistoryRepository.GetItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.ItemzId);
-
-            if (itemzChangeHistoryFromRepo == null || itemzChangeHistoryFromRepo.Count() == 0)
-            {
-                _logger.LogDebug(
-                    "Cannot Delete Itemz Change History for ItemzID {ItemzId} as it could not be found in the Repository", 
-                    deleteItemzChangeHistoryDTO.ItemzId);
-                return NotFound();
-            }
-
-            await _itemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.ItemzId,deleteItemzChangeHistoryDTO.UptoDateTime);
-            //await _itemzRepository.SaveAsync();
-
-            _logger.LogDebug("Delete request for Itemz Change History for ItemzID {ItemzId} processed successfully", deleteItemzChangeHistoryDTO.ItemzId);
-            return NoContent();
+            _logger.LogDebug("Deleted {numberOfDeletedRecords} record(s) from Itemz Change History for ItemzID {ItemzId}", numberOfDeletedRecords, deleteItemzChangeHistoryDTO.ItemzId );
+            return Ok(numberOfDeletedRecords);
         }
-
-
     }
 }

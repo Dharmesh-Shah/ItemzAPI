@@ -1442,6 +1442,463 @@
 			"name": "DeleteItemsChangeHistory",
 			"item": [
 				{
+					"name": "DeleteMultipleItemzChangeHistory",
+					"item": [
+						{
+							"name": "DELETE Itemz by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"9153a516-d69e-4364-b17e-03b87442e21c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Itemz After Deleting it",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* ",
+											"    Get current Date and set it value in Varibale. ",
+											"    This value will be used in subsequent queries",
+											"*/",
+											"",
+											"var date = new Date();",
+											"pm.collectionVariables.set(\"ItemzChangeHistoryCreatedDateTime\", date);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":\"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n    \"name\": \"ADDING after Deleting\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ONLYforTestingItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ONLYforTestingItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											" /*\r",
+											"    Delay execution by provided miliseconds\r",
+											" */\r",
+											" \r",
+											" var time = setTimeout(function(){}, [500]);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Name field\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"9153a516-d69e-4364-b17e-03b87442e21c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/* This time we are patching the name with value PATCH SECOND TIME */",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH SECOND TIME Updated Name field\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"9153a516-d69e-4364-b17e-03b87442e21c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ItemzChangeHistory Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/* ",
+											"    First we Delete Itemz, Then we Add Itemz. Then we patch it twice",
+											"    This means we should have three entries in the Itemz Change History Table",
+											"*/",
+											"",
+											"pm.test(\"Verify that three records were found for ItemzChangeHistory\", function () {",
+											"    pm.expect(Object.keys(pm.response.json()).length).to.eql(3);",
+											"});",
+											"",
+											"/*",
+											"    Last entry should be modified.",
+											"*/",
+											"",
+											"pm.test(\"Verify that last entry contains Modified record\", () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+											"    });",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzChangeHistory",
+										"9153a516-d69e-4364-b17e-03b87442e21c"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE First ItemzChangeHistory by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Only One record is deleted for ItemzChangeHistory\", function () {",
+											"    pm.expect(pm.response.text()).to.eql('1');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"uptoDateTime\": \"{{ItemzChangeHistoryCreatedDateTime}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzChangeHistory/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzChangeHistory",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Remaining ItemzChangeHistory by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that two records are deleted for ItemzChangeHistory\", function () {",
+											"    pm.expect(pm.response.text()).to.eql('2');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"/*\r",
+											"    Set-up local variable for Current Date-Time Stamp\r",
+											"*/\r",
+											"\r",
+											"var current_timestamp = new Date();\r",
+											"pm.variables.set(\"current_timestamp\", current_timestamp.toISOString());\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"uptoDateTime\": \"{{current_timestamp}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzChangeHistory/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzChangeHistory",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "DELETE Itemz by ID",
 					"event": [
 						{
@@ -1626,8 +2083,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -1674,15 +2131,20 @@
 					"response": []
 				},
 				{
-					"name": "DELETE ItemzChangeHistory by NonExisting ID",
+					"name": "DELETE ItemzChangeHistory SECOND time",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 404\", function () {",
-									"    pm.response.to.have.status(404);",
-									"});"
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verify that ZERO records were deleted for ItemzChangeHistory\", function () {",
+									"    pm.expect(pm.response.text()).to.eql('0');",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}

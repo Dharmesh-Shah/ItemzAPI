@@ -28,12 +28,19 @@ namespace ItemzApp.API.Services
                 .Where(ich => ich.ItemzId == ItemzId)
                 .OrderByDescending(ich => ich.CreatedDate).AsNoTracking().ToListAsync();
         }
-
-        public async Task DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null)
+        /// <summary>
+        /// Used for deleting Itemz Change History based on ItemzId and provided Date and Time as Cut-off for deletion
+        /// 
+        /// If no records are deleted then we return ZERO integer value. This is to make this method behave as an idempotent method.
+        /// </summary>
+        /// <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
+        /// <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
+        /// <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
+        public async Task<int> DeleteItemzChangeHistoryAsync(Guid ItemzId, DateTimeOffset? DeleteUptoDateTime = null)
         {
             if (DeleteUptoDateTime == null)
             {
-                return;
+                return 0;
             }
             var numberOfItemzChangeHistoryToBeRemoved = 0;
             var foundItemzChangeHistory = _context.ItemzChangeHistory.Where(ich => ich.ItemzId == ItemzId);
@@ -51,7 +58,14 @@ namespace ItemzApp.API.Services
             if(numberOfItemzChangeHistoryToBeRemoved > 0)
             {
                 await _context.SaveChangesAsync();
+                return numberOfItemzChangeHistoryToBeRemoved;
             }
+            return 0;
+        }
+
+        public async Task<bool> SaveAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
         public void Dispose()
