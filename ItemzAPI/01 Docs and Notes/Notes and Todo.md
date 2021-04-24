@@ -643,8 +643,21 @@ For ItemzAPI, I believe we could utilize HasNoKey for Database Views effectively
 
 Published on 10th April 2021
 
-By <span style="background-color: #99ff66@>Trevoir Williams [@trevoirwilliams](https://twitter.com/trevoirwilliams) </span>
+By <span style="background-color: #99ff66">Trevoir Williams [@trevoirwilliams](https://twitter.com/trevoirwilliams) </span>
  
 In this video, Trevoir talks about an opensource Nuget Library called as Toolbelt.Blazor.HttpClientInterceptor that helps in capturining HttpRequest and HttpResponse that is raised via HttpClient from within Blazor Application. It's a good introduction and technique to be used in Blazor WebAssembly application that has to be evaluated if ItemzAPP is going to use Blazor WebAssembly technology for client side development.
 
 GitHub Repository for Toolbelt.Blazor.HttpClientInterceptor is located at [https://github.com/jsakamoto/Toolbelt.Blazor.HttpClientInterceptor](https://github.com/jsakamoto/Toolbelt.Blazor.HttpClientInterceptor)
+
+### [C# Expressions and Reflections Demo](https://www.youtube.com/watch?v=-4n0T1ELGG0)
+
+Published on 1st Nov 2020
+
+By <span style="background-color: #99ff66">Peter Himschoot [@peterhimschoot](https://twitter.com/peterhimschoot)</span>
+
+Peter Explains Equality Compaper for ValueTypes, ReferenceTypes and C# 9.0 Record type in detail. He uses BanchmarkDotNet tool to capture results of different methods to compare Performance as well as Memory Allocation.
+
+This is very informative session as well as very useful for learning about Expressions in C#.
+
+Peter's Github Page is [https://github.com/PeterHimschoot](https://github.com/PeterHimschoot)
+
