@@ -1,4 +1,6 @@
-﻿using ItemzApp.API.DbContexts;
+﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using ItemzApp.API.DbContexts;
 using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
