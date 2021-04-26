@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ItemzApp.API.Helper;
 using ItemzApp.API.Models;
 using ItemzApp.API.ResourceParameters;
 using ItemzApp.API.Services;
@@ -67,15 +68,21 @@ namespace ItemzApp.API.Controllers
         [HttpHead("{ItemzTypeId:Guid}", Name = "__HEAD_ItemzType_By_GUID_ID__")]
         public async Task<ActionResult<GetItemzTypeDTO>> GetItemzTypeAsync(Guid ItemzTypeId)
         {
-            _logger.LogDebug("Processing request to get ItemzType for ID {ItemzTypeId}", ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get ItemzType for ID {ItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeId);
             var ItemzTypeFromRepo = await _ItemzTypeRepository.GetItemzTypeAsync(ItemzTypeId);
 
             if (ItemzTypeFromRepo == null)
             {
-                _logger.LogDebug("ItemzType for ID {ItemzTypeId} could not be found", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType for ID {ItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
-            _logger.LogDebug("Found ItemzType for ID {ItemzTypeId} and now returning results", ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Found ItemzType for ID {ItemzTypeId} and now returning results",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeId);
             return Ok(_mapper.Map<GetItemzTypeDTO>(ItemzTypeFromRepo));
         }
 
@@ -106,7 +113,9 @@ namespace ItemzApp.API.Controllers
             var ItemzTypesFromRepo = await _ItemzTypeRepository.GetItemzTypesAsync();
             if (ItemzTypesFromRepo == null)
             {
-                _logger.LogDebug("No ItemzTypes found");
+                _logger.LogDebug("{FormattedControllerAndActionNames}No ItemzTypes found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return NotFound();
             }
             // _logger.LogDebug("In total {ProjecftsNumbers} Itemz found in the repository", ItemzTypesFromRepo.Count());
@@ -141,7 +150,9 @@ namespace ItemzApp.API.Controllers
             //Response.Headers.Add("X-Pagination",
             //    JsonConvert.SerializeObject(paginationMetadata));
 
-            _logger.LogDebug("Returning results for {ItemzTypeNumbers} ItemzTypes to the caller", ItemzTypesFromRepo.Count());
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzTypeNumbers} ItemzTypes to the caller",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypesFromRepo.Count());
             return Ok(_mapper.Map<IEnumerable<GetItemzTypeDTO>>(ItemzTypesFromRepo));
         }
 
@@ -165,7 +176,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _projectRepository.ProjectExistsAsync(createItemzTypeDTO.ProjectId)))
             {
-                _logger.LogDebug("HttpPost - Project with {ProjectId} could not be found while creating new ItemzType in the repository", createItemzTypeDTO.ProjectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project with {ProjectId} could not be found while creating new ItemzType in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    createItemzTypeDTO.ProjectId);
                 return NotFound();
             }    
             var ItemzTypeEntity = _mapper.Map<Entities.ItemzType>(createItemzTypeDTO);
@@ -182,11 +195,15 @@ namespace ItemzApp.API.Controllers
             }
             catch(Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"ItemzType with name '{createItemzTypeDTO.Name}' already exists in the project with Id '{createItemzTypeDTO.ProjectId}'");
             }
 
-            _logger.LogDebug("Created new ItemzType with ID {ItemzTypeId}", ItemzTypeEntity.Id);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new ItemzType with ID {ItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeEntity.Id);
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { ItemzTypeId = ItemzTypeEntity.Id },
                 _mapper.Map<GetItemzTypeDTO>(ItemzTypeEntity) // Converting to DTO as this is going out to the consumer
                 );
@@ -214,7 +231,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
-                _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} could not be found", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
@@ -222,13 +241,16 @@ namespace ItemzApp.API.Controllers
 
             if (ItemzTypeFromRepo == null)
             {
-                _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
             if (ItemzTypeFromRepo.IsSystem == true)
             {
-                _logger.LogDebug("HttpPut - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                _logger.LogDebug("{FormattedControllerAndActionNames}System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
                 return StatusCode(
                         Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
@@ -250,11 +272,15 @@ namespace ItemzApp.API.Controllers
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
 
-            _logger.LogDebug("HttpPut - Update request for ItemzType for ID {ItemzTypeId} processed successfully", ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
 
         }
@@ -294,7 +320,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
-                _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} could not be found", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
@@ -302,13 +330,16 @@ namespace ItemzApp.API.Controllers
 
             if (ItemzTypeFromRepo == null)
             {
-                _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
             if (ItemzTypeFromRepo.IsSystem == true)
             {
-                _logger.LogDebug("HttpPatch - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                _logger.LogDebug("{FormattedControllerAndActionNames}System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be modified",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
                 return StatusCode(
                         Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
@@ -326,7 +357,9 @@ namespace ItemzApp.API.Controllers
 
             if (!TryValidateModel(ItemzTypeToPatch))
             {
-                _logger.LogDebug("HttpPatch - ItemzType Properties did not pass defined Validation Rules for ID {ItemzTypeId}", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Properties did not pass defined Validation Rules for ID {ItemzTypeId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return ValidationProblem(ModelState);
             }
 
@@ -344,11 +377,15 @@ namespace ItemzApp.API.Controllers
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to add new itemzType:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
 
-            _logger.LogDebug("HttpPatch - Update request for ItemzType for ID {ItemzTypeId} processed successfully", ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeId);
             return NoContent();
         }
 
@@ -381,7 +418,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
-                _logger.LogDebug("HttpDelete - Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
@@ -389,13 +428,16 @@ namespace ItemzApp.API.Controllers
 
             if (ItemzTypeFromRepo == null)
             {
-                _logger.LogDebug("HttpDelete - Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found in the Repository", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete ItemzType with ID {ItemzTypeId} as it could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
                 return NotFound();
             }
 
             if(ItemzTypeFromRepo.IsSystem == true)
             {
-                _logger.LogDebug("HttpDelete - System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be deleted",
+                _logger.LogDebug("{FormattedControllerAndActionNames}System ItemzType with name {ItemzTypeName} and Id {ItemzTypeId} is NOT ALLOWED to be deleted",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     ItemzTypeFromRepo.Name, ItemzTypeFromRepo.Id);
                 return StatusCode(
                         Microsoft.AspNetCore.Http.StatusCodes.Status405MethodNotAllowed,
@@ -406,7 +448,9 @@ namespace ItemzApp.API.Controllers
             _ItemzTypeRepository.DeleteItemzType(ItemzTypeFromRepo);
             await _ItemzTypeRepository.SaveAsync();
 
-            _logger.LogDebug("Delete request for Projeect with ID {ItemzTypeId} processed successfully", ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Project with ID {ItemzTypeId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                ItemzTypeId);
             return NoContent();
         }
 

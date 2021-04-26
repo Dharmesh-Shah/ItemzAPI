@@ -58,7 +58,9 @@ namespace ItemzApp.API.Controllers
         {
             if (ids == null)
             {
-                _logger.LogDebug("Get multiple Itemz request cannot be processed as required parameter of IDs is NULL");
+                _logger.LogDebug("{FormattedControllerAndActionNames}Get multiple Itemz request cannot be processed as required parameter of IDs is NULL",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return BadRequest();
             }
 
@@ -66,13 +68,17 @@ namespace ItemzApp.API.Controllers
 
             if (ids.Count() != itemzEntities.Count())
             {
-                _logger.LogDebug("One or More Itemz are not found while processing request to get multiple items");
+                _logger.LogDebug("{FormattedControllerAndActionNames}One or More Itemz are not found while processing request to get multiple items",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return NotFound();
             }
 
             var itemzsToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
 
-            _logger.LogDebug("Returning response with {NumberOfItemz} number of Itemz to the requestor", itemzEntities.Count());
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning response with {NumberOfItemz} number of Itemz to the requestor",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                itemzEntities.Count());
             return Ok(itemzsToReturn);
         }
 
@@ -99,7 +105,9 @@ namespace ItemzApp.API.Controllers
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));
 
-            _logger.LogDebug("Created {NumberOfItemzCreated} number of new Itemz", itemzCollectionToReturn.Count());
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created {NumberOfItemzCreated} number of new Itemz",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                itemzCollectionToReturn.Count());
             return CreatedAtRoute("__GET_Itemz_Collection_By_GUID_IDS__",
                 new { ids = idConvertedToString }, itemzCollectionToReturn);
 

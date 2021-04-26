@@ -62,17 +62,22 @@ namespace ItemzApp.API.Controllers
         [HttpHead("{ItemzId:Guid}",Name ="__HEAD_Itemz_By_GUID_ID__")]
         public async Task<ActionResult<GetItemzDTO>> GetItemzAsync(Guid ItemzId)
         {
-            var myLocation = GetControllerAndActionNames();
 
-            _logger.LogDebug("{myLocation} Processing request to get Itemz for ID {ItemzId}", myLocation, ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Itemz for ID {ItemzId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
             var itemzFromRepo = await _itemzRepository.GetItemzAsync(ItemzId);
 
             if (itemzFromRepo == null)
             {
-                _logger.LogDebug("{myLocation} Itemz for ID {ItemzId} could not be found", myLocation, ItemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
                 return NotFound();
             }
-            _logger.LogDebug("{myLocation} Found Itemz for ID {ItemzId} and now returning results", myLocation, ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Found Itemz for ID {ItemzId} and now returning results",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
             return Ok(_mapper.Map<GetItemzDTO>(itemzFromRepo));
         }
 
@@ -94,7 +99,9 @@ namespace ItemzApp.API.Controllers
             if(!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
                 (itemzResourceParameter.OrderBy))
             {
-                _logger.LogWarning("Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",itemzResourceParameter.OrderBy);
+                _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzResourceParameter.OrderBy);
                 return BadRequest();
             }
 
@@ -109,10 +116,14 @@ namespace ItemzApp.API.Controllers
             // Ref: https://stackoverflow.com/a/54549818
             if (!itemzsFromRepo?.Any() ?? true)
             {
-                _logger.LogDebug("No Items found");
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Items found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return NotFound();
             }
-            _logger.LogDebug("In total {ItemzNumbers} Itemz found in the repository",itemzsFromRepo.TotalCount);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} Itemz found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzsFromRepo.TotalCount);
             var previousPageLink = itemzsFromRepo.HasPrevious ?
                 CreateItemzResourceUri(itemzResourceParameter,
                 ResourceUriType.PreviousPage) : null;
@@ -144,7 +155,9 @@ namespace ItemzApp.API.Controllers
             Response.Headers.Add("X-Pagination",
                 JsonConvert.SerializeObject(paginationMetadata));
 
-            _logger.LogDebug("Returning results for {ItemzNumbers} Itemzs to the caller", itemzsFromRepo.TotalCount);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} Itemzs to the caller",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzsFromRepo.TotalCount);
             return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
         }
 
@@ -167,17 +180,20 @@ namespace ItemzApp.API.Controllers
             }
             catch (AutoMapper.AutoMapperMappingException amm_ex)
             {
-                _logger.LogDebug("HttpPatch - Could not create new Itemz due to issue with value provided for {fieldname}", amm_ex.MemberMap.DestinationName);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Could not create new Itemz due to issue with value provided for {fieldname}",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        amm_ex.MemberMap.DestinationName);
                 return ValidationProblem();
             }
             _itemzRepository.AddItemz(itemzEntity);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("Created new Itemz with ID {ItemzId}", itemzEntity.Id);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzEntity.Id);
             return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id }, 
                 _mapper.Map<GetItemzDTO>(itemzEntity) // Converting to DTO as this is going out to the consumer
                 );
-
         }
 
         /// <summary>
@@ -197,7 +213,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
-                _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} could not be found", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
 
@@ -205,7 +223,9 @@ namespace ItemzApp.API.Controllers
 
             if (itemzFromRepo == null)
             {
-                _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} could not be found in the Repository", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
             try
@@ -214,14 +234,18 @@ namespace ItemzApp.API.Controllers
             }
             catch (AutoMapper.AutoMapperMappingException amm_ex)
             {
-                _logger.LogDebug("HttpPatch - Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}", itemzId, amm_ex.MemberMap.DestinationName);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId, amm_ex.MemberMap.DestinationName);
                 return ValidationProblem();
             }
 
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("HttpPut - Update request for Itemz for ID {ItemzId} processed successfully", itemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
 
         }
@@ -258,7 +282,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
-                _logger.LogDebug("HttpPatch - Update request for Itemz for ID {ItemzId} could not be found", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
 
@@ -266,7 +292,9 @@ namespace ItemzApp.API.Controllers
 
             if (itemzFromRepo == null)
             {
-                _logger.LogDebug("HttpPatch - Update request for Itemz for ID {ItemzId} could not be found in the Repository", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
 
@@ -280,7 +308,9 @@ namespace ItemzApp.API.Controllers
 
             if (!TryValidateModel(itemzToPatch))
             {
-                _logger.LogDebug("HttpPatch - Itemz Properties did not pass defined Validation Rules for ID {ItemzId}", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz Properties did not pass defined Validation Rules for ID {ItemzId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return ValidationProblem(ModelState);
             }
 
@@ -290,14 +320,18 @@ namespace ItemzApp.API.Controllers
             }
             catch (AutoMapper.AutoMapperMappingException amm_ex)
             {
-                _logger.LogDebug("HttpPatch - Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}", itemzId, amm_ex.MemberMap.DestinationName);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Could not update Itemz for ID {ItemzId} due to issue with value provided for {fieldname}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId, amm_ex.MemberMap.DestinationName);
                 return ValidationProblem();
             }
 
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("HttpPatch - Update request for Itemz for ID {ItemzId} processed successfully", itemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
             return NoContent();
         }
 
@@ -328,7 +362,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzExistsAsync(itemzId)))
             {
-                _logger.LogDebug("Cannot Delete Itemz with ID {ItemzId} as it could not be found", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Itemz with ID {ItemzId} as it could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
 
@@ -336,14 +372,18 @@ namespace ItemzApp.API.Controllers
 
             if (itemzFromRepo == null)
             {
-                _logger.LogDebug("Cannot Delete Itemz with ID {ItemzId} as it could not be found in the Repository", itemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Itemz with ID {ItemzId} as it could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
                 return NotFound();
             }
 
             _itemzRepository.DeleteItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("Delete request for Itemz with ID {ItemzId} processed successfully", itemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Itemz with ID {ItemzId} processed successfully",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
             return NoContent();
         }
 
@@ -391,13 +431,6 @@ namespace ItemzApp.API.Controllers
                             pageSize = itemzResourceParameter.PageSize
                         });
             }
-        }
-        private string GetControllerAndActionNames()
-        {
-            var controller = ControllerContext.ActionDescriptor.ControllerName;
-            var action = ControllerContext.ActionDescriptor.ActionName;
-
-            return $"{controller} - {action}";
         }
     }
 }

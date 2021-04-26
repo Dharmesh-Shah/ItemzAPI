@@ -45,7 +45,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
                     _injectedItemzChangeHistoryContext.Add(ich);
                 }
                 _injectedItemzChangeHistoryContext.SaveChanges();
-                _logger.LogDebug("ITEMZ_CHANGE_HISTORY: Saved {NumberOfChanges} Change History Records in the database", itemzChangeHistory.Count());
+                _logger.LogDebug("{ITEMZ_CONTEX_INTERCEPTOR}Saved {NumberOfChanges} Change History Records in the database", "::ITEMZ_CONTEX_INTERCEPTOR:: ", itemzChangeHistory.Count());
                 itemzChangeHistory.Clear();
             }
             return result;
@@ -60,7 +60,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
                     _injectedItemzChangeHistoryContext.Add(ich);
                 }
                 _injectedItemzChangeHistoryContext.SaveChanges();
-                _logger.LogDebug("ITEMZ_CHANGE_HISTORY: Saved {NumberOfChanges} Change History Records in the database", itemzChangeHistory.Count());
+                _logger.LogDebug("{ITEMZ_CONTEX_INTERCEPTOR}Saved {NumberOfChanges} Change History Records in the database", "::ITEMZ_CONTEX_INTERCEPTOR:: ", itemzChangeHistory.Count());
                 itemzChangeHistory.Clear();
             }
             return result;

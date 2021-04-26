@@ -67,13 +67,17 @@ namespace ItemzApp.API.Controllers
             if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
                 (itemzResourceParameter.OrderBy))
             {
-                _logger.LogWarning("Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!", itemzResourceParameter.OrderBy);
+                _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzResourceParameter.OrderBy);
                 return BadRequest();
             }
 
             if(!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
-                _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzTypeId);
                 return NotFound();
             }
 
@@ -87,11 +91,15 @@ namespace ItemzApp.API.Controllers
             // Ref: https://stackoverflow.com/a/54549818
             if (!itemzsFromRepo?.Any() ?? true)
             {
-                _logger.LogDebug("No Items found in ItemzType with ID {ItemzTypeID}", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Items found in ItemzType with ID {ItemzTypeID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzTypeId);
                 // TODO: If no itemz are found in a ItemzType then shall we return an error back to the calling client?
                 return NotFound();
             }
-            _logger.LogDebug("In total {ItemzNumbers} Itemz found in ItemzType with ID {ItemzTypeId}", itemzsFromRepo.TotalCount, ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} Itemz found in ItemzType with ID {ItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzsFromRepo.TotalCount, ItemzTypeId);
             var previousPageLink = itemzsFromRepo.HasPrevious ?
                 CreateItemzTypeItemzResourceUri(itemzResourceParameter,
                 ResourceUriType.PreviousPage) : null;
@@ -123,7 +131,9 @@ namespace ItemzApp.API.Controllers
             Response.Headers.Add("X-Pagination",
                 JsonConvert.SerializeObject(paginationMetadata));
 
-            _logger.LogDebug("Returning results for {ItemzNumbers} Itemzs to the caller", itemzsFromRepo.TotalCount);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} Itemzs to the caller",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                itemzsFromRepo.TotalCount);
             return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
         }
 
@@ -149,14 +159,16 @@ namespace ItemzApp.API.Controllers
             tempItemzTypeItemzDTO.ItemzId = itemzId;
             if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(tempItemzTypeItemzDTO)))  // Check if ItemzTypeItemz association exists or not
             {
-                _logger.LogDebug("HttpGet - ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                     tempItemzTypeItemzDTO.ItemzTypeId,
                     tempItemzTypeItemzDTO.ItemzId);
                 return NotFound();
             }
-            _logger.LogDebug("HttpGet - ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association was found",
-                            tempItemzTypeItemzDTO.ItemzTypeId,
-                            tempItemzTypeItemzDTO.ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association was found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    tempItemzTypeItemzDTO.ItemzTypeId,
+                    tempItemzTypeItemzDTO.ItemzId);
             return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = tempItemzTypeItemzDTO.ItemzId });
 
         }
@@ -178,7 +190,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
             {
-                _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzTypeId);
                 return NotFound();
             }
 
@@ -192,9 +206,10 @@ namespace ItemzApp.API.Controllers
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));
 
-            _logger.LogDebug("Created {NumberOfItemzCreated} number of new Itemz and associated to ItemzType Id {ItemzTypeId}"
-                , itemzCollectionToReturn.Count()
-                , ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created {NumberOfItemzCreated} number of new Itemz and associated to ItemzType Id {ItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzCollectionToReturn.Count(),
+                ItemzTypeId);
             return CreatedAtRoute("__GET_Itemz_Collection_By_GUID_IDS__",
                 new { Controller = "ItemzCollection", ids = idConvertedToString }, itemzCollectionToReturn);
 
@@ -215,19 +230,25 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeItemzDTO.ItemzTypeId)))
             {
-                _logger.LogDebug("ItemzType with ID {ItemzTypeID} was not found in the repository", ItemzTypeItemzDTO.ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzTypeItemzDTO.ItemzTypeId);
                 return NotFound();
             }
             if (!(await _itemzRepository.ItemzExistsAsync(ItemzTypeItemzDTO.ItemzId)))
             {
-                _logger.LogDebug("Itemz with ID {itemzID} was not found in the repository", ItemzTypeItemzDTO.ItemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzTypeItemzDTO.ItemzId);
                 return NotFound();
             }
 
             _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO);
             await _itemzRepository.SaveAsync();
-            _logger.LogDebug("HttpPost - ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
-                " and Itemz Id {itemzId}", ItemzTypeItemzDTO.ItemzTypeId, ItemzTypeItemzDTO.ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
+                " and Itemz Id {itemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                ItemzTypeItemzDTO.ItemzTypeId, ItemzTypeItemzDTO.ItemzId);
 
             return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = ItemzTypeItemzDTO.ItemzId });
         }
@@ -249,12 +270,16 @@ namespace ItemzApp.API.Controllers
             if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
 
             {
-                _logger.LogDebug("HttpPut - Itemz for ID {ItemzId} could not be found", targetItemzTypeItemzDTO.ItemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    targetItemzTypeItemzDTO.ItemzId);
                 return NotFound();
             }
             if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
             {
-                _logger.LogDebug("HttpPut - Target ItemzType for ID {ItemzTypeId} could not be found", targetItemzTypeItemzDTO.ItemzTypeId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Target ItemzType for ID {ItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    targetItemzTypeItemzDTO.ItemzTypeId);
                 return NotFound();
             }
 
@@ -264,7 +289,8 @@ namespace ItemzApp.API.Controllers
 
             if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
             {
-                _logger.LogDebug("HttpPut - Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+                _logger.LogDebug("{FormattedControllerAndActionNames}Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     sourceItemzTypeItemzDTO.ItemzTypeId,
                     sourceItemzTypeItemzDTO.ItemzId);
 
@@ -272,8 +298,9 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("HttpPut - Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
-                "to Target ItemzType ID {targetItemzTypeID} was successfully completed", 
+            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
+                "to Target ItemzType ID {targetItemzTypeID} was successfully completed",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 sourceItemzTypeItemzDTO.ItemzId,
                 sourceItemzTypeItemzDTO.ItemzTypeId,
                 targetItemzTypeItemzDTO.ItemzTypeId);
@@ -304,8 +331,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO)))
             {
-                _logger.LogDebug("Cannot find ItemzType and Itemz asscoaition for ItemzType ID " +
-                    "{ItemzTypeId} and Itemz ID {ItemzId}", 
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find ItemzType and Itemz asscoaition for ItemzType ID " +
+                    "{ItemzTypeId} and Itemz ID {ItemzId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     ItemzTypeItemzDTO.ItemzTypeId,
                     ItemzTypeItemzDTO.ItemzId);
                 return NotFound();
@@ -314,8 +342,9 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.RemoveItemzFromItemzType(ItemzTypeItemzDTO);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("Delete ItemzType and Itemz asscoaition for ItemzType ID " +
-                "{ItemzTypeId} and Itemz ID {ItemzId}", 
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzType and Itemz asscoaition for ItemzType ID " +
+                "{ItemzTypeId} and Itemz ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 ItemzTypeItemzDTO.ItemzTypeId, 
                 ItemzTypeItemzDTO.ItemzId);
             return NoContent();

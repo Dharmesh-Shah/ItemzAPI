@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using ItemzApp.API.Helper;
 
 namespace ItemzApp.API.Controllers
 {
@@ -44,7 +45,9 @@ namespace ItemzApp.API.Controllers
             {
                 _itemzTypeRepository.AddItemzType(itemzType);
                 await _itemzTypeRepository.SaveAsync();
-                _logger.LogDebug("Created new ItemzType with ID {ItemzTypeId} via __POST_ONLY_FOR_TESTING_Create_ItemzType__", itemzType.Id);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Created new ItemzType with ID {ItemzTypeId} via __POST_ONLY_FOR_TESTING_Create_ItemzType__",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    itemzType.Id);
             }
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { Controller = "ItemzTypes", ItemzTypeId = itemzType.Id }, await _itemzTypeRepository.GetItemzTypeAsync(itemzType.Id));
         }

@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.Project;
+using ItemzApp.API.Helper;
 
 namespace ItemzApp.API.Controllers
 {
@@ -64,15 +65,21 @@ namespace ItemzApp.API.Controllers
         [HttpHead("{ProjectId:Guid}", Name = "__HEAD_Project_By_GUID_ID__")]
         public async Task<ActionResult<GetProjectDTO>> GetProjectAsync(Guid ProjectId)
         {
-            _logger.LogDebug("Processing request to get Project for ID {ProjectId}", ProjectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Project for ID {ProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                ProjectId);
             var projectFromRepo = await _projectRepository.GetProjectAsync(ProjectId);
 
             if (projectFromRepo == null)
             {
-                _logger.LogDebug("Project for ID {ProjectId} could not be found", ProjectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project for ID {ProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ProjectId);
                 return NotFound();
             }
-            _logger.LogDebug("Found Project for ID {ProjectId} and now returning results", ProjectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Found Project for ID {ProjectId} and now returning results",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                ProjectId);
             return Ok(_mapper.Map<GetProjectDTO>(projectFromRepo));
         }
 
@@ -103,7 +110,9 @@ namespace ItemzApp.API.Controllers
             var projectsFromRepo = await _projectRepository.GetProjectsAsync();
             if (projectsFromRepo == null)
             {
-                _logger.LogDebug("No Projects found");
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Projects found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return NotFound();
             }
             // _logger.LogDebug("In total {ProjecftsNumbers} Itemz found in the repository", projectsFromRepo.Count());
@@ -138,7 +147,9 @@ namespace ItemzApp.API.Controllers
             //Response.Headers.Add("X-Pagination",
             //    JsonConvert.SerializeObject(paginationMetadata));
 
-            _logger.LogDebug("Returning results for {ProjectNumbers} Projects to the caller", projectsFromRepo.Count());
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ProjectNumbers} Projects to the caller",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                projectsFromRepo.Count());
             return Ok(_mapper.Map<IEnumerable<GetProjectDTO>>(projectsFromRepo));
         }
 
@@ -178,10 +189,14 @@ namespace ItemzApp.API.Controllers
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"Project with name '{projectEntity.Name}' already exists in the repository");
             }
-            _logger.LogDebug("Created new Project with ID {ProjectId}", projectEntity.Id);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new Project with ID {ProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                projectEntity.Id);
             return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { ProjectId = projectEntity.Id },
                 _mapper.Map<GetProjectDTO>(projectEntity) // Converting to DTO as this is going out to the consumer
                 );
@@ -206,7 +221,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
-                _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} could not be found", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
@@ -214,7 +231,9 @@ namespace ItemzApp.API.Controllers
 
             if (projectFromRepo == null)
             {
-                _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} could not be found in the Repository", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
@@ -229,15 +248,18 @@ namespace ItemzApp.API.Controllers
             _projectRepository.UpdateProject(projectFromRepo);
             await _projectRepository.SaveAsync();
 
-        }
+            }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
-    }
-    _logger.LogDebug("HttpPut - Update request for Project for ID {ProjectId} processed successfully", projectId);
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                projectId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
-
         }
 
         /// <summary>
@@ -273,7 +295,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
-                _logger.LogDebug("HttpPatch - Update request for Project for ID {ProjectId} could not be found", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
@@ -281,7 +305,9 @@ namespace ItemzApp.API.Controllers
 
             if (projectFromRepo == null)
             {
-                _logger.LogDebug("HttpPatch - Update request for Project for ID {ProjectId} could not be found in the Repository", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
@@ -295,7 +321,9 @@ namespace ItemzApp.API.Controllers
 
             if (!TryValidateModel(projectToPatch))
             {
-                _logger.LogDebug("HttpPatch - Project Properties did not pass defined Validation Rules for ID {ProjectId}", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project Properties did not pass defined Validation Rules for ID {ProjectId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return ValidationProblem(ModelState);
             }
 
@@ -312,11 +340,15 @@ namespace ItemzApp.API.Controllers
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("Exception Occured while trying to add new project:" + dbUpdateException.InnerException);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
                 return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
             }
 
-            _logger.LogDebug("HttpPatch - Update request for Project for ID {ProjectId} processed successfully", projectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                projectId);
             return NoContent();
         }
 
@@ -347,7 +379,9 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
-                _logger.LogDebug("Cannot Delete Project with ID {ProjectId} as it could not be found", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Project with ID {ProjectId} as it could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
@@ -355,17 +389,20 @@ namespace ItemzApp.API.Controllers
 
             if (projectFromRepo == null)
             {
-                _logger.LogDebug("Cannot Delete Project with ID {ProjectId} as it could not be found in the Repository", projectId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Project with ID {ProjectId} as it could not be found in the Repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    projectId);
                 return NotFound();
             }
 
             _projectRepository.DeleteProject(projectFromRepo);
             await _projectRepository.SaveAsync();
 
-            _logger.LogDebug("Delete request for Projeect with ID {ProjectId} processed successfully", projectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Projeect with ID {ProjectId} processed successfully",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                projectId);
             return NoContent();
         }
-
 
         /// <summary>
         /// Get list of supported HTTP Options for the Projects controller.
@@ -379,8 +416,5 @@ namespace ItemzApp.API.Controllers
             Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");
             return Ok();
         }
-
-
-
     }
 }

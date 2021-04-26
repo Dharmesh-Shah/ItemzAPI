@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ItemzApp.API.Models;
 using AutoMapper;
+using ItemzApp.API.Helper;
 
 namespace ItemzApp.API.Controllers
 {
@@ -48,15 +49,21 @@ namespace ItemzApp.API.Controllers
         [HttpHead("{ItemzId:Guid}", Name = "__HEAD_ItemzChangeHistory_By_GUID_ItemzID__")]
         public async Task<ActionResult<IEnumerable<GetItemzChangeHistoryDTO>>> GetItemzChangeHistoryAsync(Guid ItemzId)
         {
-            _logger.LogDebug("Processing request to get ItemzChangeHistory for ID {ItemzId}", ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get ItemzChangeHistory for ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                ItemzId);
             var itemzChangeHistoryFromRepo = await _itemzChangeHistoryRepository.GetItemzChangeHistoryAsync(ItemzId);
 
             if (itemzChangeHistoryFromRepo == null)
             {
-                _logger.LogDebug("ItemzChangeHistory for ID {ItemzId} could not be found", ItemzId);
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzChangeHistory for ID {ItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ItemzId);
                 return NotFound();
             }
-            _logger.LogDebug("Found ItemzChangeHistory for ID {ItemzId} and now returning results", ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}Found ItemzChangeHistory for ID {ItemzId} and now returning results",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                ItemzId);
             return Ok(_mapper.Map<IEnumerable<GetItemzChangeHistoryDTO>>(itemzChangeHistoryFromRepo)); 
         }
 
@@ -75,7 +82,9 @@ namespace ItemzApp.API.Controllers
         {
             var numberOfDeletedRecords = await _itemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.ItemzId,deleteItemzChangeHistoryDTO.UptoDateTime);
 
-            _logger.LogDebug("Deleted {numberOfDeletedRecords} record(s) from Itemz Change History for ItemzID {ItemzId}", numberOfDeletedRecords, deleteItemzChangeHistoryDTO.ItemzId );
+            _logger.LogDebug("{FormattedControllerAndActionNames}Deleted {numberOfDeletedRecords} record(s) from Itemz Change History for ItemzID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                numberOfDeletedRecords, deleteItemzChangeHistoryDTO.ItemzId );
             return Ok(numberOfDeletedRecords);
         }
     }
