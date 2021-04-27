@@ -661,3 +661,9 @@ This is very informative session as well as very useful for learning about Expre
 
 Peter's Github Page is [https://github.com/PeterHimschoot](https://github.com/PeterHimschoot)
 
+### [Windows Package Manager - Automatic Download and Installation of Software](https://github.com/microsoft/winget-pkgs)
+
+Winget is an Open Source application that is from Microsoft which allows installation and uninstallation of software packaged on windows computers. This is a good way to share installation scripts that can be utilized for setting-up / upgrading development environment OR other windows machines. It's a commandline tool and it works similarly as Chocolatey.
+
+We should think of utilizing Winget / Chocolatey for setting-up environment and tools and sharing installation scripts.
+
