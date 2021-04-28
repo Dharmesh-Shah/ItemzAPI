@@ -667,3 +667,26 @@ Winget is an Open Source application that is from Microsoft which allows install
 
 We should think of utilizing Winget / Chocolatey for setting-up environment and tools and sharing installation scripts.
 
+
+
+### [ASP .NET Core - Add Response Compression]
+
+Many projects use AddResponseCompression within Configure Service to make it possible to compress response sent from WEB API to the client. Here is one example code to set-up response compression
+
+``` C#
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors();
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new [] {"application/json"});
+            
+            });            
+        }
+```
+
+Find more information about `AddResponseCompression` to check if this is something we should be using in ItemzAPI project.
+
+
+
