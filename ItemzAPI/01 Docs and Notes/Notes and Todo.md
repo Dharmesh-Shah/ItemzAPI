@@ -689,4 +689,90 @@ Many projects use AddResponseCompression within Configure Service to make it pos
 Find more information about `AddResponseCompression` to check if this is something we should be using in ItemzAPI project.
 
 
+### [ASP .NET CORE - Versioning REST APIs](https://www.youtube.com/watch?v=4fw2c_ukABM)
+
+Published on 26th April 2021
+
+By <span style="background-color: #99ff66"> Irina Scurtu [@irina_scurtu](https://twitter.com/irina_scurtu)</span>
+
+Excellent demo about different options that are provided by Nuget Package Microsoft.AspNetCore.Mvc.Versioning (5.0.0)
+
+
+Add Versioning capabilities within `ConfigureServices`
+
+``` C#
+
+services.AddApiVersioning(o => o.ApiVersionReader = new UrlSegmentApiVersionReader());
+
+```
+
+Then in each controller we have to apply attribute as below. This is the First Task Controller out of three that we are going to look at.
+
+``` C#
+
+[Route("api/v{version:apiVersion}/speakers/{speakerId}/talks")]
+
+[ApiVersion("1.0", Deprecated = true)]]
+public class TasksController : ControllerBase
+{
+	// implement controller here ... 
+}
+
+```
+
+Here is the exmaple for the Version 2 of the Task Controller
+
+``` C#
+
+[Route("api/v{version:apiVersion}/speakers/{speakerId}/talks")]
+[ApiVersion("2.0")]]
+public class TasksV2Controller : ControllerBase
+{
+	// implement controller here ... 
+}
+
+```
+
+It's also possible to specify versioning details via attribute at Action Method level as well. So for example `[HttpGet]` method can have following signature to specify that a specific method is part of a specific version 
+
+
+``` C#
+
+[HttpGet(Name = "GetTaslksForSpeakers", MapToApiVersion("2.0")]
+
+```
+
+Instead of using `UrlSegmentApiVersionReader()` in the `ConfigureServices`, it's possible to change it as below to user Request and Response Header for specifying API Version details.
+
+``` C#
+
+services.AddApiVersioning(o => o.ApiVersionReader = new HeaderApiVersionReader("api-version"));
+
+```
+
+Finally, It's now possible to use MediaType for Version information as per below ...
+
+
+``` C#
+
+services.AddApiVersioning(o => o.ApiVersionReader = new MediaTyperApiVersionReader("v"));
+
+```
+
+This will work only when you configure Controller as per below..
+
+``` c#
+
+[ApiVersion("2.0")]]
+[Produces("application/json")]
+public class TasksV3Controller : ControllerBase
+{
+	// implement controller here ... 
+}
+
+```
+
+API versioning is important aspect and we have to consider implementing the same in ItemzAPI. Lets give good thought about the same and implement it well to make it easier for our users to use the same in the future.
+
+
 
