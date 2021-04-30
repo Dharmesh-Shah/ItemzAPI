@@ -774,5 +774,18 @@ public class TasksV3Controller : ControllerBase
 
 API versioning is important aspect and we have to consider implementing the same in ItemzAPI. Lets give good thought about the same and implement it well to make it easier for our users to use the same in the future.
 
+### [ASP .NET CORE - Handling Errors Globally](https://www.youtube.com/watch?v=pOsExnj-_Kg)
+
+Published on 6th Dec 2020
+
+By <span style="background-color: #99ff66"> Sandeep Kumar [https://studymash.com/](https://studymash.com/)</span>
+
+Excellent demo on handling exceptions globally in ASP .NET Core Web API. Sandeep covers two main options for handling exceptions via 
+
+- app.UseExceptionHandler
+- app.UseMiddleware<ExceptionMiddleware>(); //Custom Middleware defined by the user.
+
+
+Sandeep also gives details about how to set-up Developer Environment to see full exception trace when utilizing either of the option as defined above.
 
 
