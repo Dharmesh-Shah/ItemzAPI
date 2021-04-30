@@ -1,18 +1,15 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ItemzApp.API.Models
 {
-    public class DeleteItemzChangeHistoryDTO
+    public class DeleteChangeHistoryDTO
     {
         /// <summary>
         /// itemzId of the Itemz representated by a GUID.
         /// </summary>
-        public Guid ItemzId { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.
         /// </summary>

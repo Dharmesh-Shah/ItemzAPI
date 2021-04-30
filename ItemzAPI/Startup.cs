@@ -142,6 +142,7 @@ namespace ItemzApp.API
             services.AddScoped<IProjectRules,ProjectRules>();
             services.AddScoped<IItemzTypeRules, ItemzTypeRules>();
             services.AddScoped<IItemzChangeHistoryRepository, ItemzChangeHistoryRepository>();
+            services.AddScoped<IItemzChangeHistoryByItemzTypeRepository, ItemzChangeHistoryByItemzTypeRepository>();
 
             // EXPLANATION: As described in the Blog Article, https://purple.telstra.com/blog/a-better-way-of-resolving-ef-core-interceptors-with-dependency-injection
             // we are now registering ItemzContextInterceptor in the DI Container as Singleton service 

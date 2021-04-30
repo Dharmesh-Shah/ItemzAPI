@@ -15,7 +15,7 @@ using ItemzApp.API.Helper;
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
-    [Route("api/ItemzChangeHistory")] // e.g. http://HOST:PORT/api/itemzs
+    [Route("api/ItemzChangeHistory")] // e.g. http://HOST:PORT/api/ItemzChangeHistory
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -75,18 +75,17 @@ namespace ItemzApp.API.Controllers
         /// <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
         /// <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
         /// <response code="200">Returns number of Itemz Change History records that were deleted</response>
-        /// <response code="404">Itemz based on itemzId was not found</response>
         [HttpDelete(Name = "__DELETE_Itemz_Change_History_By_GUID_ID__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        // [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<int>> DeleteItemzChangeHistoryAsync(DeleteItemzChangeHistoryDTO deleteItemzChangeHistoryDTO)
+        public async Task<ActionResult<int>> DeleteItemzChangeHistoryAsync(DeleteChangeHistoryDTO deleteItemzChangeHistoryDTO)
         {
-            var numberOfDeletedRecords = await _itemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.ItemzId,deleteItemzChangeHistoryDTO.UptoDateTime);
+            var numberOfDeletedRecords = await _itemzChangeHistoryRepository.DeleteItemzChangeHistoryAsync(deleteItemzChangeHistoryDTO.Id,deleteItemzChangeHistoryDTO.UptoDateTime);
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Deleted {numberOfDeletedRecords} record(s) from Itemz Change History for ItemzID {ItemzId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                numberOfDeletedRecords, deleteItemzChangeHistoryDTO.ItemzId );
+                numberOfDeletedRecords, deleteItemzChangeHistoryDTO.Id );
             return Ok(numberOfDeletedRecords);
         }
     }
