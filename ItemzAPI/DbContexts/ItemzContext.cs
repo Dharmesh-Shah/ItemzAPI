@@ -21,9 +21,14 @@ namespace ItemzApp.API.DbContexts
 
             if (optionsBuilder.IsConfigured)
             {
-                   // TODO: for some reason, this is always true here. Investigate why
-                   // EF Core team has provided this property and what is the real use 
-                   // of the same.
+                // EXPLANATION: optionsBuilder.IsConfigured is true because in the startup.cs
+                // file we are using SQL Server as part of
+                // services.AddDbContext<ItemzContext>
+                // We could use this if condition here to check if the optionsBuilder.IsConfigured
+                // is set to true. If it's not true then we can add our own custom
+                // optionsBuilder as part of OnConfiguring method this way we can
+                // point to some custom SQL Server environment.
+
             }
         }
 
