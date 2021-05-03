@@ -8,6 +8,7 @@ namespace ItemzApp.API.Services
     public interface IItemzChangeHistoryByItemzTypeRepository
     {
         Task<int> DeleteItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId, DateTimeOffset? DeleteUptoDateTime = null);
+        Task<int> TotalNumberOfItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId);
 
     }
 }

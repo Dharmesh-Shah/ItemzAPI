@@ -1,12 +1,11 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using ItemzApp.API.DbContexts;
-using ItemzApp.API.Entities;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
+using ItemzApp.API.DbContexts.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ItemzApp.API.Services
 {
@@ -74,6 +73,19 @@ namespace ItemzApp.API.Services
             return 0;
         }
 
+        public async Task<int> TotalNumberOfItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId)
+        {
+            if (ItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ItemzTypeId));
+            }
+            var foundItemzChangeHistory = await _itemzChangeHistoryContext.CountByRawSqlAsync("select count(ItemzId) from ItemzChangeHistory where ItemzId in (select distinct(ItemzId) from ItemzTypeJoinItemz where ItemzTypeId = @__ItemzTypeId__)",
+                new KeyValuePair<string, object>("@__ItemzTypeId__",
+                //string.Concat("'", ItemzTypeId.ToString(),"'")
+                ItemzTypeId.ToString()
+                ));
+            return foundItemzChangeHistory;
+        }
         public async Task<bool> SaveAsync()
         {
             return (await _itemzChangeHistoryContext.SaveChangesAsync() >= 0);

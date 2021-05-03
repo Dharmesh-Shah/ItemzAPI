@@ -6,6 +6,7 @@ using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace ItemzApp.API.Controllers
@@ -47,5 +48,22 @@ namespace ItemzApp.API.Controllers
             return Ok(numberOfDeletedRecords);
         }
 
+        /// <summary>
+        /// Number of ItemzChangeHistory records for all the Itemz that are associated with given ItemzType ID
+        /// </summary>
+        /// <param name="ItemzTypeId">Provide ItemzTypeID representated in GUID form</param>
+        /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
+        /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type</response>
+        [HttpGet("{ItemzTypeId:Guid}", Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId)
+        {
+            var foundItemzChangeHistoryByItemzTypeId = await _itemzChangeHistoryByItemzTypeRepository.TotalNumberOfItemzChangeHistoryByItemzTypeAsync(ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundItemzChangeHistoryByItemzTypeId} ItemzChangeHistory records for ItemzType with ID {ItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundItemzChangeHistoryByItemzTypeId,
+                ItemzTypeId);
+            return foundItemzChangeHistoryByItemzTypeId;
+        }
     }
 }

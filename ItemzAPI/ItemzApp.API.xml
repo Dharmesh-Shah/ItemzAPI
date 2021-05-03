@@ -48,6 +48,14 @@
             <returns>Status code 200 is returned without any content indicating that action to delete Itemz Change History by Itemz Type was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
             <response code="200">Returns number of Itemz Change History records that were deleted by Itemz Type</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.GetNumberOfItemzChangeHistoryByItemzTypeAsync(System.Guid)">
+            <summary>
+            Number of ItemzChangeHistory records for all the Itemz that are associated with given ItemzType ID
+            </summary>
+            <param name="ItemzTypeId">Provide ItemzTypeID representated in GUID form</param>
+            <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
+            <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.GetItemzChangeHistoryAsync(System.Guid)">
             <summary>
             Get collection of Itemz Change History by Itemz ID (represented by a GUID)
