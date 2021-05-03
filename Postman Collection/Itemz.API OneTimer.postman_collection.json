@@ -2198,6 +2198,64 @@
 					"name": "01 Work with small number of records",
 					"item": [
 						{
+							"name": "GET Count of ItemzChangeHistory By itemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+											"    pm.expect(pm.response.text()).to.eql('0');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzChangeHistoryByItemzType",
+										"611639db-577a-48f6-9b08-f6aef477368f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST Itemz By itemzType",
 							"event": [
 								{
@@ -2289,6 +2347,64 @@
 									"path": [
 										"api",
 										"ItemzTypeItemzs",
+										"611639db-577a-48f6-9b08-f6aef477368f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Count of ItemzChangeHistory By itemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+											"    pm.expect(pm.response.text()).to.eql('2');",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzChangeHistoryByItemzType",
 										"611639db-577a-48f6-9b08-f6aef477368f"
 									]
 								}
@@ -2471,6 +2587,64 @@
 									"response": []
 								},
 								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('0');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "POST 1st 100 Itemz Collection By ItemzType",
 									"event": [
 										{
@@ -2513,6 +2687,64 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('100');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
 												"611639db-577a-48f6-9b08-f6aef477368f"
 											]
 										}
@@ -2569,6 +2801,64 @@
 									"response": []
 								},
 								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('200');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "POST 3rd 99 Itemz Collection By ItemzType",
 									"event": [
 										{
@@ -2611,6 +2901,64 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('299');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
 												"611639db-577a-48f6-9b08-f6aef477368f"
 											]
 										}
@@ -2948,6 +3296,64 @@
 									"response": []
 								},
 								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('299');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "DELETE first ItemzChangeHistory by ItemzTypeID",
 									"event": [
 										{
@@ -3018,6 +3424,64 @@
 											"path": [
 												"api",
 												"ItemzChangeHistoryByItemzType"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Count of ItemzChangeHistory By itemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+													"    pm.expect(pm.response.text()).to.eql('199');",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzChangeHistoryByItemzType",
+												"611639db-577a-48f6-9b08-f6aef477368f"
 											]
 										}
 									},
