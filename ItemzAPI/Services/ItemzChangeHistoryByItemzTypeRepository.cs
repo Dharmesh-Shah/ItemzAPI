@@ -3,6 +3,7 @@
 using ItemzApp.API.DbContexts;
 using System;
 using ItemzApp.API.DbContexts.Extensions;
+using ItemzApp.API.DbContexts.SQLHelper;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -79,11 +80,35 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ItemzTypeId));
             }
-            var foundItemzChangeHistory = await _itemzChangeHistoryContext.CountByRawSqlAsync("select count(ItemzId) from ItemzChangeHistory where ItemzId in (select distinct(ItemzId) from ItemzTypeJoinItemz where ItemzTypeId = @__ItemzTypeId__)",
-                new KeyValuePair<string, object>("@__ItemzTypeId__",
-                //string.Concat("'", ItemzTypeId.ToString(),"'")
-                ItemzTypeId.ToString()
-                ));
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
+            };
+            var foundItemzChangeHistory = await _itemzChangeHistoryContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_ItemzChangeHistoryByItemzType, sqlArgs);
+                //new KeyValuePair<string, object>("@__ItemzTypeId__",
+                //ItemzTypeId.ToString()
+                //));
+            return foundItemzChangeHistory;
+        }
+
+        public async Task<int> TotalNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(Guid ItemzTypeId, DateTimeOffset? GetUptoDateTime = null)
+        {
+            if (ItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ItemzTypeId));
+            }
+            if (GetUptoDateTime == null)
+            {
+                throw new ArgumentNullException(nameof(GetUptoDateTime));
+            }
+
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__GetUptoDateTime__", GetUptoDateTime.Value),
+                new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
+            };
+            var foundItemzChangeHistory = await _itemzChangeHistoryContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_ItemzChangeHistoryByItemzTypeWithUptoDateTime, sqlArgs);
+
             return foundItemzChangeHistory;
         }
         public async Task<bool> SaveAsync()

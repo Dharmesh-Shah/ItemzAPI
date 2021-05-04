@@ -56,6 +56,14 @@
             <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
             <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.GetNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(ItemzApp.API.Models.GetNumberOfChangeHistoryDTO)">
+            <summary>
+            Number of ItemzChangeHistory records for all the Itemz that are associated with given ItemzType ID upto provided Date and Time.
+            </summary>
+            <param name="getItemzChangeHistoryByItemzTypeDTO">Provide ItemzTypeID representated in GUID form along with cut off upto DateTime.</param>
+            <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
+            <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type upto provided Date and Time.</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.GetItemzChangeHistoryAsync(System.Guid)">
             <summary>
             Get collection of Itemz Change History by Itemz ID (represented by a GUID)
@@ -479,12 +487,12 @@
             It will expose necessary properties to allow successful creation of the Project.
             </summary>
         </member>
-        <member name="P:ItemzApp.API.Models.DeleteChangeHistoryDTO.Id">
+        <member name="P:ItemzApp.API.Models.BaseChangeHistoryDTO.Id">
             <summary>
             itemzId of the Itemz representated by a GUID.
             </summary>
         </member>
-        <member name="P:ItemzApp.API.Models.DeleteChangeHistoryDTO.UptoDateTime">
+        <member name="P:ItemzApp.API.Models.BaseChangeHistoryDTO.UptoDateTime">
             <summary>
             Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.
             </summary>

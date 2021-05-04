@@ -42,9 +42,11 @@ namespace ItemzApp.API.Controllers
         {
             var numberOfDeletedRecords = await _itemzChangeHistoryByItemzTypeRepository.DeleteItemzChangeHistoryByItemzTypeAsync(deleteItemzChangeHistoryByItemzTypeDTO.Id, deleteItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Deleted {numberOfDeletedRecords} record(s) from Itemz Change History associated with Itemz Type ID {Id}",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Deleted {numberOfDeletedRecords} record(s) from Itemz Change History associated with Itemz Type ID {Id} upto Date Time {UptoDateTime}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                numberOfDeletedRecords, deleteItemzChangeHistoryByItemzTypeDTO.Id);
+                numberOfDeletedRecords, 
+                deleteItemzChangeHistoryByItemzTypeDTO.Id,
+                deleteItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
             return Ok(numberOfDeletedRecords);
         }
 
@@ -63,6 +65,27 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 foundItemzChangeHistoryByItemzTypeId,
                 ItemzTypeId);
+            return foundItemzChangeHistoryByItemzTypeId;
+        }
+
+        /// <summary>
+        /// Number of ItemzChangeHistory records for all the Itemz that are associated with given ItemzType ID upto provided Date and Time.
+        /// </summary>
+        /// <param name="getItemzChangeHistoryByItemzTypeDTO">Provide ItemzTypeID representated in GUID form along with cut off upto DateTime.</param>
+        /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
+        /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type upto provided Date and Time.</response>
+        [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType_Upto_DateTime")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(GetNumberOfChangeHistoryDTO getItemzChangeHistoryByItemzTypeDTO)
+        {
+            var foundItemzChangeHistoryByItemzTypeId = await _itemzChangeHistoryByItemzTypeRepository.TotalNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(
+                    getItemzChangeHistoryByItemzTypeDTO.Id,
+                    getItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundItemzChangeHistoryByItemzTypeId} ItemzChangeHistory records for ItemzType with ID {ItemzTypeId} upto Date Time {UptoDateTime}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundItemzChangeHistoryByItemzTypeId,
+                getItemzChangeHistoryByItemzTypeDTO.Id,
+                getItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
             return foundItemzChangeHistoryByItemzTypeId;
         }
     }

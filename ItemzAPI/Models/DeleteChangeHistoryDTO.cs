@@ -4,7 +4,7 @@ using System;
 
 namespace ItemzApp.API.Models
 {
-    public class DeleteChangeHistoryDTO
+    public class BaseChangeHistoryDTO
     {
         /// <summary>
         /// itemzId of the Itemz representated by a GUID.
@@ -15,4 +15,14 @@ namespace ItemzApp.API.Models
         /// </summary>
         public DateTimeOffset UptoDateTime { get; set; }
     }
+
+    public class DeleteChangeHistoryDTO : BaseChangeHistoryDTO
+    {
+    }
+
+    public class GetNumberOfChangeHistoryDTO : BaseChangeHistoryDTO
+    {
+    }
 }
+
+
