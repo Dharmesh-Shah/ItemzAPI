@@ -22,5 +22,26 @@ namespace ItemzApp.API.DbContexts.SQLHelper
             "where ItemzTypeId = @__ItemzTypeId__)";
 
         #endregion ItemzChangeHistoryByItemzType
+
+        #region ItemzChangeHistoryByProject
+
+        public static readonly string SQLStatementFor_ItemzChangeHistoryByProject = 
+            "select count(ItemzId) from ItemzChangeHistory " +
+            "where ItemzId in (select distinct(ItemzId) " +
+            "from ItemzTypeJoinItemz " +
+            "where ItemzTypeId in " +
+            "(select ItemzTypes.Id from ItemzTypes " +
+            "where ProjectId = @__ProjectId__))";
+
+        public static readonly string SQLStatementFor_ItemzChangeHistoryByProjectWithUptoDateTime =
+            "select count(ItemzId) from ItemzChangeHistory " +
+            "where CreatedDate < @__GetUptoDateTime__ " +
+            "and ItemzId in " +
+            "(select distinct(ItemzId) from ItemzTypeJoinItemz " +
+            "where ItemzTypeId in " +
+            "(select ItemzTypes.Id from ItemzTypes " +
+            "where ProjectId = @__ProjectId__))";
+
+        #endregion ItemzChangeHistoryByProject
     }
 }

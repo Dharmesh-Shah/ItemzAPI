@@ -7,6 +7,7 @@ using ItemzApp.API.DbContexts.SQLHelper;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItemzApp.API.Services
 {
@@ -39,6 +40,7 @@ namespace ItemzApp.API.Services
             var numberOfItemzChangeHistoryToBeRemoved = 0;
 
             var foundItemzTypeItemzs = _itemzContext.ItemzTypeJoinItemz
+                        .AsNoTracking()
                         .Where(itji => itji.ItemzTypeId == itemzTypeId)
                         .Select(itji => itji.ItemzId)
                         .AsEnumerable();
@@ -85,9 +87,6 @@ namespace ItemzApp.API.Services
                 new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
             };
             var foundItemzChangeHistory = await _itemzChangeHistoryContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_ItemzChangeHistoryByItemzType, sqlArgs);
-                //new KeyValuePair<string, object>("@__ItemzTypeId__",
-                //ItemzTypeId.ToString()
-                //));
             return foundItemzChangeHistory;
         }
 

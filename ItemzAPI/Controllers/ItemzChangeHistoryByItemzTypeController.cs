@@ -38,7 +38,7 @@ namespace ItemzApp.API.Controllers
         [HttpDelete(Name = "__DELETE_Itemz_Change_History_By_ItemzType_GUID_ID__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<int>> DeleteItemzChangeHistoryAsync(DeleteChangeHistoryDTO deleteItemzChangeHistoryByItemzTypeDTO)
+        public async Task<ActionResult<int>> DeleteItemzChangeHistoryByItemzTypeAsync(DeleteChangeHistoryDTO deleteItemzChangeHistoryByItemzTypeDTO)
         {
             var numberOfDeletedRecords = await _itemzChangeHistoryByItemzTypeRepository.DeleteItemzChangeHistoryByItemzTypeAsync(deleteItemzChangeHistoryByItemzTypeDTO.Id, deleteItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
 
@@ -56,7 +56,7 @@ namespace ItemzApp.API.Controllers
         /// <param name="ItemzTypeId">Provide ItemzTypeID representated in GUID form</param>
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type</response>
-        [HttpGet("{ItemzTypeId:Guid}", Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType")]
+        [HttpGet("{ItemzTypeId:Guid}", Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId)
         {
@@ -74,7 +74,7 @@ namespace ItemzApp.API.Controllers
         /// <param name="getItemzChangeHistoryByItemzTypeDTO">Provide ItemzTypeID representated in GUID form along with cut off upto DateTime.</param>
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type upto provided Date and Time.</response>
-        [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType_Upto_DateTime")]
+        [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType_Upto_DateTime__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(GetNumberOfChangeHistoryDTO getItemzChangeHistoryByItemzTypeDTO)
         {
