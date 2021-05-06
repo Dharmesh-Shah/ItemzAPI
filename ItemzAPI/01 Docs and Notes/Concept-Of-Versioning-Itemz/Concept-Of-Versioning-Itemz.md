@@ -126,6 +126,14 @@ Now lets consider that user decides to remove this property from the Itemz. In s
 
 This would not be required for ItemzApp. We should always capture Itemz history changelog. Users can decide to wipe out older version entries if needed at several levels as described above. This way ItemzApp shall allow users to later wipe out old version history changelog data if not required to be maintained in the future.
 
+### What about attaching Orphand Itemz to ItemzType?
+
+This is interesting requirement in which Itemz that has associated ChangeHistory is detached from an ItemzType which in effect makes it orphaned. This means when we try and get total number of ItemzChangeHistory for a given requirement type within a project then we will not include ChangeHistory of detached (orphaned) Itemzs. 
+
+Later if we attach orphaned Itemz that has Change History associated with it to a Requirement Type  and then total count of ItemzChangeHistory for a given requirement type shall include those newly attached Itemz Change History record count.
+
+Such logic shall also apply to total number of ItemzChangeHistory by Project. Attaching Orphaned Itemz to a requirement type that belongs to a project shall increase total number of ItemzchangeHistory for the project by the number of change history records that are associated with newly attached Itemz type.
+
 ### User Permission to execute removal of versioning history data
 
 At the time of writing this document, we didn’t had authentication and authorization in place. Due to which we have not yet decided on specific role and permission via which removal of Itemz history changelog data can be controlled for removal. In the future, when we cross that bridge to implement data security for ItemzApp then we shall include option for configuring authorization related to removal of Itemz History changelog data.
