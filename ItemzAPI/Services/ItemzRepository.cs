@@ -109,6 +109,14 @@ namespace ItemzApp.API.Services
             }
         }
 
+
+        public async Task<int> GetItemzsCountByItemzType(Guid itemzTypeId)
+        {
+            return await _context.Itemzs
+                      .Include(i => i.ItemzTypeJoinItemz)
+                      .Where(i => i.ItemzTypeJoinItemz.Any(itji => itji.ItemzTypeId == itemzTypeId)).CountAsync();
+        }
+
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?

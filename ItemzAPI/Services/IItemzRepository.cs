@@ -18,6 +18,8 @@ namespace ItemzApp.API.Services
 
         Task<Itemz> GetItemzForUpdatingAsync(Guid ItemzId);
 
+        Task<int> GetItemzsCountByItemzType(Guid itemzTypeId); 
+
         PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);

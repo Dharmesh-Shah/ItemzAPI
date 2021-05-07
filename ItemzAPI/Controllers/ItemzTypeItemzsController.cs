@@ -138,14 +138,46 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
-        /// Check if specific ItemzType and Itemz association exists
+        /// Get count of Itemzs associated with ItemzType
         /// </summary>
-        /// <param name="ItemzTypeId">Provide ItemzType Id</param>
-        /// <param name="itemzId">Provide Itemz Id</param>
-        /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
-        /// <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
-        /// <response code="404">No ItemzType and Itemzs association was found</response>
-        [HttpGet("CheckExists/", Name = "__GET_Check_ItemzType_Itemz_Association_Exists__")]
+        /// <param name="ItemzTypeId">Provide ItemzType Id in GUID form</param>
+        /// <returns>Integer representing total number of Itemzs associated with ItemzType</returns>
+        /// <response code="200">Count of Itemzs associated with ItemzType. ZERO means no Itemz were found for targeted ItemzType</response>
+        /// <response code="404">ItemzType for given ID could not be found</response>
+        [HttpGet("GetItemzCount/{ItemzTypeId:Guid}", Name = "__GET_Itemz_Count_By_ItemzType__")]
+        [HttpHead("GetItemzCount/{ItemzTypeId:Guid}", Name = "__HEAD_Itemz_Count_By_ItemzType__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+
+        public async Task<ActionResult<int>> GetItemzCountByItemzType(Guid ItemzTypeId)
+        {
+
+            if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
+                return NotFound();
+            }
+            var countOfItemzs = -1;
+            countOfItemzs = await _itemzRepository.GetItemzsCountByItemzType(ItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {countOfItemzs} Itemzs were found associated with ItemzType with ID {ItemzTypeID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                countOfItemzs,
+                ItemzTypeId);
+            return countOfItemzs;
+        }
+
+            /// <summary>
+            /// Check if specific ItemzType and Itemz association exists
+            /// </summary>
+            /// <param name="ItemzTypeId">Provide ItemzType Id</param>
+            /// <param name="itemzId">Provide Itemz Id</param>
+            /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
+            /// <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
+            /// <response code="404">No ItemzType and Itemzs association was found</response>
+            [HttpGet("CheckExists/", Name = "__GET_Check_ItemzType_Itemz_Association_Exists__")]
         [HttpHead("CheckExists/", Name = "__HEAD_Check_ItemzType_Itemz_Association_Exists__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

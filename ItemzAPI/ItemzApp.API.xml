@@ -301,6 +301,15 @@
             <response code="200">Returns collection of Itemzs based on pagination</response>
             <response code="404">No Itemzs were found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzCountByItemzType(System.Guid)">
+            <summary>
+            Get count of Itemzs associated with ItemzType
+            </summary>
+            <param name="ItemzTypeId">Provide ItemzType Id in GUID form</param>
+            <returns>Integer representing total number of Itemzs associated with ItemzType</returns>
+            <response code="200">Count of Itemzs associated with ItemzType. ZERO means no Itemz were found for targeted ItemzType</response>
+            <response code="404">ItemzType for given ID could not be found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CheckItemzTypeItemzAssociationExistsAsync(System.Guid,System.Guid)">
             <summary>
             Check if specific ItemzType and Itemz association exists

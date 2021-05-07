@@ -65,7 +65,7 @@
 			]
 		},
 		{
-			"name": "Bulk Insert Itemz by Project",
+			"name": "Bulk Insert Itemz by ItemzType",
 			"item": [
 				{
 					"name": "POST 1st 100 Itemz Collection By ItemzType",
@@ -209,6 +209,92 @@
 								"api",
 								"ItemzTypeItemzs",
 								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"GetItemzCount",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by ItemzType (WrongID)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/000039db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"GetItemzCount",
+								"000039db-577a-48f6-9b08-f6aef477368f"
 							]
 						}
 					},
@@ -4525,6 +4611,49 @@
 							"key": "itemzId",
 							"value": "9153a516-d69e-4364-b17e-03b87442e21c"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HEAD ItemzTypeItemzs GetItemzCount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/611639db-577a-48f6-9b08-f6aef477368f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypeItemzs",
+						"GetItemzCount",
+						"611639db-577a-48f6-9b08-f6aef477368f"
 					]
 				}
 			},
