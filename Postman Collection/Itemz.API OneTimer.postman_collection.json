@@ -6815,6 +6815,1124 @@
 			]
 		},
 		{
+			"name": "VerifyItemzChangeHistoryWithOrphaned",
+			"item": [
+				{
+					"name": "DELETE Itemz by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz After Deleting it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n    \"name\": \"ADDING after Deleting\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingItemz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingItemz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType and Itemz Association After Recreating ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphan Itemz Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var foundOrphandCount = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"pm.collectionVariables.set(\"VerifyItemzChangeHistoryWithOrphaned_foundOrphandCount\", foundOrphandCount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"GetOrphanCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzTypeItemz CheckExists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/CheckExists?ItemzTypeId=611639db-577a-48f6-9b08-f6aef477368f&itemzId=9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"CheckExists"
+							],
+							"query": [
+								{
+									"key": "ItemzTypeId",
+									"value": "611639db-577a-48f6-9b08-f6aef477368f"
+								},
+								{
+									"key": "itemzId",
+									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* ",
+									"    First we Delete Itemz, Then we Add Itemz. This means we should only",
+									"    have One entry in the Itemz Change History Table",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly one entry is found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(1);",
+									"});",
+									"",
+									"/* ",
+									"    The only entry in Itemz Change History table ",
+									"    should be for 'Added' event at this stage. ",
+									"*/",
+									"",
+									"pm.test(\"Verify that single entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Added');",
+									"    });",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz. This means we should only have two  entries ",
+									"in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(2);",
+									"});",
+									"",
+									"",
+									"/* Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event and the second entry should be for 'Added' event.",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Added');",
+									"    });",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* This time we are patching the name with value PATCH SECOND TIME */",
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH SECOND TIME Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz twice. This means we should only have three  entries in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(3);",
+									"});",
+									"",
+									"",
+									"/* ",
+									"",
+									"We now patched with different value for Name field. We called it PATCH SECOND TIME ... ",
+									"",
+									"Now we expect one more entry to be added to ChangeHistory table. Two of them should be modified and last should be Added based on decending order by ChangeHistory date and time in descending order.",
+									"",
+									"Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event, then the second entry should be for 'Modified' event and then the third entry should be based on 'Added' event.s",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[2].changeEvent).to.eql('Added');",
+									"    });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Count of ItemzChangeHistory By itemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"var itemzChangeHistoryByItemzType = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"pm.collectionVariables.set(\"VerifyItemzChangeHistoryWithOrphaned_itemzChangeHistoryByItemzType\", itemzChangeHistoryByItemzType);",
+									"",
+									"",
+									"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+									"    pm.expect(pm.response.text()).to.eql('3');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByItemzType",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType and Itemz Association After Recreating ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzTypeItemz CheckExists Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/CheckExists?ItemzTypeId=611639db-577a-48f6-9b08-f6aef477368f&itemzId=9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"CheckExists"
+							],
+							"query": [
+								{
+									"key": "ItemzTypeId",
+									"value": "611639db-577a-48f6-9b08-f6aef477368f"
+								},
+								{
+									"key": "itemzId",
+									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"/* First we Delete Itemz, Then we Add Itemz and Then we Patch Itemz twice. This means we should only have three  entries in the audit log",
+									"*/",
+									"",
+									"pm.test(\"Verify that exactly two entries are found for ItemzChangeHistory\", function () {",
+									"    pm.expect(Object.keys(pm.response.json()).length).to.eql(3);",
+									"});",
+									"",
+									"",
+									"/* ",
+									"",
+									"We now patched with different value for Name field. We called it PATCH SECOND TIME ... ",
+									"",
+									"Now we expect one more entry to be added to ChangeHistory table. Two of them should be modified and last should be Added based on decending order by ChangeHistory date and time in descending order.",
+									"",
+									"Because we expect ItemsChangeHistory data to be retunred in Descending order of created date, we expect first entry to be for 'Modified' event, then the second entry should be for 'Modified' event and then the third entry should be based on 'Added' event.s",
+									"*/",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[0].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"pm.test(\"Verify that first entry contains Modified record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[1].changeEvent).to.eql('Modified');",
+									"    });",
+									"",
+									"",
+									"pm.test(\"Verify that Second / last entry contains Added record\", () => {",
+									"    var jsonData = pm.response.json(); ",
+									"    pm.expect(jsonData[2].changeEvent).to.eql('Added');",
+									"    });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/9153a516-d69e-4364-b17e-03b87442e21c?=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphan Itemz Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that expected number of records were found for Orphan Itemz\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyItemzChangeHistoryWithOrphaned_foundOrphandCount\")) + 1);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"GetOrphanCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Count of ItemzChangeHistory By itemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"/*",
+									"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+									"    pm.expect(pm.response.text()).to.eql('3');",
+									"});",
+									"*/",
+									"",
+									"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyItemzChangeHistoryWithOrphaned_itemzChangeHistoryByItemzType\")) - 3);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByItemzType",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType and Itemz Association After Recreating ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphan Itemz Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var returnedValueFromAPI =  (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"",
+									"pm.test(\"Verify that expected number of records were found for Orphan Itemz\", function () {",
+									"    pm.expect(returnedValueFromAPI).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyItemzChangeHistoryWithOrphaned_foundOrphandCount\")));",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"GetOrphanCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Count of ItemzChangeHistory By itemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"/*",
+									"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+									"    pm.expect(pm.response.text()).to.eql('3');",
+									"});",
+									"*/",
+									"",
+									"pm.test(\"Verify that expected number of records were found for ItemzChangeHistory\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyItemzChangeHistoryWithOrphaned_itemzChangeHistoryByItemzType\")));",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByItemzType",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "DELETE Project by ID",
 			"event": [
 				{
@@ -7255,6 +8373,14 @@
 		{
 			"key": "ItemzChangeHistoryByProjectCreatedDateTime",
 			"value": "2000-01-01T00:00:00.001Z"
+		},
+		{
+			"key": "VerifyItemzChangeHistoryWithOrphaned_foundOrphandCount",
+			"value": "0"
+		},
+		{
+			"key": "VerifyItemzChangeHistoryWithOrphaned_itemzChangeHistoryByItemzType",
+			"value": "0"
 		}
 	]
 }
