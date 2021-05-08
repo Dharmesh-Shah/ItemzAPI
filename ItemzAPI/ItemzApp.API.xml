@@ -153,6 +153,22 @@
             <response code="200">Returns collection of Itemzs based on pagination</response>
             <response code="404">No Itemzs were found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetOrphanItemzs(ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
+            <summary>
+            Gets collection of Orphaned Itemzs
+            </summary>
+            <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+            <returns>Collection of orphaned Itemz based on expectated pagination and sorting order.</returns>
+            <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
+            <response code="404">No Itemzs were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.GetOrphanItemzCount">
+            <summary>
+            Gets count of Orphaned Itemzs in the repository
+            </summary>
+            <returns>Number of Orphaned itemzs found in the repository</returns>
+            <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO)">
             <summary>
             Used for creating new Itemz record in the database

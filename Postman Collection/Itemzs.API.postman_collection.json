@@ -2610,6 +2610,599 @@
 			"response": []
 		},
 		{
+			"name": "GET Orphan Itemzs (pageNumber = 1, pageSize = 5)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?pageNumber=1&pageSize=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (pageNumber = 1, pageSize = 50)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?pageNumber=1&pageSize=50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "50"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (pageNumber = 5, pageSize = )",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?pageNumber=5&pageSize=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "5"
+						},
+						{
+							"key": "pageSize",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy CreatedDate)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=createdDate&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "createdDate"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy CreatedDate Desc)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=createdDate desc&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "createdDate desc"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy Priority, CreatedDate)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority, createdDate&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "priority, createdDate"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy Priority, CreatedDate Desc)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority, createdDate desc&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "priority, createdDate desc"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy Priority Desc, CreatedDate Desc)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority desc, createdDate desc&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "priority desc, createdDate desc"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy Priority Desc, CreatedDate Desc)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Page Size is always less then 20\", function () {",
+							"   pm.response.to.have.header(\"X-Pagination\");",
+							"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+							"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority DESC, createdDate dEsC&pageSize=100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "orderBy",
+							"value": "priority DESC, createdDate dEsC"
+						},
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs (orderBy WrongFieldName)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphan?pageSize=100&orderBy=WrongFieldName",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphan"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "100"
+						},
+						{
+							"key": "orderBy",
+							"value": "WrongFieldName"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Orphan Itemzs Count",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Itemzs",
+						"GetOrphanCount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "PUT Itemz",
 			"event": [
 				{

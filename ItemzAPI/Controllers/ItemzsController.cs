@@ -162,13 +162,111 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
-        /// Used for creating new Itemz record in the database
+        /// Gets collection of Orphaned Itemzs
         /// </summary>
-        /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
-        /// <returns>Newly created Itemz property details</returns>
-        /// <response code="201">Returns newly created itemzs property details</response>
+        /// <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+        /// <returns>Collection of orphaned Itemz based on expectated pagination and sorting order.</returns>
+        /// <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
+        /// <response code="404">No Itemzs were found</response>
+        [HttpGet("GetOrphan/", Name = "__GET_Orphan_Itemzs__")]
+        [HttpHead("GetOrphan/", Name = "__HEAD_Orphan_Itemzs_Collection__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public ActionResult<IEnumerable<GetItemzDTO>> GetOrphanItemzs(
+            [FromQuery] ItemzResourceParameter itemzResourceParameter)
+        {
+            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
+                (itemzResourceParameter.OrderBy))
+            {
+                _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzResourceParameter.OrderBy);
+                return BadRequest();
+            }
 
-        [HttpPost (Name ="__POST_Create_Itemz__")]
+            var itemzsFromRepo = _itemzRepository.GetOrphanItemzs(itemzResourceParameter);
+        
+            if (!itemzsFromRepo?.Any() ?? true)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No orphan Itemz found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} orphan Itemz found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzsFromRepo.TotalCount);
+            var previousPageLink = itemzsFromRepo.HasPrevious ?
+                CreateItemzResourceUri(itemzResourceParameter,
+                ResourceUriType.PreviousPage) : null;
+
+            var nextPageLink = itemzsFromRepo.HasNext ?
+                CreateItemzResourceUri(itemzResourceParameter,
+                ResourceUriType.NextPage) : null;
+
+            var paginationMetadata = new
+            {
+                totalCount = itemzsFromRepo.TotalCount,
+                pageSize = itemzsFromRepo.PageSize,
+                currentPage = itemzsFromRepo.CurrentPage,
+                totalPages = itemzsFromRepo.TotalPages,
+                previousPageLink,
+                nextPageLink
+            };
+
+            // EXPLANATION : it's possible to send customer headers in the response.
+            // So, before we hit 'return Ok...' statement, we can build our
+            // own response header as you can see in following example.
+
+            // TODO: Check if just passsing the header is good enough. How can we
+            // document it so that consumers can use it effectively. Also, 
+            // how to implement versioning of headers so that we don't break
+            // existing applications using the headers after performing upgrade
+            // in the future.
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(paginationMetadata));
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} orphan Itemzs",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzsFromRepo.TotalCount);
+            return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
+        }
+
+        /// <summary>
+        /// Gets count of Orphaned Itemzs in the repository
+        /// </summary>
+        /// <returns>Number of Orphaned itemzs found in the repository</returns>
+        /// <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
+        [HttpGet("GetOrphanCount/", Name = "__GET_Orphan_Itemzs_Count__")]
+        [HttpHead("GetOrphanCount/", Name = "__HEAD_Orphan_Itemzs_Count__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<int>> GetOrphanItemzCount()
+        {
+            var foundNumberOfOrphanItemz = await _itemzRepository.GetOrphanItemzsCount();
+            if (foundNumberOfOrphanItemz > 0)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Found {foundNumberOfOrphanItemz} records of orphan Itemz",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    foundNumberOfOrphanItemz);
+            }
+            else
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No orphan Itemz records found.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+            }
+            return Ok(foundNumberOfOrphanItemz);
+        }
+
+            /// <summary>
+            /// Used for creating new Itemz record in the database
+            /// </summary>
+            /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            /// <returns>Newly created Itemz property details</returns>
+            /// <response code="201">Returns newly created itemzs property details</response>
+
+            [HttpPost (Name ="__POST_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO)

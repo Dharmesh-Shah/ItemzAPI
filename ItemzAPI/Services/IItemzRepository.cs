@@ -22,6 +22,10 @@ namespace ItemzApp.API.Services
 
         PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
+        PagedList<Itemz> GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter);
+
+        Task<int> GetOrphanItemzsCount();
+
         public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
         public Task<IEnumerable<Itemz>> GetItemzsAsync(IEnumerable<Guid> itemzIds);

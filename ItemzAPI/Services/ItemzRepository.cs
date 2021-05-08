@@ -74,7 +74,7 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and ust CountAsync
+                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and use CountAsync
                 {
                     var itemzCollection = _context.Itemzs.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
@@ -109,6 +109,65 @@ namespace ItemzApp.API.Services
             }
         }
 
+        public PagedList<Itemz> GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter)
+        {
+            // TODO: Should we check for itemzResourceParameter being null?
+            // There are chances that we just want to get all the itemz and
+            // consumer of the API might now pass in necessary values for pagging.
+
+            if (itemzResourceParameter == null)
+            {
+                throw new ArgumentNullException(nameof(itemzResourceParameter));
+            }
+            try
+            {
+                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and use CountAsync
+                {
+                    var itemzCollection = _context.Itemzs
+                        .Include(i => i.ItemzTypeJoinItemz)
+                        .Where (i => i.ItemzTypeJoinItemz.Count() == 0)
+                        .AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+
+                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+                    {
+                        var itemzPropertyMappingDictionary =
+                                               _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
+
+                        itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
+                            itemzPropertyMappingDictionary).AsNoTracking();
+                    }
+
+                    // EXPLANATION: Pagging feature should be implemented at the end 
+                    // just before calling ToList. This will make sure that any filtering,
+                    // sorting, grouping, etc. that we implement on the data are 
+                    // put in place before calling ToList. 
+
+                    return PagedList<Itemz>.Create(itemzCollection,
+                        itemzResourceParameter.PageNumber,
+                        itemzResourceParameter.PageSize);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // TODO: It's not good that we capture Generic Exception and then 
+                // return null here. Basically, I wanted to check if we have 
+                // itemzs returned from the DB and if it does not then
+                // it should simply return null back to the calling function.
+                // One has to learn how to do this gracefully as part of Entity Framework 
+                return null;
+            }
+        }
+
+        public async Task<int> GetOrphanItemzsCount()
+        {
+            var foundOrphanItemzsCount = -1;
+            foundOrphanItemzsCount = await _context.Itemzs
+                        .Include(i => i.ItemzTypeJoinItemz)
+                        .Where(i => i.ItemzTypeJoinItemz.Count() == 0)
+                        .CountAsync();
+            return foundOrphanItemzsCount > 0 ? foundOrphanItemzsCount : -1;
+        }
 
         public async Task<int> GetItemzsCountByItemzType(Guid itemzTypeId)
         {
