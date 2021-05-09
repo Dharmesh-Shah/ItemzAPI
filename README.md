@@ -10,8 +10,6 @@ Currently we are capturing  requirements for this project as Markdown files with
 
 Current challenges that we are working on can be found at ... [Feature we are developing](#Feature-we-are-developing).
 
-### My Multi Word Header
-
 **Your contributions as well as direction / support from community is much appreciated.**
 
 ItemzAPI is developed as Open Source Application Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
@@ -46,8 +44,6 @@ Following are the key areas that we are working on for now...
 - Postman for writing tests and simulate Web API with.
 
 ## Feature we are developing
-
-Implement [Concept of Versioning Itemz](https://github.com/Dharmesh-Shah/ItemzAPI/blob/master/ItemzAPI/01%20Docs%20and%20Notes/Concept-Of-Versioning-Itemz/Concept-Of-Versioning-Itemz.md)
 
 Recently in April and May 2021 We implemented 
 
