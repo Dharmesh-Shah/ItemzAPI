@@ -30,7 +30,6 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         {
             if (await _itemzTypeRepository.HasItemzTypeWithNameAsync(projectId ,itemzTypeName.Trim().ToLower()))
             {
-                _logger.LogDebug("ItemzType with name \"{itemzTypeName}\" already exists in the repository", itemzTypeName);
                 return true;
             }
             return false;

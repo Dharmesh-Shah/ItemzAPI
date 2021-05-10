@@ -173,6 +173,9 @@ namespace ItemzApp.API.Controllers
 
             if (await _projectRules.UniqueProjectNameRuleAsync(createProjectDTO.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {createProjectDTO_Name} already exists in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    createProjectDTO.Name);
                 return Conflict($"Project with name '{createProjectDTO.Name}' already exists in the repository");
 
             }
@@ -239,6 +242,9 @@ namespace ItemzApp.API.Controllers
 
             if (await _projectRules.UniqueProjectNameRuleAsync(projectToBeUpdated.Name, projectFromRepo.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {projectToBeUpdated_Name} already exists in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    projectToBeUpdated.Name);
                 return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
             }
 
@@ -329,6 +335,9 @@ namespace ItemzApp.API.Controllers
 
             if (await _projectRules.UniqueProjectNameRuleAsync(projectToPatch.Name, projectFromRepo.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {projectToPatch_Name} already exists in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    projectToPatch.Name);
                 return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
             }
 

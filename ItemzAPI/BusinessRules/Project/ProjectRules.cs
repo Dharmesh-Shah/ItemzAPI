@@ -29,7 +29,6 @@ namespace ItemzApp.API.BusinessRules.Project
         {
             if (await _projectRepository.HasProjectWithNameAsync(projectName.Trim().ToLower()))
             {
-                _logger.LogDebug("Project with name \"{projectName}\" already exists in the repository", projectName);
                 return true;
             }
             return false;

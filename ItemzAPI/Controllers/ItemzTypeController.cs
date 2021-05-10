@@ -185,6 +185,10 @@ namespace ItemzApp.API.Controllers
 
             if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {createItemzTypeDTO_Name} already exists in the project with Id {createItemzTypeDTO_ProjectId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    createItemzTypeDTO.Name,
+                    createItemzTypeDTO.ProjectId);
                 return Conflict($"ItemzType with name '{createItemzTypeDTO.Name}' already exists in the project with Id '{createItemzTypeDTO.ProjectId}'");
             }
             try
@@ -260,6 +264,10 @@ namespace ItemzApp.API.Controllers
 
             if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {ItemzTypeToBeUpdated_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeToBeUpdated.Name,
+                    ItemzTypeFromRepo.ProjectId);
                 return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
 
@@ -365,6 +373,10 @@ namespace ItemzApp.API.Controllers
 
             if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name, ItemzTypeFromRepo.Name))
             {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {ItemzTypeToPatch_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeToPatch.Name,
+                    ItemzTypeFromRepo.ProjectId);
                 return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
            
