@@ -27,6 +27,8 @@ namespace ItemzApp.API.Services
 
         public void DeleteProject(Project project);
 
+        Task<int> GetItemzCountByProjectAsync(Guid ProjectId);
+
         public Task<bool> HasProjectWithNameAsync(string projectName);
     }
 }

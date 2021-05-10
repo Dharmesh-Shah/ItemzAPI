@@ -1,6 +1,8 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using ItemzApp.API.DbContexts;
+using ItemzApp.API.DbContexts.Extensions;
+using ItemzApp.API.DbContexts.SQLHelper;
 using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -150,6 +152,20 @@ namespace ItemzApp.API.Services
             _context.Projects.Remove(project);
         }
 
+        public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__ProjectId__", ProjectId.ToString()),
+            };
+            var foundItemzByProject = await _context.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+
+            return foundItemzByProject;
+        }
         public void Dispose()
         {
             Dispose(true);

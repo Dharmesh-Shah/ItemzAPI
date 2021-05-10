@@ -414,6 +414,37 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Get total number of Itemz by Project
+        /// </summary>
+        /// <param name="projectId">Provide ProjectID representated in GUID form</param>
+        /// <returns>Number of Itemz found for the given ProjectID. Zero if none found.</returns>
+        /// <response code="200">Returns number of Itemz count that were associated with a given Project</response>
+        /// <response code="404">Project based on projectId was not found</response>
+        [HttpGet("GetItemzCount/{ProjectId:Guid}", Name = "__GET_Itemz_Count_By_Project__")]
+        [HttpHead("GetItemzCount/{ProjectId:Guid}", Name = "__HEAD_Itemz_Count_By_Project__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetItemzCountByProjectAsync(Guid projectId)
+        {
+            if (!(await _projectRepository.ProjectExistsAsync(projectId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Project with ID {ProjectId} as it could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    projectId);
+                return NotFound();
+            }
+
+            var foundItemzCountByProjectId = await _projectRepository.GetItemzCountByProjectAsync(projectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundItemzCountByProjectId} Itemz records for Project with ID {projectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundItemzCountByProjectId,
+                projectId);
+            return foundItemzCountByProjectId;
+        }
+
+
+        /// <summary>
         /// Get list of supported HTTP Options for the Projects controller.
         /// </summary>
         /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>

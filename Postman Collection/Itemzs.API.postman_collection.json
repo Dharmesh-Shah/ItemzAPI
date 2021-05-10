@@ -215,6 +215,92 @@
 					"response": []
 				},
 				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project {WrongID}",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/00002A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"00002A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET Itemzs Count by ItemzType",
 					"event": [
 						{

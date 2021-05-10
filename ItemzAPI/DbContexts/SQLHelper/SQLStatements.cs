@@ -43,5 +43,17 @@ namespace ItemzApp.API.DbContexts.SQLHelper
             "where ProjectId = @__ProjectId__))";
 
         #endregion ItemzChangeHistoryByProject
+
+        #region ProjectItemzCount
+
+        public static readonly string SQLStatementFor_GetItemzCountByProject = 
+            "select count(Id) from Itemzs " +
+            "where Id in (select distinct(ItemzId) " +
+            "from ItemzTypeJoinItemz " +
+            "where ItemzTypeId in (select distinct(Id) from ItemzTypes " +
+            "where ProjectId = @__ProjectID__))";
+
+        #endregion ProjectItemzCount
+
     }
 }

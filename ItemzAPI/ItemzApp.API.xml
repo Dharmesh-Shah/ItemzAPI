@@ -500,6 +500,15 @@
             <returns>Status code 204 is returned without any content indicating that deletion of the specified Project was successful</returns>
             <response code="404">Project based on projectId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetItemzCountByProjectAsync(System.Guid)">
+            <summary>
+            Get total number of Itemz by Project
+            </summary>
+            <param name="projectId">Provide ProjectID representated in GUID form</param>
+            <returns>Number of Itemz found for the given ProjectID. Zero if none found.</returns>
+            <response code="200">Returns number of Itemz count that were associated with a given Project</response>
+            <response code="404">Project based on projectId was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsOptions">
             <summary>
             Get list of supported HTTP Options for the Projects controller.
