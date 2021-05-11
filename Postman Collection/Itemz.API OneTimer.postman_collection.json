@@ -4658,7 +4658,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        }\r\n    ]\r\n}"
+									"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        },\r\n        {\r\n        \"id\": \"473fe535-1420-42cf-8a40-224388b8df24\",\r\n        \"name\": \"Parking Lot\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is Parking Lot system ItemzType\",\r\n        \"isSystem\": true        \r\n        }\r\n    ]\r\n}"
 								},
 								"url": {
 									"raw": "http://localhost:51087/api/ONLYforTestingProjects",
@@ -5699,7 +5699,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        }\r\n    ]\r\n}"
+											"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        },\r\n        {\r\n        \"id\": \"473fe535-1420-42cf-8a40-224388b8df24\",\r\n        \"name\": \"Parking Lot\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is Parking Lot system ItemzType\",\r\n        \"isSystem\": true        \r\n        }\r\n    ]\r\n}"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/ONLYforTestingProjects",
@@ -6252,7 +6252,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        }\r\n    ]\r\n}"
+											"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        },\r\n        {\r\n        \"id\": \"473fe535-1420-42cf-8a40-224388b8df24\",\r\n        \"name\": \"Parking Lot\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is Parking Lot system ItemzType\",\r\n        \"isSystem\": true        \r\n        }\r\n    ]\r\n}"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/ONLYforTestingProjects",
@@ -6811,6 +6811,1571 @@
 							]
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "VerifyProjectParkingLotTypeItemzChangeHistory",
+			"item": [
+				{
+					"name": "DELETE Itemz by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz After Deleting it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var date = new Date();",
+									"pm.collectionVariables.set(\"VerifyProjectParkingLotTypeItemzChangeHistory_ItemzChangeHistoryCreatedDateTime\", date);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n    \"name\": \"ADDING after Deleting\",\r\n    \"status\": \"New\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Requirements to be described here.\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingItemz",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingItemz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Project by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project After Deleting it Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        },\r\n        {\r\n        \"id\": \"473fe535-1420-42cf-8a40-224388b8df24\",\r\n        \"name\": \"Parking Lot\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is Parking Lot system ItemzType\",\r\n        \"isSystem\": true        \r\n        }\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingProjects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingProjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType After Deleting it Copy mememe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n    \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\",\r\n  \"itemzTypeJoinItemz\": [\r\n    {\r\n      \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n      \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n  ],\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType and Itemz Association",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"var foundItemzCountByProject = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"pm.collectionVariables.set(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\", foundItemzCountByProject);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"var foundItemzChangeHistoryCountByProject = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"pm.collectionVariables.set(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\", foundItemzChangeHistoryCountByProject);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphan Itemz Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var foundOrphandCount = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+									"pm.collectionVariables.set(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundOrphandCount\", foundOrphandCount);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"GetOrphanCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Itemz Name SECOND TIME",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/* This time we are patching the name with value PATCH SECOND TIME */",
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json-patch+json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH SECOND TIME Updated Name field\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\")));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\"))+2);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Move Itemz to Parking Lot Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"473FE535-1420-42CF-8A40-224388B8DF24\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/611639DB-577A-48F6-9B08-F6AEF477368F",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"611639DB-577A-48F6-9B08-F6AEF477368F"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\")));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\")) + 2);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE First ItemzChangeHistory by ID Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verify that Only One record is deleted for ItemzChangeHistory\", function () {",
+									"    pm.expect(pm.response.text()).to.eql('1');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"uptoDateTime\": \"{{VerifyProjectParkingLotTypeItemzChangeHistory_ItemzChangeHistoryCreatedDateTime}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistory/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\")));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\")) + 1);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Move Itemz Out of Parking Lot Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639DB-577A-48F6-9B08-F6AEF477368F\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/473FE535-1420-42CF-8A40-224388B8DF24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"473FE535-1420-42CF-8A40-224388B8DF24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\")));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\")) + 1);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST 1st 100 Itemz Collection By ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Item 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 13\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 14\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 15\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 16\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 17\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 18\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 19\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 20\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 21\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 22\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 23\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 24\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 25\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 26\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 27\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 28\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 29\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 30\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 31\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 32\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 33\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 34\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 35\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 36\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 37\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 38\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 39\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 40\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 41\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 42\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 43\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 44\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 45\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 46\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 47\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 48\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 49\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 50\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 51\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 52\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 53\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 54\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 55\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 56\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 57\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 58\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 59\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 60\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 61\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 62\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 63\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 64\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 65\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 66\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 67\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 68\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 69\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 70\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 71\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 72\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 73\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 74\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 75\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 76\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 77\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 78\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 79\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 80\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 81\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 82\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 83\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 84\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 85\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 86\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 87\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 88\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 89\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 90\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 91\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 92\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 93\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 94\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 95\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 96\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 97\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 98\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 99\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 100\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 101\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 102\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 103\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 104\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 105\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\"))+100);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\")) + 101);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/611639db-577a-48f6-9b08-f6aef477368f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"611639db-577a-48f6-9b08-f6aef477368f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType After Deleting it",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n    \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is ItemzType 1\",\r\n  \"itemzTypeJoinItemz\": [\r\n    {\r\n      \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n      \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n  ],\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ONLYforTestingItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ONLYforTestingItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType and Itemz Association After Recreating ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemzs Count by Project Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject\")));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzCount/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzCount",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ItemzChangeHistory Count by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verity that expected number of Itemz Change History records are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject\")) + 1);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject/42F62A6C-FCDA-4DAC-A06C-406AC1C17770",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzChangeHistoryByProject",
+								"42F62A6C-FCDA-4DAC-A06C-406AC1C17770"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphan Itemz Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Verity that expected number of Orphaned Itemz are found\", function () {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(",
+									"        parseInt(pm.collectionVariables.get(\"VerifyProjectParkingLotTypeItemzChangeHistory_foundOrphandCount\"))+ 100);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"GetOrphanCount"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -8008,7 +9573,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        }\r\n    ]\r\n}"
+					"raw": "{\r\n    \"id\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"ADDING after Deleting - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\",\r\n    \"itemzTypes\": [\r\n        {\r\n        \"id\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n        \"name\": \"ADDING after Deleting - ItemzType 1\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is ItemzType 1\",\r\n        \"itemzTypeJoinItemz\": [\r\n            {\r\n                \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n                \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n            }\r\n        ]\r\n        },\r\n        {\r\n        \"id\": \"473fe535-1420-42cf-8a40-224388b8df24\",\r\n        \"name\": \"Parking Lot\",\r\n        \"status\": \"Active\",\r\n        \"description\": \"This is Parking Lot system ItemzType\",\r\n        \"isSystem\": true        \r\n        }\r\n    ]\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:51087/api/ONLYforTestingProjects",
@@ -8380,6 +9945,22 @@
 		},
 		{
 			"key": "VerifyItemzChangeHistoryWithOrphaned_itemzChangeHistoryByItemzType",
+			"value": "0"
+		},
+		{
+			"key": "VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzCountByProject",
+			"value": "0"
+		},
+		{
+			"key": "VerifyProjectParkingLotTypeItemzChangeHistory_foundItemzChangeHistoryCountByProject",
+			"value": "0"
+		},
+		{
+			"key": "VerifyProjectParkingLotTypeItemzChangeHistory_ItemzChangeHistoryCreatedDateTime",
+			"value": "2000-01-01T00:00:00.001Z"
+		},
+		{
+			"key": "VerifyProjectParkingLotTypeItemzChangeHistory_foundOrphandCount",
 			"value": "0"
 		}
 	]

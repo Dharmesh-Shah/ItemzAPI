@@ -1002,6 +1002,46 @@
 			"response": []
 		},
 		{
+			"name": "GET All ItemzType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzTypes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET ItemzType Itemz",
 			"event": [
 				{
