@@ -108,7 +108,18 @@ namespace ItemzApp.API.Services
             }
             else
             {
-                project.ItemzTypes.Add(parkingLotItemzType);
+                var hasSystemType = false;
+                foreach( var itemzType in project.ItemzTypes)
+                {
+                    if (itemzType.IsSystem == true)
+                    {
+                        hasSystemType = true;
+                    }
+                }
+                if (hasSystemType == false)
+                {
+                    project.ItemzTypes.Add(parkingLotItemzType);
+                }
             }
 
             _context.Projects.Add(project);
