@@ -6,6 +6,6 @@ namespace ItemzApp.API.BusinessRules.Project
 {
     public interface IProjectRules
     {
-        public Task<bool> UniqueProjectNameRuleAsync(string sourceProjectName, string targetProjectName = null);
+        public Task<bool> UniqueProjectNameRuleAsync(string sourceProjectName, string? targetProjectName = null);
     }
 }

@@ -40,7 +40,7 @@ namespace ItemzApp.API.BusinessRules.Project
         /// <param name="targetProjectName">New or updated project name</param>
         /// <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
         /// <returns>true if project with same name exist in the repository otherwise false</returns>
-        public async Task<bool> UniqueProjectNameRuleAsync(string targetProjectName, string sourceProjectName = null)
+        public async Task<bool> UniqueProjectNameRuleAsync(string targetProjectName, string? sourceProjectName = null)
         { 
             if (sourceProjectName != null )
             { // Update existing project name

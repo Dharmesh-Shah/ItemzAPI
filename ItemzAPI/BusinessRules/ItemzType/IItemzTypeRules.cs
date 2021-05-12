@@ -7,6 +7,6 @@ namespace ItemzApp.API.BusinessRules.ItemzType
 {
     public interface IItemzTypeRules
     {
-        public Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid ProjectId,  string sourceItemzTypeName, string targetItemzTypeName = null);
+        public Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid ProjectId,  string sourceItemzTypeName, string? targetItemzTypeName = null);
     }
 }

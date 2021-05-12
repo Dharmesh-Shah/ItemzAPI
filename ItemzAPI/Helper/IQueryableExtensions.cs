@@ -7,6 +7,8 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Helper
 {
     public static class IQueryableExtensions
@@ -114,3 +116,5 @@ namespace ItemzApp.API.Helper
         }
     }
 }
+#nullable disable
+

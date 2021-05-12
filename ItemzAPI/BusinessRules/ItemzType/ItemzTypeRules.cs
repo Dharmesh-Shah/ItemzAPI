@@ -42,7 +42,7 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         /// <param name="targetItemzTypeName">New or updated itemzType name</param>
         /// <param name="sourceItemzTypeName">Old itemzType name. No need to pass this for checking rule against creating itemzType action</param>
         /// <returns>true if itemzType with same name exist in the repository otherwise false</returns>
-        public async Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid projectId, string targetItemzTypeName, string sourceItemzTypeName = null)
+        public async Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid projectId, string targetItemzTypeName, string? sourceItemzTypeName = null)
         {
             if (sourceItemzTypeName != null)
             { // Update existing itemzType name
