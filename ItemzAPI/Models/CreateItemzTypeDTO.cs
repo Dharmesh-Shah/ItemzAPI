@@ -3,6 +3,8 @@
 
 using System.ComponentModel.DataAnnotations;
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -19,3 +21,5 @@ namespace ItemzApp.API.Models
         public System.Guid ProjectId { get; set; }
     }
 }
+
+#nullable disable

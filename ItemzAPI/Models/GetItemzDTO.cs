@@ -3,6 +3,8 @@
 using System;
 
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -19,23 +21,23 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// Name or Title of the Itemz
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Status of the itemz
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
         /// <summary>
         /// Priority of the Itemz
         /// </summary>
-        public string Priority { get; set; }
+        public string? Priority { get; set; }
         /// <summary>
         /// Description of the Itemz
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// User who created the Itemz
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         /// <summary>
         /// Date and Time when Itemz was created
         /// </summary>
@@ -43,6 +45,8 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// Severity of the Itemz
         /// </summary>
-        public string Severity { get; set; }
+        public string? Severity { get; set; }
     }
 }
+
+#nullable disable

@@ -9,6 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -23,24 +25,24 @@ namespace ItemzApp.API.Models
         /// </summary>
         [Required] // Such attributes are important as they are used for Validating incoming API calls.
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Status of the itemz
         /// </summary>
         [Required]
         [MaxLength(64)]
-        public string Status { get; set; }
+        public string? Status { get; set; }
         /// <summary>
         /// Priority of the Itemz
         /// </summary>
         [Required]
         [MaxLength(64)]
-        public string Priority { get; set; }
+        public string? Priority { get; set; }
         /// <summary>
         /// Description of the Itemz
         /// </summary>
         [MaxLength(1028)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// Severity of the Itemz
         /// </summary>
@@ -48,3 +50,5 @@ namespace ItemzApp.API.Models
         public string Severity { get; set; } = EntityPropertyDefaultValues.ItemzSeverityDefaultValue;
     }
 }
+
+#nullable disable

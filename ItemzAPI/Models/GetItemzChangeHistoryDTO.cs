@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -24,14 +26,16 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// Old value of the Itemz Change History log
         /// </summary>
-        public string OldValues { get; set; }
+        public string OldValues { get; set; } = "";
         /// <summary>
         /// New value of the Itemz Change History log
         /// </summary>
-        public string NewValues { get; set; }
+        public string NewValues { get; set; } = "";
         /// <summary>
         /// Actual event that triggered registration of Itemz Change History, either Added or Modified.
         /// </summary>
-        public string ChangeEvent { get; set; }
+        public string? ChangeEvent { get; set; }
     }
 }
+
+#nullable enable

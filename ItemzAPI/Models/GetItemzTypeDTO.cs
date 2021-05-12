@@ -3,6 +3,8 @@
 using System;
 
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -18,19 +20,19 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// ItemzType Name 
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Status of the ItemzType
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
         /// <summary>
         /// Description of the ItemzType
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// User who created the ItemzType
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         /// <summary>
         /// Date and Time when ItemzType was created
         /// </summary>
@@ -41,3 +43,5 @@ namespace ItemzApp.API.Models
         public bool IsSystem { get; set; }
     }
 }
+
+#nullable disable

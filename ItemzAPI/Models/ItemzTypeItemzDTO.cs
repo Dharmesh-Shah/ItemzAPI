@@ -2,6 +2,8 @@
 
 using System;
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     public class ItemzTypeItemzDTO
@@ -18,3 +20,5 @@ namespace ItemzApp.API.Models
 
     }
 }
+
+#nullable disable

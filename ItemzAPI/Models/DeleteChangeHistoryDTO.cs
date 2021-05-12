@@ -2,6 +2,8 @@
 
 using System;
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     public class BaseChangeHistoryDTO
@@ -25,4 +27,4 @@ namespace ItemzApp.API.Models
     }
 }
 
-
+#nullable disable

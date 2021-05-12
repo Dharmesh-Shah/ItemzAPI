@@ -3,6 +3,8 @@
 using System;
 
 
+#nullable enable
+
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -18,22 +20,24 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// Project Name 
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Status of the Project
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
         /// <summary>
         /// Description of the Project
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// User who created the Project
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         /// <summary>
         /// Date and Time when Project was created
         /// </summary>
         public DateTimeOffset CreatedDate { get; set; }
     }
 }
+
+#nullable enable

@@ -20,7 +20,7 @@ namespace ItemzApp.API.Entities
         //[MaxLength(128)]
         //public string CreatedBy { get; set; } = "Some User";
 
-        public Itemz Itemz{ get; set; }
+        public Itemz? Itemz{ get; set; }
 
         [Required]
         public Guid ItemzId { get; set; }
