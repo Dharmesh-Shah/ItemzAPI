@@ -2122,7 +2122,7 @@
 							"response": []
 						},
 						{
-							"name": "GET ItemzChangeHistory Copy",
+							"name": "GET ItemzChangeHistory",
 							"event": [
 								{
 									"listen": "test",
@@ -5484,7 +5484,7 @@
 							"response": []
 						},
 						{
-							"name": "GET Count of ItemzChangeHistory By Project Copy",
+							"name": "GET Count of ItemzChangeHistory By Project",
 							"event": [
 								{
 									"listen": "test",
@@ -6426,7 +6426,7 @@
 									"response": []
 								},
 								{
-									"name": "GET Count of ItemzChangeHistory By Project Copy",
+									"name": "GET Count of ItemzChangeHistory By Project",
 									"event": [
 										{
 											"listen": "test",
@@ -6618,7 +6618,7 @@
 									"response": []
 								},
 								{
-									"name": "GET Count of ItemzChangeHistory By Project Copy 2",
+									"name": "GET Count of ItemzChangeHistory By Project",
 									"event": [
 										{
 											"listen": "test",
@@ -7015,7 +7015,7 @@
 					"response": []
 				},
 				{
-					"name": "POST Project After Deleting it Copy",
+					"name": "POST Project After Deleting it",
 					"event": [
 						{
 							"listen": "test",
@@ -7063,7 +7063,7 @@
 					"response": []
 				},
 				{
-					"name": "POST ItemzType After Deleting it Copy mememe",
+					"name": "POST ItemzType After Deleting it",
 					"event": [
 						{
 							"listen": "test",
@@ -7647,7 +7647,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE First ItemzChangeHistory by ID Copy",
+					"name": "DELETE First ItemzChangeHistory by ID",
 					"event": [
 						{
 							"listen": "test",
@@ -8237,7 +8237,7 @@
 					"response": []
 				},
 				{
-					"name": "GET Itemzs Count by Project Copy",
+					"name": "GET Itemzs Count by Project",
 					"event": [
 						{
 							"listen": "test",
@@ -9082,7 +9082,7 @@
 					"response": []
 				},
 				{
-					"name": "GET ItemzTypeItemz CheckExists Copy",
+					"name": "GET ItemzTypeItemz CheckExists",
 					"event": [
 						{
 							"listen": "test",

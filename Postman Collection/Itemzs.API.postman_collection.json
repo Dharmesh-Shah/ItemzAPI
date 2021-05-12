@@ -2627,7 +2627,7 @@
 			"response": []
 		},
 		{
-			"name": "GET Itemzs (orderBy Priority Desc, CreatedDate Desc) Copy",
+			"name": "GET Itemzs (orderBy Priority Desc, CreatedDate Desc)",
 			"event": [
 				{
 					"listen": "test",
