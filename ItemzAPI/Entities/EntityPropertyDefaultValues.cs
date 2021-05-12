@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+# nullable enable
+
 namespace ItemzApp.API.Entities
 {
     public static class EntityPropertyDefaultValues
@@ -12,3 +14,5 @@ namespace ItemzApp.API.Entities
         public const string ItemzSeverityDefaultValue = "Medium";
     }
 }
+
+# nullable disable

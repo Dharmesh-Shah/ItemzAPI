@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+# nullable enable
+
 namespace ItemzApp.API.Entities
 {
     public class Itemz
@@ -17,17 +19,17 @@ namespace ItemzApp.API.Entities
 
         [Required]
         [MaxLength(128)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Required]
         [MaxLength(64)]
         public string Status { get; set; } = "New";
 
         [MaxLength(64)]
-        public string Priority { get; set; } = "Medium";
+        public string? Priority { get; set; } = "Medium";
 
         [MaxLength(1028)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [MaxLength(128)]
@@ -78,3 +80,5 @@ namespace ItemzApp.API.Entities
         public List<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
     }
 }
+
+# nullable disable

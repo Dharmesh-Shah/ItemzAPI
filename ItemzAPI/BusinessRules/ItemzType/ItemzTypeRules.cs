@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
+# nullable enable
+
 namespace ItemzApp.API.BusinessRules.ItemzType
 {
     public class ItemzTypeRules : IItemzTypeRules
@@ -59,3 +61,5 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         }
     }
 }
+
+# nullable disable

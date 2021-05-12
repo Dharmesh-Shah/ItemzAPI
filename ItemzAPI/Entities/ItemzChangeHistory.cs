@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+# nullable enable
+
 namespace ItemzApp.API.Entities
 {
     public class ItemzChangeHistory
@@ -26,12 +28,14 @@ namespace ItemzApp.API.Entities
         [Required]
         public DateTimeOffset CreatedDate { get; set; } = DateTime.Now;
 
-        public string OldValues { get; set; }
+        public string? OldValues { get; set; }
 
-        public string NewValues { get; set; }
+        public string? NewValues { get; set; }
 
         [Required]
         [MaxLength(128)]
-        public string ChangeEvent { get; set; }
+        public string? ChangeEvent { get; set; }
     }
 }
+
+# nullable disable
