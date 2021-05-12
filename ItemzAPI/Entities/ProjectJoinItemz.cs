@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+# nullable enable
+
 namespace ItemzApp.API.Entities
 {
     //public class ProjectJoinItemz
@@ -16,3 +18,5 @@ namespace ItemzApp.API.Entities
     //    public Itemz Itemz { get; set; }
     //}
 }
+
+# nullable disable

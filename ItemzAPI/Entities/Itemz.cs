@@ -77,7 +77,7 @@ namespace ItemzApp.API.Entities
         // So at some point we will have to remove ProjectJoinItemz from below.
         //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
-        public List<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
+        public List<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
     }
 }
 
