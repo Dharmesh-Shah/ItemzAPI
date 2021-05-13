@@ -6,18 +6,24 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
+#nullable enable
 
 namespace ItemzApp.API.ValidationAttributes
 {
     public class ItemzNameMustNotStartWithABCAttribute : ValidationAttribute
     {
-        protected override ValidationResult IsValid(object value,
+        protected override ValidationResult? IsValid(object? value,
             ValidationContext validationContext)
         {
-            var itemz = (ManipulateItemzDTO)value;
+            var itemz = value as ManipulateItemzDTO;
 
             // TODO: THIS validation rule was configured just to learn and test if it's working as expected.
             // it should be removed later on.
+
+            if(itemz?.Name is null)
+            {
+                return ValidationResult.Success;
+            }
 
             if (itemz.Name.ToUpper().StartsWith("ABC"))
             {
@@ -28,3 +34,5 @@ namespace ItemzApp.API.ValidationAttributes
         }
     }
 }
+
+#nullable disable
