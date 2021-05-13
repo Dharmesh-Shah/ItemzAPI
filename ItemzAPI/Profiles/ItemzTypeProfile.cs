@@ -2,6 +2,8 @@
 
 using AutoMapper;
 
+#nullable enable
+
 namespace ItemzApp.API.Profiles
 {
     public class ItemzTypeProfile : Profile
@@ -15,3 +17,5 @@ namespace ItemzApp.API.Profiles
         }
     }
 }
+
+#nullable disable
