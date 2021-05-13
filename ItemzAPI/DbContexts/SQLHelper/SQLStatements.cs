@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.DbContexts.SQLHelper
 {
     public static class SQLStatements
@@ -57,3 +59,5 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
     }
 }
+
+#nullable disable

@@ -11,12 +11,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
+#nullable enable
+
 
 namespace ItemzApp.API.DbContexts.Interceptors
 {
     public class ItemzContexInterceptor : ISaveChangesInterceptor
     {
-        private IList<ItemzChangeHistory> itemzChangeHistory;
+        private IList<ItemzChangeHistory>? itemzChangeHistory;
 
         public readonly ItemzChangeHistoryContext _injectedItemzChangeHistoryContext;
         private readonly ILogger<ItemzContexInterceptor> _logger;
@@ -40,7 +42,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
         int ISaveChangesInterceptor.SavedChanges(SaveChangesCompletedEventData eventData, int result)
         {
-            if (itemzChangeHistory.Any())
+            if (itemzChangeHistory != null && itemzChangeHistory.Any()) 
             {
                 foreach (var ich in itemzChangeHistory)
                 {
@@ -55,7 +57,8 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
         async ValueTask<int> ISaveChangesInterceptor.SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken)
         {
-            if (itemzChangeHistory.Any())
+            //if (itemzChangeHistory.Any())
+            if ( itemzChangeHistory != null && itemzChangeHistory.Any())
             {
                 foreach (var ich in itemzChangeHistory)
                 {
@@ -93,16 +96,16 @@ namespace ItemzApp.API.DbContexts.Interceptors
                 {
                     continue;
                 }
-                else if(entry.State != EntityState.Added && entry.State != EntityState.Modified)
+                else if (entry.State != EntityState.Added && entry.State != EntityState.Modified)
                 {
                     continue;
                 }
-                
-                var itemzChangeHistory = new ItemzChangeHistory 
-                    {
+
+                var itemzChangeHistory = new ItemzChangeHistory
+                {
                     CreatedDate = DateTimeOffset.UtcNow,
-                    ItemzId = (Guid)entry.Properties.Where(property => property.Metadata.IsPrimaryKey()).FirstOrDefault().CurrentValue
-                    };
+                    ItemzId = (Guid)entry.Properties.Where(property => property.Metadata.IsPrimaryKey()).First().CurrentValue
+                };
 
                 switch (entry.State)
                 {
@@ -112,7 +115,7 @@ namespace ItemzApp.API.DbContexts.Interceptors
                     //    break;
                     case EntityState.Added:
                         itemzChangeHistory.ChangeEvent = nameof(EntityState.Added);
-                        itemzChangeHistory.CreatedDate = (DateTimeOffset) entry.Properties.Where(property => property.Metadata.Name == "CreatedDate").FirstOrDefault().CurrentValue;
+                        itemzChangeHistory.CreatedDate = (DateTimeOffset) entry.Properties.Where(property => property.Metadata.Name == "CreatedDate").First().CurrentValue;
                         itemzChangeHistory.NewValues = CreateAddedChanges(entry);
                         listOfItemzChangeHistory.Add(itemzChangeHistory);
                         break;
@@ -172,3 +175,5 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
     }
 }
+
+#nullable disable

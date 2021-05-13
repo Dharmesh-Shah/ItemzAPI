@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+# nullable enable
+
 namespace ItemzApp.API.DbContexts
 {
     public class ItemzContext : DbContext
@@ -32,13 +34,13 @@ namespace ItemzApp.API.DbContexts
             }
         }
 
-        public DbSet<Itemz> Itemzs { get; set; }
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<Itemz>? Itemzs { get; set; }
+        public DbSet<Project>? Projects { get; set; }
         //public DbSet<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
-        public DbSet<ItemzType> ItemzTypes { get; set; }
-        public DbSet<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
-        public DbSet<ItemzChangeHistory> ItemzChangeHistory { get; set; }
+        public DbSet<ItemzType>? ItemzTypes { get; set; }
+        public DbSet<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
+        public DbSet<ItemzChangeHistory>? ItemzChangeHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -220,16 +222,16 @@ namespace ItemzApp.API.DbContexts
 
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasOne(itji => itji.ItemzType)
-                .WithMany(it => it.ItemzTypeJoinItemz)
+                .WithMany(it => it!.ItemzTypeJoinItemz)
                 .HasForeignKey(itji => itji.ItemzTypeId);
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasOne(itji => itji.Itemz)
-                .WithMany(i => i.ItemzTypeJoinItemz)
+                .WithMany(i => i!.ItemzTypeJoinItemz)
                 .HasForeignKey(itji => itji.ItemzId);
 
             modelBuilder.Entity<ItemzType>()
                 .HasOne(it => it.Project)
-                .WithMany(p => p.ItemzTypes)
+                .WithMany(p => p!.ItemzTypes)
                 .HasForeignKey(it => it.ProjectId);
 
             modelBuilder.Entity<ItemzType>().HasData(
@@ -314,3 +316,5 @@ namespace ItemzApp.API.DbContexts
         }
     }
 }
+
+# nullable disable

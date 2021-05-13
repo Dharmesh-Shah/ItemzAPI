@@ -5,11 +5,13 @@ using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
+#nullable enable
+
 namespace ItemzApp.API.DbContexts
 {
     public class ItemzChangeHistoryContext : DbContext
     {
-      
+
         public ItemzChangeHistoryContext(DbContextOptions<ItemzChangeHistoryContext> options) : base(options)
         {
 
@@ -24,9 +26,9 @@ namespace ItemzApp.API.DbContexts
             }
         }
 
-        public DbSet<ItemzChangeHistory> ItemzChangeHistory { get; set; }
+        public DbSet<ItemzChangeHistory>? ItemzChangeHistory { get; set; }
 
-        public DbSet<ItemzTypeJoinItemz> ItemzTypeJoinItemz { get; set; }
+        public DbSet<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -59,14 +61,16 @@ namespace ItemzApp.API.DbContexts
 
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasOne(itji => itji.ItemzType)
-                .WithMany(it => it.ItemzTypeJoinItemz)
+                .WithMany(it => it!.ItemzTypeJoinItemz)
                 .HasForeignKey(itji => itji.ItemzTypeId);
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasOne(itji => itji.Itemz)
-                .WithMany(i => i.ItemzTypeJoinItemz)
+                .WithMany(i => i!.ItemzTypeJoinItemz)
                 .HasForeignKey(itji => itji.ItemzId);
 
             base.OnModelCreating(modelBuilder);
         }
     }
 }
+
+#nullable disable
