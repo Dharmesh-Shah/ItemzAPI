@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
 
@@ -27,7 +29,7 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(propertyMappingService));
         }
 
-        public async Task<Itemz> GetItemzAsync(Guid ItemzId)
+        public async Task<Itemz?> GetItemzAsync(Guid ItemzId)
         {
 
             if (ItemzId == Guid.Empty)
@@ -35,11 +37,11 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return await _context.Itemzs
+            return await _context.Itemzs!
                 .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<Itemz> GetItemzForUpdatingAsync(Guid ItemzId)
+        public async Task<Itemz?> GetItemzForUpdatingAsync(Guid ItemzId)
         {
 
             if (ItemzId == Guid.Empty)
@@ -47,7 +49,7 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return await _context.Itemzs
+            return await _context.Itemzs!
                 .Where(c => c.Id == ItemzId).FirstOrDefaultAsync();
         }
 
@@ -62,7 +64,7 @@ namespace ItemzApp.API.Services
                 .OrderBy(a => a.Name)
                 .ToListAsync();
         }
-        public PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter)
+        public PagedList<Itemz>? GetItemzs(ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?
             // There are chances that we just want to get all the itemz and
@@ -74,9 +76,9 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and use CountAsync
+                if (_context.Itemzs!.Count<Itemz>() > 0) //TODO: await and use CountAsync
                 {
-                    var itemzCollection = _context.Itemzs.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+                    var itemzCollection = _context.Itemzs!.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
                     if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
                     {
@@ -109,7 +111,7 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public PagedList<Itemz> GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter)
+        public PagedList<Itemz>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?
             // There are chances that we just want to get all the itemz and
@@ -121,11 +123,11 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs.Count<Itemz>() > 0) //TODO: await and use CountAsync
+                if (_context.Itemzs!.Count<Itemz>() > 0) //TODO: await and use CountAsync
                 {
                     var itemzCollection = _context.Itemzs
                         .Include(i => i.ItemzTypeJoinItemz)
-                        .Where (i => i.ItemzTypeJoinItemz.Count() == 0)
+                        .Where (i => i.ItemzTypeJoinItemz!.Count() == 0)
                         .AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
                     if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
@@ -164,7 +166,7 @@ namespace ItemzApp.API.Services
             var foundOrphanItemzsCount = -1;
             foundOrphanItemzsCount = await _context.Itemzs
                         .Include(i => i.ItemzTypeJoinItemz)
-                        .Where(i => i.ItemzTypeJoinItemz.Count() == 0)
+                        .Where(i => i.ItemzTypeJoinItemz!.Count() == 0)
                         .CountAsync();
             return foundOrphanItemzsCount > 0 ? foundOrphanItemzsCount : -1;
         }
@@ -173,10 +175,10 @@ namespace ItemzApp.API.Services
         {
             return await _context.Itemzs
                       .Include(i => i.ItemzTypeJoinItemz)
-                      .Where(i => i.ItemzTypeJoinItemz.Any(itji => itji.ItemzTypeId == itemzTypeId)).CountAsync();
+                      .Where(i => i.ItemzTypeJoinItemz!.Any(itji => itji.ItemzTypeId == itemzTypeId)).CountAsync();
         }
 
-        public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter)
+        public PagedList<Itemz>? GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?
             // There are chances that we just want to get all the itemz and
@@ -193,12 +195,12 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs.Count<Itemz>() > 0)
+                if (_context.Itemzs!.Count<Itemz>() > 0)
                 {
                     var itemzCollection = _context.Itemzs
                         .Include(i => i.ItemzTypeJoinItemz)
                         //                        .ThenInclude(PjI => PjI.ItemzType)
-                        .Where(i => i.ItemzTypeJoinItemz.Any(itji => itji.ItemzTypeId == itemzTypeId));
+                        .Where(i => i.ItemzTypeJoinItemz!.Any(itji => itji.ItemzTypeId == itemzTypeId));
 
                     //     .Where(i => i.  . AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
@@ -252,8 +254,7 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(itemz));
             }
-
-            _context.Itemzs.Add(itemz);
+            _context.Itemzs!.Add(itemz);
         }
 
         public async Task<bool> SaveAsync()
@@ -268,15 +269,17 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(itemz));
             }
 
-            if (itemzTypeId == null)
+            if (itemzTypeId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(itemzTypeId));
             }
 
-            var tempitemzType = _context.ItemzTypes.Find(itemzTypeId);
-            _context.Itemzs.Add(itemz);
+            var tempitemzType = _context.ItemzTypes!.Find(itemzTypeId);
+            _context.Itemzs!.Add(itemz);
             var itji = new ItemzTypeJoinItemz { Itemz = itemz, ItemzType = tempitemzType };
-            _context.ItemzTypeJoinItemz.Add(itji);
+            _context.ItemzTypeJoinItemz!.Add(itji);
+
+
         }
 
         public async Task<bool> ItemzExistsAsync(Guid itemzId)
@@ -337,13 +340,13 @@ namespace ItemzApp.API.Services
 
         public void DeleteItemz(Itemz itemz)
         {
-            _context.Itemzs.Remove(itemz);
+            _context.Itemzs!.Remove(itemz);
         }
 
 
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO)
         {
-            var itji = _context.ItemzTypeJoinItemz.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+            var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
             if (itji != null)
             {
                 _context.ItemzTypeJoinItemz.Remove(itji);
@@ -352,7 +355,7 @@ namespace ItemzApp.API.Services
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO)
         {
-            var itji = _context.ItemzTypeJoinItemz.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+            var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
             if (itji == null)
             {
                 var temp_itji = new ItemzTypeJoinItemz
@@ -379,3 +382,5 @@ namespace ItemzApp.API.Services
 
     }
 }
+
+#nullable disable

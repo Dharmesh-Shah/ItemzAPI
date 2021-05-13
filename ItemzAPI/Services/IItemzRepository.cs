@@ -9,24 +9,26 @@ using ItemzApp.API.Helper;
 using ItemzApp.API.Models;
 using ItemzApp.API.ResourceParameters;
 
+#nullable enable
+
 
 namespace ItemzApp.API.Services
 {
     public interface IItemzRepository
     {
-        Task<Itemz> GetItemzAsync(Guid ItemzId);
+        Task<Itemz?> GetItemzAsync(Guid ItemzId);
 
-        Task<Itemz> GetItemzForUpdatingAsync(Guid ItemzId);
+        Task<Itemz?> GetItemzForUpdatingAsync(Guid ItemzId);
 
         Task<int> GetItemzsCountByItemzType(Guid itemzTypeId); 
 
-        PagedList<Itemz> GetItemzs(ItemzResourceParameter itemzResourceParameter);
+        PagedList<Itemz>? GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
-        PagedList<Itemz> GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter);
+        PagedList<Itemz>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter);
 
         Task<int> GetOrphanItemzsCount();
 
-        public PagedList<Itemz> GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
+        public PagedList<Itemz>? GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
         public Task<IEnumerable<Itemz>> GetItemzsAsync(IEnumerable<Guid> itemzIds);
 
@@ -55,3 +57,5 @@ namespace ItemzApp.API.Services
 
     }
 }
+
+#nullable disable

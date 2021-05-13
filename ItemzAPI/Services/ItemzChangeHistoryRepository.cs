@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public class ItemzChangeHistoryRepository : IItemzChangeHistoryRepository, IDisposable
@@ -26,7 +28,7 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return await _context.ItemzChangeHistory
+            return await _context.ItemzChangeHistory!
                 .Where(ich => ich.ItemzId == ItemzId)
                 .OrderByDescending(ich => ich.CreatedDate).AsNoTracking().ToListAsync();
         }
@@ -45,7 +47,7 @@ namespace ItemzApp.API.Services
                 return 0;
             }
             var numberOfItemzChangeHistoryToBeRemoved = 0;
-            var foundItemzChangeHistory = _context.ItemzChangeHistory.Where(ich => ich.ItemzId == ItemzId);
+            var foundItemzChangeHistory = _context.ItemzChangeHistory!.Where(ich => ich.ItemzId == ItemzId);
             if (foundItemzChangeHistory.Count() > 0)
             {
                 foreach (var each_fich in foundItemzChangeHistory)
@@ -86,3 +88,5 @@ namespace ItemzApp.API.Services
 
     }
 }
+
+#nullable disable

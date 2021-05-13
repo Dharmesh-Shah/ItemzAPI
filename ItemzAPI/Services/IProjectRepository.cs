@@ -5,15 +5,17 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItemzApp.API.Entities;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public interface IProjectRepository
     {
-        public Task<Project> GetProjectAsync(Guid ProjectId);
+        public Task<Project?> GetProjectAsync(Guid ProjectId);
 
-        public Task<Project> GetProjectForUpdateAsync(Guid ProjectId);
+        public Task<Project?> GetProjectForUpdateAsync(Guid ProjectId);
 
-        public Task<IEnumerable<Project>> GetProjectsAsync();
+        public Task<IEnumerable<Project>?> GetProjectsAsync();
 
         public Task<IEnumerable<Project>> GetProjectsAsync(IEnumerable<Guid> projectIds);
 
@@ -32,3 +34,5 @@ namespace ItemzApp.API.Services
         public Task<bool> HasProjectWithNameAsync(string projectName);
     }
 }
+
+#nullable disable

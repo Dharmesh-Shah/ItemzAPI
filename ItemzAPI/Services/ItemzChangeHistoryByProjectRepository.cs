@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public class ItemzChangeHistoryByProjectRepository : IItemzChangeHistoryByProjectRepository, IDisposable
@@ -44,6 +46,10 @@ namespace ItemzApp.API.Services
                 .Where(p => p.Id == ProjectId)
                 .Select(p => p.ItemzTypes).FirstOrDefaultAsync();
 
+            if (foundProjectItemzTypes is null)
+            {
+                return 0;
+            }
             foreach (var foundProjectItemzType in foundProjectItemzTypes)
             {
                 var foundItemzTypeItemzs = await _itemzContext.ItemzTypeJoinItemz
@@ -61,7 +67,7 @@ namespace ItemzApp.API.Services
                     // with many SQL queries that checkes if Project has associated change history.
                     // We have opportunity to improve this process further.
 
-                    var foundItemzChangeHistory = _itemzChangeHistoryContext.ItemzChangeHistory.Where(ich => ich.ItemzId == foundItemzTypeItemz);
+                    var foundItemzChangeHistory = _itemzChangeHistoryContext.ItemzChangeHistory!.Where(ich => ich.ItemzId == foundItemzTypeItemz);
                     if (foundItemzChangeHistory.Count() > 0)
                     {
                         foreach (var each_fich in foundItemzChangeHistory)
@@ -139,3 +145,5 @@ namespace ItemzApp.API.Services
 
     }
 }
+
+#nullable disable

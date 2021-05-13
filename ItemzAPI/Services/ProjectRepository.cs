@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public class ProjectRepository : IProjectRepository, IDisposable
@@ -21,29 +23,29 @@ namespace ItemzApp.API.Services
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Project> GetProjectAsync(Guid ProjectId)
+        public async Task<Project?> GetProjectAsync(Guid ProjectId)
         {
             if (ProjectId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
 
-            return await _context.Projects
+            return await _context.Projects!
                 .Where(c => c.Id == ProjectId).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<Project> GetProjectForUpdateAsync(Guid ProjectId)
+        public async Task<Project?> GetProjectForUpdateAsync(Guid ProjectId)
         {
             if (ProjectId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
 
-            return await _context.Projects
+            return await _context.Projects!
                 .Where(c => c.Id == ProjectId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Project>> GetProjectsAsync()
+        public async Task<IEnumerable<Project>?> GetProjectsAsync()
         {
             try
             {
@@ -122,8 +124,8 @@ namespace ItemzApp.API.Services
                 }
             }
 
-            _context.Projects.Add(project);
-        }
+            _context.Projects!.Add(project);
+            }
 
         public async Task<bool> SaveAsync()
         {
@@ -160,7 +162,7 @@ namespace ItemzApp.API.Services
 
         public void DeleteProject(Project project)
         {
-            _context.Projects.Remove(project);
+            _context.Projects!.Remove(project);
         }
 
         public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
@@ -193,7 +195,9 @@ namespace ItemzApp.API.Services
 
         public async Task<bool> HasProjectWithNameAsync(string projectName)
         {
-            return await _context.Projects.AsNoTracking().AnyAsync(p => p.Name.ToLower() == projectName.ToLower());
+            return await _context.Projects.AsNoTracking().AnyAsync(p => p.Name!.ToLower() == projectName.ToLower());
         }
     }
 }
+
+#nullable disable

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public class ItemzTypeRepository : IItemzTypeRepository, IDisposable
@@ -26,7 +28,7 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzTypeId));
             }
 
-            return await _context.ItemzTypes
+            return await _context.ItemzTypes!
                 .Where(c => c.Id == ItemzTypeId).AsNoTracking().FirstOrDefaultAsync();
         }
 
@@ -37,11 +39,11 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzTypeId));
             }
 
-            return await _context.ItemzTypes
+            return await _context.ItemzTypes!
                 .Where(c => c.Id == ItemzTypeId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ItemzType>> GetItemzTypesAsync()
+        public async Task<IEnumerable<ItemzType>?> GetItemzTypesAsync()
         {
             try
             {
@@ -86,7 +88,7 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(itemzType));
             }
 
-            _context.ItemzTypes.Add(itemzType);
+            _context.ItemzTypes!.Add(itemzType);
         }
 
         public async Task<bool> SaveAsync()
@@ -117,7 +119,7 @@ namespace ItemzApp.API.Services
 
         public void DeleteItemzType(ItemzType itemzType)
         {
-            _context.ItemzTypes.Remove(itemzType);
+            _context.ItemzTypes!.Remove(itemzType);
         }
 
         public void Dispose()
@@ -136,7 +138,9 @@ namespace ItemzApp.API.Services
 
         public async Task<bool> HasItemzTypeWithNameAsync(Guid projectId, string itemzTypeName)
         {
-            return await _context.ItemzTypes.AsNoTracking().AnyAsync(it => it.ProjectId.ToString().ToLower() == projectId.ToString().ToLower() && it.Name.ToLower() == itemzTypeName.ToLower());
+            return await _context.ItemzTypes.AsNoTracking().AnyAsync(it => it.ProjectId.ToString().ToLower() == projectId.ToString().ToLower() && it.Name!.ToLower() == itemzTypeName.ToLower());
         }
     }
 }
+
+#nullable disable

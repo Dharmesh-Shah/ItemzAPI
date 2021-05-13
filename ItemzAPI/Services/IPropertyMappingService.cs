@@ -2,6 +2,8 @@
 
 using System.Collections.Generic;
 
+#nullable enable
+
 namespace ItemzApp.API.Services
 {
     public interface IPropertyMappingService
@@ -10,3 +12,5 @@ namespace ItemzApp.API.Services
         Dictionary<string, PropertyMappingValue> GetPropertyMapping<TSource, TDestination>();
     }
 }
+
+#nullable disable
