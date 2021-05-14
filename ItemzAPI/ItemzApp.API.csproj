@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>ItemzApp.API</RootNamespace>
     <AssemblyName>ItemzApp.API</AssemblyName>
-	<!-- <Nullable>enable</Nullable> -->
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
