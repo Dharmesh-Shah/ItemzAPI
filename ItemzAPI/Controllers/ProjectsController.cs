@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.Project;
 using ItemzApp.API.Helper;
 
+#nullable enable
+
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -171,7 +173,7 @@ namespace ItemzApp.API.Controllers
         {
             var projectEntity = _mapper.Map<Entities.Project>(createProjectDTO);
 
-            if (await _projectRules.UniqueProjectNameRuleAsync(createProjectDTO.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(createProjectDTO.Name!))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {createProjectDTO_Name} already exists in the repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -240,7 +242,7 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            if (await _projectRules.UniqueProjectNameRuleAsync(projectToBeUpdated.Name, projectFromRepo.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(projectToBeUpdated.Name!, projectFromRepo.Name))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {projectToBeUpdated_Name} already exists in the repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -332,8 +334,7 @@ namespace ItemzApp.API.Controllers
                     projectId);
                 return ValidationProblem(ModelState);
             }
-
-            if (await _projectRules.UniqueProjectNameRuleAsync(projectToPatch.Name, projectFromRepo.Name))
+            if (await _projectRules.UniqueProjectNameRuleAsync(projectToPatch.Name!, projectFromRepo.Name))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Project with name {projectToPatch_Name} already exists in the repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -458,3 +459,5 @@ namespace ItemzApp.API.Controllers
         }
     }
 }
+
+#nullable disable

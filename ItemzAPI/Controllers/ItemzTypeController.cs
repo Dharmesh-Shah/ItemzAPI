@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.ItemzType;
 
+#nullable enable
+
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -183,7 +185,7 @@ namespace ItemzApp.API.Controllers
             }    
             var ItemzTypeEntity = _mapper.Map<Entities.ItemzType>(createItemzTypeDTO);
 
-            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(createItemzTypeDTO.ProjectId, createItemzTypeDTO.Name!))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {createItemzTypeDTO_Name} already exists in the project with Id {createItemzTypeDTO_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -262,7 +264,7 @@ namespace ItemzApp.API.Controllers
                     );
             }
 
-            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name, ItemzTypeFromRepo.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToBeUpdated.Name!, ItemzTypeFromRepo.Name))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {ItemzTypeToBeUpdated_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -371,7 +373,7 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem(ModelState);
             }
 
-            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name, ItemzTypeFromRepo.Name))
+            if (await _itemzTypeRules.UniqueItemzTypeNameRuleAsync(ItemzTypeFromRepo.ProjectId, ItemzTypeToPatch.Name!, ItemzTypeFromRepo.Name))
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with name {ItemzTypeToPatch_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -483,3 +485,5 @@ namespace ItemzApp.API.Controllers
 
     }
 }
+
+#nullable disable

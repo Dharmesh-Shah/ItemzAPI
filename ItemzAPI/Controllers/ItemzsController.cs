@@ -20,6 +20,8 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -123,7 +125,7 @@ namespace ItemzApp.API.Controllers
             }
             _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} Itemz found in the repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    itemzsFromRepo.TotalCount);
+                    itemzsFromRepo!.TotalCount);
             var previousPageLink = itemzsFromRepo.HasPrevious ?
                 CreateItemzResourceUri(itemzResourceParameter,
                 ResourceUriType.PreviousPage) : null;
@@ -196,7 +198,7 @@ namespace ItemzApp.API.Controllers
             }
             _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} orphan Itemz found in the repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    itemzsFromRepo.TotalCount);
+                    itemzsFromRepo!.TotalCount);
             var previousPageLink = itemzsFromRepo.HasPrevious ?
                 CreateItemzResourceUri(itemzResourceParameter,
                 ResourceUriType.PreviousPage) : null;
@@ -511,7 +513,7 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber - 1,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
                 case ResourceUriType.NextPage:
                     return Url.Link("__GET_Itemzs__",
                         new
@@ -519,7 +521,7 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber + 1,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
                 default:
                     return Url.Link("__GET_Itemzs__",
                         new
@@ -527,8 +529,10 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
             }
         }
     }
 }
+
+#nullable disable

@@ -20,6 +20,8 @@ using Microsoft.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
+#nullable enable
+
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -99,8 +101,8 @@ namespace ItemzApp.API.Controllers
             }
             _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} Itemz found in ItemzType with ID {ItemzTypeId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                itemzsFromRepo.TotalCount, ItemzTypeId);
-            var previousPageLink = itemzsFromRepo.HasPrevious ?
+                itemzsFromRepo?.TotalCount, ItemzTypeId);
+            var previousPageLink = itemzsFromRepo!.HasPrevious ?
                 CreateItemzTypeItemzResourceUri(itemzResourceParameter,
                 ResourceUriType.PreviousPage) : null;
 
@@ -408,7 +410,7 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber - 1,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
                 case ResourceUriType.NextPage:
                     return Url.Link("__GET_Itemzs_By_ItemzType__",
                         new
@@ -416,7 +418,7 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber + 1,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
                 default:
                     return Url.Link("__GET_Itemzs_By_ItemzType__",
                         new
@@ -424,8 +426,11 @@ namespace ItemzApp.API.Controllers
                             orderBy = itemzResourceParameter.OrderBy,
                             pageNumber = itemzResourceParameter.PageNumber,
                             pageSize = itemzResourceParameter.PageSize
-                        });
+                        })!;
             }
         }
     }
 }
+
+#nullable disable
+
