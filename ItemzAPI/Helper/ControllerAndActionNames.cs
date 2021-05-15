@@ -6,8 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-#nullable enable
-
 namespace ItemzApp.API.Helper
 {
     public static class ControllerAndActionNames
@@ -22,5 +20,3 @@ namespace ItemzApp.API.Helper
         }
     }
 }
-#nullable disable
-

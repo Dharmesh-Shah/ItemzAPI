@@ -9,9 +9,6 @@ using ItemzApp.API.Helper;
 using ItemzApp.API.Models;
 using ItemzApp.API.ResourceParameters;
 
-#nullable enable
-
-
 namespace ItemzApp.API.Services
 {
     public interface IItemzRepository
@@ -57,5 +54,3 @@ namespace ItemzApp.API.Services
 
     }
 }
-
-#nullable disable

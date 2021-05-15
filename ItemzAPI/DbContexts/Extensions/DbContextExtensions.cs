@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace ItemzApp.API.DbContexts.Extensions
 {
     // EXPLANATION : I learned about this extension method as per blog from Dmitry Sikorsky found at ...
@@ -57,5 +55,3 @@ namespace ItemzApp.API.DbContexts.Extensions
         }
     }
 }
-
-#nullable disable

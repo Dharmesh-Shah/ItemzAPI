@@ -2,9 +2,6 @@
 
 using System;
 
-
-#nullable enable
-
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -43,5 +40,3 @@ namespace ItemzApp.API.Models
         public bool IsSystem { get; set; }
     }
 }
-
-#nullable disable

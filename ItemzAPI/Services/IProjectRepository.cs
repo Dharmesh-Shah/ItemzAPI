@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItemzApp.API.Entities;
 
-#nullable enable
-
 namespace ItemzApp.API.Services
 {
     public interface IProjectRepository
@@ -34,5 +32,3 @@ namespace ItemzApp.API.Services
         public Task<bool> HasProjectWithNameAsync(string projectName);
     }
 }
-
-#nullable disable

@@ -9,8 +9,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -50,5 +48,3 @@ namespace ItemzApp.API.Models
         public string Severity { get; set; } = EntityPropertyDefaultValues.ItemzSeverityDefaultValue;
     }
 }
-
-#nullable disable

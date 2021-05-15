@@ -6,8 +6,6 @@ using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-#nullable enable
-
 namespace ItemzApp.API.ValidationAttributes
 {
     public class ItemzNameMustNotStartWithABCAttribute : ValidationAttribute
@@ -34,5 +32,3 @@ namespace ItemzApp.API.ValidationAttributes
         }
     }
 }
-
-#nullable disable

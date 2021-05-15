@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-# nullable enable
-
 namespace ItemzApp.API.Entities
 {
     public class Project
@@ -39,5 +37,3 @@ namespace ItemzApp.API.Entities
         public List<ItemzType>? ItemzTypes { get; set; }
     }
 }
-
-# nullable disable

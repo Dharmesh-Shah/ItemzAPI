@@ -19,8 +19,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.Project;
 using ItemzApp.API.Helper;
 
-#nullable enable
-
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -459,5 +457,3 @@ namespace ItemzApp.API.Controllers
         }
     }
 }
-
-#nullable disable

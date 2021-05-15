@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-#nullable enable
-
 namespace ItemzApp.API.Services
 {
     public class ItemzChangeHistoryByItemzTypeRepository : IItemzChangeHistoryByItemzTypeRepository, IDisposable
@@ -133,5 +131,3 @@ namespace ItemzApp.API.Services
 
     }
 }
-
-#nullable disable

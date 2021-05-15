@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-# nullable enable
-
 namespace ItemzApp.API.DbContexts
 {
     public class ItemzContext : DbContext
@@ -316,5 +314,3 @@ namespace ItemzApp.API.DbContexts
         }
     }
 }
-
-# nullable disable

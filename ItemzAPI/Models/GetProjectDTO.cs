@@ -2,9 +2,6 @@
 
 using System;
 
-
-#nullable enable
-
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -39,5 +36,3 @@ namespace ItemzApp.API.Models
         public DateTimeOffset CreatedDate { get; set; }
     }
 }
-
-#nullable enable

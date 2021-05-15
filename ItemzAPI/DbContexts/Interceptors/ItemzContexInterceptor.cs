@@ -11,9 +11,6 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-#nullable enable
-
-
 namespace ItemzApp.API.DbContexts.Interceptors
 {
     public class ItemzContexInterceptor : ISaveChangesInterceptor
@@ -175,5 +172,3 @@ namespace ItemzApp.API.DbContexts.Interceptors
 
     }
 }
-
-#nullable disable

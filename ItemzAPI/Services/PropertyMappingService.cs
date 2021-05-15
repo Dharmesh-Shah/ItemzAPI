@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace ItemzApp.API.Services
 {
     public class PropertyMappingService : IPropertyMappingService
@@ -75,5 +73,3 @@ namespace ItemzApp.API.Services
         }
     }
 }
-
-#nullable disable

@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-# nullable enable
-
 namespace ItemzApp.API.Entities
 {
     public class ItemzChangeHistory
@@ -37,5 +35,3 @@ namespace ItemzApp.API.Entities
         public string? ChangeEvent { get; set; }
     }
 }
-
-# nullable disable

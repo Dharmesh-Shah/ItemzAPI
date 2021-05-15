@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using ItemzApp.API.DbContexts;
 
-#nullable enable
-
 namespace ItemzApp.API.DbContexts
 {
     public class ItemzContextFactory : IDesignTimeDbContextFactory<ItemzContext>
@@ -33,5 +31,3 @@ namespace ItemzApp.API.DbContexts
         }
     }
 }
-
-#nullable disable

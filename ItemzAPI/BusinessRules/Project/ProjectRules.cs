@@ -5,8 +5,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-# nullable enable
-
 namespace ItemzApp.API.BusinessRules.Project
 {
     public class ProjectRules : IProjectRules
@@ -59,5 +57,3 @@ namespace ItemzApp.API.BusinessRules.Project
         }
     }
 }
-
-# nullable disable

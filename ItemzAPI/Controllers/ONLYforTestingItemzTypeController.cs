@@ -10,8 +10,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ItemzApp.API.Helper;
 
-#nullable enable
-
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
@@ -69,5 +67,3 @@ namespace ItemzApp.API.Controllers
 
     }
 }
-
-#nullable disable

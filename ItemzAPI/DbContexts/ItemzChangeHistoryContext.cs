@@ -4,9 +4,6 @@ using System;
 using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-
-#nullable enable
-
 namespace ItemzApp.API.DbContexts
 {
     public class ItemzChangeHistoryContext : DbContext
@@ -72,5 +69,3 @@ namespace ItemzApp.API.DbContexts
         }
     }
 }
-
-#nullable disable

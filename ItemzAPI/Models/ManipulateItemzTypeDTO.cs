@@ -2,8 +2,6 @@
 
 using System.ComponentModel.DataAnnotations;
 
-#nullable enable
-
 namespace ItemzApp.API.Models
 {
     /// <summary>
@@ -30,5 +28,3 @@ namespace ItemzApp.API.Models
         public string? Description { get; set; }
     }
 }
-
-#nullable disable

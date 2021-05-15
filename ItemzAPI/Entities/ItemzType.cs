@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-# nullable enable
-
 namespace ItemzApp.API.Entities
 {
     public class ItemzType
@@ -46,5 +44,3 @@ namespace ItemzApp.API.Entities
 
     }
 }
-
-# nullable disable

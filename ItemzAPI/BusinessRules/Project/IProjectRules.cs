@@ -2,8 +2,6 @@
 
 using System.Threading.Tasks;
 
-# nullable enable
-
 namespace ItemzApp.API.BusinessRules.Project
 {
     public interface IProjectRules
@@ -11,5 +9,3 @@ namespace ItemzApp.API.BusinessRules.Project
         public Task<bool> UniqueProjectNameRuleAsync(string sourceProjectName, string? targetProjectName = null);
     }
 }
-
-# nullable disable

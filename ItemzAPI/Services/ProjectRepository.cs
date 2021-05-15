@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace ItemzApp.API.Services
 {
     public class ProjectRepository : IProjectRepository, IDisposable
@@ -199,5 +197,3 @@ namespace ItemzApp.API.Services
         }
     }
 }
-
-#nullable disable

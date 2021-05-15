@@ -3,8 +3,6 @@
 using System;
 using System.Threading.Tasks;
 
-#nullable enable
-
 namespace ItemzApp.API.Services
 {
     public interface IItemzChangeHistoryByProjectRepository
@@ -15,5 +13,3 @@ namespace ItemzApp.API.Services
 
     }
 }
-
-#nullable disable

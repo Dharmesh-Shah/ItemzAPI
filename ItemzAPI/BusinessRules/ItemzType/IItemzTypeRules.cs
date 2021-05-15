@@ -2,8 +2,6 @@
 
 using System.Threading.Tasks;
 
-# nullable enable
-
 namespace ItemzApp.API.BusinessRules.ItemzType
 {
     public interface IItemzTypeRules
@@ -11,5 +9,3 @@ namespace ItemzApp.API.BusinessRules.ItemzType
         public Task<bool> UniqueItemzTypeNameRuleAsync(System.Guid ProjectId,  string sourceItemzTypeName, string? targetItemzTypeName = null);
     }
 }
-
-#nullable disable
