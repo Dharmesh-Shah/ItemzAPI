@@ -509,6 +509,14 @@
             <response code="200">Returns number of Itemz count that were associated with a given Project</response>
             <response code="404">Project based on projectId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetItemzTypesByProjectIdAsync(System.Guid)">
+            <summary>
+            Gets collection of ItemzTypes for the given ProjectID
+            </summary>
+            <returns>Collection of ItemzTypes based on expectated sorting orderfor the given ProjectID</returns>
+            <response code="200">Returns collection of ItemzTypes based on sorting order for the given ProjectID</response>
+            <response code="404">No ItemzTypes were found for the given ProjectID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsOptions">
             <summary>
             Get list of supported HTTP Options for the Projects controller.

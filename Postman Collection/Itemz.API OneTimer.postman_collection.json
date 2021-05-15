@@ -661,6 +661,52 @@
 					"response": []
 				},
 				{
+					"name": "GET ItemzType by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"/* ",
+									"TODO: We need to iterate through responded ItemzType collection and verify that expected name that was added via POST command just few step above this test is returned in the result.",
+									"*/",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzTypes/b69cf0d7-70ad-4f73-aa4a-8daad5181e1e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzTypes",
+								"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "PATCH ItemzType Name to Existing ItemzType Name",
 					"event": [
 						{

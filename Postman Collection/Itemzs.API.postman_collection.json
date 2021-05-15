@@ -909,6 +909,52 @@
 			"response": []
 		},
 		{
+			"name": "GET ItemzType by Project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"/* ",
+							"TODO: Verify that only one from the returned collection of ItemzType ",
+							"is named as 'Parking Lot' based on Case sensitive search ",
+							"s*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/Projects/GetItemzTypes/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"Projects",
+						"GetItemzTypes",
+						"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET ItemzType",
 			"event": [
 				{

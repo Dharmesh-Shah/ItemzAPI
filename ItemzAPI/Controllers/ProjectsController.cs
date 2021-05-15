@@ -444,6 +444,41 @@ namespace ItemzApp.API.Controllers
 
 
         /// <summary>
+        /// Gets collection of ItemzTypes for the given ProjectID
+        /// </summary>
+        /// <returns>Collection of ItemzTypes based on sorting order for the given ProjectID</returns>
+        /// <response code="200">Returns collection of ItemzTypes based on sorting order for the given ProjectID</response>
+        /// <response code="404">No ItemzTypes were found for the given ProjectID</response>
+
+        [HttpGet("GetItemzTypes/{ProjectId:Guid}", Name = "__GET_ItemzTypes_By_Project__")] // e.g. http://HOST:PORT/api/Projects/GetItemzTypes/42f62a6c-fcda-4dac-a06c-406ac1c17770
+
+        [HttpHead("GetItemzTypes/{ProjectId:Guid}", Name = "__HEAD_ItemzTypes_By_Project__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<GetItemzTypeDTO>>> GetItemzTypesByProjectIdAsync(Guid ProjectId)
+        {
+            var projectItemzTypesFromRepo = await _projectRepository.GetItemzTypesAsync(ProjectId);
+            if (projectItemzTypesFromRepo == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No ItemzTypes found for ProjectID {ProjectID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ProjectId);
+                return NotFound();
+            }
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzTypeNumbers} ItemzTypes based on ProjectID {ProjectID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                projectItemzTypesFromRepo.Count(),
+                ProjectId);
+            return Ok(_mapper.Map<IEnumerable<GetItemzTypeDTO>>(projectItemzTypesFromRepo));
+        }
+
+
+
+
+
+        /// <summary>
         /// Get list of supported HTTP Options for the Projects controller.
         /// </summary>
         /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>

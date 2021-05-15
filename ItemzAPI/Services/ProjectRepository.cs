@@ -69,6 +69,24 @@ namespace ItemzApp.API.Services
             }
         }
 
+        public async Task<IEnumerable<ItemzType>?> GetItemzTypesAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+
+            if (await _context.ItemzTypes!.Where(it => it.ProjectId == ProjectId).AnyAsync())
+            {
+                return await _context.ItemzTypes
+                    .AsNoTracking()
+                    .Where(it => it.ProjectId == ProjectId)
+                    .AsQueryable<ItemzType>()
+                    .OrderBy(it => it.Name)
+                    .ToListAsync();
+            }
+            return null;
+        }
         //TODO: decide if we need GetProjects by passing in collection of projectIds
         // if yes, then we need to implement action method in ProjectController for the same
         // so that Swagger docs shows GET method under Projects section.

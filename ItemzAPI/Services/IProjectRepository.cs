@@ -14,7 +14,9 @@ namespace ItemzApp.API.Services
         public Task<Project?> GetProjectForUpdateAsync(Guid ProjectId);
 
         public Task<IEnumerable<Project>?> GetProjectsAsync();
-
+        
+        public Task<IEnumerable<ItemzType>?> GetItemzTypesAsync(Guid ProjectId);
+        
         public Task<IEnumerable<Project>> GetProjectsAsync(IEnumerable<Guid> projectIds);
 
         public void AddProject(Project project);
