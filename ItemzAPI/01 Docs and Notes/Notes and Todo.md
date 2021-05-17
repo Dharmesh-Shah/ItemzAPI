@@ -788,4 +788,32 @@ Excellent demo on handling exceptions globally in ASP .NET Core Web API. Sandeep
 
 Sandeep also gives details about how to set-up Developer Environment to see full exception trace when utilizing either of the option as defined above.
 
+### ASP .NET Core - Injecting Multiple Services in DI via TryAddEnumerable
+
+This is how we can add multiple services of the same type using TryAddEnumerable into Dependency Injection
+
+
+```c#
+
+.TryAddEnumerable(	new[]{
+	ServiceDescriptor.Transient<IFundTransferService, InterBankTransferService>(),
+	ServiceDescriptor.Transient<IFundTransferService, IntraBankTransferService>(),
+	ServiceDescriptor.Transient<IFundTransferService, OwnAccountBankTransferService>(),
+});
+
+```
+The way then we pass this services into constructor of a consuming class would be...
+
+
+```c#
+
+private readonly IfundTransferService[] _fundTransferService;
+
+public FundTransterController(IAccountService accountService, IEnumberable<IFundTransferService> fundTransferService)
+{
+	this._fundTransferService = fundTransferService.ToArray();
+}
+
+```
+Checkout if this would help in any scenarios in ItemzAPI.
 
