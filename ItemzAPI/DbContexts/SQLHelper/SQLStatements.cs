@@ -44,6 +44,17 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion ItemzChangeHistoryByProject
 
+        #region ItemzChangeHistoryByRepository
+
+        public static readonly string SQLStatementFor_ItemzChangeHistoryByRepository =
+            "select count(ItemzId) from ItemzChangeHistory";
+
+        public static readonly string SQLStatementFor_ItemzChangeHistoryByRepositoryWithUptoDateTime =
+            "select count(ItemzId) from ItemzChangeHistory " +
+            "where CreatedDate < @__GetUptoDateTime__ ";
+
+        #endregion ItemzChangeHistoryByRepository
+
         #region ProjectItemzCount
 
         public static readonly string SQLStatementFor_GetItemzCountByProject = 

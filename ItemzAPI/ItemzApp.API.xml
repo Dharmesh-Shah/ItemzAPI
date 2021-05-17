@@ -88,6 +88,21 @@
             <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ProjectID</returns>
             <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Project upto provided Date and Time.</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByRepositoryController.GetNumberOfItemzChangeHistoryByRepositoryAsync">
+            <summary>
+            Count of number of ItemzChangeHistory records in the repository
+            </summary>
+            <returns>Number of records found for ItemzChangeHistory in the repository</returns>
+            <response code="200">Returns number of ItemzChangeHistory records in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByRepositoryController.GetNumberOfItemzChangeHistoryByRepositoryUptoDateTimeAsync(ItemzApp.API.Models.GetNumberOfChangeHistoryByRepositoryDTO)">
+            <summary>
+            Number of ItemzChangeHistory records for all the Itemz within the repository upto provided Date and Time
+            </summary>
+            <param name="getNumberOfChangeHistoryByRepositoryDTO">Provide cut off upto DateTime</param>
+            <returns>Number of records found for ItemzChangeHistory within the repository upto provided Date and Time</returns>
+            <response code="200">Returns number of ItemzChangeHistory records within the repository upto provided Date and Time</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.GetItemzChangeHistoryAsync(System.Guid)">
             <summary>
             Get collection of Itemz Change History by Itemz ID (represented by a GUID)
@@ -513,7 +528,7 @@
             <summary>
             Gets collection of ItemzTypes for the given ProjectID
             </summary>
-            <returns>Collection of ItemzTypes based on expectated sorting orderfor the given ProjectID</returns>
+            <returns>Collection of ItemzTypes based on sorting order for the given ProjectID</returns>
             <response code="200">Returns collection of ItemzTypes based on sorting order for the given ProjectID</response>
             <response code="404">No ItemzTypes were found for the given ProjectID</response>
         </member>
@@ -680,6 +695,11 @@
         <member name="P:ItemzApp.API.Models.GetItemzTypeDTO.IsSystem">
             <summary>
             Returns true if it's system ItemzType otherwise false
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetNumberOfChangeHistoryByRepositoryDTO.UptoDateTime">
+            <summary>
+            Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetProjectDTO">
