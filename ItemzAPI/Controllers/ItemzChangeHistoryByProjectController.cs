@@ -57,6 +57,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ProjectID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Project</response>
         [HttpGet("{ProjectId:Guid}", Name = "__GET_Number_of_ItemzChangeHistory_By_Project__")]
+        [HttpHead("{ProjectId:Guid}", Name = "__HEAD_Number_of_ItemzChangeHistory_By_Project__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByProjectAsync(Guid ProjectId)
         {
@@ -75,6 +76,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ProjectID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Project upto provided Date and Time.</response>
         [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_Project_Upto_DateTime__")]
+        [HttpHead(Name = "__HEAD_Number_of_ItemzChangeHistory_By_Project_Upto_DateTime__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByProjectUptoDateTimeAsync(GetNumberOfChangeHistoryDTO getItemzChangeHistoryByProjectDTO)
         {
@@ -87,6 +89,19 @@ namespace ItemzApp.API.Controllers
                 getItemzChangeHistoryByProjectDTO.Id,
                 getItemzChangeHistoryByProjectDTO.UptoDateTime);
             return foundItemzChangeHistoryByProjectId;
+        }
+
+        /// <summary>
+        /// Get list of supported HTTP Options for the ItemzChangeHistoryByProject controller.
+        /// </summary>
+        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+        [HttpOptions(Name = "__OPTIONS_ItemzChangeHistory_By_Project__")]
+        public IActionResult GetItemzChangeHistoryByProjectOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,DELETE,OPTIONS");
+            return Ok();
         }
     }
 }

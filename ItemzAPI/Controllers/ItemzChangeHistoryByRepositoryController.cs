@@ -34,6 +34,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory in the repository</returns>
         /// <response code="200">Returns number of ItemzChangeHistory records in the repository</response>
         [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_Repository__")]
+        [HttpHead(Name = "__HEAD_Number_of_ItemzChangeHistory_By_Repository__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByRepositoryAsync()
         {
@@ -51,6 +52,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory within the repository upto provided Date and Time</returns>
         /// <response code="200">Returns number of ItemzChangeHistory records within the repository upto provided Date and Time</response>
         [HttpGet("ByUptoDateTime/", Name = "__GET_Number_of_ItemzChangeHistory_By_Repository_Upto_DateTime__")]
+        [HttpHead("ByUptoDateTime/", Name = "__HEAD_Number_of_ItemzChangeHistory_By_Repository_Upto_DateTime__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByRepositoryUptoDateTimeAsync([FromBody] GetNumberOfChangeHistoryByRepositoryDTO getNumberOfChangeHistoryByRepositoryDTO)
         {
@@ -61,6 +63,19 @@ namespace ItemzApp.API.Controllers
                 foundItemzChangeHistoryByRepository,
                 getNumberOfChangeHistoryByRepositoryDTO.UptoDateTime);
             return foundItemzChangeHistoryByRepository;
+        }
+
+        /// <summary>
+        /// Get list of supported HTTP Options for the ItemzChangeHistoryByRepository controller.
+        /// </summary>
+        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+        [HttpOptions(Name = "__OPTIONS_ItemzChangeHistory_By_Repository__")]
+        public IActionResult GetItemzOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS");
+            return Ok();
         }
     }
 }

@@ -75,7 +75,7 @@ namespace ItemzApp.API.Controllers
         /// <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
         /// <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
         /// <response code="200">Returns number of Itemz Change History records that were deleted</response>
-        [HttpDelete(Name = "__DELETE_Itemz_Change_History_By_GUID_ID__")]
+        [HttpDelete(Name = "__DELETE_ItemzChangeHistory_By_GUID_ID__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         // [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -87,6 +87,19 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 numberOfDeletedRecords, deleteItemzChangeHistoryDTO.Id );
             return Ok(numberOfDeletedRecords);
+        }
+
+        /// <summary>
+        /// Get list of supported HTTP Options for the ItemzChangeHistory controller.
+        /// </summary>
+        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+        [HttpOptions(Name = "__OPTIONS_ItemzChangeHistory__")]
+        public IActionResult GetItemzOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,DELETE,OPTIONS");
+            return Ok();
         }
     }
 }

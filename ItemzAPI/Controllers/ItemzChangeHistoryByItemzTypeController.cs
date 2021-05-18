@@ -57,6 +57,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type</response>
         [HttpGet("{ItemzTypeId:Guid}", Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType__")]
+        [HttpHead("{ItemzTypeId:Guid}", Name = "__HEAD_Number_of_ItemzChangeHistory_By_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeAsync(Guid ItemzTypeId)
         {
@@ -75,6 +76,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
         /// <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type upto provided Date and Time.</response>
         [HttpGet(Name = "__GET_Number_of_ItemzChangeHistory_By_ItemzType_Upto_DateTime__")]
+        [HttpHead(Name = "__HEAD_Number_of_ItemzChangeHistory_By_ItemzType_Upto_DateTime__")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
         public async Task<ActionResult<int>> GetNumberOfItemzChangeHistoryByItemzTypeUptoDateTimeAsync(GetNumberOfChangeHistoryDTO getItemzChangeHistoryByItemzTypeDTO)
         {
@@ -87,6 +89,19 @@ namespace ItemzApp.API.Controllers
                 getItemzChangeHistoryByItemzTypeDTO.Id,
                 getItemzChangeHistoryByItemzTypeDTO.UptoDateTime);
             return foundItemzChangeHistoryByItemzTypeId;
+        }
+
+        /// <summary>
+        /// Get list of supported HTTP Options for the ItemzChangeHistoryByItemzType controller.
+        /// </summary>
+        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+        [HttpOptions(Name = "__OPTIONS_ItemzChangeHistory_By_ItemzType__")]
+        public IActionResult GetItemzChangeHistoryByItemzTypeOptions()
+        {
+            Response.Headers.Add("Allow", "GET,HEAD,DELETE,OPTIONS");
+            return Ok();
         }
     }
 }

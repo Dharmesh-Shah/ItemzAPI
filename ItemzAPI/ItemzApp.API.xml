@@ -64,6 +64,13 @@
             <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ItemzTypeID</returns>
             <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Itemz Type upto provided Date and Time.</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.GetItemzChangeHistoryByItemzTypeOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzChangeHistoryByItemzType controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByProjectController.DeleteItemzChangeHistoryByProjectAsync(ItemzApp.API.Models.DeleteChangeHistoryDTO)">
             <summary>
             Deleting ItemzChangeHistory for all the Itemz that are associated with given Project ID upto provided Date and Time.
@@ -88,6 +95,13 @@
             <returns>Number of records found for ItemzChangeHistory indirectly associated with a given ProjectID</returns>
             <response code="200">Returns number of Itemz Change History records that were indirectly associated with a given Project upto provided Date and Time.</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByProjectController.GetItemzChangeHistoryByProjectOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzChangeHistoryByProject controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByRepositoryController.GetNumberOfItemzChangeHistoryByRepositoryAsync">
             <summary>
             Count of number of ItemzChangeHistory records in the repository
@@ -102,6 +116,13 @@
             <param name="getNumberOfChangeHistoryByRepositoryDTO">Provide cut off upto DateTime</param>
             <returns>Number of records found for ItemzChangeHistory within the repository upto provided Date and Time</returns>
             <response code="200">Returns number of ItemzChangeHistory records within the repository upto provided Date and Time</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByRepositoryController.GetItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzChangeHistoryByRepository controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.GetItemzChangeHistoryAsync(System.Guid)">
             <summary>
@@ -120,6 +141,13 @@
             <param name="deleteItemzChangeHistoryDTO">Provide ItemzID representated in GUID form along with Upto Date Time indicating till the time Itemz Change History data has to be deleted.</param>
             <returns>Status code 204 is returned without any content indicating that action to delete Itemz Change History was successful. Either it found older records to be deleted or it did not find any records to be deleted.</returns>
             <response code="200">Returns number of Itemz Change History records that were deleted</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryController.GetItemzOptions">
+            <summary>
+            Get list of supported HTTP Options for the ItemzChangeHistory controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
@@ -143,7 +171,7 @@
             <returns>Collection of Newly created Itemzs property details</returns>
             <response code="201">Collection of Newly created Itemzs property details</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzOptions">
+        <member name="M:ItemzApp.API.Controllers.ItemzCollectionController.GetItemzCollectionOptions">
             <summary>
             Get list of supported HTTP Options for the ItemzCollection controller.
             </summary>

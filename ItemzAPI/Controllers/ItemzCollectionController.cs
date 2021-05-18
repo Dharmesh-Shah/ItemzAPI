@@ -49,6 +49,7 @@ namespace ItemzApp.API.Controllers
         /// GET api/ItemzCollection/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
         /// </remarks>
         [HttpGet("({ids})", Name = "__GET_Itemz_Collection_By_GUID_IDS__")]
+        [HttpHead("({ids})", Name = "__HEAD_Itemz_Collection_By_GUID_IDS__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -119,10 +120,10 @@ namespace ItemzApp.API.Controllers
         /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
         /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
 
-        [HttpOptions(Name = "__OPTIONS_Itemz_Collection_Controller__")]
-        public IActionResult GetItemzOptions()
+        [HttpOptions(Name = "__OPTIONS_Itemz_Collection__")]
+        public IActionResult GetItemzCollectionOptions()
         {
-            Response.Headers.Add("Allow", "GET,OPTIONS,POST");
+            Response.Headers.Add("Allow", "GET,HEAD,OPTIONS,POST");
             return Ok();
         }
 
