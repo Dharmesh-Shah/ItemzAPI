@@ -4787,7 +4787,15 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE\");",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -4827,7 +4835,15 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,OPTIONS,POST\");",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -4867,7 +4883,15 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE\");",
+							"});",
+							"",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -4907,7 +4931,16 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE\");",
+							"});",
+							"",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -4947,7 +4980,17 @@
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
-							"});"
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,POST,PUT,DELETE,OPTIONS\");",
+							"});",
+							"",
+							"",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -4973,6 +5016,214 @@
 						"api",
 						"ItemzTypeItemzs",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS for ItemzChangeHistory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,DELETE,OPTIONS\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "conte",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzChangeHistory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzChangeHistory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS for ItemzChangeHistoryByItemzType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,DELETE,OPTIONS\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "conte",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzChangeHistoryByItemzType",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzChangeHistoryByItemzType"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS for ItemzChangeHistoryByProject",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,DELETE,OPTIONS\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "conte",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzChangeHistoryByProject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzChangeHistoryByProject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS for ItemzChangeHistoryByRepository",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Allow header includes expected options\", function () {",
+							"   pm.response.to.have.header(\"Allow\");",
+							"   var header_allow = pm.response.headers.get(\"Allow\");",
+							"   pm.expect(header_allow).to.be.eql(\"GET,HEAD,OPTIONS\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "conte",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51087/api/ItemzChangeHistoryByRepository",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51087",
+					"path": [
+						"api",
+						"ItemzChangeHistoryByRepository"
 					]
 				}
 			},
