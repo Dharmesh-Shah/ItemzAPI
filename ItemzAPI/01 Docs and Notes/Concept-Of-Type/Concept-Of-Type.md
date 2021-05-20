@@ -4,7 +4,7 @@ Grouping of requirements by it's type is very important. Different projects shal
 
 Below are few of the example requirement types
 
-* Stakeholder Requirements - Mainly describes what sponsoros expects.
+* Stakeholder Requirements - Mainly describes what sponsors expects.
 * Business Requirements - Capturing Need of the business
 * Users Requirements - Users expectations from a given product / services
 * Constrains Requirements - Boundaries and compliance related expectations
@@ -54,7 +54,11 @@ Types and Itemz will have Many to Many relationship.
 
 One Itemz may belong to Zero to Many Projects.
 
+Itemz that is not part of any Project / Itemz Type is considered to be Orphand Itemz.
+
 This flexibility is key for supporting future enhancements for Itemz App.
+
+Itemz Types can be renamed but the `Parking Lot` Itemz Type shall not be renamed.
 
 
 

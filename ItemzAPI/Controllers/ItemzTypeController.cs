@@ -460,7 +460,7 @@ namespace ItemzApp.API.Controllers
             _ItemzTypeRepository.DeleteItemzType(ItemzTypeFromRepo);
             await _ItemzTypeRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Project with ID {ItemzTypeId} processed successfully",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for ItemzType with ID {ItemzTypeId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 ItemzTypeId);
             return NoContent();
