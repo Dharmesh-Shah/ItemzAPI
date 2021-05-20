@@ -817,3 +817,24 @@ public FundTransterController(IAccountService accountService, IEnumberable<IFund
 ```
 Checkout if this would help in any scenarios in ItemzAPI.
 
+### [EF Core - Computed Columns ](https://www.youtube.com/watch?v=RMXQvNIzyvw)
+
+Published on 22nd Nov 2020
+
+It's possible to use Computed Column SQL in EF Core 5. This is something very useful to make sure that data in the SQL Server is consistent with respect to rules / algorithms configured to calculate value for a given column. Such rules / algorithms can be configured at design time. 
+
+for example, while properties details one could implement HasComputedComumnSql as per below example.
+
+``` C#
+
+protected override void OnModelCreating(ModelBuilder builder)
+{
+	builder.Entity<User>().Property(u => u.Age)
+		.HasComputedColumnSql("DATADIFF(YEAR,Birthdate,GETDATE())");
+	base.OnModelCreating(builder);
+}
+
+```
+
+Consider if we can use this for ItemzAPI or not. One concern I have is the fact that we are relying on SQL Server for computing value for column. It will be ideal to have such rules / computations done on the server side which will allow us flexibility to replace SQL Server with other data store in the future.
+
