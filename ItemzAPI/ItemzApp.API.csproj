@@ -37,6 +37,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.4" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="01 Docs and Notes\Concept-Of-Baselining\" />
+  </ItemGroup>
 
 
 </Project>
