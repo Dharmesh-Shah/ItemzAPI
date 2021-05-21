@@ -838,3 +838,17 @@ protected override void OnModelCreating(ModelBuilder builder)
 
 Consider if we can use this for ItemzAPI or not. One concern I have is the fact that we are relying on SQL Server for computing value for column. It will be ideal to have such rules / computations done on the server side which will allow us flexibility to replace SQL Server with other data store in the future.
 
+### [ASP .NET Core - Use either Config or Default DB Provider and DB Connection](https://github.com/gothinkster/aspnetcore-realworld-example-app/blob/94e4616f8ecd48d5f42cd33f2bb0caac7a14417c/src/Conduit/Startup.cs#L42-L66)
+
+In this Github project, the application defines two constants as `DEFAULT_DATABASE_PROVIDER` and `DEFAULT_DATABASE_CONNECTIONSTRING`. 
+
+Later in the `ConfigureServices` it tries to get this values from the configuration but if it's not found then utilizes the default values defined in the constants.
+
+This is a good way to configure connecting to either SQL Server or SQLLite database. for ItemzAPI, we might not need exactly this feature of choosig different database but this technique might come handy for other purposes.
+
+### [EF Core - Database Seeder](https://hovermind.com/aspnet-core/seeding-database-on-application-startup)
+
+In this example, we can see how the application is configured to first check if there is any specific data available in the Database. Only when expected data is not present in the DB then it performs Database Seeding activities.
+
+This technique could prove to be useful for ItemzAPI especially while getting ready for Production roll-out. Consider if this is going to be useful for us or not.
+

@@ -35,3 +35,50 @@ public static void Main(string[] args)
 }
 ```
 
+### [Serilog - Include details about SourceContext and Full Path to the executing method](https://stackoverflow.com/questions/29470863/serilog-output-enrich-all-messages-with-methodname-from-which-log-entry-was-ca)
+
+In above stackoverflow.com response user Jaya B. has responded with few options that could be useful to be included in the output format for Serilog.
+
+Like, one could modify Serilog outputTemplate in `appsettings.json` file as per below by including `Properties`
+
+``` JSON
+   "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] [{Properties}] {Message:lj}{NewLine}{Exception}"
+```
+
+This will generate output that include many details like ...
+
+``` TEXT
+2021-05-21 18:14:06.315 +05:30 [Debug] [{ SourceContext: "ItemzApp.API.Controllers.ItemzsController", ActionId: "ef7bfb35-8511-47c9-959b-ac870b5a4e90", ActionName: "ItemzApp.API.Controllers.ItemzsController.GetItemzAsync (ItemzApp.API)", RequestId: "0HM8SAOF4N00D:00000005", RequestPath: "/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c", ConnectionId: "0HM8SAOF4N00D" }] ::Itemzs-GetItemz:: Processing request to get Itemz for ID "9153a516-d69e-4364-b17e-03b87442e21c"
+
+
+Notice that including properties added following extra values in the output file.
+
+SourceContext: "ItemzApp.API.Controllers.ItemzsController"
+ActionId: "ef7bfb35-8511-47c9-959b-ac870b5a4e90", 
+ActionName: "ItemzApp.API.Controllers.ItemzsController.GetItemzAsync (ItemzApp.API)", 
+RequestId: "0HM8SAOF4N00D:00000005",
+RequestPath: "/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c", 
+ConnectionId: "0HM8SAOF4N00D" 
+
+```
+
+If you just want to include `ActionName` (called method name with full path including namespace) in the Serilog output file then it can be achieved by setting `outputTemplate`  value to ...
+
+
+``` JSON
+   "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level}] [{ActionName}] {Message:lj}{NewLine}{Exception}"
+```
+
+This will generate output log as per below...
+
+``` TEXT
+2021-05-21 18:18:51.837 +05:30 [Debug] [ItemzApp.API.Controllers.ItemzsController.GetItemzAsync (ItemzApp.API)] ::Itemzs-GetItemz:: Processing request to get Itemz for ID "9153a516-d69e-4364-b17e-03b87442e21c"
+
+Notice that it included following details related to the ActionName just after [Debug] level
+
+[ItemzApp.API.Controllers.ItemzsController.GetItemzAsync (ItemzApp.API)]
+
+```
+
+Such option to include extra details in the Serilog output via structured logging will prove to be handy for debugging issues.
+
