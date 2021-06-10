@@ -852,3 +852,10 @@ In this example, we can see how the application is configured to first check if 
 
 This technique could prove to be useful for ItemzAPI especially while getting ready for Production roll-out. Consider if this is going to be useful for us or not.
 
+### [CSharp - Rule Set for Treating Nullable Warnings as Error](https://gist.github.com/PieEatingNinjas/bdc023f9f1f1e4ea9aca9142971c3149)
+
+Published on GitHub 
+
+By Author <span style="background-color: #99ff66"> Pieter Nijs [@NijsPieter](https://twitter.com/NijsPieter)</span>
+
+Consider utilizing this Rule Set for ItemzAPI to make sure that we now treat Nullable as errors instead of warnings. We have put in good amount of effort to enable our project with Nullable Checks. Let's keep it at and lets make it better going forward.
