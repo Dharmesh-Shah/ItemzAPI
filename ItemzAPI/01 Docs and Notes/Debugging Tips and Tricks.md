@@ -82,3 +82,10 @@ Notice that it included following details related to the ActionName just after [
 
 Such option to include extra details in the Serilog output via structured logging will prove to be handy for debugging issues.
 
+### Outputting SQL Commands from EF Core
+
+One can set following option to `Debug` in `appsettings.json` file to receive EF Core SQL Commands in the logging output.
+
+``` json
+"Microsoft.EntityFrameworkCore.Database.Command": "Warning",
+```
