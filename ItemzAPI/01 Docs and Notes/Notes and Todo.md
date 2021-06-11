@@ -859,3 +859,14 @@ Published on GitHub
 By Author <span style="background-color: #99ff66"> Pieter Nijs [@NijsPieter](https://twitter.com/NijsPieter)</span>
 
 Consider utilizing this Rule Set for ItemzAPI to make sure that we now treat Nullable as errors instead of warnings. We have put in good amount of effort to enable our project with Nullable Checks. Let's keep it at and lets make it better going forward.
+
+### [Generating Formatted CSV files - Using Reflection and Custom Attribute for](https://www.youtube.com/watch?v=T5spUmVMkVU)
+
+Example Videos 
+ - [.NET Reflection](https://www.youtube.com/watch?v=T5spUmVMkVU)
+ - [Custom Attributes](https://www.youtube.com/watch?v=ZE4Ur4JcX_E)
+
+ItemzApp will have to generate different sorts of output for users to utilize them as report. This could be HTML, Word Doc, PDF, CSV, etc. In this video, author explains utilizing techniques like Reflection and later Custom Attribute to dynamically generate CSV files using C# Generics.
+
+Please consider utilizing this technique for generating output for ItemsAPP.
+
