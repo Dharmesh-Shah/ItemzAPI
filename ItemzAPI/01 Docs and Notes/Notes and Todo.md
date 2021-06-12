@@ -870,3 +870,11 @@ ItemzApp will have to generate different sorts of output for users to utilize th
 
 Please consider utilizing this technique for generating output for ItemsAPP.
 
+### [Blazor Desktop and MAUI](https://www.youtube.com/watch?v=ba33CqjqacA)
+
+As explained by Scott Hunter,
+
+Next big thing in .NET Core 6 is going to be Blazor Desktop and MAUI that will allow single code to be used for writing Desktop application across mutliple platform.
+
+Microsoft is investing heavily in Blazor and it looks to be picking up momentum. We have to evaluate this technology for ItemzAPP and see if it fits our purpose.
+
