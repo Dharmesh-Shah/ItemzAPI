@@ -89,3 +89,14 @@ One can set following option to `Debug` in `appsettings.json` file to receive EF
 ``` json
 "Microsoft.EntityFrameworkCore.Database.Command": "Warning",
 ```
+
+### [EF Core Event Counts](https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/event-counters?tabs=windows)
+
+I was able to set-up [dotnet-counters tool](https://docs.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters) to monitoring EF Counters as discribed on above page.
+
+This is going to be useful to monitor number of DB Context, Number of Queries, Number of Saved Changes, Number of failed concurrency save data attempts, % of cached queries, etc. 
+
+Because EF Core published counters via Event Counters for different events, it will be useful to monitor how ItemzApp works when put under load for testing against Postman / other scripts.
+
+
+
