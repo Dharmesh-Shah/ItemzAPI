@@ -4,7 +4,7 @@ This is a ***GREENFIELD*** project.
 
 ![GreenField Pic](./images/GreenField.jpg)
 
-Main purpose of this project is to help users and teams to **`do it right`** and ultimately **`reduce waste of effort`**.
+Main purpose of this project is to help users and teams to **`do it right`** and ultimately **`reduce waste`**.
 
 Currently we are capturing  requirements for this project as Markdown files within this same repository. You can find them under [Docs and Notes](https://github.com/Dharmesh-Shah/ItemzAPI/tree/master/ItemzAPI/01%20Docs%20and%20Notes). 
 
@@ -51,11 +51,14 @@ Recently in April and May 2021 We implemented
  - Itemz SQUASH feature by ItemzType.
  - Itemz SQUASH feature by Project.
  - Managing Itemz change history for Orphan and Non-Orphan itemz as per ... [Concept of Versioning - Orphand Itemz and ItemzType](https://github.com/Dharmesh-Shah/ItemzAPI/blob/master/ItemzAPI/01%20Docs%20and%20Notes/Concept-Of-Versioning-Itemz/Concept-Of-Versioning-Itemz.md#what-about-attaching-orphand-itemz-to-itemztype)
+ - Nullable Reference Types
+ - Upgraded all the Nuget Packages in May 2021
+ - Concept of Baselining
 
 Porject's Next Challenges are 
 
- - Concept of Baselining
- - Nullable Reference Types
+ - Implement Baselining Feature
+ - Research and Prototype for HTML / MarkDown editor
  - Upgrade to latest version of dependent Nuget packages
  - Setup Build Automation via Continuous Integration for Master Branch
  - Improve Postman Tests to cover more scenarios
