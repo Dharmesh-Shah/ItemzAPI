@@ -50,12 +50,18 @@ In this article, there is an important Warning message as per below.
 > 
 > This should be part of the checklist while introducing Dynamic Queries via Expresson Tree.
 
-### [Learn and Use Dumpsql()](https://docs.microsoft.com/en-us/ef/core/saving/cascade-delete#entity-deletion-examples)
+### [DONE - Learn and Use Dumpsql()](https://docs.microsoft.com/en-us/ef/core/saving/cascade-delete#entity-deletion-examples)
 
 
 > [!NOTE]  
 > TODO: In the given example on the identified documentation page, notice that there is a method called as `DumpSQL()` that is used for generating SQL commands that are executed or going ot be executed.
 > This will be a nice one to know more about and then use it in the Itemz App.
+
+This is not needed as we have already configured logging in `appsettings.json` file.
+
+``` json
+"Microsoft.EntityFrameworkCore.Database.Command": "Warning",
+```
 
 
 ### [Utilizing EF Core internal mapper for updating Entity Properties](https://docs.microsoft.com/en-us/ef/core/saving/disconnected-entities#saving-single-entities)
