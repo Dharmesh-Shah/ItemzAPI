@@ -884,3 +884,8 @@ Next big thing in .NET Core 6 is going to be Blazor Desktop and MAUI that will a
 
 Microsoft is investing heavily in Blazor and it looks to be picking up momentum. We have to evaluate this technology for ItemzAPP and see if it fits our purpose.
 
+### [ASP.NET Core – Enabling Authentication will break Swagger]( https://youtu.be/aJNHJUw-0DE?list=PLvmaC-XMqeBZO_LOC4oWsMIGgva7_4JbZ&t=7156)
+Published on 5th June 2020. 
+By Author <span style="background-color: #99ff66"> Ed Charbeneau [@EdCharbeneau](https://twitter.com/EdCharbeneau)</span>
+
+In this video at 1:59:16, Ed talks about broken Swagger Docs / UI when Authentication is added in the application. This could impact us while introducing Authentication in ItemzAPI. This is something to be considered as part of enabling Authentication for our application.
