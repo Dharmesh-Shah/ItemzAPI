@@ -889,3 +889,20 @@ Published on 5th June 2020.
 By Author <span style="background-color: #99ff66"> Ed Charbeneau [@EdCharbeneau](https://twitter.com/EdCharbeneau)</span>
 
 In this video at 1:59:16, Ed talks about broken Swagger Docs / UI when Authentication is added in the application. This could impact us while introducing Authentication in ItemzAPI. This is something to be considered as part of enabling Authentication for our application.
+
+### [Blazor - Building Beautiful Apps with Tailwind CSS](https://www.youtube.com/watch?v=9YdxhhgJvrE)
+
+Published on 18th June 2021.
+By Author <span style="background-color: #99ff66"> Chris Sainty [@chris_sainty](https://twitter.com/chris_sainty)</span>
+
+In this demo, Chris talks about some very nice features about Tailwind CSS and how to incorporate the same in Blazor application.
+
+Few key take aways from the presentations are 
+
+- Configuring MS Build system to install Tailwind CSS as well as other dependencies via Node.js.
+- Incorporating use of default utilities provided by Tailwind CSS in Blazor application
+- Introducing custom classes for enhancing default styles provided by Tailwind CSS
+- JIT implementation of Tailwind CSS
+- Minify CSS files with cssnano.
+
+We shall evaluate to utilize the same for ItemzAPP as well as reports that shall be produced in HTML format.
