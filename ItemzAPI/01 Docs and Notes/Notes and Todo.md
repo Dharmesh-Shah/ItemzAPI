@@ -906,3 +906,19 @@ Few key take aways from the presentations are
 - Minify CSS files with cssnano.
 
 We shall evaluate to utilize the same for ItemzAPP as well as reports that shall be produced in HTML format.
+
+### [How to set-up Unit Tests - .NET 5 REST API Tutorial](https://www.youtube.com/watch?v=ZXdFisA_hOY)
+
+Published on 23 Jun 2021.
+
+Very nice tutorial about ASP .NET Core .NET 5 REST API. This is very nice course to learn about REST APIs.
+
+That said, I had a look at Unit Testing Section in greater details. What I see is happening is that author is mocking Repository as well as ILogger. He is setting up fake objects that repository shall return and he is only covering unit test to cover what is happening within controller.
+
+On one hand, I see value in this tests but I certainly see lot more value in the way ItemzAPI application is tested currently via Postman application. It simulates more or less end-to-end REST API tests. One can see what's happening at the database level as well as what has been returned back to the client. 
+
+Postman supports very nice JavaScript Liberaries that are helping write Pre and Post test execution tests. We have seen in several places this is helping to read data from the returned headers as well as status code and JSON results.
+
+I believe we should invest more time writing Postman tests and making them more advanced tests instead of writing Unit Test for controllers and it's action methods.
+
+ 
