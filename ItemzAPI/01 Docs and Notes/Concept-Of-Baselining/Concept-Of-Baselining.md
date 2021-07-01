@@ -95,3 +95,6 @@ At the time of writing these requirements for baselining, ItemzAPP did not have 
 -	Cross project baselines are desirable but first we have to implement single project based baselines.
 -	Because attachments could be heavy files, we expect baselines to utilize counter of pointers that are associated with attachment files. This will improve performance of creating baseline feature as well as keep repository size in check. 
 -	Because version history / change history is not considered to be first class citizens, i.e. we allow removal of change history and squash requirements history by cut-of date and time, it makes it difficult to adjust baselines to different version of requirements.  
+
+# Checkout 
+ - [Design Decision of Baselining](./DesignDecision-Of-Baselining.md)
