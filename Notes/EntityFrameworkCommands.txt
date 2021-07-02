@@ -3,3 +3,19 @@ Add-Migration -name ItemzMigration
 Update-Database
 
 Add-Migration -name ItemzMigration -Context 'ItemzContext'
+
+
+=============================================
+
+To update 'dotnet-ef' tool that is used for migration, one has to execute following command.
+
+dotnet tool update dotnet-ef --global
+
+When I upgraded all the packages for EF Core to version 5.0.7, then I separately had to run upgrade command for 'dotnet-ef' tool that is installed globally on my development computers. I got following output / message when tool was updated globally.
+
+Tool 'dotnet-ef' was successfully updated from version '5.0.3' to version '5.0.7'.
+
+=============================================
+
+
+
