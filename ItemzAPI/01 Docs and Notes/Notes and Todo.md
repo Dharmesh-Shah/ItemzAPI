@@ -921,4 +921,13 @@ Postman supports very nice JavaScript Liberaries that are helping write Pre and 
 
 I believe we should invest more time writing Postman tests and making them more advanced tests instead of writing Unit Test for controllers and it's action methods.
 
- 
+### [POSTMAN - JSON Schema Validation](https://www.youtube.com/watch?v=X072eKtOIio&list=PL8VbCbavWfeEvyUo5qCEw96LNjPR5rR2k&index=6)
+
+Published on 14th August 2019.
+
+In this Video, author explains about how to use in-build Json Schema Validator within Postman Test. This will be very useful for making sure that we check and validate entire response via JSON Schema validation rather then just few values. 
+
+There is also an option to stop testing further if we see failed JSON Schema Validator. This will enable us to stop Postman / Newman tests from executing further as soon as some tests fails.
+
+What we have to think about is how we store this schema in variables at higher level rather then at each test level. I do see possibility of this via Collection Variables / Global Variables but we have to investigate further to check on internet if community is recommending any other options. 
+
