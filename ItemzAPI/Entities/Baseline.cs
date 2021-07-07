@@ -1,14 +1,13 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItemzApp.API.Entities
 {
-    public class Project
+    public class Baseline
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,10 +16,6 @@ namespace ItemzApp.API.Entities
         [Required]
         [MaxLength(128)]
         public string? Name { get; set; }
-
-        [Required]
-        [MaxLength(64)]
-        public string Status { get; set; } = "Active";
 
         [MaxLength(1028)]
         public string? Description { get; set; }
@@ -32,10 +27,11 @@ namespace ItemzApp.API.Entities
         [Required]
         public DateTimeOffset CreatedDate { get; set; } = DateTime.Now;
 
-        //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+        public Project? Project { get; set; }
 
-        public List<ItemzType>? ItemzTypes { get; set; }
+        [Required]
+        public Guid ProjectId { get; set; }
 
-        public List<Baseline>? Baseline { get; set; }
+        public List<BaselineItemzType>? BaselineItemzTypes { get; set; }
     }
 }

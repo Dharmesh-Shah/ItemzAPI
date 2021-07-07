@@ -1,41 +1,46 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItemzApp.API.Entities
 {
-    public class Project
+    public class BaselineItemz
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; } = Guid.NewGuid(); // If Database Guid is not provided as ID then a new one will be created by default.
 
+        public Guid ItemzId { get; set; }
+
         [Required]
         [MaxLength(128)]
         public string? Name { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(64)]
-        public string Status { get; set; } = "Active";
+        public string? Status { get; set; }
+
+        [MaxLength(64)]
+        public string? Priority { get; set; }
 
         [MaxLength(1028)]
         public string? Description { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(128)]
-        public string CreatedBy { get; set; } = "Some User";
+        public string? CreatedBy { get; set; }
 
-        [Required]
-        public DateTimeOffset CreatedDate { get; set; } = DateTime.Now;
+        //[Required]
+        public DateTimeOffset? CreatedDate { get; set; }
 
-        //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+        //[Required]
+        [MaxLength(128)]
+        public string? Severity { get; set; }
 
-        public List<ItemzType>? ItemzTypes { get; set; }
-
-        public List<Baseline>? Baseline { get; set; }
+        public List<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
     }
 }

@@ -1,41 +1,47 @@
 ﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItemzApp.API.Entities
 {
-    public class Project
+    public class BaselineItemzType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; } = Guid.NewGuid(); // If Database Guid is not provided as ID then a new one will be created by default.
 
+        public Guid ItemzTypeId { get; set; }
+
         [Required]
         [MaxLength(128)]
         public string? Name { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(64)]
-        public string Status { get; set; } = "Active";
+        public string? Status { get; set; } 
 
         [MaxLength(1028)]
         public string? Description { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(128)]
-        public string CreatedBy { get; set; } = "Some User";
+        public string? CreatedBy { get; set; } 
+
+        //[Required]
+        public DateTimeOffset? CreatedDate { get; set; }
+
+        public List<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
+
+        public Baseline? Baseline { get; set; }
 
         [Required]
-        public DateTimeOffset CreatedDate { get; set; } = DateTime.Now;
+        public Guid BaselineId { get; set; }
 
-        //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
+        [Required]
+        public bool IsSystem { get; set; }
 
-        public List<ItemzType>? ItemzTypes { get; set; }
-
-        public List<Baseline>? Baseline { get; set; }
     }
 }

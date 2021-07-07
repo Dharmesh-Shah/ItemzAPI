@@ -1,10 +1,11 @@
 remove-migration -force
 Add-Migration -name ItemzMigration
-Update-Database
 
 Add-Migration -name ItemzMigration -Context 'ItemzContext'
 
+remove-migration -Context 'ItemzContext'
 
+Update-Database -Context 'ItemzContext'
 =============================================
 
 To update 'dotnet-ef' tool that is used for migration, one has to execute following command.

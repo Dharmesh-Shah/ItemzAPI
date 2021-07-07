@@ -163,7 +163,13 @@ namespace ItemzApp.API
                     .AddInterceptors(serviceProvider.GetRequiredService<ItemzContexInterceptor>()); 
             });
 
-            services.AddDbContext<ItemzChangeHistoryContext>((provider, options) =>
+            services.AddDbContext<ItemzChangeHistoryContext>((serviceProvider, options) =>
+            {
+                options.UseSqlServer(
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+            });
+
+            services.AddDbContext<BaselineContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
                 @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");

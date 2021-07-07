@@ -25,7 +25,10 @@ namespace ItemzApp.API.DbContexts
 
         public DbSet<ItemzChangeHistory>? ItemzChangeHistory { get; set; }
 
-        public DbSet<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
+       // public DbSet<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
+
+       //  public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -56,14 +59,39 @@ namespace ItemzApp.API.DbContexts
             // EXPLANATION: Here we are defining Many to Many relationship between
             // ItemzType and Itemz
 
-            modelBuilder.Entity<ItemzTypeJoinItemz>()
-                .HasOne(itji => itji.ItemzType)
-                .WithMany(it => it!.ItemzTypeJoinItemz)
-                .HasForeignKey(itji => itji.ItemzTypeId);
-            modelBuilder.Entity<ItemzTypeJoinItemz>()
-                .HasOne(itji => itji.Itemz)
-                .WithMany(i => i!.ItemzTypeJoinItemz)
-                .HasForeignKey(itji => itji.ItemzId);
+            //modelBuilder.Entity<ItemzTypeJoinItemz>()
+            //    .HasOne(itji => itji.ItemzType)
+            //    .WithMany(it => it!.ItemzTypeJoinItemz)
+            //    .HasForeignKey(itji => itji.ItemzTypeId);
+            //modelBuilder.Entity<ItemzTypeJoinItemz>()
+            //    .HasOne(itji => itji.Itemz)
+            //    .WithMany(i => i!.ItemzTypeJoinItemz)
+            //    .HasForeignKey(itji => itji.ItemzId);
+
+
+            #region BaselineItemzTypeJoinBaselineItemz
+            // EXPLANATION: Here we are defining a composite key for a join table.
+            // it will use BaselineItemzTypeID + BaselineItemzID as it's composite key.
+
+            modelBuilder.Entity<BaselineItemzTypeJoinBaselineItemz>()
+                .HasKey(bitjbi => new { bitjbi.BaselineItemzTypeId, bitjbi.BaselineItemzId });
+
+            //// EXPLANATION: Here we are defining Many to Many relationship between
+            //// BaselineItemzType and BaselineItemz
+            //// This is described as Indirect Many-to-Many relationships in Microsoft Docs at ...
+            //// https://docs.microsoft.com/en-us/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key#indirect-many-to-many-relationships
+
+            //modelBuilder.Entity<BaselineItemzTypeJoinBaselineItemz>()
+            //    .HasOne(bitjbi => bitjbi.BaselineItemzType)
+            //    .WithMany(bitype => bitype!.BaselineItemzTypeJoinBaselineItemz)
+            //    .HasForeignKey(bitjbi => bitjbi.BaselineItemzTypeId);
+            //modelBuilder.Entity<BaselineItemzTypeJoinBaselineItemz>()
+            //    .HasOne(bitjbi => bitjbi.BaselineItemz)
+            //    .WithMany(bit => bit!.BaselineItemzTypeJoinBaselineItemz)
+            //    .HasForeignKey(bitjbi => bitjbi.BaselineItemzId);
+
+            #endregion
+
 
             base.OnModelCreating(modelBuilder);
         }
