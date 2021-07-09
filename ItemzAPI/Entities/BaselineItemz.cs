@@ -42,5 +42,7 @@ namespace ItemzApp.API.Entities
         public string? Severity { get; set; }
 
         public List<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
+
+        public Guid IgnoreMeBaselineItemzTypeId { get; set; }
     }
 }

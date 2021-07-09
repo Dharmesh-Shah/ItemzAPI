@@ -331,6 +331,15 @@ namespace ItemzApp.API.DbContexts
                     .ValueGeneratedOnAdd();
             });
 
+            // EXPLANATION: This will make sure that CreatedDate property is set to autogenerate in the 
+            // SQL Server Database as well.
+            modelBuilder.Entity<Baseline>().Property(x => x.CreatedDate).HasDefaultValueSql("SYSDATETIMEOFFSET()");
+            modelBuilder.Entity<Baseline>(entity =>
+            {
+                entity.Property(e => e.CreatedDate)
+                    .ValueGeneratedOnAdd();
+            });
+
             // EXPLANATION: This way, we are adding Unique Index for Baseline Name.
             // It's not possible to use Attribute for creating Unique Index in
             // EF Core 3.1. That is why I'm using Fluent API for the same.
