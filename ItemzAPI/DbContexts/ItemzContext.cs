@@ -316,10 +316,30 @@ namespace ItemzApp.API.DbContexts
 
 
             #region Baseline 
+
+            // EXPLANATION : We introduced Constant String 'baselineForeignKey' to make sure
+            // that we enable composit index for uniqueness. This is to allow single project
+            // to have baselines with unique names but different projects to have baseline
+            // with same name. 
+            // We learned about this technique via following article.
+            // https://stackoverflow.com/a/63747079
+
+            const string baselineForeignKey = "ProjectId";
             modelBuilder.Entity<Baseline>()
                 .HasOne(b => b.Project)
                 .WithMany(p => p!.Baseline)
-                .HasForeignKey(b => b.ProjectId);
+                .HasForeignKey(baselineForeignKey);
+
+            // EXPLANATION: This way, we are adding Unique Index for
+            // Baseline Name PLUSE ProjectID.
+            // It's not possible to use Attribute for creating Unique Index in
+            // EF Core 3.1. That is why I'm using Fluent API for the same.
+            // Docs ca be found at ...
+            // https://docs.microsoft.com/en-us/ef/core/modeling/indexes
+
+            modelBuilder.Entity<Baseline>()
+                .HasIndex(baselineForeignKey, nameof(ItemzApp.API.Entities.Baseline.Name))
+                .IsUnique();
 
             // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
             // SQL Server Database as well.
@@ -340,15 +360,6 @@ namespace ItemzApp.API.DbContexts
                     .ValueGeneratedOnAdd();
             });
 
-            // EXPLANATION: This way, we are adding Unique Index for Baseline Name.
-            // It's not possible to use Attribute for creating Unique Index in
-            // EF Core 3.1. That is why I'm using Fluent API for the same.
-            // Docs ca be found at ...
-            // https://docs.microsoft.com/en-us/ef/core/modeling/indexes
-
-            modelBuilder.Entity<Baseline>()
-                .HasIndex(b => b.Name)
-                .IsUnique();
             #endregion
 
             #region BaselineItemzType
