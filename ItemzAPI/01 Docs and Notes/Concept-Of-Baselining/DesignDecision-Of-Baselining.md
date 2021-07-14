@@ -24,9 +24,45 @@ In the First option where we keep baseline creation logic within Web API Applica
 
 Mainly the Pros from the first option above could potentially become Cons for the second option and vice versa.
 
-# Conclusion
+### Conclusion
 Given that we are in the initial phase of application development for Itemz API, our current decision is to write baseline logic directly in the Stored Procedure and get the feature rolled in. This will require us to work with empty migration in EF Core in which we hand type Stored Procedure code for Up and Down methods. 
 
 In the future we might decide to move such Stored Procedure logic over to Web API App or introduce some sort of hybrid option where some part of the logic is ported over to Web API App and multiple Stored Procedures are created to support the overall process of Baseline Management.
+
+---
+
+# Removing BaselineItemz post deleting Project / Baseline / BaselineType
+While working on implementing Baselines in ItemzAPI, we learned one more thing for which it's important to capture design decision details as per below.
+
+
+Key difference between Itemz and BaselineItemz is that when Project is deleted then all it's associated Itemz are marked as Orphend Itemz. But in the same case, when we delete a Project then BaselineItemz shall be removed instead of staying in the system as Orphend BaselineItemz. So this means we have to either 
+ - set-up trigger in the database to remove BaselineItemz
+ - or Make sure that we call Delete Orphend BaselineItemz from ItemzAPI
+ - Or we periodically remove them from the system
+
+Following diagram shows relationship between different baselines tables within ItemzApp
+
+![Baseline Tables Relationships](./BaselineTablesRelationships.jpg)
+
+As you can see in the above diagram, Database is designed to automatically delete Baseline, BaselineTypes, BaselineTypesJoinBaselineItemz when Project is deleted. This is because we perform Cascade Delete in Child Table when Parent table data is deleted.
+
+We don't do this in the other direction. i.e. When record in BaselineTypesJoinBaselineItemz table is deleted then we don't delete this record from it's Parent table BaselineItemz. 
+
+This way, we are left with Orphend BaselineItemz. 
+
+For now, we think the best way to take care of this would be to delete records from BaselineItemz that does not have related referenced data in BaselineTypesJoinBaselineItemz via Stored Procedure that can then be called from within ItemzAPI. This means that in the following events, we have to call this Stored Procedure to perform necessary clean-up.
+
+ - When Project is Deleted
+ - When Baseline is Deleted
+ - When BaselineType is Deleted
+
+### Conclusion
+Instead of adding trigger in the SQL Server Database for table BaselineTypesJoinBaselineItemz to remove unreferenced data from it's parent table BaselineItemz, we will create a separate Stored Procedure to perform this clean-up. This way, we are not depending too much into capabilities provided by SQL Server for now.
+
+
+
+
+
+
 
 
