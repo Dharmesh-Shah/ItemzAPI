@@ -59,6 +59,29 @@ For now, we think the best way to take care of this would be to delete records f
 ### Conclusion
 Instead of adding trigger in the SQL Server Database for table BaselineTypesJoinBaselineItemz to remove unreferenced data from it's parent table BaselineItemz, we will create a separate Stored Procedure to perform this clean-up. This way, we are not depending too much into capabilities provided by SQL Server for now.
 
+---
+# Reversing relation between BaselineTypeJoinBaselineItemz and BaselineItemz
+
+Right now it's not deleting BaselineItemz because it's parent to BaselineTypeJoinBaselineItemz table. It has to be child of BaselineTypeJoinBaselineItemz table. 
+
+What is the concequence of changing referencial integrity other way round?
+
+i.e. we first insert BaselineTypeJoinBaselineItemz and then capture newly created GUID as OUTPUT - INSERTED value that we use for inserting record in BaselineItemz. This way, we can mark BaselineTypeJoinBaselineItemz as parent and BaselineItemz as child. 
+
+Later if we delete Project / Baseline / BaselineType then we automatically remove records via CASCADE delete from both the tables, BaselineTypeJoinBaselineItemz and BaselineItemz respectively. 
+
+We are not sure what will be the impact of this when it comes to quering data via EF Core. As well as what will be the impact when we support custom Data Types in the future. I do not think it will be a huge problem as referenced records are well supported in EF Core. Ultimately it will have One to many refencial integrity between Project --> Baseline --> BaselineType --> BaselineTypeJoinBaselineItemz. And ultimately it will have One to Zero OR One  refencial integrity between  BaselineTypeJoinBaselineItemz --> BaselineItemz.
+
+We will have to try this option out in a separate branch that we create from BaselineBranch. 
+
+### Conclusion
+
+Due to time constrains as well as further complexity expected in future version of ItemzApp with respect to introduction of Custom Attributes on Itemz, we are dropping this idea of reversing Parent and Child relationship between tables  BaselineTypeJoinBaselineItemz and BaselineItemz. 
+
+Lets leave BaselineItemz as Parent and BaselineTypeJoinBaselineItemz as child with One to Many relationship. 
+
+What we might encounter is that some repositories may have large number of Orphend BaselineItemz when Project / Baseline / BaselineItemz is deleted. 
+
 
 
 
