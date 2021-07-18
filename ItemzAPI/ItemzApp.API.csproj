@@ -20,6 +20,16 @@
       <Compile Remove="Migrations\20200814162638_ChangedENUMDefaultForItemzSeverity.cs" />
       <Compile Remove="Migrations\20200814162638_ChangedENUMDefaultForItemzSeverity.Designer.cs" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID.sql" />
+      <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID.sql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID.sql" />
+      <EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID.sql" />
+    </ItemGroup>
 	
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
