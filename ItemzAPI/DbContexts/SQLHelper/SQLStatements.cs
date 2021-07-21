@@ -66,5 +66,29 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion ProjectItemzCount
 
+        #region BaselineItemzCount
+
+        public static readonly string SQLStatementFor_GetItemzCountByBaseline =
+
+            "select count(Id) from BaselineItemz " +
+            "where Id in (select distinct(BaselineItemzId) " +
+            "from BaselineItemzTypeJoinBaselineItemz " +
+            "where BaselineItemzTypeId in ( " +
+                "select distinct(Id) from BASELINEITEMZTYPE " +
+                "where BaselineId = @__BaselineID__) "+ 
+                ")";
+
+        #endregion BaselineItemzCount
+
+
+        #region CreateBaselineViaUserStoredProcedure
+
+        public static readonly string SQLStatementFor_CreateBaselineByProjectID =
+            "EXEC userProcCreateBaselineByProjectID " +
+            "@Name = @__ProjectBaselineName__ " +
+            "@Description = @__Description__  " +
+            "@ProjectId = @__ProjectId__";
+
+        #endregion CreateBaselineViaUserStoredProcedure
     }
 }

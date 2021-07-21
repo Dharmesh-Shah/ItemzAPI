@@ -27,6 +27,11 @@ namespace ItemzApp.API.DbContexts
         public DbSet<BaselineItemz>? BaselineItemz { get; set; }
         public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
 
+        // EXPLANATION : Additional DBSets listed here that are required 
+        // for query and update purposes in services
+        // that utilizes BaselineContext
+        public DbSet<Project>? Projects { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

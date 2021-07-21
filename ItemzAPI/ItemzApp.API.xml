@@ -572,6 +572,24 @@
             Itemz Severity list values as ENUM
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Models.CreateBaselineDTO">
+            <summary>
+            CreateBaselineDTO shall be used for sending in request for creating new Baseline.
+            It will expose necessary properties to allow successful creation of the Baseline.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.CreateBaselineDTO.ProjectId">
+            <summary>
+            ProjectId is used to create new baseline under identified project.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.CreateBaselineDTO.ItemzTypeId">
+            <summary>
+            ItemzTypeId is an optional property for which value shall be supplied 
+            only when Baseline has to be created for a given ItemzType within 
+            an identified Project. 
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.CreateItemzDTO">
             <summary>
             CreateItemzDTO shall be used for sending in request for creating new Itemz. 
@@ -604,6 +622,37 @@
         <member name="P:ItemzApp.API.Models.BaseChangeHistoryDTO.UptoDateTime">
             <summary>
             Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.GetBaselineDTO">
+            <summary>
+            BaselineDTO is a POCO used for serving requests like GetBaselines or GetBaseline by BaselineID.
+            It will carry specified set of data that are exposed when baseline details are requested throgh "ItemzApp.API"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineDTO.Id">
+            <summary>
+            Id of the Baseline representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineDTO.Name">
+            <summary>
+            Baseline Name 
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineDTO.Description">
+            <summary>
+            Description of the Baseline
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineDTO.CreatedBy">
+            <summary>
+            User who created the Baseline
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineDTO.CreatedDate">
+            <summary>
+            Date and Time when Baseline was created
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetItemzChangeHistoryDTO">
@@ -776,6 +825,21 @@
             Id of the ItemzType representated by a GUID.
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Models.ManipulateBaselineDTO">
+            <summary>
+            ManipulateBaselineDTO is used for updating Baseline
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateBaselineDTO.Name">
+            <summary>
+            Name or Title of the Baseline
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ManipulateBaselineDTO.Description">
+            <summary>
+            Description of the Baseline
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.ManipulateItemzDTO">
             <summary>
             ManipulateItemzDTO is used for updating Itemz
@@ -844,6 +908,13 @@
         <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Description">
             <summary>
             Description of the Project
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.UpdateBaselineDTO">
+            <summary>
+            UpdateBaselineDTO shall be used for sending in request for updating
+            existing Baseline. It will expose necessary properties to allow existing
+            Baseline to be updated with new values for those properties.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.UpdateItemzDTO">
