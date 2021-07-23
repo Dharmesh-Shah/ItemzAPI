@@ -68,7 +68,7 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #region BaselineItemzCount
 
-        public static readonly string SQLStatementFor_GetItemzCountByBaseline =
+        public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =
 
             "select count(Id) from BaselineItemz " +
             "where Id in (select distinct(BaselineItemzId) " +
@@ -81,14 +81,28 @@ namespace ItemzApp.API.DbContexts.SQLHelper
         #endregion BaselineItemzCount
 
 
-        #region CreateBaselineViaUserStoredProcedure
+        #region BaselineItemzCountByBaselineItemzType
 
-        public static readonly string SQLStatementFor_CreateBaselineByProjectID =
-            "EXEC userProcCreateBaselineByProjectID " +
-            "@Name = @__ProjectBaselineName__ " +
-            "@Description = @__Description__  " +
-            "@ProjectId = @__ProjectId__";
+        public static readonly string SQLStatementFor_GetBaselineItemzCountByBaselineItemzType =
 
-        #endregion CreateBaselineViaUserStoredProcedure
+            "select count(Id) from BaselineItemz " +
+            "where Id in (select distinct(BaselineItemzId) " +
+            "from BaselineItemzTypeJoinBaselineItemz " +
+            "where BaselineItemzTypeId = @__BaselineItemzTypeID__ )";
+
+        #endregion BaselineItemzCountByBaselineItemzType
+
+
+
+
+        //#region CreateBaselineViaUserStoredProcedure
+
+        //public static readonly string SQLStatementFor_CreateBaselineByProjectID =
+        //    "EXEC userProcCreateBaselineByProjectID " +
+        //    "@Name = @__ProjectBaselineName__ " +
+        //    "@Description = @__Description__  " +
+        //    "@ProjectId = @__ProjectId__";
+
+        //#endregion CreateBaselineViaUserStoredProcedure
     }
 }

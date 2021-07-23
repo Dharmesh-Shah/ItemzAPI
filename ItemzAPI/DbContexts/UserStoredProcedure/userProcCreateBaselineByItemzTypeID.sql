@@ -5,11 +5,11 @@ IF OBJECT_ID ( 'userProcCreateBaselineByItemzTypeID', 'P' ) IS NOT NULL
 	END
 GO
 CREATE PROCEDURE userProcCreateBaselineByItemzTypeID
+@ProjectId [uniqueidentifier],
+@ItemzTypeId [uniqueidentifier],
 @Name [nvarchar](128),
 @Description [nvarchar](1028),
-@CreatedBy [nvarchar](128) = N'Some User',
-@ProjectId [uniqueidentifier],
-@ItemzTypeId [uniqueidentifier]
+@CreatedBy [nvarchar](128) = N'Some User'
 
 AS
 BEGIN

@@ -4,6 +4,25 @@
         <name>ItemzApp.API</name>
     </assembly>
     <members>
+        <member name="M:ItemzApp.API.BusinessRules.Baseline.BaselineRules.HasBaselineWithNameAsync(System.Guid,System.String)">
+            <summary>
+            Use this method to check if the Baseline with given name already exists. In General, 
+            This check shall be performed before inserting or updating Baseline.
+            </summary>
+            <param name="projectId">Project Id in Guid form in which we are checking for Baseline with a specific name</param>
+            <param name="baselineName">Name of the Baseline to be checked for uniqueness</param>
+            <returns>true if Baseline with BaselineName found otherwise false</returns>
+        </member>
+        <member name="M:ItemzApp.API.BusinessRules.Baseline.BaselineRules.UniqueBaselineNameRuleAsync(System.Guid,System.String,System.String)">
+            <summary>
+            Used for verifying if project contains baseline with the 
+            same name as the one used for inserting or updating
+            </summary>
+            <param name="projectId">Project Id in Guid form in which we are checking for Baseline with a specific name</param>
+            <param name="targetBaselineName">New or updated baseline name</param>
+            <param name="sourceBaselineName">Old baseline name. No need to pass this for checking rule against creating baseline action</param>
+            <returns>true if baseline with same name exist in the repository otherwise false</returns>
+        </member>
         <member name="M:ItemzApp.API.BusinessRules.ItemzType.ItemzTypeRules.HasItemzTypeWithNameAsync(System.Guid,System.String)">
             <summary>
             Use this method to check if the ItemzType with given name already exists. In General, 
@@ -39,6 +58,125 @@
             <param name="targetProjectName">New or updated project name</param>
             <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
             <returns>true if project with same name exist in the repository otherwise false</returns>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypeAsync(System.Guid)">
+            <summary>
+            Get a BaselineItemzType by ID (represented by a GUID)
+            </summary>
+            <param name="BaselineItemzTypeId">GUID representing an unique ID of the BaselineItemzType that you want to get</param>
+            <returns>A single BaselineItemzType record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested BaselineItemzType</response>
+            <response code="404">Requested BaselineItemzType not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypesAsync">
+            <summary>
+            Gets collection of BaselineItemzTypes
+            </summary>
+            <returns>Collection of BaselineItemzTypes based on expected sorting order.</returns>
+            <response code="200">Returns collection of BaselineItemzTypes based on sorting order</response>
+            <response code="404">No BaselineItemzTypes were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypesOptions">
+            <summary>
+            Get list of supported HTTP Options for the BaselineItemzTypes controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselineAsync(System.Guid)">
+            <summary>
+            Get a Baseline by ID (represented by a GUID)
+            </summary>
+            <param name="BaselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+            <returns>A single Baseline record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested Baseline</response>
+            <response code="404">Requested Baseline not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselinesAsync">
+            <summary>
+            Gets collection of Baselines
+            </summary>
+            <returns>Collection of Baselines based on expectated sorting order.</returns>
+            <response code="200">Returns collection of Baselines based on sorting order</response>
+            <response code="404">No Baselines were found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.CreateBaselineAsync(ItemzApp.API.Models.CreateBaselineDTO)">
+            <summary>
+            Used for creating new Baseline record in the database
+            </summary>
+            <param name="createBaselineDTO">Used for populating information in the newly created Baseline in the database</param>
+            <returns>Newly created Baseline property details</returns>
+            <response code="201">Returns newly created Baselines property details</response>
+            <response code="404">Expected Project with ID was not found in the repository</response>
+            <response code="409">Baseline with the same name already exists in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.UpdateBaselinePutAsync(System.Guid,ItemzApp.API.Models.UpdateBaselineDTO)">
+            <summary>
+            Updating exsting Baseline based on Baseline Id (GUID)
+            </summary>
+            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+            <param name="baselineToBeUpdated">required Baseline properties to be updated</param>
+            <returns>No contents are returned but only Status 204 indicating that Baseline was updated successfully </returns>
+            <response code="204">No content are returned but status of 204 indicated that Baseline was successfully updated</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+            <response code="409">Baseline with updated name already exists in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.UpdateBaselinePatchAsync(System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{ItemzApp.API.Models.UpdateBaselineDTO})">
+            <summary>
+            Partially updating a single **Baseline**
+            </summary>
+            <param name="baselineId">Id of the Baseline representated by a GUID.</param>
+            <param name="baselinePatchDocument">The set of operations to apply to the Baseline via JsonPatchDocument</param>
+            <returns>an ActionResult of type Baseline</returns>
+            <response code="204">No content are returned but status of 204 indicated that Baseline was successfully updated</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+            <response code="409">Baseline with updated name already exists in the repository</response>
+            <response code="422">Validation problems occured during analyzing validation rules for the JsonPatchDocument </response>
+            <remarks> Sample request (this request updates an **Baseline's name**)   
+            Documentation regarding JSON Patch can be found at 
+            *[ASP.NET Core - JSON Patch Operations](https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-3.1#operations)* 
+            
+                PATCH /api/Baselines/{id}  
+                [  
+                    {   
+                        "op": "replace",   
+                        "path": "/name",   
+                        "value": "PATCH Updated Name field"  
+                    }   
+                ]
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.DeleteBaselineAsync(System.Guid)">
+            <summary>
+            Deleting a specific Baseline
+            </summary>
+            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified Baseline was successful</returns>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselineItemzCountByBaselineAsync(System.Guid)">
+            <summary>
+            Get total number of BaselineItemz by Baseline
+            </summary>
+            <param name="baselineId">Provide BaselineID representated in GUID form</param>
+            <returns>Number of BaselineItemz found for the given BaselineID. Zero if none found.</returns>
+            <response code="200">Returns number of BaselineItemz count that were associated with a given Baseline</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselineItemzTypesByBaselineIdAsync(System.Guid)">
+            <summary>
+            Gets collection of BaselineItemzTypes for the given BaselineID
+            </summary>
+            <returns>Collection of BaselineItemzTypes based on sorting order for the given BaselineID</returns>
+            <response code="200">Returns collection of BaselineItemzTypes based on sorting order for the given BaselineID</response>
+            <response code="404">No BaselineItemzTypes were found for the given BaselineID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselinesOptions">
+            <summary>
+            Get list of supported HTTP Options for the Baselines controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.DeleteItemzChangeHistoryByItemzTypeAsync(ItemzApp.API.Models.DeleteChangeHistoryDTO)">
             <summary>
@@ -653,6 +791,62 @@
         <member name="P:ItemzApp.API.Models.GetBaselineDTO.CreatedDate">
             <summary>
             Date and Time when Baseline was created
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.GetBaselineItemzTypeDTO">
+            <summary>
+            BaselineItemzTypeDTO is a POCO used for serving requests like 
+            GetBaselineItemzTypes or GetBaselineItemzType by BaselineItemzTypeID.
+            It will carry specified set of data that are exposed when 
+            BaselineItemzType details are requested throgh "ItemzApp.API"
+            
+            Remember that many of the fields are copied over from original ItemzType
+            that was used at the time when BaselineItemzType was created.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.Id">
+            <summary>
+            Id of the BaselineItemzType representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.ItemzTypeId">
+            <summary>
+            Id of the ItemzType based on which BaselineItemzType was created
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.BaselineId">
+            <summary>
+            Id of the Parent Baseline underwhich BaselineItemzType is associated as child
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.Name">
+            <summary>
+            BaselineItemzType Name 
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.Status">
+            <summary>
+            Status of the BaselineItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.Description">
+            <summary>
+            Description of the BaselineItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.CreatedBy">
+            <summary>
+            User who created the original ItemzType which was used for creating BaselineItemzType
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.CreatedDate">
+            <summary>
+            Date and Time when original ItemzType was created from which BaselineItemzType as created
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzTypeDTO.IsSystem">
+            <summary>
+            Returns true if it's system BaselineItemzType otherwise false
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetItemzChangeHistoryDTO">

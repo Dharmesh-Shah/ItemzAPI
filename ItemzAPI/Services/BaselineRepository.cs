@@ -104,7 +104,7 @@ namespace ItemzApp.API.Services
                 .ToListAsync();
         }
 
-        public async Task AddBaseline(Baseline baseline)
+        public async Task AddBaselineAsync(Baseline baseline)
         {
             if (baseline == null)
             {
@@ -121,14 +121,18 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(baseline.ProjectId));
             }
 
-            if (_baselineContext.Projects!.Where(p => p.Id == baseline.ProjectId).Any())
+            if (!_baselineContext.Projects!.Where(p => p.Id == baseline.ProjectId).Any())
             {
                 throw new ArgumentException(nameof(baseline.ProjectId));
             }
-
             var sqlParameters = new[]
             {
                 new SqlParameter
+                {
+                    ParameterName = "ProjectId",
+                    Value = baseline.ProjectId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                },                new SqlParameter
                 {
                     ParameterName = "Name",
                     Size = 128,
@@ -141,17 +145,9 @@ namespace ItemzApp.API.Services
                     Size = 1028,
                     Value = baseline.Description ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
-                new SqlParameter
-                {
-                    ParameterName = "ProjectId",
-                    Value = baseline.ProjectId,
-                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
                 }
             };
-
-            var _ = await _baselineContext.Database.ExecuteSqlRawAsync("EXEC [dbo].[userProcCreateBaselineByProjectID] @Name, @Description, @ProjectId", sqlParameters);
-
+            var _ = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcCreateBaselineByProjectID  @ProjectId, @Name, @Description", parameters: sqlParameters);
         }
 
         public async Task<bool> SaveAsync()
@@ -192,7 +188,7 @@ namespace ItemzApp.API.Services
             _baselineContext.Baseline!.Remove(baseline);
         }
 
-        public async Task<int> GetItemzCountByBaselineAsync(Guid BaselineId)
+        public async Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId)
         {
             if (BaselineId == Guid.Empty)
             {
@@ -202,10 +198,33 @@ namespace ItemzApp.API.Services
             {
                 new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
             };
-            var foundItemzByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+            var foundItemzByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzCountByBaseline, sqlArgs);
 
             return foundItemzByBaseline;
         }
+
+
+        public async Task<bool> ProjectExistsAsync(Guid projectId)
+        {
+            if (projectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(projectId));
+            }
+
+            // EXPLANATION: We expect ProjectExists to be used independently on it's own without
+            // expecting it to track the Project that was found in the database. That's why it's not
+            // a good idea to use "!(_baselineContext.Projects.Find(projectId) == null)" option
+            // to "Find()" Project. This is because Find is designed to track the Project in the memory.
+            // This is going to be in the single scoped DBContext.
+            // If we use "Find()" method then it will start tracking the Project and then we can't
+            // get the Project once again from the DB as it's already being tracked. We have a choice here
+            // to decide if we should always use Find via ProjectExists and then yet again in the subsequent
+            // operations like Delete / Update or we use ProjectExists as independent method and not rely on 
+            // it for subsequent operations like Delete / Update.
+
+            return await _baselineContext.Projects.AsNoTracking().AnyAsync(p => p.Id == projectId);
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -220,9 +239,9 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public async Task<bool> HasBaselineWithNameAsync(string baselineName)
+        public async Task<bool> HasBaselineWithNameAsync(Guid projectId, string baselineName)
         {
-            return await _baselineContext.Baseline.AsNoTracking().AnyAsync(b => b.Name!.ToLower() == baselineName.ToLower());
+            return await _baselineContext.Baseline.AsNoTracking().AnyAsync(b=> b.ProjectId.ToString().ToLower() == projectId.ToString().ToLower() && b.Name!.ToLower() == baselineName.ToLower());
         }
     }
 }

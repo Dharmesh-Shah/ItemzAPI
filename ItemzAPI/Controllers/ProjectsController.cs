@@ -428,7 +428,7 @@ namespace ItemzApp.API.Controllers
         {
             if (!(await _projectRepository.ProjectExistsAsync(projectId)))
             {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Project with ID {ProjectId} as it could not be found",
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of Itemz as Project with ID {ProjectId} could not be found",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     projectId);
                 return NotFound();

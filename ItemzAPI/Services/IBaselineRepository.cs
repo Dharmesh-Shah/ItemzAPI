@@ -19,7 +19,7 @@ namespace ItemzApp.API.Services
         
         public Task<IEnumerable<Baseline>> GetBaselinesAsync(IEnumerable<Guid> baselineIds);
 
-        public Task AddBaseline(Baseline baseline);
+        public Task AddBaselineAsync(Baseline baseline);
 
         public Task<bool> SaveAsync();
         
@@ -29,8 +29,10 @@ namespace ItemzApp.API.Services
 
         public void DeleteBaseline(Baseline baseline);
 
-        Task<int> GetItemzCountByBaselineAsync(Guid BaselineId);
+        Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId);
 
-        public Task<bool> HasBaselineWithNameAsync(string baselineName);
+        public Task<bool> HasBaselineWithNameAsync(Guid projectId, string baselineName);
+
+        public Task<bool> ProjectExistsAsync(Guid projectId);
     }
 }

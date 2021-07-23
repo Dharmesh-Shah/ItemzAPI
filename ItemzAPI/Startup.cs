@@ -3,6 +3,7 @@
 using AutoMapper;
 using ItemzApp.API.BusinessRules.ItemzType;
 using ItemzApp.API.BusinessRules.Project;
+using ItemzApp.API.BusinessRules.Baseline;
 using ItemzApp.API.DbContexts;
 using ItemzApp.API.DbContexts.Interceptors;
 using ItemzApp.API.Services;
@@ -141,8 +142,11 @@ namespace ItemzApp.API
             services.AddScoped<IItemzRepository, ItemzRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IItemzTypeRepository, ItemzTypeRepository>();
+            services.AddScoped<IBaselineRepository, BaselineRepository>();
+            services.AddScoped<IBaselineItemzTypeRepository, BaselineItemzTypeRepository>();
             services.AddScoped<IProjectRules,ProjectRules>();
             services.AddScoped<IItemzTypeRules, ItemzTypeRules>();
+            services.AddScoped<IBaselineRules, BaselineRules>();
             services.AddScoped<IItemzChangeHistoryRepository, ItemzChangeHistoryRepository>();
             services.AddScoped<IItemzChangeHistoryByItemzTypeRepository, ItemzChangeHistoryByItemzTypeRepository>();
             services.AddScoped<IItemzChangeHistoryByProjectRepository, ItemzChangeHistoryByProjectRepository>();

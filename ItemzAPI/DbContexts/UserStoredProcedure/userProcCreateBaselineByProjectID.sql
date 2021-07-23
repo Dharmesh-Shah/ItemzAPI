@@ -4,10 +4,10 @@ IF OBJECT_ID ( 'userProcCreateBaselineByProjectID', 'P' ) IS NOT NULL
 GO
 
 CREATE PROCEDURE userProcCreateBaselineByProjectID
+@ProjectId [uniqueidentifier],
 @Name [nvarchar](128),
 @Description [nvarchar](1028),
-@CreatedBy [nvarchar](128) = N'Some User',
-@ProjectId [uniqueidentifier]
+@CreatedBy [nvarchar](128) = N'Some User'
 
 AS
 BEGIN
