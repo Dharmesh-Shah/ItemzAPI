@@ -931,3 +931,15 @@ There is also an option to stop testing further if we see failed JSON Schema Val
 
 What we have to think about is how we store this schema in variables at higher level rather then at each test level. I do see possibility of this via Collection Variables / Global Variables but we have to investigate further to check on internet if community is recommending any other options. 
 
+### [ASP .NET CORE - Debugging configuration values](https://andrewlock.net/debugging-configuration-values-in-aspnetcore/)
+
+Published on 23rd March 2021
+
+By Author <span style="background-color: #99ff66"> Andrew Lock [@andrewlocknet](https://twitter.com/andrewlocknet)</span>
+
+In this Blog Post Andrew gives detailed example on how to set-up ASP .NET Core application with `IConfigurationRoot.GetDebugView` extension method that can provide endpoint for accessing configuration details via endpoint. 
+
+There is another way described by Andrew that he claims to be an alternative approach using [Oakton's](https://jasperfx.github.io/oakton/) Describe command.
+
+We should consider this to be utilized for ItemzApp that shall help with debugging configuration issues when reported by clients. 
+
