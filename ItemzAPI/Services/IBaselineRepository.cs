@@ -19,7 +19,7 @@ namespace ItemzApp.API.Services
         
         public Task<IEnumerable<Baseline>> GetBaselinesAsync(IEnumerable<Guid> baselineIds);
 
-        public Task AddBaselineAsync(Baseline baseline);
+        public Task<Guid> AddBaselineAsync(Baseline baseline);
 
         public Task<bool> SaveAsync();
         

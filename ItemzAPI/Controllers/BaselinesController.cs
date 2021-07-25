@@ -157,7 +157,7 @@ namespace ItemzApp.API.Controllers
 
             try
             {
-                await _baselineRepository.AddBaselineAsync(baselineEntity);
+                baselineEntity.Id = await _baselineRepository.AddBaselineAsync(baselineEntity);
                 // await _baselineRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)

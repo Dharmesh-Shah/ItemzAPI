@@ -31,6 +31,9 @@ namespace ItemzApp.API.Entities
 
         [Required]
         public Guid ProjectId { get; set; }
+        
+        [NotMapped]
+        public Guid ItemzTypeId { get; set; }
 
         public List<BaselineItemzType>? BaselineItemzTypes { get; set; }
     }

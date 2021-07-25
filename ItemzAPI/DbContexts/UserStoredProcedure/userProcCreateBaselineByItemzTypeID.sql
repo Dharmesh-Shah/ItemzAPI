@@ -1,17 +1,21 @@
 
 IF OBJECT_ID ( 'userProcCreateBaselineByItemzTypeID', 'P' ) IS NOT NULL
-    BEGIN
 		DROP PROCEDURE userProcCreateBaselineByItemzTypeID
-	END
 GO
+
 CREATE PROCEDURE userProcCreateBaselineByItemzTypeID
 @ProjectId [uniqueidentifier],
 @ItemzTypeId [uniqueidentifier],
 @Name [nvarchar](128),
 @Description [nvarchar](1028),
-@CreatedBy [nvarchar](128) = N'Some User'
+@CreatedBy [nvarchar](128) = N'Some User',
+@OUTPUT_Id [uniqueidentifier] out
 
 AS
+
+-- FIRST set @OUTPUT_Id to be Empty uniqueidentifier.
+SET @OUTPUT_Id = (SELECT CAST(CAST(0 AS BINARY) AS UNIQUEIDENTIFIER))
+
 BEGIN
 BEGIN TRY
 BEGIN TRANSACTION
@@ -94,6 +98,8 @@ if @TempBaselineItemzNumberOfRows = 0
 				1 -- State.  
 				)
 	END
+
+SET @OUTPUT_Id = @NewBaselineID
 COMMIT TRANSACTION
 END TRY
 BEGIN CATCH

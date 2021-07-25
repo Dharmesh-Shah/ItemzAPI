@@ -104,7 +104,7 @@ namespace ItemzApp.API.Services
                 .ToListAsync();
         }
 
-        public async Task AddBaselineAsync(Baseline baseline)
+        public async Task<Guid> AddBaselineAsync(Baseline baseline)
         {
             if (baseline == null)
             {
@@ -125,6 +125,15 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentException(nameof(baseline.ProjectId));
             }
+
+            Guid returnValue = Guid.Empty;
+            var OUTPUT_ID = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Id",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+            };
+
             var sqlParameters = new[]
             {
                 new SqlParameter
@@ -132,22 +141,49 @@ namespace ItemzApp.API.Services
                     ParameterName = "ProjectId",
                     Value = baseline.ProjectId,
                     SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
-                },                new SqlParameter
+                }
+            };
+
+            if (baseline.ItemzTypeId != Guid.Empty)
+            {
+                sqlParameters = sqlParameters.Append(new SqlParameter
+                {
+                    ParameterName = "ItemzTypeId",
+                    Value = baseline.ItemzTypeId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }).ToArray();
+            }
+            sqlParameters = sqlParameters.Append(
+                new SqlParameter
                 {
                     ParameterName = "Name",
                     Size = 128,
                     Value = baseline.Name ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
-                },
+                }).ToArray();
+
+            sqlParameters = sqlParameters.Append(
                 new SqlParameter
                 {
                     ParameterName = "Description",
                     Size = 1028,
                     Value = baseline.Description ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
-                }
-            };
-            var _ = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcCreateBaselineByProjectID  @ProjectId, @Name, @Description", parameters: sqlParameters);
+                }).ToArray();
+
+            sqlParameters = sqlParameters.Append(OUTPUT_ID).ToArray();
+
+            if (baseline.ItemzTypeId == Guid.Empty)
+            {
+                var _ = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcCreateBaselineByProjectID  @ProjectId, @Name, @Description, @OUTPUT_Id  = @OUTPUT_Id OUT", parameters: sqlParameters);
+                returnValue = (Guid)OUTPUT_ID.Value;
+            }
+            else
+            {
+                var _ = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcCreateBaselineByItemzTypeID  @ProjectId, @ItemzTypeID, @Name, @Description, @OUTPUT_Id  = @OUTPUT_Id OUT", parameters: sqlParameters);
+                returnValue = (Guid)OUTPUT_ID.Value;
+            }
+            return returnValue;
         }
 
         public async Task<bool> SaveAsync()
