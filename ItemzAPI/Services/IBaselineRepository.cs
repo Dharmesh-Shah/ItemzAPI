@@ -21,6 +21,8 @@ namespace ItemzApp.API.Services
 
         public Task<Guid> AddBaselineAsync(Baseline baseline);
 
+        public Task DeleteOrphanedBaselineItemzAsync();
+
         public Task<bool> SaveAsync();
         
         public Task<bool> BaselineExistsAsync(Guid baselineId);

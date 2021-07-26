@@ -80,20 +80,15 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion BaselineItemzCount
 
-
         #region BaselineItemzCountByBaselineItemzType
 
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaselineItemzType =
-
             "select count(Id) from BaselineItemz " +
             "where Id in (select distinct(BaselineItemzId) " +
             "from BaselineItemzTypeJoinBaselineItemz " +
             "where BaselineItemzTypeId = @__BaselineItemzTypeID__ )";
 
         #endregion BaselineItemzCountByBaselineItemzType
-
-
-
 
         //#region CreateBaselineViaUserStoredProcedure
 

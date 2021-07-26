@@ -29,7 +29,8 @@
     <ItemGroup>
       <EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID.sql" />
       <EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID.sql" />
-    </ItemGroup>
+      <EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz.sql" />
+	</ItemGroup>
 	
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
