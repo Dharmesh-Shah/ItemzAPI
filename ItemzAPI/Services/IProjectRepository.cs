@@ -29,6 +29,8 @@ namespace ItemzApp.API.Services
 
         public void DeleteProject(Project project);
 
+        public Task DeleteOrphanedBaselineItemzAsync();
+
         Task<int> GetItemzCountByProjectAsync(Guid ProjectId);
 
         public Task<bool> HasProjectWithNameAsync(string projectName);

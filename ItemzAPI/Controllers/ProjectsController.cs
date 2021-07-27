@@ -409,6 +409,8 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Projeect with ID {ProjectId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectId);
+
+            await _projectRepository.DeleteOrphanedBaselineItemzAsync();
             return NoContent();
         }
 

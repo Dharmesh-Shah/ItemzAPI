@@ -143,6 +143,11 @@ namespace ItemzApp.API.Services
             _context.Projects!.Add(project);
             }
 
+        public async Task DeleteOrphanedBaselineItemzAsync()
+        {
+            await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteAllOrphanedBaselineItemz");
+        }
+
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
