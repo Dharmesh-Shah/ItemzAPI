@@ -10460,6 +10460,2847 @@
 			]
 		},
 		{
+			"name": "Baselines",
+			"item": [
+				{
+					"name": "ByProjectID",
+					"item": [
+						{
+							"name": "Verify-Create-Get-Delete-Get-Works",
+							"item": [
+								{
+									"name": "POST Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"BaselineCreateGetDeleteGet_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselineItemzChanges",
+							"item": [
+								{
+									"name": "GET TotalBaselineItemz Count By Repository",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of total BaselineItemz at repository level and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Itemz Count By Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Itemz by Project ID and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\", parseInt(pm.response.text()));",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/GetItemzCount/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"GetItemzCount",
+												"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ProjectID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET TotalBaselineItemz Count By Repository",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\"))+parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
+													"});",
+													"",
+													"",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of total BaselineItemz at repository level and store ",
+													"it in a collection variable.",
+													"",
+													"",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"*/",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemz Count By BaselineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of BaselineItemz records were found for newly created Baseline\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzCount",
+												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET TotalBaselineItemz Count By Repository Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\")));",
+													"});",
+													"",
+													"",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of total BaselineItemz at repository level and store ",
+													"it in a collection variable.",
+													"",
+													"",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"*/",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemz Count By BaselineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzCount",
+												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselineItemzTypes",
+							"item": [
+								{
+									"name": "GET ItemzType Count By Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of ItemzType by Project and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\", pm.response.json().length);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/GetItemzTypes/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"GetItemzTypes",
+												"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ProjectID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzTypes_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemzType Count By Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of BaselineItemzType records were found for newly created Baseline\", function () {",
+													"    pm.expect(pm.response.json().length).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\")));",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzTypes",
+												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemzType Count By Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzTypes",
+												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselines",
+							"item": [
+								{
+									"name": "GET Baselines",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 404\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,404]);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Baselines by Repository and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"if (pm.response.code === 200)",
+													"{",
+													"    pm.collectionVariables.set(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", pm.response.json().length);",
+													"}",
+													"else",
+													"{",
+													"    pm.collectionVariables.set(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", 0);",
+													"}",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\", 0);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ProjectID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ProjectID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ProjectID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Baselines",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Baselines by Repository and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of Baseline records were found post creating new Baselines\", function () {",
+													"    pm.expect(pm.response.json().length).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\"))+",
+													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))",
+													"        );",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ByItemzTypeID",
+					"item": [
+						{
+							"name": "Verify-Create-Get-Delete-Get-Works",
+							"item": [
+								{
+									"name": "POST Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselineItemzChanges",
+							"item": [
+								{
+									"name": "GET TotalBaselineItemz Count By Repository",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of total BaselineItemz at repository level and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Itemz Count By ItemzType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Itemz by Project ID and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByItemzType\", parseInt(pm.response.text()));",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/611639db-577a-48f6-9b08-f6aef477368f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs",
+												"GetItemzCount",
+												"611639db-577a-48f6-9b08-f6aef477368f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ItemzTypeID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET TotalBaselineItemz Count By Repository",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\"))+parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByItemzType\")));",
+													"});",
+													"",
+													"",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of total BaselineItemz at repository level and store ",
+													"it in a collection variable.",
+													"",
+													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"",
+													"*/",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemz Count By BaselineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of BaselineItemz records were found for newly created Baseline\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByItemzType\")));",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzCount",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET TotalBaselineItemz Count By Repository",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\")));",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetTotalBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemz Count By BaselineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzCount",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselineItemzTypes",
+							"item": [
+								{
+									"name": "POST Create Baseline By ItemzTypeID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemzType Count By Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of BaselineItemzType record is exactly ONE.\", function () {",
+													"    pm.expect(pm.response.json().length).to.eql(1);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzTypes",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Newly Created Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET BaselineItemzType Count By Baseline",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetBaselineItemzTypes",
+												"{{ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "VerifyNumberOfBaselines",
+							"item": [
+								{
+									"name": "GET Baselines",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 404\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,404]);",
+													"});",
+													"",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Baselines by Repository and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"if (pm.response.code === 200)",
+													"{",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", pm.response.json().length);",
+													"}",
+													"else",
+													"{",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\",0);",
+													"}",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\", 0);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ItemzTypeID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ItemzTypeID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Create Baseline By ItemzTypeID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Baselines",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"/*",
+													"",
+													"Get the value of the current count of Baselines by Repository and store ",
+													"it in a collection variable.",
+													"",
+													"*/",
+													"",
+													"",
+													"pm.test(\"Verify that expected number of Baseline records were found post creating new Baselines\", function () {",
+													"    pm.expect(pm.response.json().length).to.eql(",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\"))+",
+													"        parseInt(pm.collectionVariables.get(\"ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))",
+													"        );",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "DELETE Project by ID",
 			"event": [
 				{
@@ -10932,6 +13773,62 @@
 		{
 			"key": "GetItemzChangeHistoryByRepository_foundItemzChangeHistoryCountByRepository",
 			"value": "0"
+		},
+		{
+			"key": "BaselineCreateGetDeleteGet_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository",
+			"value": "0"
+		},
+		{
+			"key": "VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject",
+			"value": "0"
+		},
+		{
+			"key": "VerifyNumberOfBaselineItemzChanges_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId",
+			"value": "0"
+		},
+		{
+			"key": "VerifyNumberOfBaselineItemzTypes_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository",
+			"value": ""
+		},
+		{
+			"key": "VerifyNumberOfBaselines_NewlyCreatedBaselineCount",
+			"value": "0"
+		},
+		{
+			"key": "ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository",
+			"value": ""
+		},
+		{
+			"key": "ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByItemzType",
+			"value": ""
+		},
+		{
+			"key": "ByItemzTypeID_VerifyNumberOfBaselineItemzChanges_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "ByItemzTypeID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount",
+			"value": "0"
+		},
+		{
+			"key": "ByItemzTypeID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository",
+			"value": ""
 		}
 	]
 }

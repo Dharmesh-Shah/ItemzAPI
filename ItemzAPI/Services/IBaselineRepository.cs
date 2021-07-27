@@ -33,6 +33,8 @@ namespace ItemzApp.API.Services
 
         Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId);
 
+        Task<int> GetTotalBaselineItemzCountAsync();
+
         public Task<bool> HasBaselineWithNameAsync(Guid projectId, string baselineName);
 
         public Task<bool> ProjectExistsAsync(Guid projectId);

@@ -163,6 +163,13 @@
             <response code="200">Returns number of BaselineItemz count that were associated with a given Baseline</response>
             <response code="404">Baseline based on baselineId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetTotalBaselineItemzCountInRepository">
+            <summary>
+            Get total number of BaselineItemz in Repository
+            </summary>
+            <returns>Total Number of BaselineItemz found in entire Repository. Zero if none found.</returns>
+            <response code="200">Returns total number of BaselineItemz count that are present in the Repository.</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselineItemzTypesByBaselineIdAsync(System.Guid)">
             <summary>
             Gets collection of BaselineItemzTypes for the given BaselineID

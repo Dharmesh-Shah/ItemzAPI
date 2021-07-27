@@ -78,6 +78,9 @@ namespace ItemzApp.API.DbContexts.SQLHelper
                 "where BaselineId = @__BaselineID__) "+ 
                 ")";
 
+        public static readonly string SQLStatementFor_GetTotalBaselineItemzInRepository =
+            "select count(1) from BaselineItemz";
+
         #endregion BaselineItemzCount
 
         #region BaselineItemzCountByBaselineItemzType

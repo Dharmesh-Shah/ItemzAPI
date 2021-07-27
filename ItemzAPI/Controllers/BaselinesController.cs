@@ -376,7 +376,7 @@ namespace ItemzApp.API.Controllers
             _baselineRepository.DeleteBaseline(baselineFromRepo);
             await _baselineRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Projeect with ID {BaselineId} processed successfully",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Baseline with ID {BaselineId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 baselineId);
 
@@ -406,12 +406,30 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            var foundItemzCountByBaselineId = await _baselineRepository.GetBaselineItemzCountByBaselineAsync(baselineId);
-            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundItemzCountByBaselineId} Itemz records for Baseline with ID {baselineId}",
+            var foundBaselineItemzCountByBaselineId = await _baselineRepository.GetBaselineItemzCountByBaselineAsync(baselineId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineItemzCountByBaselineId} BaselineItemz records for Baseline with ID {baselineId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                foundItemzCountByBaselineId,
+                foundBaselineItemzCountByBaselineId,
                 baselineId);
-            return foundItemzCountByBaselineId;
+            return foundBaselineItemzCountByBaselineId;
+        }
+
+        /// <summary>
+        /// Get total number of BaselineItemz in Repository
+        /// </summary>
+        /// <returns>Total Number of BaselineItemz found in entire Repository. Zero if none found.</returns>
+        /// <response code="200">Returns total number of BaselineItemz count that are present in the Repository.</response>
+        [HttpGet("GetTotalBaselineItemzCount", Name = "__GET_Total_BaselineItemz_Count__")]
+        [HttpHead("GetTotalBaselineItemzCount", Name = "__HEAD_Total_BaselineItemz_Count__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetTotalBaselineItemzCountInRepository()
+        {
+            var foundTotalBaselineItemzCountInRepository = await _baselineRepository.GetTotalBaselineItemzCountAsync();
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundTotalBaselineItemzCountInRepository} BaselineItemz records in current Repository",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundTotalBaselineItemzCountInRepository);
+            return foundTotalBaselineItemzCountInRepository;
         }
 
         /// <summary>
