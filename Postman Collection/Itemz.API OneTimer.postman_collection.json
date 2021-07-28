@@ -10481,7 +10481,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"BaselineCreateGetDeleteGet_NewBaselineID\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID\",tempNewBaselineid);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -10585,7 +10585,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -10594,7 +10594,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+												"{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}"
 											]
 										}
 									},
@@ -10648,7 +10648,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -10657,7 +10657,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+												"{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}"
 											]
 										}
 									},
@@ -10714,7 +10714,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{BaselineCreateGetDeleteGet_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -10723,7 +10723,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{BaselineCreateGetDeleteGet_NewBaselineID}}"
+												"{{ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID}}"
 											]
 										}
 									},
@@ -10751,7 +10751,7 @@
 													"it in a collection variable.",
 													"",
 													"*/",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\", parseInt(pm.response.text()));",
 													"",
 													""
 												],
@@ -10813,7 +10813,7 @@
 													"it in a collection variable.",
 													"",
 													"*/",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\", parseInt(pm.response.text()));",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\", parseInt(pm.response.text()));",
 													"",
 													""
 												],
@@ -10873,7 +10873,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzChanges_NewBaselineID\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID\",tempNewBaselineid);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -10941,7 +10941,7 @@
 													"",
 													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 													"    pm.expect(parseInt(pm.response.text())).to.eql(",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\"))+parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\"))+parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
 													"});",
 													"",
 													"",
@@ -11011,7 +11011,7 @@
 													"",
 													"pm.test(\"Verify that expected number of BaselineItemz records were found for newly created Baseline\", function () {",
 													"    pm.expect(parseInt(pm.response.text())).to.eql(",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject\")));",
 													"});",
 													"",
 													"",
@@ -11043,7 +11043,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11053,7 +11053,7 @@
 												"api",
 												"Baselines",
 												"GetBaselineItemzCount",
-												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
 											]
 										}
 									},
@@ -11107,7 +11107,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11116,7 +11116,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
 											]
 										}
 									},
@@ -11136,7 +11136,7 @@
 													"",
 													"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 													"    pm.expect(parseInt(pm.response.text())).to.eql(",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\")));",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository\")));",
 													"});",
 													"",
 													"",
@@ -11232,7 +11232,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11242,7 +11242,7 @@
 												"api",
 												"Baselines",
 												"GetBaselineItemzCount",
-												"{{VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID}}"
 											]
 										}
 									},
@@ -11271,7 +11271,7 @@
 													"",
 													"*/",
 													"",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\", pm.response.json().length);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\", pm.response.json().length);",
 													""
 												],
 												"type": "text/javascript"
@@ -11330,7 +11330,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselineItemzTypes_NewBaselineID\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID\",tempNewBaselineid);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -11398,7 +11398,7 @@
 													"",
 													"pm.test(\"Verify that expected number of BaselineItemzType records were found for newly created Baseline\", function () {",
 													"    pm.expect(pm.response.json().length).to.eql(",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\")));",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId\")));",
 													"});",
 													"",
 													"",
@@ -11430,7 +11430,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11440,7 +11440,7 @@
 												"api",
 												"Baselines",
 												"GetBaselineItemzTypes",
-												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
 											]
 										}
 									},
@@ -11494,7 +11494,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11503,7 +11503,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
 											]
 										}
 									},
@@ -11548,7 +11548,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
+											"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -11558,7 +11558,7 @@
 												"api",
 												"Baselines",
 												"GetBaselineItemzTypes",
-												"{{VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
+												"{{ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID}}"
 											]
 										}
 									},
@@ -11588,13 +11588,13 @@
 													"*/",
 													"if (pm.response.code === 200)",
 													"{",
-													"    pm.collectionVariables.set(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", pm.response.json().length);",
+													"    pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", pm.response.json().length);",
 													"}",
 													"else",
 													"{",
-													"    pm.collectionVariables.set(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", 0);",
+													"    pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\", 0);",
 													"}",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\", 0);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\", 0);",
 													""
 												],
 												"type": "text/javascript"
@@ -11651,8 +11651,8 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -11720,8 +11720,8 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -11789,8 +11789,8 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
+													"pm.collectionVariables.set(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\",",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))+1);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -11865,8 +11865,8 @@
 													"",
 													"pm.test(\"Verify that expected number of Baseline records were found post creating new Baselines\", function () {",
 													"    pm.expect(pm.response.json().length).to.eql(",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\"))+",
-													"        parseInt(pm.collectionVariables.get(\"VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository\"))+",
+													"        parseInt(pm.collectionVariables.get(\"ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount\"))",
 													"        );",
 													"});",
 													"",
@@ -13775,35 +13775,35 @@
 			"value": "0"
 		},
 		{
-			"key": "BaselineCreateGetDeleteGet_NewBaselineID",
+			"key": "ByProjectID_BaselineCreateGetDeleteGet_NewBaselineID",
 			"value": ""
 		},
 		{
-			"key": "VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository",
+			"key": "ByProjectID_VerifyNumberOfBaselineItemzChanges_foundBaselineItemzCountByRepository",
 			"value": "0"
 		},
 		{
-			"key": "VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject",
+			"key": "ByProjectID_VerifyNumberOfBaselineItemzChanges_foundItemzCountByProject",
 			"value": "0"
 		},
 		{
-			"key": "VerifyNumberOfBaselineItemzChanges_NewBaselineID",
+			"key": "ByProjectID_VerifyNumberOfBaselineItemzChanges_NewBaselineID",
 			"value": ""
 		},
 		{
-			"key": "VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId",
+			"key": "ByProjectID_VerifyNumberOfBaselineItemzTypes_foundItemzTypeByProjectId",
 			"value": "0"
 		},
 		{
-			"key": "VerifyNumberOfBaselineItemzTypes_NewBaselineID",
+			"key": "ByProjectID_VerifyNumberOfBaselineItemzTypes_NewBaselineID",
 			"value": ""
 		},
 		{
-			"key": "VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository",
+			"key": "ByProjectID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository",
 			"value": ""
 		},
 		{
-			"key": "VerifyNumberOfBaselines_NewlyCreatedBaselineCount",
+			"key": "ByProjectID_VerifyNumberOfBaselines_NewlyCreatedBaselineCount",
 			"value": "0"
 		},
 		{
