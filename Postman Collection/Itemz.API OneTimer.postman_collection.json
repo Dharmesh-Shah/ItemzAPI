@@ -13297,6 +13297,599 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "BaselineItemzTypes",
+					"item": [
+						{
+							"name": "GET BaselineItemzTypes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 404\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,404]);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Baselines by Repository and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"if (pm.response.code === 200)",
+											"{",
+											"    pm.collectionVariables.set(\"BaselineItemzTypes_foundNumberOfBaselineItemzTypeByRepository\", pm.response.json().length);",
+											"}",
+											"else",
+											"{",
+											"    pm.collectionVariables.set(\"BaselineItemzTypes_foundNumberOfBaselineItemzTypeByRepository\", 0);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET ItemzType by Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"    pm.collectionVariables.set(\"BaselineItemzTypes_foundNumberOfItemzTypeByProject\", pm.response.json().length);",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzTypes/42f62a6c-fcda-4dac-a06c-406ac1c17770",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzTypes",
+										"42f62a6c-fcda-4dac-a06c-406ac1c17770"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"BaselineItemzTypes_NewBaselineID\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzTypes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of BaselineItemzType records were found post creating new Baselines\", function () {",
+											"    pm.expect(pm.response.json().length).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"BaselineItemzTypes_foundNumberOfBaselineItemzTypeByRepository\"))+",
+											"        parseInt(pm.collectionVariables.get(\"BaselineItemzTypes_foundNumberOfItemzTypeByProject\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzTypes By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get BaselineItemzTypeID for both 'Parking Lot' and One Non 'Parking Lot' BaselineItemzType.",
+											"Then set this values in two different collection variables.",
+											"",
+											"*/",
+											"    let jsonData = pm.response.json();",
+											"    let hasNonSystemBaselineItemzTypeFound = false;",
+											"",
+											"    _.each(jsonData, (item) => {",
+											"",
+											"        if (item.isSystem === true && item.name === 'Parking Lot')",
+											"        {",
+											"            pm.collectionVariables.set(\"BaselineItemzTypes_parkingLotBaselineItemzTypeID\", item.id);     ",
+											"        }",
+											"        else",
+											"        {",
+											"            if (!(hasNonSystemBaselineItemzTypeFound))",
+											"            {",
+											"                pm.collectionVariables.set(\"BaselineItemzTypes_nonParkingLotBaselineItemzTypeID\", item.id);     ",
+											"                ",
+											"                hasNonSystemBaselineItemzTypeFound = true;",
+											"            }",
+											"        }",
+											"    })",
+											"",
+											"/*",
+											"    Verify that baselineId returned in each array element is same ",
+											"    as the query parameter passed into the WebAPI Call.",
+											"",
+											"    Here we are using each (like a for loop) that iterates through each element returned ",
+											"    as part of the response.",
+											"*/",
+											"",
+											"",
+											"pm.test(\"Verify that baselineId in each array element is the same as passed in parameter \", function () {",
+											"    _.each(jsonData, (item) => {",
+											"        pm.expect(item.baselineId).to.eql(pm.collectionVariables.get(\"BaselineItemzTypes_NewBaselineID\"));",
+											"        });",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that number of BaselineItemzTypes records match number of ItemzTypes records fount at project level.\", function () {",
+											"    pm.expect(pm.response.json().length).to.eql(",
+											"       parseInt(pm.collectionVariables.get(\"BaselineItemzTypes_foundNumberOfItemzTypeByProject\"))",
+											"        );",
+											"});",
+											"",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{BaselineItemzTypes_NewBaselineID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTypes",
+										"{{BaselineItemzTypes_NewBaselineID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzType for Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that BaselineItemzType Name is Parking Lot\", () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).to.eql('Parking Lot');",
+											"    });",
+											"",
+											"pm.test(\"Verify that BaselineItemzType isSystem is true\", () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.isSystem).to.eql(true);",
+											"    });",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/{{BaselineItemzTypes_parkingLotBaselineItemzTypeID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"{{BaselineItemzTypes_parkingLotBaselineItemzTypeID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzType for Non Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that BaselineItemzType Name is NOT Parking Lot\", () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).is.not.eql('Parking Lot');",
+											"    });",
+											"",
+											"pm.test(\"Verify that BaselineItemzType isSystem is false\", () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.isSystem).to.eql(false);",
+											"    });",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/{{BaselineItemzTypes_nonParkingLotBaselineItemzTypeID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"{{BaselineItemzTypes_nonParkingLotBaselineItemzTypeID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Newly Created Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{BaselineItemzTypes_NewBaselineID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{BaselineItemzTypes_NewBaselineID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzType for Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/{{BaselineItemzTypes_parkingLotBaselineItemzTypeID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"{{BaselineItemzTypes_parkingLotBaselineItemzTypeID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzType for Non Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/{{BaselineItemzTypes_nonParkingLotBaselineItemzTypeID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"{{BaselineItemzTypes_nonParkingLotBaselineItemzTypeID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},
@@ -13828,6 +14421,30 @@
 		},
 		{
 			"key": "ByItemzTypeID_VerifyNumberOfBaselines_foundNumberOfBaselinesByRepository",
+			"value": ""
+		},
+		{
+			"key": "BaselineItemzTypes_foundNumberOfBaselineItemzTypeByRepository",
+			"value": "0"
+		},
+		{
+			"key": "BaselineItemzTypes_foundNumberOfBaselineItemzTypeByProject",
+			"value": "0"
+		},
+		{
+			"key": "BaselineItemzTypes_NewBaselineID",
+			"value": ""
+		},
+		{
+			"key": "BaselineItemzTypes_foundNumberOfItemzTypeByProject",
+			"value": ""
+		},
+		{
+			"key": "BaselineItemzTypes_parkingLotBaselineItemzTypeID",
+			"value": ""
+		},
+		{
+			"key": "BaselineItemzTypes_nonParkingLotBaselineItemzTypeID",
 			"value": ""
 		}
 	]
