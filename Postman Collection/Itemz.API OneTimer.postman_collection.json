@@ -16,9 +16,6 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//pm.test(\"Status code is either 201 or 409\", function () {",
-									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-									"//});",
 									"",
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
@@ -32,7 +29,12 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.variables.get(\"ProjectNumber\");"
+									"\r",
+									"pm.collectionVariables.set(\"UniqueProjectNameRule_ProjectName\", \"New Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"UniqueProjectNameRule_ProjectName\");\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -54,7 +56,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project {{ProjectNumber}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project {{ProjectNumber}}\"\r\n}"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_ProjectName}}\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects",
@@ -78,20 +80,21 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//pm.test(\"Status code is either 201 or 409\", function () {",
-									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-									"//});",
-									"",
-									"var tempProjectNumber =  parseInt(pm.collectionVariables.get(\"ProjectNumber\"));",
-									"var tempProjectNumber = tempProjectNumber + 1;",
-									"",
-									"",
-									"",
-									"pm.collectionVariables.set(\"ProjectNumber\", tempProjectNumber);",
 									"",
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.get(\"UniqueProjectNameRule_ProjectName\");\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -113,7 +116,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project {{ProjectNumber}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project {{ProjectNumber}}\"\r\n}"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_ProjectName}}\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects",
@@ -464,7 +467,11 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.variables.get(\"ItemzTypeNumber\");"
+									"\r",
+									"pm.collectionVariables.set(\"UniqueProjectNameRule_ItemzTypeName\", \"New ItemzType - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"UniqueProjectNameRule_ItemzTypeName\");\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -486,7 +493,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"ItemzType {{ItemzTypeNumber}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType {{ItemzTypeNumber}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ItemzTypeName}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of {{UniqueProjectNameRule_ItemzTypeName}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTypes",
@@ -510,19 +517,21 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//pm.test(\"Status code is either 201 or 409\", function () {",
-									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-									"//});",
-									"",
-									"var tempItemzTypeNumber =  parseInt(pm.collectionVariables.get(\"ItemzTypeNumber\"));",
-									"var tempItemzTypeNumber = tempItemzTypeNumber + 1;",
-									"",
-									"",
-									"pm.collectionVariables.set(\"ItemzTypeNumber\", tempItemzTypeNumber);",
 									"",
 									"pm.test(\"Status code is 409\", function () {",
 									"    pm.response.to.have.status(409);",
 									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.variables.get(\"UniqueProjectNameRule_ItemzTypeName\");\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -544,7 +553,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"ItemzType {{ItemzTypeNumber}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType {{ItemzTypeNumber}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ItemzTypeName}}\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of {{UniqueProjectNameRule_ItemzTypeName}}\",\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTypes",
@@ -14316,12 +14325,12 @@
 	],
 	"variable": [
 		{
-			"key": "ProjectNumber",
-			"value": "100"
+			"key": "UniqueProjectNameRule_ProjectName",
+			"value": ""
 		},
 		{
-			"key": "ItemzTypeNumber",
-			"value": "100"
+			"key": "UniqueProjectNameRule_ItemzTypeName",
+			"value": ""
 		},
 		{
 			"key": "ItemzChangeHistoryCreatedDateTime",
