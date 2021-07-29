@@ -66,6 +66,16 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion ProjectItemzCount
 
+        #region ItemzTypeItemzCount
+
+        public static readonly string SQLStatementFor_GetItemzCountByItemzType =
+            "select count(Id) from Itemzs " +
+            "where Id in (select distinct(ItemzId) " +
+            "from ItemzTypeJoinItemz " +
+            "where ItemzTypeId = @__ItemzTypeID__)";
+
+        #endregion ItemzTypeItemzCount
+
         #region BaselineItemzCount
 
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =

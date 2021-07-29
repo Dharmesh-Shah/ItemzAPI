@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ItemzApp.API.Models;
-using ItemzApp.API.ResourceParameters;
 using ItemzApp.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ namespace ItemzApp.API.Controllers
 {
     [ApiController]
     //[Route("api/Baselines")]
-    [Route("api/[controller]")] // e.g. http://HOST:PORT/api/itemzs/Baselines
+    [Route("api/[controller]")] // e.g. http://HOST:PORT/api/Baselines
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -31,12 +30,10 @@ namespace ItemzApp.API.Controllers
     {
         private readonly IBaselineRepository _baselineRepository;
         private readonly IMapper _mapper;
-        // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<BaselinesController> _logger;
         private readonly IBaselineRules _baselineRules;
         public BaselinesController( IBaselineRepository baselineRepository,
                                  IMapper mapper,
-                                 //IPropertyMappingService propertyMappingService,
                                  ILogger<BaselinesController> logger,
                                  IBaselineRules baselineRules
             )
@@ -44,12 +41,9 @@ namespace ItemzApp.API.Controllers
             _baselineRepository = baselineRepository ?? throw new ArgumentNullException(nameof(baselineRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
-            //_propertyMappingService = propertyMappingService ??
-            //    throw new ArgumentNullException(nameof(propertyMappingService));
+   
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _baselineRules = baselineRules ?? throw new ArgumentNullException(nameof(baselineRules));
-
-
         }
 
         /// <summary>
@@ -113,12 +107,6 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetBaselineDTO>>(baselinesFromRepo));
         }
 
-
-
-
-
-
-
         /// <summary>
         /// Used for creating new Baseline record in the database
         /// </summary>
@@ -155,17 +143,53 @@ namespace ItemzApp.API.Controllers
 
             }
 
+            if (baselineEntity.ItemzTypeId != Guid.Empty)
+            {
+                var foundItemzCountByItemzType = 
+                        await _baselineRepository.GetItemzCountByItemzTypeAsync(
+                            baselineEntity.ItemzTypeId);
+
+                if (foundItemzCountByItemzType == 0)
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Zero Itemz found in ItemzType with ID {ItemzTypeId}",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        baselineEntity.ItemzTypeId);
+                    return Conflict($"Zero Itemz found in ItemzType with ID '{baselineEntity.ItemzTypeId}'");
+                }
+            }
+            else
+            {
+                var foundItemzCountByProject =
+                        await _baselineRepository.GetItemzCountByProjectAsync(
+                            baselineEntity.ProjectId);
+
+                if (foundItemzCountByProject == 0)
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Zero Itemz found in Project with ID {ProjectId}",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        baselineEntity.ProjectId);
+                    return Conflict($"Zero Itemz found in Project with ID '{baselineEntity.ProjectId}'");
+                }
+
+            }
+
             try
             {
+                // EXPLANATION: Because baseline is created via User Defined Stored Procedure,
+                // We therefor do not call SaveAsync() method on the _baselineRepository. 
+                // Also notice that because we are returning newly created baseline GUID from 
+                // AddBaselineAsync method, that value is directly getting assigned to 
+                // baselineEntry.Id as we use it subsequently to send this GUID back to the 
+                // calling application so that they get correct GUID returned to them.
+
                 baselineEntity.Id = await _baselineRepository.AddBaselineAsync(baselineEntity);
-                // await _baselineRepository.SaveAsync();
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + dbUpdateException.InnerException,
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                     );
-                return Conflict($"Baseline with name '{baselineEntity.Name}' already exists in the repository");
+                return Conflict($"Baseline with name '{baselineEntity.Name}' already exists in the repository. DB Error reported, check the log file.");
             }
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Baseline with ID {BaselineId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -178,9 +202,9 @@ namespace ItemzApp.API.Controllers
         /// <summary>
         /// Updating exsting Baseline based on Baseline Id (GUID)
         /// </summary>
-        /// <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+        /// <param name="baselineId">GUID representing an unique ID of the Baseline that you want to update</param>
         /// <param name="baselineToBeUpdated">required Baseline properties to be updated</param>
-        /// <returns>No contents are returned but only Status 204 indicating that Baseline was updated successfully </returns>
+        /// <returns>No content are returned but only Status 204 indicating that Baseline was updated successfully </returns>
         /// <response code="204">No content are returned but status of 204 indicated that Baseline was successfully updated</response>
         /// <response code="404">Baseline based on baselineId was not found</response>
         /// <response code="409">Baseline with updated name already exists in the repository</response>
@@ -212,7 +236,7 @@ namespace ItemzApp.API.Controllers
 
             if (await _baselineRules.UniqueBaselineNameRuleAsync(baselineFromRepo.ProjectId, baselineToBeUpdated.Name!, baselineFromRepo.Name))
             {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Baseline with name {baselineToBeUpdated_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
+                _logger.LogDebug("{FormattedControllerAndActionNames}Baseline with name {baselineToBeUpdated_Name} already exists in the project with Id {baselineFromRepo_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     baselineToBeUpdated.Name,
                     baselineFromRepo.ProjectId);
@@ -231,7 +255,7 @@ namespace ItemzApp.API.Controllers
                 _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + dbUpdateException.InnerException,
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                     );
-                return Conflict($"Baseline with name '{baselineToBeUpdated.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'");
+                return Conflict($"Baseline with name '{baselineToBeUpdated.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'. DB Error reported, check the log file.");
             }
             _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
@@ -323,7 +347,7 @@ namespace ItemzApp.API.Controllers
                 _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + dbUpdateException.InnerException,
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                     );
-                return Conflict($"Baseline with name '{baselineToPatch.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'");
+                return Conflict($"Baseline with name '{baselineToPatch.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'. DB Error reported, check the log file.");
             }
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",

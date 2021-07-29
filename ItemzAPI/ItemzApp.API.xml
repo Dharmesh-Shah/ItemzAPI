@@ -6,8 +6,8 @@
     <members>
         <member name="M:ItemzApp.API.BusinessRules.Baseline.BaselineRules.HasBaselineWithNameAsync(System.Guid,System.String)">
             <summary>
-            Use this method to check if the Baseline with given name already exists. In General, 
-            This check shall be performed before inserting or updating Baseline.
+            Use this method to check if the Baseline with given name already exists within the same Project. 
+            In General, this check shall be performed before inserting or updating Baseline.
             </summary>
             <param name="projectId">Project Id in Guid form in which we are checking for Baseline with a specific name</param>
             <param name="baselineName">Name of the Baseline to be checked for uniqueness</param>
@@ -114,9 +114,9 @@
             <summary>
             Updating exsting Baseline based on Baseline Id (GUID)
             </summary>
-            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to update</param>
             <param name="baselineToBeUpdated">required Baseline properties to be updated</param>
-            <returns>No contents are returned but only Status 204 indicating that Baseline was updated successfully </returns>
+            <returns>No content are returned but only Status 204 indicating that Baseline was updated successfully </returns>
             <response code="204">No content are returned but status of 204 indicated that Baseline was successfully updated</response>
             <response code="404">Baseline based on baselineId was not found</response>
             <response code="409">Baseline with updated name already exists in the repository</response>

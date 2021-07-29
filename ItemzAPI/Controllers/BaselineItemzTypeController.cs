@@ -20,34 +20,25 @@ namespace ItemzApp.API.Controllers
 {
     [ApiController]
     //[Route("api/BaselineItemzType")]
-    [Route("api/[controller]")] // e.g. http://HOST:PORT/api/itemzs/BaselineItemzTypes
+    [Route("api/[controller]")] // e.g. http://HOST:PORT/api/BaselineItemzTypes
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class BaselineItemzTypesController : ControllerBase
     {
         private readonly IBaselineItemzTypeRepository _baselineItemzTypeRepository;
-       // private readonly IProjectRepository _projectRepository;
         private readonly IMapper _mapper;
-        // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<BaselineItemzTypesController> _logger;
 
         public BaselineItemzTypesController(IBaselineItemzTypeRepository baselineItemzTypeRepository,
-                                    //IProjectRepository projectRepository,
                                     IMapper mapper,
-                                    //IPropertyMappingService propertyMappingService,
-                                    ILogger<BaselineItemzTypesController> logger
+                                     ILogger<BaselineItemzTypesController> logger
                                     )
         {
             _baselineItemzTypeRepository = baselineItemzTypeRepository ?? throw new ArgumentNullException(nameof(baselineItemzTypeRepository));
-            //_projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
-            //_propertyMappingService = propertyMappingService ??
-            //    throw new ArgumentNullException(nameof(propertyMappingService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            //_itemzTypeRules = itemzTypeRules ?? throw new ArgumentNullException(nameof(itemzTypeRules));
-
         }
 
         /// <summary>

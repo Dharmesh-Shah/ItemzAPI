@@ -10,18 +10,15 @@ namespace ItemzApp.API.BusinessRules.Baseline
     public class BaselineRules : IBaselineRules
     {
         private readonly IBaselineRepository _baselineRepository;
-        private readonly ILogger<BaselineRules> _logger;
-        public BaselineRules(IBaselineRepository baselineRepository,
-                                 ILogger<BaselineRules> logger)
+        
+        public BaselineRules(IBaselineRepository baselineRepository)
         {
             _baselineRepository = baselineRepository ?? throw new ArgumentNullException(nameof(baselineRepository));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
         }
 
         /// <summary>
-        /// Use this method to check if the Baseline with given name already exists. In General, 
-        /// This check shall be performed before inserting or updating Baseline.
+        /// Use this method to check if the Baseline with given name already exists within the same Project. 
+        /// In General, this check shall be performed before inserting or updating Baseline.
         /// </summary>
         /// <param name="projectId">Project Id in Guid form in which we are checking for Baseline with a specific name</param>
         /// <param name="baselineName">Name of the Baseline to be checked for uniqueness</param>

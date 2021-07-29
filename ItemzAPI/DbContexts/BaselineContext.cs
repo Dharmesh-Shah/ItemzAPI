@@ -59,7 +59,7 @@ namespace ItemzApp.API.DbContexts
             // EXPLANATION: This way, we are adding Unique Index for Baseline Name.
             // It's not possible to use Attribute for creating Unique Index in
             // EF Core 3.1. That is why I'm using Fluent API for the same.
-            // Docs ca be found at ...
+            // Docs can be found at ...
             // https://docs.microsoft.com/en-us/ef/core/modeling/indexes
 
             modelBuilder.Entity<Baseline>()
@@ -119,7 +119,6 @@ namespace ItemzApp.API.DbContexts
                 .HasForeignKey(bitjbi => bitjbi.BaselineItemzId);
 
             #endregion
-
 
             #region ItemzTypeJoinItemz
             // EXPLANATION: Here we are defining a composite key for a join table.

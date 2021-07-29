@@ -244,6 +244,36 @@ namespace ItemzApp.API.Services
             return foundItemzByBaseline;
         }
 
+        public async Task<int> GetItemzCountByItemzTypeAsync(Guid ItemzTypeId)
+        {
+            if (ItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ItemzTypeId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
+            };
+            var foundItemzByItemzType = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByItemzType, sqlArgs);
+
+            return foundItemzByItemzType;
+        }
+
+        public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__ProjectID__", ProjectId.ToString()),
+            };
+            var foundItemzByProject = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+
+            return foundItemzByProject;
+        }
+
         public async Task<int> GetTotalBaselineItemzCountAsync()
         {
             KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[0];

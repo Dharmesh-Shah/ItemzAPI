@@ -445,635 +445,2056 @@
 			"name": "BusinessRule - UniqueBaselineNameRule",
 			"item": [
 				{
-					"name": "POST Baseline First Time",
-					"event": [
+					"name": "ByProjectID",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"",
-									"var jsonData = pm.response.json();",
-									"var tempNewBaselineid = jsonData[\"id\"];",
-									"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
-									"",
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"\r",
-									"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
-									"\r",
-									"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Baseline Second Time",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"",
-									"pm.test(\"Status code is 409\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST Baseline Two",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"",
-									"var jsonData = pm.response.json();",
-									"var tempNewBaselineid = jsonData[\"id\"];",
-									"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
-									"",
-									"pm.test(\"Status code is 201\", function () {",
-									"    pm.response.to.have.status(201);",
-									"});",
-									"",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									"\r",
-									"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
-									"\r",
-									"pm.variables.get(\"UniqueBaselineNameRule_2ndBaselineName\");\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH Baseline One Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json-patch+json"
-							},
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueBaselineNameRule - Baseline 1\"\r\n\t}\r\n]\r\n\t",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "VerifyEmptyProject",
+							"item": [
+								{
+									"name": "POST Project (WithNoItemz)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_NewProjectId\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_NewProjectName\", \"UniqueBaselineNameRule Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"UniqueBaselineNameRule_NewProjectName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{UniqueBaselineNameRule_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{UniqueBaselineNameRule_NewProjectName}}\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline (WithoutChildItemz)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 409\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{UniqueBaselineNameRule_NewProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Project by ID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/{{UniqueBaselineNameRule_NewProjectId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"{{UniqueBaselineNameRule_NewProjectId}}"
+											]
+										}
+									},
+									"response": []
 								}
-							}
+							]
 						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Baseline One Verify Name has been updated after patch",
-					"event": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test('The `Baseline Name` is a specific value', () => {",
-									"    var jsonData = pm.response.json(); ",
-									"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueBaselineNameRule - Baseline 1\");",
-									"    });"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH Baseline One Name to Existing Baseline Two Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json-patch+json"
-							},
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n\t}\r\n]\r\n\t",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "VerifySameBaselineNameInTwoDifferentProjects",
+							"item": [
+								{
+									"name": "POST Baseline in 1st Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline in 2nd Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{UniqueBaselineNameRule_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline Two",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{UniqueBaselineNameRule_2ndBaselineId}}"
+											]
+										}
+									},
+									"response": []
 								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
 							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Baseline One",
-					"event": [
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "conten",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"PUT - UniqueBaselineNameRule - Baseline 1\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "POST Baseline First Time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
 							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET Baseline One Verify Name has been updated after patch Copy",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test('The `Baseline Name` is a specific value', () => {",
-									"    var jsonData = pm.response.json(); ",
-									"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueBaselineNameRule - Baseline 1\");",
-									"    });"
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
 								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Baseline One",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "conten",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
+						{
+							"name": "POST Baseline Second Time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline Two",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UniqueBaselineNameRule_2ndBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Baseline One Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueBaselineNameRule - Baseline 1\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline One Verify Name has been updated after patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('The `Baseline Name` is a specific value', () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueBaselineNameRule - Baseline 1\");",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Baseline One Name to Existing Baseline Two Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "conten",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"PUT - UniqueBaselineNameRule - Baseline 1\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline One Verify Name has been updated after patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('The `Baseline Name` is a specific value', () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueBaselineNameRule - Baseline 1\");",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "conten",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline Two",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "DELETE Baseline One",
-					"event": [
+					"name": "ByItemzTypeID",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//pm.test(\"Status code is either 201 or 409\", function () {",
-									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-									"//});",
-									"",
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_1stBaselineId}}"
+							"name": "Verify Empty ItemzType",
+							"item": [
+								{
+									"name": "POST Baseline (WithoutChildItemz)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 409\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"itemzTypeId\": \"52ca1dfc-b187-47fc-a379-57af33404b34\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								}
 							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "DELETE Baseline Two",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//pm.test(\"Status code is either 201 or 409\", function () {",
-									"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-									"//});",
-									"",
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});",
-									""
-								],
-								"type": "text/javascript"
-							}
 						},
 						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
+							"name": "POST Baseline First Time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
 							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Baselines",
-								"{{UniqueBaselineNameRule_2ndBaselineId}}"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline Second Time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline Two",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UniqueBaselineNameRule_2ndBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Baseline One Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueBaselineNameRule - Baseline 1\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline One Verify Name has been updated after patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('The `Baseline Name` is a specific value', () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueBaselineNameRule - Baseline 1\");",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Baseline One Name to Existing Baseline Two Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "conten",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"PUT - UniqueBaselineNameRule - Baseline 1\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline One Verify Name has been updated after patch",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('The `Baseline Name` is a specific value', () => {",
+											"    var jsonData = pm.response.json(); ",
+											"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueBaselineNameRule - Baseline 1\");",
+											"    });"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "conten",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline Two",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline in 1st Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline in 2nd Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"itemzTypeId\": \"8414bf58-6331-4b3e-bbf0-f780950a337b\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline One",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Baseline Two",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UniqueBaselineNameRule_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -11373,6 +12794,124 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "POST Baseline (WrongProjectID)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"02f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline {WrongID)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{$randomUUID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{$randomUUID}}"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
@@ -11768,7 +13307,7 @@
 									"response": []
 								},
 								{
-									"name": "GET TotalBaselineItemz Count By Repository Copy",
+									"name": "GET TotalBaselineItemz Count By Repository",
 									"event": [
 										{
 											"listen": "test",
@@ -12092,7 +13631,7 @@
 									"response": []
 								},
 								{
-									"name": "DELETE Newly Created Baseline Copy",
+									"name": "DELETE Newly Created Baseline",
 									"event": [
 										{
 											"listen": "test",
@@ -12823,6 +14362,125 @@
 												"api",
 												"Baselines",
 												"{{ByItemzTypeID_BaselineCreateGetDeleteGet_NewBaselineID}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline (WrongProjectId)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"projectId\": \"02f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n  \"name\": \"New Baseline {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n  \"description\": \"This is a First Baseline\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline {WrongID)",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 404\", function () {",
+													"    pm.response.to.have.status(404);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"type": "text",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"type": "text",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{$randomUUID}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{$randomUUID}}"
 											]
 										}
 									},
@@ -14982,6 +16640,14 @@
 		},
 		{
 			"key": "UniqueBaselineNameRule_2ndBaselineId",
+			"value": ""
+		},
+		{
+			"key": "UniqueBaselineNameRule_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "UniqueBaselineNameRule_NewProjectName",
 			"value": ""
 		},
 		{
