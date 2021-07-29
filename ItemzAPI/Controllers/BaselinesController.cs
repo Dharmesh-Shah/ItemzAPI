@@ -214,7 +214,8 @@ namespace ItemzApp.API.Controllers
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Baseline with name {baselineToBeUpdated_Name} already exists in the project with Id {ItemzTypeFromRepo_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    baselineToBeUpdated.Name);
+                    baselineToBeUpdated.Name,
+                    baselineFromRepo.ProjectId);
                 return Conflict($"Baseline with name '{baselineToBeUpdated.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'");
             }
 
@@ -306,7 +307,8 @@ namespace ItemzApp.API.Controllers
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Baseline with name {baselineToPatch_Name} already exists in the project with Id {BaselineFromRepo_ProjectId}",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    baselineToPatch.Name);
+                    baselineToPatch.Name,
+                    baselineFromRepo.ProjectId);
                 return Conflict($"Baseline with name '{baselineToPatch.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'");
             }
 
