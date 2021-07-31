@@ -243,6 +243,13 @@ namespace ItemzApp.API.Services
 
             return foundItemzByBaseline;
         }
+        
+        public async Task<int> GetOrphanedBaselineItemzCount()
+        {
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[0];
+            var foundTotalBaselineItemzInRepository = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetOrphanedBaselineItemzCount, sqlArgs);
+            return foundTotalBaselineItemzInRepository;
+        }
 
         public async Task<int> GetItemzCountByItemzTypeAsync(Guid ItemzTypeId)
         {

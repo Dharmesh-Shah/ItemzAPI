@@ -441,6 +441,24 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Get total number of Orphaned BaselineItemz in Repository
+        /// </summary>
+        /// <returns>Total Number of Orphaned BaselineItemz found in entire Repository. Zero if none found.</returns>
+        /// <response code="200">Returns total number of Orphaned BaselineItemz count that are present in the Repository.</response>
+        [HttpGet("GetOrphanedBaselineItemzCount", Name = "__GET_Orphaned_BaselineItemz_Count__")]
+        [HttpHead("GetOrphanedBaselineItemzCount", Name = "__HEAD_Orphaned_BaselineItemz_Count__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetOrphanedBaselineItemzCountInRepository()
+        {
+            var foundOrphanedBaselineItemzCountInRepository = await _baselineRepository.GetOrphanedBaselineItemzCount();
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundTotalBaselineItemzCountInRepository} Orphaned BaselineItemz records in current Repository",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundOrphanedBaselineItemzCountInRepository);
+            return foundOrphanedBaselineItemzCountInRepository;
+        }
+
+        /// <summary>
         /// Get total number of BaselineItemz in Repository
         /// </summary>
         /// <returns>Total Number of BaselineItemz found in entire Repository. Zero if none found.</returns>

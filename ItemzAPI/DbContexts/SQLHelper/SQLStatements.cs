@@ -103,6 +103,17 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion BaselineItemzCountByBaselineItemzType
 
+        #region Baseline_OrphanedBaseilneItemzCount
+
+        public static readonly string SQLStatementFor_GetOrphanedBaselineItemzCount =
+            "SELECT COUNT(bi.id) " +
+            "FROM[dbo].[BaselineItemz] as bi " +
+            "LEFT JOIN[dbo].[BaselineItemzTypeJoinBaselineItemz] as bitjbi " +
+            "ON bitjbi.BaselineItemzId = bi.id " +
+            "WHERE bitjbi.BaselineItemzId IS NULL";
+
+        #endregion Baseline_OrphanedBaseilneItemzCount
+
         //#region CreateBaselineViaUserStoredProcedure
 
         //public static readonly string SQLStatementFor_CreateBaselineByProjectID =
