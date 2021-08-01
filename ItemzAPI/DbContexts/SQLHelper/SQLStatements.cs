@@ -107,11 +107,11 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         public static readonly string SQLStatementFor_GetOrphanedBaselineItemzCount =
             "SELECT COUNT(bi.id) " +
-            "FROM[dbo].[BaselineItemz] as bi " +
+            "FROM [dbo].[BaselineItemz] as bi " +
             "LEFT JOIN[dbo].[BaselineItemzTypeJoinBaselineItemz] as bitjbi " +
             "ON bitjbi.BaselineItemzId = bi.id " +
             "WHERE bitjbi.BaselineItemzId IS NULL";
-
+            
         #endregion Baseline_OrphanedBaseilneItemzCount
 
         //#region CreateBaselineViaUserStoredProcedure
