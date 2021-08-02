@@ -11,28 +11,15 @@ namespace ItemzApp.API.Services
     {
         public Task<BaselineItemzType?> GetBaselineItemzTypeAsync(Guid BaselineItemzTypeId);
 
-        //public Task<Baseline?> GetBaselineForUpdateAsync(Guid BaselineId);
-
         public Task<IEnumerable<BaselineItemzType>?> GetBaselineItemzTypesAsync();
-        
-        //public Task<IEnumerable<BaselineItemzType>?> GetBaselineItemzTypesAsync(Guid BaselineId);
-        
+       
         public Task<IEnumerable<BaselineItemzType>> GetBaselineItemzTypesAsync(IEnumerable<Guid> baselineItemzTypeIds);
-
-        //public Task AddBaselineAsync(Baseline baseline);
-
-        //public Task<bool> SaveAsync();
         
         public Task<bool> BaselineItemzTypeExistsAsync(Guid baselineItemzTypeId);
-
-        //public void UpdateBaseline(Baseline baseline);
-
-        //public void DeleteBaseline(Baseline baseline);
 
         Task<int> GetBaselineItemzCountByBaselineItemzTypeAsync(Guid BaselineItemzTypeId);
 
         public Task<bool> HasBaselineItemzTypeWithNameAsync(Guid baselineId, string baselineItemzTypeName);
 
-        //public Task<bool> ProjectExistsAsync(Guid projectId);
     }
 }

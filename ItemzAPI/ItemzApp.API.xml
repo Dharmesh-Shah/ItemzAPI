@@ -59,6 +59,52 @@
             <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
             <returns>true if project with same name exist in the repository otherwise false</returns>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzAsync(System.Guid)">
+            <summary>
+            Get a BaselineItemz by ID (represented by a GUID)
+            </summary>
+            <param name="BaselineItemzId">GUID representing an unique ID of the BaselineItemz that you want to get</param>
+            <returns>A single BaselineItemz record based on provided ID (GUID) </returns>
+            <response code="200">Returns the requested BaselineItemz</response>
+            <response code="404">Requested BaselineItemz not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzsByItemzIdAsync(System.Guid)">
+            <summary>
+            Gets collection of BaselineItemzs for the given ItemzID
+            </summary>
+            <returns>Collection of BaselineItemzs based on given ItemzID</returns>
+            <response code="200">Returns collection of BaselineItemzs based on given ItemzID</response>
+            <response code="404">No BaselineItemzs were found for the given ItemzID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzCountByItemzIdAsync(System.Guid)">
+            <summary>
+            Get total number of BaselineItemz by ItemzId
+            </summary>
+            <param name="itemzId">Provide ItemzId representated in GUID form</param>
+            <returns>Number of BaselineItemz found for the given ItemzId. Zero if none found.</returns>
+            <response code="200">Returns number of BaselineItemz count that were associated with a given ItemzId</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Gets collection of BaselineItemzs
+            </summary>
+            <param name="baselineItemzids">Array of BaselineItemz Id (in GUID form) for which details has to be returned to the caller</param>
+            <returns>Collection of BaselineItemz that are requested via Array of BaselineItemz Id</returns>
+            <response code="200">Collection of BaselineItemzs property details based on BaselineItemz Ids that were passed in as parameter</response>
+            <response code="500">Bad Request - BaselineItemz Ids should be passed in as parameter</response>
+            <response code="404">No BaselineItemzs were found based on provided list of BaselineItemz Ids</response>
+            <remarks>
+            Sample request (this request will get BaselineItemz by Ids) \
+            GET api/BaselineItemz/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzsOptions">
+            <summary>
+            Get list of supported HTTP Options for the BaselineItemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypeAsync(System.Guid)">
             <summary>
             Get a BaselineItemzType by ID (represented by a GUID)
@@ -805,6 +851,58 @@
         <member name="P:ItemzApp.API.Models.GetBaselineDTO.CreatedDate">
             <summary>
             Date and Time when Baseline was created
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.GetBaselineItemzDTO">
+            <summary>
+            BaselineItemz class containing several properties that represents it.
+            This BaselineItemz class is returned by the "ItemzApp.API" in most of the cases when
+            user sends request to read a BaselineItemz record.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Id">
+            <summary>
+            Id of the BaselineItemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.ItemzId">
+            <summary>
+            Id of the Itemz as GUID based on which BaselineItemz was created.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Name">
+            <summary>
+            Name or Title of the BaselineItemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Status">
+            <summary>
+            Status of the BaselineItemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Priority">
+            <summary>
+            Priority of the BaselineItemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Description">
+            <summary>
+            Description of the BaselineItemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.CreatedBy">
+            <summary>
+            User who created the BaselineItemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.CreatedDate">
+            <summary>
+            Date and Time when BaselineItemz was created
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.Severity">
+            <summary>
+            Severity of the BaselineItemz
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.GetBaselineItemzTypeDTO">

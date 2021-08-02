@@ -143,6 +143,7 @@ namespace ItemzApp.API
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IItemzTypeRepository, ItemzTypeRepository>();
             services.AddScoped<IBaselineRepository, BaselineRepository>();
+            services.AddScoped<IBaselineItemzRepository, BaselineItemzRepository>();
             services.AddScoped<IBaselineItemzTypeRepository, BaselineItemzTypeRepository>();
             services.AddScoped<IProjectRules,ProjectRules>();
             services.AddScoped<IItemzTypeRules, ItemzTypeRules>();

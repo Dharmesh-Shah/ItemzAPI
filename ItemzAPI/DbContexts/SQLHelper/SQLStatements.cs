@@ -88,6 +88,10 @@ namespace ItemzApp.API.DbContexts.SQLHelper
                 "where BaselineId = @__BaselineID__) "+ 
                 ")";
 
+        public static readonly string SQLStatementFor_GetBaselineItemzByItemzId =
+            "select count(Id) from [dbo].[BaselineItemz] as bi " +
+            "where bi.ItemzId = @__ItemzId__";
+
         public static readonly string SQLStatementFor_GetTotalBaselineItemzInRepository =
             "select count(1) from BaselineItemz";
 
@@ -114,14 +118,5 @@ namespace ItemzApp.API.DbContexts.SQLHelper
             
         #endregion Baseline_OrphanedBaseilneItemzCount
 
-        //#region CreateBaselineViaUserStoredProcedure
-
-        //public static readonly string SQLStatementFor_CreateBaselineByProjectID =
-        //    "EXEC userProcCreateBaselineByProjectID " +
-        //    "@Name = @__ProjectBaselineName__ " +
-        //    "@Description = @__Description__  " +
-        //    "@ProjectId = @__ProjectId__";
-
-        //#endregion CreateBaselineViaUserStoredProcedure
     }
 }
