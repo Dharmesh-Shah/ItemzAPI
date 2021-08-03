@@ -2771,6 +2771,5242 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "UpdateItemzAndCompareSnapshots",
+			"item": [
+				{
+					"name": "Create New Project ItemzType and Itemz",
+					"item": [
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of total BaselineItemz at repository level and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\", parseInt(pm.response.text()));",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Project (WithNoItemz)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewProjectId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewProjectName\", \"UpdateItemzAndCompareSnapshots Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UpdateItemzAndCompareSnapshots_NewProjectName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{UpdateItemzAndCompareSnapshots_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{UpdateItemzAndCompareSnapshots_NewProjectName}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create 2 ItemzTypes and 3 Itemzs in each",
+					"item": [
+						{
+							"name": "POST ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_New1stItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{UpdateItemzAndCompareSnapshots_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 1st ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewItemzId_01_0\"+ (i+1).toString() , tempItemz.id);",
+											"        pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_0\"+ (i+1).toString() , tempItemz.name);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{UpdateItemzAndCompareSnapshots_New1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{UpdateItemzAndCompareSnapshots_New1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST ItemzType 2nd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_New2ndItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 2.\",\r\n    \"projectId\": \"{{UpdateItemzAndCompareSnapshots_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 2nd ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewItemzId_02_0\"+ (i+1).toString() , tempItemz.id);",
+											"        pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_0\"+ (i+1).toString() , tempItemz.name);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{UpdateItemzAndCompareSnapshots_New2ndItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{UpdateItemzAndCompareSnapshots_New2ndItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\"))+ 0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take 1st Snapshot By ProjectID and Verify",
+					"item": [
+						{
+							"name": "POST 1st Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_1stBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_1stBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UpdateItemzAndCompareSnapshots_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{UpdateItemzAndCompareSnapshots_NewProjectId}}\",\r\n    \"name\": \"{{UpdateItemzAndCompareSnapshots_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UpdateItemzAndCompareSnapshots_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\"));",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Update Itemz Name",
+					"item": [
+						{
+							"name": "PATCH Itemz Name 01_01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_01_01}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name 01_02",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_01_02}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name 01_03",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_01_03}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name 02_01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_02_01}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name 02_02",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_02_02}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH Itemz Name 02_03",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json-patch+json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UpdateItemzAndCompareSnapshots_NewItemzName_02_03}} {{UpdateItemzAndCompareSnapshots_AppendTextInItemzName}}\"\r\n\t}\r\n]\r\n\t",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take 2nd Snapshot By ProjectID and Verify",
+					"item": [
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_2ndBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_2ndBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UpdateItemzAndCompareSnapshots_2ndBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{UpdateItemzAndCompareSnapshots_NewProjectId}}\",\r\n    \"name\": \"{{UpdateItemzAndCompareSnapshots_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UpdateItemzAndCompareSnapshots_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\")) ",
+											"        + 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\"));",
+											"    });    ",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\")",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    "
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take 3rd Snapshot By ItemzTypeID and Verify",
+					"item": [
+						{
+							"name": "POST 3rd Baseline by ItemzTypeID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_3rdBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_3rdBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_3rdBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"UpdateItemzAndCompareSnapshots_3rdBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{UpdateItemzAndCompareSnapshots_NewProjectId}}\",\r\n    \"itemzTypeId\": \"{{UpdateItemzAndCompareSnapshots_New2ndItemzTypeId}}\",      \r\n    \"name\": \"{{UpdateItemzAndCompareSnapshots_3rdBaselineName}}\",\r\n    \"description\": \"This is Description for {{UpdateItemzAndCompareSnapshots_3rdBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\")) ",
+											"        + 6 + 6 + 3);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 3rd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[2].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 3rd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[2].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });        "
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 3rd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[2].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(3)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(3)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(3)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TEST few Extra Endpoints",
+					"item": [
+						{
+							"name": "GET BaselineItemz 02_02 Set IDs in Variables",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempBaselineItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_0\"+ (i+1).toString() , tempBaselineItemz.id);",
+											"    }    "
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz By ID 02_02_01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz By ID 02_02_02",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz By ID 02_02_03",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Collection by IDs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found\", function () {",
+											"    var jsonData = pm.response.json();",
+											"        pm.expect(jsonData.length).to.eql(3);",
+											"    }",
+											"    );",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/({{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}})",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"({{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}})"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 2nd Snapshot and Verify",
+					"item": [
+						{
+							"name": "DELETE 2nd Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{UpdateItemzAndCompareSnapshots_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{UpdateItemzAndCompareSnapshots_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\")) ",
+											"        + 6 + 3);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_01\"));",
+											"    });    ",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_02\"));",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_01_03\"));",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_01\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_02\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test('Verify that Name of BaselineItemz is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[0].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\"));",
+											"    });    ",
+											"",
+											"",
+											"pm.test('Verify that Name of BaselineItemz in 2nd Snapshot is as expected ', () => {",
+											"    var tempBaselineItemz = pm.response.json(); ",
+											"    pm.expect(tempBaselineItemz[1].name).to.eql(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_NewItemzName_02_03\") ",
+											"    + \" \"",
+											"    + pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_AppendTextInItemzName\")  ",
+											"    );",
+											"    });    ",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(1)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(1)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 01_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(1)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_01 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_02 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz Count 02_03 and Verify",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzCount/{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzCount",
+										"{{UpdateItemzAndCompareSnapshots_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete New Project",
+					"item": [
+						{
+							"name": "DELETE Newly Created Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/{{UpdateItemzAndCompareSnapshots_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"{{UpdateItemzAndCompareSnapshots_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"MultipleSnapshotsAndCleanUp_InitialCountOfBaselineItemz\"))+",
+											"         0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -2852,6 +8088,114 @@
 		},
 		{
 			"key": "MultipleSnapshotsAndCleanUp_4thBaselineId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz",
+			"value": "0"
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewProjectName",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_New1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_01_01",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_01_02",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_01_02",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_01_03",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_01_03",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_New2ndItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_02_01",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_02_01",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_02_02",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_02_02",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzId_02_03",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_NewItemzName_02_03",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_AppendTextInItemzName",
+			"value": "IGNOREME SUFFIX"
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_1stBaselineName",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_1stBaselineId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_2ndBaselineName",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_2ndBaselineId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_3rdBaselineName",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_3rdBaselineId",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02",
+			"value": ""
+		},
+		{
+			"key": "UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03",
 			"value": ""
 		}
 	]
