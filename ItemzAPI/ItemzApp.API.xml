@@ -620,6 +620,21 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingBaselinesController.DeleteBaselineAsync(System.Guid)">
+            <summary>
+            Deleting a specific Baseline leaving Orphaned BaselineItemz behind
+            </summary>
+            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified Baseline was successful</returns>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ONLYforTestingBaselinesController.GetBaselinesOptions">
+            <summary>
+            Get list of supported HTTP Options for the Baselines controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemzAsync(ItemzApp.API.Entities.Itemz)">
             <summary>
             This option is designed only to be used for adding a new record while testing ItemzApp API.
