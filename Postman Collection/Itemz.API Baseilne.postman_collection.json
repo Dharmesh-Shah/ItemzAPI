@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ef426eeb-0e6e-4420-b22c-51e24f0616d5",
+		"_postman_id": "478c2a40-937f-4ef4-b1c2-551367a03df9",
 		"name": "Itemz.API Baseilne",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -2776,7 +2776,7 @@
 			"name": "UpdateItemzAndCompareSnapshots",
 			"item": [
 				{
-					"name": "Create New Project ItemzType and Itemz",
+					"name": "Create New Project",
 					"item": [
 						{
 							"name": "GET TotalBaselineItemz Count By Repository",
@@ -7892,7 +7892,1981 @@
 											"",
 											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 											"    pm.expect(parseInt(pm.response.text())).to.eql(",
-											"        parseInt(pm.collectionVariables.get(\"MultipleSnapshotsAndCleanUp_InitialCountOfBaselineItemz\"))+",
+											"        parseInt(pm.collectionVariables.get(\"UpdateItemzAndCompareSnapshots_InitialCountOfBaselineItemz\"))+",
+											"         0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "VerifySQLQueryForOrphanedBaselineItemzWorks",
+			"item": [
+				{
+					"name": "Create New Project",
+					"item": [
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of total BaselineItemz at repository level and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\", parseInt(pm.response.text()));",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Project (WithNoItemz)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectName\", \"VerifySQLQueryForOrphanedBaselineItemzWorks Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectName}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create 2 ItemzTypes and 3 Itemzs in each",
+					"item": [
+						{
+							"name": "POST ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_New1stItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 1st ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_01_0\"+ (i+1).toString() , tempItemz.id);",
+											"        pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_01_0\"+ (i+1).toString() , tempItemz.name);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifySQLQueryForOrphanedBaselineItemzWorks_New1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_New1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST ItemzType 2nd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_New2ndItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 2.\",\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 2nd ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_02_0\"+ (i+1).toString() , tempItemz.id);",
+											"        pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_02_0\"+ (i+1).toString() , tempItemz.name);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifySQLQueryForOrphanedBaselineItemzWorks_New2ndItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_New2ndItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ 0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take FOUR Snapshots By ProjectID",
+					"item": [
+						{
+							"name": "POST 1st Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName\");\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\",\r\n    \"name\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName\");\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\",\r\n    \"name\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3rd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName\");\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\",\r\n    \"name\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 4th Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName\");\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}\",\r\n    \"name\": \"{{VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ ",
+											"        6 + 6 + 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 1st Snapshot",
+					"item": [
+						{
+							"name": "DELETE 1st Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ 6 + 6 + 6 );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 2nd Snapshot via ONLYforTesting",
+					"item": [
+						{
+							"name": "Delete 2nd Baseline via ONLYforTesting",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ONLYforTestingBaselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ONLYforTestingBaselines",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ ",
+											"        6 + 6 + 6 );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(6)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 3rd Snapshot via ONLYforTesting",
+					"item": [
+						{
+							"name": "Delete 3rd Baseline via ONLYforTesting",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ONLYforTestingBaselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ONLYforTestingBaselines",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ ",
+											"        6 + 6 + 6 );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(6 + 6)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 4th Snapshot",
+					"item": [
+						{
+							"name": "DELETE 4th Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ 0 );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete New Project",
+					"item": [
+						{
+							"name": "DELETE Newly Created Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+",
 											"         0);",
 											"});",
 											"",
@@ -8196,6 +10170,106 @@
 		},
 		{
 			"key": "UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz",
+			"value": "0"
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectName",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_New1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_01_02",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_01_02",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_01_03",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_01_03",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_New2ndItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_02_01",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_02_01",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_02_02",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_02_02",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzId_02_03",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_NewItemzName_02_03",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_1stBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineId",
 			"value": ""
 		}
 	]
