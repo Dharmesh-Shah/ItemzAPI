@@ -47,5 +47,9 @@ namespace ItemzApp.API.Models
         /// Severity of the BaselineItemz
         /// </summary>
         public string? Severity { get; set; }
+        /// <summary>
+        /// Indicates if BaselineItemz is included in the Baseline
+        /// </summary>
+        public bool isIncluded { get; set; }
     }
 }

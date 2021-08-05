@@ -920,6 +920,11 @@
             Severity of the BaselineItemz
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.GetBaselineItemzDTO.isIncluded">
+            <summary>
+            Indicates if BaselineItemz is included in the Baseline
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.GetBaselineItemzTypeDTO">
             <summary>
             BaselineItemzTypeDTO is a POCO used for serving requests like 

@@ -386,9 +386,22 @@ namespace ItemzApp.API.DbContexts
             modelBuilder.Entity<BaselineItemz>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<BaselineItemz>(entity =>
             {
-                entity.Property(e => e.Id)
+                entity.Property(bi => bi.Id)
                     .ValueGeneratedOnAdd();
             });
+
+            // EXPLANATION: This will make sure that isIncluded property is set with default value 1 (as true)
+            // in SQL Server Database. This means that by default BaselineItemz are included in the
+            // Baseline and while we support Shrinking Baseline model, user can exclude specific 
+            // BaselineItemzs from the baseline at later stage.
+
+            modelBuilder.Entity<BaselineItemz>(entity =>
+            {
+                entity.Property(bi => bi.isIncluded)
+                    .HasDefaultValue(true);
+            });
+
+
             #endregion
 
             #region BaselineItemzTypeJoinBaselineItemz

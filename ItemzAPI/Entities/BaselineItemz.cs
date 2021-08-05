@@ -44,5 +44,9 @@ namespace ItemzApp.API.Entities
         public List<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
 
         public Guid IgnoreMeBaselineItemzTypeId { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public bool isIncluded { get; set; } = true;
+
     }
 }
