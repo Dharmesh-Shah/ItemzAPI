@@ -8,7 +8,7 @@ Main purpose of this project is to help users and teams to **`do it right`** and
 
 Currently we are capturing  requirements for this project as Markdown files within this same repository. You can find them under [Docs and Notes](https://github.com/Dharmesh-Shah/ItemzAPI/tree/master/ItemzAPI/01%20Docs%20and%20Notes). 
 
-Current challenges that we are working on can be found at ... [Feature we are developing](#Feature-we-are-developing).
+Current challenges that we are working on can be found at ... [Feature we are developing and recently delivered section](#feature-we-recently-delivered).
 
 **Your contributions as well as direction / support from community is much appreciated.**
 
@@ -74,7 +74,7 @@ In  June and July 2021 we implemented
  - Added POSTMAN scripts for testing various scenarios around Baselining Feature
  - Upgrade to latest version of dependent Nuget packages
 
-Project's Next Challenges are 
+## Project's Next Challenges are 
 
  - Design and implement Shrinking Baselines capabilities
  - Research and Prototype for HTML / MarkDown editor
