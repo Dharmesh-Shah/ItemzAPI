@@ -58,8 +58,8 @@ DECLARE @CurrentItemzTypeID [uniqueidentifier]
 			SET @CurrentItemzTypeID = (SELECT TempItemzTypeID from  @TempBaselineItemzType WHERE idx = @TempBaselineItemzTypeIterator)
 			
 			-- Insert records in BaselineItemz from Itemzs table.
-			INSERT into [dbo].[BaselineItemz] (ItemzId, Name, Status, Priority, Description, CreatedBy,CreatedDate,Severity,IgnoreMeBaselineItemzTypeId)   
-			SELECT itz.Id, itz.Name, itz.Status, itz.Priority, itz.Description, itz.CreatedBy, itz.CreatedDate, itz.Severity , @CurrentBaselineItemzTypeID
+			INSERT into [dbo].[BaselineItemz] (ItemzId, Name, Status, Priority, Description, CreatedBy,CreatedDate,Severity,IgnoreMeBaselineItemzTypeId,isIncluded)   
+			SELECT itz.Id, itz.Name, itz.Status, itz.Priority, itz.Description, itz.CreatedBy, itz.CreatedDate, itz.Severity , @CurrentBaselineItemzTypeID, 1 as isIncluded
 			FROM [dbo].[Itemzs] as itz
 			LEFT JOIN [dbo].[ItemzTypeJoinItemz] as itji ON itji.ItemzId = itz.id
 			WHERE itji.ItemzTypeId=@CurrentItemzTypeID
