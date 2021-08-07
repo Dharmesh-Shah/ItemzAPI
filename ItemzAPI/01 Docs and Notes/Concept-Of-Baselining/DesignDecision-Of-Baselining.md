@@ -82,6 +82,28 @@ Lets leave BaselineItemz as Parent and BaselineTypeJoinBaselineItemz as child wi
 
 What we might encounter is that some repositories may have large number of Orphend BaselineItemz when Project / Baseline / BaselineItemz is deleted. 
 
+# Including or Excluding collection of BaselineItemzs should belong to a single Baseline
+
+
+Users shall mainly perform maintenance of BaselineItemzs from ItemzAPP Web UI. This means via the UI, it will send request to update collection of BaselineItemzs to be either included / excluded against a single Baseline. In this scenario, we don't have to worry much about making sure that BaselineItemzs belongs to a single baseline itself. In this case, we expect that ItemzApp will have necessary logic baked into it for first querying for BaselineItemz(s) against a given Baseline and then allow users to include / exclude those BaselineItemz(s). 
+
+On the other hand, we will have users who write custom scripts, custom applications, custom integrations, etc. that will consume ItemzAPI directly. In this case, we don't want them to update information about inclusion or exclusion for collection of BaselineItemz(s) that belongs to multiple different Baselines. We shall implement necessary check to make sure that BaselineItemz(s) belongs to a single Baseline itself. This way, we don't accidently update BaselineItemz(s) details from unintended baselines that belongs to either different project altogether or for some other user. 
+
+In the future, most of the things shall fall in place when system will have access rights and authorization management capabilities in place. This way, we would block users from updating details about BaselineItemz(s) from other Baselines as they might not have permission to do so. That said, this check is good one to make sure that users shall not update BaselineItemz(s) data in unexpected Baselines even by accident. 
+
+ItemzAPI shall make sure that entire request for updating BaselineItemz(s) is cancelled / ignored event when a single BaselineItemz does not belong to intended Baseline. It would be ideal to check for all and send back detail about which all BaselineItemz(s) does not belong to the target Baseline but this is something we can look into in the future. For now an error along with ID of the failed BaselineItemz shall be returned. 
+
+### Conclusion
+
+We expect BaselineItemzs to be included / excluded as per user needs. This shall allow users to perform some adjustments to the Baseline before finalizing the same. In many cases, users shall update the project data and then take yet another baseline and remove the first one which is obsolete. That said, sometimes it’s necessary to just remove few selective BaselineItemzs from the Baseline and generate output from the same on the fly. 
+So support for Shrinking Baseline shall allow users to adjust BaselineItemzs that belongs to a single baseline for now.
+
+
+ 
+
+
+
+
 
 
 
