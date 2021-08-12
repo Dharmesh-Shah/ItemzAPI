@@ -32,6 +32,7 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID_202108061231.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202108061231.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcUpdateBaselineItemz.sql" />
 	</ItemGroup>
 	
   <ItemGroup>
