@@ -9,6 +9,7 @@ namespace ItemzApp.API.Profiles
         public BaselineItemzProfile()
         {
             CreateMap<Entities.BaselineItemz, Models.GetBaselineItemzDTO>(); // Used for creating GetBaselineItemzDTO based on BaselineItemz object.
+            CreateMap<Models.UpdateBaselineItemzDTO, Entities.UpdateBaselineItemz>(); // Used for creating UpdateBaselineItemz based on UpdateBaselineItemzDTO object.
         }
     }
 }

@@ -98,6 +98,15 @@
             GET api/BaselineItemz/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
             </remarks>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.UpdateBaselineItemzsPutAsync(ItemzApp.API.Models.UpdateBaselineItemzDTO)">
+            <summary>
+            Updating existing BaseilneItemzs for inclusion or exclusion from it's Baseline
+            </summary>
+            <param name="baselineItemzsToBeUpdated">required instructions of inclusion or exclusion of BaselineItemzs from Baseline. </param>
+            <returns>No contents are returned but only Status 204 indicating that BaselineItemzs were updated successfully </returns>
+            <response code="204">No content are returned but status of 204 indicated that BaselineItemzs were successfully updated</response>
+            <response code="404">Either Baseline not found OR BaselineItemzs were not found.</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzsOptions">
             <summary>
             Get list of supported HTTP Options for the BaselineItemz controller.
@@ -785,6 +794,28 @@
             Itemz Severity list values as ENUM
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Entities.UpdateBaselineItemz">
+            <summary>
+            BaselineItemz are mainly readonly objects. 
+            Purpose of this UpdateBaselineItemzDTO is to allow setting property for 
+            inclusion or exclusion of BaselineItemz from a given baseline itself.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Entities.UpdateBaselineItemz.BaselineId">
+            <summary>
+            Id of the Baseline represented by a GUID
+            </summary>
+        </member>
+        <member name="F:ItemzApp.API.Entities.UpdateBaselineItemz.ShouldBeIncluded">
+            <summary>
+            True if action is to include BaselineItemzs otherwise False
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Entities.UpdateBaselineItemz.BaselineItemzIds">
+            <summary>
+            Id of the BaselineItemz represented by a GUID.
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.CreateBaselineDTO">
             <summary>
             CreateBaselineDTO shall be used for sending in request for creating new Baseline.
@@ -1241,6 +1272,28 @@
             UpdateBaselineDTO shall be used for sending in request for updating
             existing Baseline. It will expose necessary properties to allow existing
             Baseline to be updated with new values for those properties.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.UpdateBaselineItemzDTO">
+            <summary>
+            BaselineItemz are mainly readonly objects. 
+            Purpose of this UpdateBaselineItemzDTO is to allow setting property for 
+            inclusion or exclusion of BaselineItemz from a given baseline itself.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.BaselineId">
+            <summary>
+            Id of the Baseline represented by a GUID
+            </summary>
+        </member>
+        <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.ShouldBeIncluded">
+            <summary>
+            True if action is to include BaselineItemzs otherwise False
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.BaselineItemzIds">
+            <summary>
+            Id of the BaselineItemz represented by a GUID.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.UpdateItemzDTO">

@@ -259,14 +259,14 @@ namespace ItemzApp.API.Controllers
             return Ok(foundNumberOfOrphanItemz);
         }
 
-            /// <summary>
-            /// Used for creating new Itemz record in the database
-            /// </summary>
-            /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
-            /// <returns>Newly created Itemz property details</returns>
-            /// <response code="201">Returns newly created itemzs property details</response>
+        /// <summary>
+        /// Used for creating new Itemz record in the database
+        /// </summary>
+        /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+        /// <returns>Newly created Itemz property details</returns>
+        /// <response code="201">Returns newly created itemzs property details</response>
 
-            [HttpPost (Name ="__POST_Create_Itemz__")]
+        [HttpPost (Name ="__POST_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO)

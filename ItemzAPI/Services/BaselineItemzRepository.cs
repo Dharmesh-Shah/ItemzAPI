@@ -5,10 +5,12 @@ using ItemzApp.API.DbContexts.Extensions;
 using ItemzApp.API.DbContexts.SQLHelper;
 using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace ItemzApp.API.Services
 {
@@ -78,6 +80,77 @@ namespace ItemzApp.API.Services
                 .OrderBy(bi => bi.Name)
                 .ToListAsync();
         }
+
+        public async Task<bool> UpdateBaselineItemzsAsync(UpdateBaselineItemz updateBaselineItemz)
+        {
+            if (updateBaselineItemz.BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(updateBaselineItemz.BaselineId));
+            }
+
+            if (updateBaselineItemz.BaselineItemzIds is null)
+            {
+                throw new ArgumentNullException(nameof(updateBaselineItemz.BaselineItemzIds));
+            }
+
+            if (!(updateBaselineItemz.BaselineItemzIds.Any()))
+            {
+                throw new ArgumentNullException(nameof(updateBaselineItemz.BaselineItemzIds));
+            }
+
+            if (!_baselineContext.Baseline!.Where(b => b.Id == updateBaselineItemz.BaselineId).Any())
+            {
+                throw new ArgumentException(nameof(updateBaselineItemz.BaselineId));
+            }
+            var tempListofIds = updateBaselineItemz.BaselineItemzIds.ToList();
+
+            StringBuilder csvBaselineItemzIds = new StringBuilder("");
+            for (int i = 0; i < tempListofIds.Count(); i++)
+            {
+                csvBaselineItemzIds.Append(tempListofIds[i].ToString());
+                if (i != tempListofIds.Count()-1)
+                { 
+                    csvBaselineItemzIds.Append(",");
+                }
+            }
+
+            var OUTPUT_isSuccessful = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Success",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Bit,
+            };
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter
+                {
+                    ParameterName = "BaselineId",
+                    Value = updateBaselineItemz.BaselineId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "ShouldBeIncluded",
+                    Value = updateBaselineItemz.ShouldBeIncluded,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "BaselineItemzIds",
+                    Value = csvBaselineItemzIds.ToString(),
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                    Size = -1, // size value of -1 indicates varchar(max)
+                }
+            };
+
+            sqlParameters = sqlParameters.Append(OUTPUT_isSuccessful).ToArray();
+
+            var tempResultOfExecution = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcUpdateBaselineItemz @BaselineId, @ShouldBeIncluded, @BaselineItemzIds, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
+
+            return ((bool)OUTPUT_isSuccessful.Value);
+        }
+
 
         public void Dispose()
         {

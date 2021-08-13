@@ -19,5 +19,7 @@ namespace ItemzApp.API.Services
 
         public Task<IEnumerable<BaselineItemz>> GetBaselineItemzsAsync(IEnumerable<Guid> baselineItemzIds);
 
+        public Task<bool> UpdateBaselineItemzsAsync(UpdateBaselineItemz updateBaselineItemz);
+
     }
 }

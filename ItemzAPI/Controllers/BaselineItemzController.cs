@@ -27,15 +27,18 @@ namespace ItemzApp.API.Controllers
     public class BaselineItemzController : ControllerBase
     {
         private readonly IBaselineItemzRepository _baselineItemzRepository;
+        private readonly IBaselineRepository _baselineRepository;
         private readonly IMapper _mapper;
         private readonly ILogger<BaselineItemzController> _logger;
 
         public BaselineItemzController(IBaselineItemzRepository baselineItemzRepository,
+                                    IBaselineRepository baselineRepository,
                                     IMapper mapper,
                                      ILogger<BaselineItemzController> logger
                                     )
         {
             _baselineItemzRepository = baselineItemzRepository ?? throw new ArgumentNullException(nameof(baselineItemzRepository));
+            _baselineRepository = baselineRepository ?? throw new ArgumentNullException(nameof(baselineRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -172,6 +175,91 @@ namespace ItemzApp.API.Controllers
                 baselineItemzEntities.Count());
             return Ok(baselineItemzsToReturn);
         }
+
+
+        /// <summary>
+        /// Updating existing BaseilneItemzs for inclusion or exclusion from it's Baseline
+        /// </summary>
+        /// <param name="baselineItemzsToBeUpdated">required instructions of inclusion or exclusion of BaselineItemzs from Baseline. </param>
+        /// <returns>No contents are returned but only Status 204 indicating that BaselineItemzs were updated successfully </returns>
+        /// <response code="204">No content are returned but status of 204 indicated that BaselineItemzs were successfully updated</response>
+        /// <response code="404">Either Baseline not found OR BaselineItemzs were not found.</response>
+
+        [HttpPut( Name = "__PUT_Update_BaselineItemzs_By_GUID_IDs__ ")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateBaselineItemzsPutAsync(UpdateBaselineItemzDTO baselineItemzsToBeUpdated)
+        {
+            // TODO: Currently we are injecting _baselineRepository as part of construction injection. 
+            // We should explore option to inject it only for this method as it's not used anywhere else
+            // in this Controller.
+
+            if (!(await _baselineRepository.BaselineExistsAsync(baselineItemzsToBeUpdated.BaselineId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Parent Baseline with Id {baselineItemzsToBeUpdated_BaselineId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    baselineItemzsToBeUpdated.BaselineId);
+                return NotFound();
+            }
+
+
+            // TODO:  We should send Batches of 100 BaselineItemzId to check for association with Baseline
+            //        and updates the same for Inclusion and Exclusion. 
+            //        All the batches shall be put under a single transaction so that if
+            //        subsequent operation fails then it should roll back all the changes that 
+            //        were applied as part of a single failed transaction. 
+
+
+            if (baselineItemzsToBeUpdated.BaselineItemzIds is not null)
+            {
+                if (baselineItemzsToBeUpdated.BaselineItemzIds.Any())
+                {
+                    //////int totalBatches = (int)Math.Ceiling(((decimal)baselineItemzsToBeUpdated.BaselineItemzIds.Count() / 100));
+                    //////  // TODO: START DB TRANSACTION
+
+                    //////for (var i = 0; i < totalBatches; i++)
+                    //////{
+                    //////    // CALL userStoreProc for checking and then updating BaselineItemz
+                    //////    // STARTHERE
+                    //////}
+
+                    //////  // TODO: STOP DB TRANSACTION
+
+                    var detailsOfUpdateBaselineItemz = _mapper.Map<Entities.UpdateBaselineItemz>(baselineItemzsToBeUpdated);
+
+                    try
+                    {
+                        // EXPLANATION: Because baselineItemzs are updated via User Defined Stored Procedure,
+                        // We therefor do not call SaveAsync() method on the _baselineRepository. 
+
+                        var isSuccessful = await _baselineItemzRepository.UpdateBaselineItemzsAsync(detailsOfUpdateBaselineItemz);
+                    }
+                    catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+                    {
+                        _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update BaselineItemzs for inclusion or exclusion :" + dbUpdateException.InnerException,
+                            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                            );
+                        return Conflict($"Could not update BaselineItemzs for BaselineID'{baselineItemzsToBeUpdated.BaselineId}'. DB Error reported, check the log file.");
+                    }
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Request to update BaselineItemzs for BaselineID {BaselineId} was successful",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        baselineItemzsToBeUpdated.BaselineId);
+
+                    return NoContent();
+                }
+                else
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}An empty list of BaselineItemz to be updated was sent in",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                        );
+                    return Conflict($"An empty list of BaselineItemz to be updated was sent in");
+                }
+            }
+            return NoContent();
+
+        }
+
 
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
