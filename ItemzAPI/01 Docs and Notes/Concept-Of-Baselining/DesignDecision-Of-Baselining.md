@@ -98,6 +98,26 @@ ItemzAPI shall make sure that entire request for updating BaselineItemz(s) is ca
 We expect BaselineItemzs to be included / excluded as per user needs. This shall allow users to perform some adjustments to the Baseline before finalizing the same. In many cases, users shall update the project data and then take yet another baseline and remove the first one which is obsolete. That said, sometimes it’s necessary to just remove few selective BaselineItemzs from the Baseline and generate output from the same on the fly. 
 So support for Shrinking Baseline shall allow users to adjust BaselineItemzs that belongs to a single baseline for now.
 
+# Difference between Orphaned BaselineItemz V/s Excluded BaselineItemz
+
+Exclusion of BaselineItemz from a Baseline is like a soft delete. This can be recovered back by setting inclusion flag back to true on BaselineItemz(s) itself.
+
+That said, when Project / Baseline / Baseline Type is deleted then we expect all the BaselineItemzs to be deleted as well. This is more or less a Hard Delete of BaselineItemzs. We leave it in Orphaned stage until we call User Stored Procedure “userProcDeleteAllOrphanedBaselineItemz”
+
+Basically, we don’t immediately call “userProcDeleteAllOrphanedBaselineItemz” while we remove Project / Baseline. There could be delay of few miliseconds between calling Delete Project and then calling user stored procedure “userProcDeleteAllOrphanedBaselineItemz”. Because this two are separate calls, we might encounter that sometime due to network failure, or human error, or bug, etc. could cause failure of removing Orphaned Baseline Itemzs. In such situation, we will experience that subsequent calls to remove other Project / Baseline / BaselineType shall remove all the accumulated Orphaned Baseline Itemzs in one shot. 
+
+Exclusion and Inclusion of Baseline Itemz are performed on active Project + Baseline. This allows users to control scope of an active baseline instead. This is different then Orphaned BaselineItemzs as they are suppose to be removed from the system at the time when Project / Baseline / Baseline Itemz Type is removed.
+
+### Conclusion
+
+Excluded BaselineItemzs are like soft deleted (soft removed) Itemzs from it’s parent BaselineTypes where as Orphaned BaselineItemzs are those which are supposed to be removed (like hard delete) as their parent BaselineType / Baseline / Project has been removed.
+
+You can Include BaselineItemzs that are in exclusion state where as you can’t bring back Orphaned Baseline Itemzs as their parent has been hard deleted already. 
+
+
+ 
+
+
 
  
 
