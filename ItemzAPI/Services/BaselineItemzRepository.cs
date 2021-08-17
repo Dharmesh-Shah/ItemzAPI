@@ -40,8 +40,10 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(ItemzId));
             }
 
-            return await _baselineContext.BaselineItemz.AsNoTracking().Where(bi => bi.ItemzId == ItemzId)
-                .OrderBy(bi => bi.Name)
+            var SqlParam_ItemzId = new SqlParameter("@__ItemzID__", ItemzId.ToString());
+
+            return await _baselineContext.BaselineItemz.FromSqlRaw(SQLStatements.SQLStatementFor_GetBaselineItemzByItemzIdOrderByCreatedDate, SqlParam_ItemzId)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

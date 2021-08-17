@@ -243,7 +243,38 @@ namespace ItemzApp.API.Services
 
             return foundItemzByBaseline;
         }
-        
+
+        public async Task<int> GetIncludedBaselineItemzCountByBaselineAsync(Guid BaselineId)
+        {
+            if (BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(BaselineId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+            };
+            var foundIncludedItemzByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetIncludedBaselineItemzCountByBaseline, sqlArgs);
+
+            return foundIncludedItemzByBaseline;
+        }
+
+
+        public async Task<int> GetExcludedBaselineItemzCountByBaselineAsync(Guid BaselineId)
+        {
+            if (BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(BaselineId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+            };
+            var foundExcludedItemzByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetExcludedBaselineItemzCountByBaseline, sqlArgs);
+
+            return foundExcludedItemzByBaseline;
+        }
+
         public async Task<int> GetOrphanedBaselineItemzCount()
         {
             KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[0];

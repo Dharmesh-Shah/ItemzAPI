@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ItemzApp.API.DbContexts.SQLHelper
+﻿namespace ItemzApp.API.DbContexts.SQLHelper
 {
     public static class SQLStatements
     {
@@ -76,7 +71,41 @@ namespace ItemzApp.API.DbContexts.SQLHelper
 
         #endregion ItemzTypeItemzCount
 
+        #region GetBaselineItemz
+
+        public static readonly string SQLStatementFor_GetBaselineItemzByItemzIdOrderByCreatedDate =
+                "SELECT [bi].* " +
+                "FROM [dbo].[Baseline] as [b] " +
+                "LEFT JOIN [dbo].[BaselineItemzType] as [tbl_bit] on [tbl_bit].BaselineId = [b].Id " +
+                "LEFT JOIN [dbo].[BaselineItemzTypeJoinBaselineItemz] as [bitjbi] on [bitjbi].BaselineItemzTypeId = [tbl_bit].Id " +
+                "LEFT JOIN [dbo].[BaselineItemz] as [bi] on [bi].Id = [bitjbi].BaselineItemzId " +
+                "WHERE [bi].ItemzId = @__ItemzID__ AND [bi].id IS NOT NULL " +
+                "Order By [b].CreatedDate ";
+
+
+        #endregion GetBaselineItemz
+
         #region BaselineItemzCount
+
+        public static readonly string SQLStatementFor_GetIncludedBaselineItemzCountByBaseline =
+
+            "select count(Id) from BaselineItemz " +
+            "where isIncluded = 1 AND Id in (select distinct(BaselineItemzId) " +
+            "from BaselineItemzTypeJoinBaselineItemz " +
+            "where BaselineItemzTypeId in ( " +
+                "select distinct(Id) from BASELINEITEMZTYPE " +
+                "where BaselineId = @__BaselineID__) "+ 
+                ")";
+        
+        public static readonly string SQLStatementFor_GetExcludedBaselineItemzCountByBaseline =
+
+            "select count(Id) from BaselineItemz " +
+            "where isIncluded = 0 AND Id in (select distinct(BaselineItemzId) " +
+            "from BaselineItemzTypeJoinBaselineItemz " +
+            "where BaselineItemzTypeId in ( " +
+                "select distinct(Id) from BASELINEITEMZTYPE " +
+                "where BaselineId = @__BaselineID__) " +
+                ")";
 
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =
 
@@ -85,7 +114,7 @@ namespace ItemzApp.API.DbContexts.SQLHelper
             "from BaselineItemzTypeJoinBaselineItemz " +
             "where BaselineItemzTypeId in ( " +
                 "select distinct(Id) from BASELINEITEMZTYPE " +
-                "where BaselineId = @__BaselineID__) "+ 
+                "where BaselineId = @__BaselineID__) " +
                 ")";
 
         public static readonly string SQLStatementFor_GetBaselineItemzByItemzId =

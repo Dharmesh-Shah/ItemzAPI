@@ -88,7 +88,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Collection of Itemz based on expectated pagination and sorting order.</returns>
         /// <response code="200">Returns collection of Itemzs based on pagination</response>
         /// <response code="404">No Itemzs were found</response>
-        [HttpGet(Name = "__GET_Itemzs__")]
+        [HttpGet(Name = "__GET_Itemzs_Collection__")]
         [HttpHead (Name ="__HEAD_Itemzs_Collection__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -168,7 +168,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Collection of orphaned Itemz based on expectated pagination and sorting order.</returns>
         /// <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
         /// <response code="404">No Itemzs were found</response>
-        [HttpGet("GetOrphan/", Name = "__GET_Orphan_Itemzs__")]
+        [HttpGet("GetOrphan/", Name = "__GET_Orphan_Itemzs_Collection__")]
         [HttpHead("GetOrphan/", Name = "__HEAD_Orphan_Itemzs_Collection__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

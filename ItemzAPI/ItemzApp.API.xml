@@ -218,6 +218,24 @@
             <response code="200">Returns number of BaselineItemz count that were associated with a given Baseline</response>
             <response code="404">Baseline based on baselineId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetIncludedBaselineItemzCountByBaselineAsync(System.Guid)">
+            <summary>
+            Get total number of Included BaselineItemz by Baseline
+            </summary>
+            <param name="baselineId">Provide BaselineID representated in GUID form</param>
+            <returns>Number of Included BaselineItemz found for the given BaselineID. Zero if none found.</returns>
+            <response code="200">Returns number of Included BaselineItemz count that were associated with a given Baseline</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetExcludedBaselineItemzCountByBaselineAsync(System.Guid)">
+            <summary>
+            Get total number of Excluded BaselineItemz by Baseline
+            </summary>
+            <param name="baselineId">Provide BaselineID representated in GUID form</param>
+            <returns>Number of Excluded BaselineItemz found for the given BaselineID. Zero if none found.</returns>
+            <response code="200">Returns number of Excluded BaselineItemz count that were associated with a given Baseline</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselinesController.GetOrphanedBaselineItemzCountInRepository">
             <summary>
             Get total number of Orphaned BaselineItemz in Repository

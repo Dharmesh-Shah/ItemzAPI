@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "478c2a40-937f-4ef4-b1c2-551367a03df9",
-		"name": "Itemz.API Baseilne",
+		"name": "Itemz.API Baseline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -9981,6 +9981,5034 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "VerifyInclusionAndExclusionOfBaselineItemz",
+			"item": [
+				{
+					"name": "Create New Project",
+					"item": [
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of total BaselineItemz at repository level and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\", parseInt(pm.response.text()));",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Project (WithNoItemz)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNewBaselineid = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId\",tempNewBaselineid);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_NewProjectName\", \"VerifyInclusionAndExclusionOfBaselineItemz Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_NewProjectName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectName}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create 2 ItemzTypes and 3 Itemzs in each",
+					"item": [
+						{
+							"name": "POST ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_New1stItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 1st ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_0\"+ (i+1).toString() , tempItemz.id);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_New1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_New1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST ItemzType 2nd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_New2ndItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 2.\",\r\n    \"projectId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 3 Itemz in 2nd ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData =  pm.response.json();",
+											"    for (var i = 0; i < jsonData.length; i++)",
+											"    {",
+											"        var tempItemz = jsonData[i];",
+											"        pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_0\"+ (i+1).toString() , tempItemz.id);",
+											"    }",
+											"",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item {{$randomFullName}} {{$randomPhoneNumber}}\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_New2ndItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_New2ndItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take 1st Snapshot By ProjectID and Verify",
+					"item": [
+						{
+							"name": "POST 1st Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}\",\r\n    \"name\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Included BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Included BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Excluded BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_01\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_02\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_03\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_01\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											" ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_02\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_03\" , tempBaselineItemz[0].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].isIncluded).to.eql(true);",
+											"    });   ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exclude 2 BaselineItemz from 1st Snapshot",
+					"item": [
+						{
+							"name": "PUT Exclude BaselineItemz 2 of 01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": false,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_01}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_01}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exclude 2 More BaselineItemz from 1st Snapshot",
+					"item": [
+						{
+							"name": "PUT Exclude BaselineItemz 2 of 02",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": false,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_02}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_02}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2 - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2 + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Include 2  BaselineItemz  Back in 1st Snapshot",
+					"item": [
+						{
+							"name": "PUT Include BaselineItemz 2 of 02",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": true,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_02}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_02}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Take 2nd Snapshot By ProjectID and Verify",
+					"item": [
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}\",\r\n    \"name\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Included BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_TotalBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Included BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_IncludedBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"/*",
+											"",
+											"Get the value of the current count of Excluded BaselineItemz by Baseline and store ",
+											"it in a collection variable.",
+											"",
+											"*/",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_ExcludedBaselineItemzCount\", parseInt(pm.response.text()));",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_01 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_01\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_01\")",
+											"        );",
+											"    });   ",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_02 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_02\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });  ",
+											"",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_02\")",
+											"        );",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 01_03 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_03\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_03\")",
+											"        );",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_03}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_01 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_01\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });   ",
+											" ",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_01\")",
+											"        );",
+											"    });   ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_02 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_02\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_02\")",
+											"        );",
+											"    });   ",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_02}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_02}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz 02_03 Verify isIncluded",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.collectionVariables.set(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_03\" , tempBaselineItemz[1].id);",
+											"",
+											"pm.test('Verify that isIncluded of BaselineItemz is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[1].isIncluded).to.eql(true);",
+											"    });   ",
+											"",
+											"",
+											"pm.test('Verify that Id at ZERO element in Array is from 1st Snapshot ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_03\")",
+											"        );",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_03}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_03}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exclude 2 BaselineItemz from 2nd Snapshot",
+					"item": [
+						{
+							"name": "PUT Exclude BaselineItemz 2 of 01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": false,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_01}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_01}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Exclude 2 BaselineItemz from 2nd Snapshot",
+					"item": [
+						{
+							"name": "PUT Exclude BaselineItemz 2 of 01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": false,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_02}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_02}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2 - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2 + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Include 2 BaselineItemz from 2nd Snapshot",
+					"item": [
+						{
+							"name": "PUT Exclude BaselineItemz 2 of 01",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"shouldBeIncluded\": true,\r\n  \"baselineId\": \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}\",\r\n  \"baselineItemzIds\": [\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_02}}\",\r\n    \"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_02}}\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6 + 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By BaselineID Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete 2nd Snapshot and Verify",
+					"item": [
+						{
+							"name": "DELETE 2nd Baseline",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+ 6);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By 1st BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount\"))",
+											"        );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Included BaselineItemz Count By 1st BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Included BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount\"))",
+											"                - 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetIncludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetIncludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Excluded BaselineItemz Count By 1st BaselineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Excluded BaselineItemz By BaselineId\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount\"))",
+											"                + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetExcludedBaselineItemzCount/{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetExcludedBaselineItemzCount",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete New Project",
+					"item": [
+						{
+							"name": "DELETE Newly Created Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"//pm.test(\"Status code is either 201 or 409\", function () {",
+											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"//});",
+											"",
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"{{VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz\"))+",
+											"         0);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -10270,6 +15298,138 @@
 		},
 		{
 			"key": "VerifySQLQueryForOrphanedBaselineItemzWorks_4thBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_InitialCountOfBaselineItemz",
+			"value": "0"
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewProjectName",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_New1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_01_03",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_New2ndItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_NewItemzId_02_03",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_TotalBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_IncludedBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stBaseline_ExcludedBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_01_03",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_1stSnapshot_BaselineItemzId_02_03",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineName",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndBaselineId",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_TotalBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_IncludedBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndBaseline_ExcludedBaselineItemzCount",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_01_03",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_01",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_02",
+			"value": ""
+		},
+		{
+			"key": "VerifyInclusionAndExclusionOfBaselineItemz_2ndSnapshot_BaselineItemzId_02_03",
 			"value": ""
 		}
 	]

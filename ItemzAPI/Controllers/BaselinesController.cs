@@ -85,7 +85,7 @@ namespace ItemzApp.API.Controllers
         /// <returns>Collection of Baselines based on expectated sorting order.</returns>
         /// <response code="200">Returns collection of Baselines based on sorting order</response>
         /// <response code="404">No Baselines were found</response>
-        [HttpGet(Name = "__GET_Baselines__")]
+        [HttpGet(Name = "__GET_Baselines_Collection__")]
         [HttpHead(Name = "__HEAD_Baselines_Collection__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -438,6 +438,67 @@ namespace ItemzApp.API.Controllers
                 foundBaselineItemzCountByBaselineId,
                 baselineId);
             return foundBaselineItemzCountByBaselineId;
+        }
+
+        /// <summary>
+        /// Get total number of Included BaselineItemz by Baseline
+        /// </summary>
+        /// <param name="baselineId">Provide BaselineID representated in GUID form</param>
+        /// <returns>Number of Included BaselineItemz found for the given BaselineID. Zero if none found.</returns>
+        /// <response code="200">Returns number of Included BaselineItemz count that were associated with a given Baseline</response>
+        /// <response code="404">Baseline based on baselineId was not found</response>
+        [HttpGet("GetIncludedBaselineItemzCount/{BaselineId:Guid}", Name = "__GET_Included_BaselineItemz_Count_By_Baseline__")]
+        [HttpHead("GetIncludedBaselineItemzCount/{BaselineId:Guid}", Name = "__HEAD_Included_BaselineItemz_Count_By_Baseline__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetIncludedBaselineItemzCountByBaselineAsync(Guid baselineId)
+        {
+            if (!(await _baselineRepository.BaselineExistsAsync(baselineId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of Included BaselineItemz as Baseline with ID {BaselineId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    baselineId);
+                return NotFound();
+            }
+
+            var foundIncludedBaselineItemzCountByBaselineId = await _baselineRepository.GetIncludedBaselineItemzCountByBaselineAsync(baselineId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineItemzCountByBaselineId} Included BaselineItemz records for Baseline with ID {baselineId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundIncludedBaselineItemzCountByBaselineId,
+                baselineId);
+            return foundIncludedBaselineItemzCountByBaselineId;
+        }
+
+
+        /// <summary>
+        /// Get total number of Excluded BaselineItemz by Baseline
+        /// </summary>
+        /// <param name="baselineId">Provide BaselineID representated in GUID form</param>
+        /// <returns>Number of Excluded BaselineItemz found for the given BaselineID. Zero if none found.</returns>
+        /// <response code="200">Returns number of Excluded BaselineItemz count that were associated with a given Baseline</response>
+        /// <response code="404">Baseline based on baselineId was not found</response>
+        [HttpGet("GetExcludedBaselineItemzCount/{BaselineId:Guid}", Name = "__GET_Excluded_BaselineItemz_Count_By_Baseline__")]
+        [HttpHead("GetExcludedBaselineItemzCount/{BaselineId:Guid}", Name = "__HEAD_Excluded_BaselineItemz_Count_By_Baseline__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetExcludedBaselineItemzCountByBaselineAsync(Guid baselineId)
+        {
+            if (!(await _baselineRepository.BaselineExistsAsync(baselineId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of Excluded BaselineItemz as Baseline with ID {BaselineId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    baselineId);
+                return NotFound();
+            }
+
+            var foundExcludedBaselineItemzCountByBaselineId = await _baselineRepository.GetExcludedBaselineItemzCountByBaselineAsync(baselineId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineItemzCountByBaselineId} Excluded BaselineItemz records for Baseline with ID {baselineId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundExcludedBaselineItemzCountByBaselineId,
+                baselineId);
+            return foundExcludedBaselineItemzCountByBaselineId;
         }
 
         /// <summary>
