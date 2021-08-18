@@ -16,14 +16,13 @@ Baselining is a process of taking snapshot of collection of requirements along w
 
 These are few reasons why Baselining / Snapshotting would be important feature as part of software application that manages requirements. 
 
-
 #### Where does Baseline fit in the given structure
 
 Baselines are associated with Project. It does not matter if you include all the requirements into Baseline or just few from the given project. Every baseline shall be linked to only one project and on the other hand a given project can have zero to many baselines associated with it.
 
 #### Can Baseline be associated with Requirement Type?
 
-ItemzAPP shall support baselines to be associated with project and not with requirements type. It’s possible that a baseline might include requirements that are included within a single requirement type within a project but baseline itself shall be linked to the project itself.
+ItemzAPP shall support baselines to be associated with project and not with requirements type. It’s possible that a baseline might include requirements that are included within a single requirement type within a project but baseline shall be linked to the project itself.
 
 #### How will Baseline data be stored in the repository?
 
@@ -33,7 +32,7 @@ Each baseline will take a snapshot of the current state of the requirements in s
 
 No, baseline is a snapshot of requirements and it shall only have requirements data without it’s change history log. This can be retrieved directly via requirements itself if needed. 
 
-In general, people using ItemzAPP for managing their requirements shall use baselining feature as a contract / document. Users shall not be encouraged to use this feature for maintaining requirements from within the baseline which might lead to confusion. It’s always possible to capture new baselines within the target project. 
+In general, people using ItemzAPP for managing their requirements shall use baselining feature as a contract / document. Users shall not be encouraged to use this feature for maintaining requirements from within the baseline which might lead to confusion. It’s always possible to capture new baselines from within the target project. 
 
 #### What about system and custom attributes associated with requirements?
 
@@ -51,11 +50,11 @@ Attachments are important and are special within ItemzAPP. It will be important 
 
 To achieve this, we will have to introduce a mechanism whereby we keep counter of the pointer for the attachment file. This feature of supporting attachment via pointer is explained as per below scenario.
 
-1st Jan – A new requirement is captured with attachment of a given file. This attachment shall be stored in the repository with pointer counter of 1
-5th Jan – Attachment file is now updated and a new version of the file is uploaded in the same requirement. This will replace original file with the new version but the pointer counter shall remain 1.
-11th Jan – Baseline is captured for the entire project include the requirement in which attachment is present. At this stage, pointer counter for the attachment file will increase to 2. One from the requirement from the project and the second pointer is from the baseline snapshot. 
-13th Jan – Original requirement’s attachment is modified yet again and uploaded as attachment with the same file name. This will add new attachment records for the modified file with pointer counter of 1 which is coming in from the project itself. But the pointer counter for the previous version of the file (from 11th Jan ) shall be reduced from 2 to 1 as only Baseline pointer is pointing at it. 
-15th Jan – Baseline that was captured on 11th Jan is now removed / deleted. Due to this the single pointer to the attachment file that was coming in from the Baseline is now set to zero and so the attachment file is removed as well.
+- 1st Jan – A new requirement is captured with attachment of a given file. This attachment shall be stored in the repository with pointer counter of 1.
+- 5th Jan – Attachment file is now updated and a new version of the file is uploaded in the same requirement. This will replace original file with the new version but the pointer counter shall remain as 1.
+- 11th Jan – Baseline is captured for the entire project including the requirement in which attachment is present. At this stage, pointer counter for the attachment file will increase to 2. One from the requirement from the project and the second pointer is from the baseline snapshot. 
+- 13th Jan – Original requirement’s attachment is modified yet again and uploaded as attachment with the same file name. This will add new attachment records for the modified file with pointer counter of 1 which is coming in from the project itself. But the pointer counter for the previous version of the file (from 11th Jan) shall be reduced from 2 to 1 as only Baseline pointer is pointing at it. 
+- 15th Jan – Baseline that was captured on 11th Jan is now removed / deleted. Due to this the single pointer to the attachment file that was coming in from the Baseline is now set to zero and so the attachment file is removed as well.
 This process is important as Attachments could be heavy and duplicating the same instead of maintaining pointer counters could have performance implications as well as increase in the size of the repository. 
 
 NOTE: At the time of writing this requirement, ItemzAPP did not support attachments for the requirements yet. This feature is planned in the future.
@@ -80,9 +79,11 @@ Yes, ItemzAPI shall support creating new baseline based on existing baseline. Th
 
 #### Will baseline support including and excluding of requirements?
 
-We shall support Shrinking Baseline model to start with. This means, if the baseline was created with 1000 requirements in it then we allow requirements to be removed from it but new requirements can NOT be added. So we can shrink baseline down to 900 requirements and then to 750 requirements and so on. 
+Initially we thought we shall support Shrinking Baseline model to start with. While implementing this model, we encountered that it was simple enough to support option for both, including and excluding, requirements from a Baseline. So we decided to support both these capabilities for managing requirements within Baseline. This means, we now allow users to take snapshot of say 1000 requirements and then remove 100 requirements from it by excluding the same. Later if they would like to include any of the excluded requirements then they will be allowed to do so. 
 
-In the future we might consider allowing adding new requirements into the baseline or updating existing requirements from the current lot. We are not considering this feature in the current iteration because when we include new requirements into the baseline then we have to take care of custom attributes, traceability, attachments, etc. This is a complex thing to implement and the benefit it would bring to the users has to be assessed. Also, the purpose of the baseline is to take a snapshot of the data at the time baseline was created. By supporting shrinking baselines, we emphasize culture of “move forward and repeat baselining” within the userbase of ItemzAPP. Baselining should be considered as throwaway snapshots and new ones shall be created as and when new milestones are achieved. 
+Users will be allowed to either Exclude or Include requirements that were originally part of the Baseline snapshot. They will not be able to add (or append) new requirements in the Baseline Snapshot. The same way, users will not be able to update any attributes (or fields) of baselined snapshotted requirements. They are encouraged to take new snapshots as and when requirements scope has changed. 
+
+In the future we might consider allowing adding new requirements into the baseline or updating existing requirements from the current lot. We are not considering this feature in the current iteration because when we include new requirements into the baseline then we have to take care of custom attributes, traceability, attachments, etc. This is a complex thing to implement and the benefit it would bring to the users has to be assessed. Also, the purpose of the baseline is to take a snapshot of the data at the time baseline was created. We emphasize culture of “move forward and repeat baselining” within the userbase of ItemzAPP. Baselining should be considered as throwaway snapshots and new ones shall be created as and when new milestones are achieved. 
 
 #### Generating report based on Baseline.
 
@@ -90,7 +91,7 @@ At the time of writing these requirements for baselining, ItemzAPP did not have 
 
 # Conclusion
 -	Baselining is a very important concept that takes snapshot of requirements including it’s attributes, attachments, traces / links.
--	We shall support Shrinking Baseline model to start with.
+-	We shall support Including and Excluding of requirement(s) from Baseline snapshot from a given date and time. 
 -	New projects shall be allowed to be created based on existing baseline
 -	Cross project baselines are desirable but first we have to implement single project based baselines.
 -	Because attachments could be heavy files, we expect baselines to utilize counter of pointers that are associated with attachment files. This will improve performance of creating baseline feature as well as keep repository size in check. 
