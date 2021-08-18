@@ -16219,6 +16219,376 @@
 					]
 				},
 				{
+					"name": "Take Few more Snapshot",
+					"item": [
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerityBaselineItemzsStayPostItemzDeletion_NewProjectId}}\",\r\n    \"name\": \"{{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\",\r\n    \"description\": \"This is Description for {{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerityBaselineItemzsStayPostItemzDeletion_NewProjectId}}\",\r\n    \"name\": \"{{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\",\r\n    \"description\": \"This is Description for {{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerityBaselineItemzsStayPostItemzDeletion_NewProjectId}}\",\r\n    \"name\": \"{{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\",\r\n    \"description\": \"This is Description for {{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerityBaselineItemzsStayPostItemzDeletion_NewProjectId}}\",\r\n    \"name\": \"{{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\",\r\n    \"description\": \"This is Description for {{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 2nd Baseline by ProjectId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{VerityBaselineItemzsStayPostItemzDeletion_NewProjectId}}\",\r\n    \"name\": \"{{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\",\r\n    \"description\": \"This is Description for {{VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Delete One Itemz from Project",
 					"item": [
 						{
@@ -16281,7 +16651,7 @@
 					"name": "2nd time Get BaselineItemzs by ItemzID",
 					"item": [
 						{
-							"name": "GET Both BaselineItemzs and Verify BaselineItemzID",
+							"name": "GET All BaselineItemzs and Verify BaselineItemzID",
 							"event": [
 								{
 									"listen": "test",
@@ -16294,7 +16664,7 @@
 											"var tempBaselineItemz = pm.response.json(); ",
 											"",
 											"pm.test('Verify that number of BaselineItemz elements are as expected', () => {",
-											"    pm.expect(tempBaselineItemz.length).to.eql(2);",
+											"    pm.expect(tempBaselineItemz.length).to.eql(2 + 5);",
 											"});",
 											"",
 											"pm.test('Verify that 1st BaselineItemzId is as expected ', () => {",
@@ -16353,6 +16723,131 @@
 										"BaselineItemz",
 										"GetBaselineItemzs",
 										"{{VerityBaselineItemzsStayPostItemzDeletion_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_InitialCountOfBaselineItemz\")) ",
+											"        + 6 + 6 + (6*5) );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
 									]
 								}
 							},
@@ -16440,7 +16935,7 @@
 											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 											"    pm.expect(parseInt(pm.response.text())).to.eql(",
 											"        parseInt(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_InitialCountOfBaselineItemz\")) ",
-											"        + 6 );",
+											"        + 6 + (6*5) );",
 											"});",
 											"",
 											""
@@ -16570,7 +17065,7 @@
 											"var tempBaselineItemz = pm.response.json(); ",
 											"",
 											"pm.test('Verify that number of BaselineItemz elements are as expected', () => {",
-											"    pm.expect(tempBaselineItemz.length).to.eql(1);",
+											"    pm.expect(tempBaselineItemz.length).to.eql(1 + 5);",
 											"});",
 											"",
 											"pm.test('Verify that 1st BaselineItemzId is as expected ', () => {",
@@ -17315,6 +17810,10 @@
 		},
 		{
 			"key": "VerityBaselineItemzsStayPostItemzDeletion_2ndSnapshot_BaselineItemzId_01_01",
+			"value": ""
+		},
+		{
+			"key": "VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName",
 			"value": ""
 		}
 	]
