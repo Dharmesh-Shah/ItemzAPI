@@ -920,9 +920,24 @@
 							"});",
 							"",
 							"/* ",
-							"TODO: Verify that only one from the returned collection of ItemzType ",
+							"Verify that only one from the returned collection of ItemzType ",
 							"is named as 'Parking Lot' based on Case sensitive search ",
-							"s*/"
+							"*/",
+							"var numberOfFoundParkingLot = 0;",
+							"returnedItemzTypeArray = pm.response.json();",
+							"",
+							"for (var i = 0; i < returnedItemzTypeArray.length; i++)",
+							"{",
+							"    if (returnedItemzTypeArray[i].name === \"Parking Lot\" && returnedItemzTypeArray[i].isSystem === true)",
+							"    {",
+							"        numberOfFoundParkingLot = numberOfFoundParkingLot + 1;",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Exactly One Parkng Lot ItemzType is present in the project\", function () {",
+							"   pm.expect(numberOfFoundParkingLot).is.eql(1);",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -5875,6 +5890,26 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

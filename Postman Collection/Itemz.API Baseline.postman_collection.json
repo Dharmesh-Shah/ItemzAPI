@@ -16228,18 +16228,10 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
-											"if (pm.response.code < 300 && pm.response.code > 199)",
-											"{",
-											"    pm.test(\"Status code is 201\", function () {",
-											"        pm.response.to.have.status(201);",
-											"    });",
-											"}",
-											"else{",
-											"    pm.test(\"Status code is 409\", function () {",
-											"        pm.response.to.have.status(409);",
-											"    });",
-											"}",
+											"",
+											"pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
 											"",
 											""
 										],
@@ -16301,19 +16293,10 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
-											"if (pm.response.code < 300 && pm.response.code > 199)",
-											"{",
-											"    pm.test(\"Status code is 201\", function () {",
-											"        pm.response.to.have.status(201);",
-											"    });",
-											"}",
-											"else{",
-											"    pm.test(\"Status code is 409\", function () {",
-											"        pm.response.to.have.status(409);",
-											"    });",
-											"}",
 											"",
+											"pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
 											""
 										],
 										"type": "text/javascript"
@@ -16374,19 +16357,10 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
-											"if (pm.response.code < 300 && pm.response.code > 199)",
-											"{",
-											"    pm.test(\"Status code is 201\", function () {",
-											"        pm.response.to.have.status(201);",
-											"    });",
-											"}",
-											"else{",
-											"    pm.test(\"Status code is 409\", function () {",
-											"        pm.response.to.have.status(409);",
-											"    });",
-											"}",
 											"",
+											"pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
 											""
 										],
 										"type": "text/javascript"
@@ -16447,19 +16421,10 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
-											"if (pm.response.code < 300 && pm.response.code > 199)",
-											"{",
-											"    pm.test(\"Status code is 201\", function () {",
-											"        pm.response.to.have.status(201);",
-											"    });",
-											"}",
-											"else{",
-											"    pm.test(\"Status code is 409\", function () {",
-											"        pm.response.to.have.status(409);",
-											"    });",
-											"}",
 											"",
+											"pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
 											""
 										],
 										"type": "text/javascript"
@@ -16520,19 +16485,10 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"// TODO: instead of If conditions, user Array for expected values. We have done this in other places as well.",
-											"if (pm.response.code < 300 && pm.response.code > 199)",
-											"{",
-											"    pm.test(\"Status code is 201\", function () {",
-											"        pm.response.to.have.status(201);",
-											"    });",
-											"}",
-											"else{",
-											"    pm.test(\"Status code is 409\", function () {",
-											"        pm.response.to.have.status(409);",
-											"    });",
-											"}",
 											"",
+											"pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
 											""
 										],
 										"type": "text/javascript"
