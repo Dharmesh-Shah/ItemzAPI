@@ -943,3 +943,24 @@ There is another way described by Andrew that he claims to be an alternative app
 
 We should consider this to be utilized for ItemzApp that shall help with debugging configuration issues when reported by clients. 
 
+### [Entity Framework Community Standup - EF Core's Global Query Filter](https://www.youtube.com/watch?v=Uy0c_DKGM-U&list=PLdo4fOcmZ0oX-DBuRG4u58ZTAJgBAeQ-t&index=4)
+
+Published on 11th August 2021 
+
+By Author <span style="background-color: #99ff66">[Jon P Smith](https://twitter.com/thereformedprog) </span>
+
+In this presentation Jon mainly talks about Two scenarios in which one should use Query Filters. 
+
+ - Soft Delete
+ - Multitenancy
+
+There are many challenges with Soft Deleting data. This is well explained by Jon in his presentation and he also talks about his own Nuget Library which can help in achieving certain goals.
+
+During discussion part, there were nice tips shared by EF Core Team related to performace implecations of using Query Filters. 
+
+We believe that with Authentication and Authorization in place, we might not need much help from Query Filters.
+
+
+
+
+
