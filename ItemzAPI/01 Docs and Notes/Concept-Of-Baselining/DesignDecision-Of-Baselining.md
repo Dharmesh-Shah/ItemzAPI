@@ -113,4 +113,14 @@ Excluded BaselineItemzs are like soft deleted (soft removed) BaselineItemzs from
 
 You can Include BaselineItemzs that are in exclusion state where as you can’t bring back Orphaned Baseline Itemzs as their parent has been hard deleted already. 
 
+# Copy value for IsIncluded when creating new Baseline based on existing Baseline
+
+In most cases, users may would like to create new baseline based on existing baseline for making further changes. This is the reason to copy value for IsIncluded as part of Create Baseline based on existing Baseline feature. 
+
+We shall also look into supporting feature to re-set existing baseline to include all in one shot. 
+
+### Conclusion
+
+Instead of including all by default we copy value of IsIncluded when creating new Baseline based on existing one. 
+
 
