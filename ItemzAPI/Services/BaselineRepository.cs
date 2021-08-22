@@ -186,6 +186,72 @@ namespace ItemzApp.API.Services
             return returnValue;
         }
 
+        public async Task<Guid> CloneBaselineAsync(NonEntity_CloneBaseline cloneBaseline)
+        {
+            if (cloneBaseline == null)
+            {
+                throw new ArgumentNullException(nameof(cloneBaseline));
+            }
+
+            if (cloneBaseline.Name is null || cloneBaseline.Name == string.Empty)
+            {
+                throw new ArgumentNullException(nameof(cloneBaseline.Name));
+            }
+
+            if (cloneBaseline.BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(cloneBaseline.BaselineId));
+            }
+
+            if (!_baselineContext.Baseline!.Where(b => b.Id == cloneBaseline.BaselineId).Any())
+            {
+                throw new ArgumentException(nameof(cloneBaseline.BaselineId));
+            }
+
+            Guid returnValue = Guid.Empty;
+            var OUTPUT_ID = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Id",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+            };
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter
+                {
+                    ParameterName = "BaselineId",
+                    Value = cloneBaseline.BaselineId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+
+            sqlParameters = sqlParameters.Append(
+                new SqlParameter
+                {
+                    ParameterName = "Name",
+                    Size = 128,
+                    Value = cloneBaseline.Name ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                }).ToArray();
+
+            sqlParameters = sqlParameters.Append(
+                new SqlParameter
+                {
+                    ParameterName = "Description",
+                    Size = 1028,
+                    Value = cloneBaseline.Description ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                }).ToArray();
+
+            sqlParameters = sqlParameters.Append(OUTPUT_ID).ToArray();
+
+            var _ = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcCreateBaselineByExistingBaselineID  @BaselineId, @Name, @Description, @OUTPUT_Id = @OUTPUT_Id OUT", parameters: sqlParameters);
+            returnValue = (Guid)OUTPUT_ID.Value;
+
+            return returnValue;
+        }
+
         public async Task DeleteOrphanedBaselineItemzAsync()
         {
             await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteAllOrphanedBaselineItemz");

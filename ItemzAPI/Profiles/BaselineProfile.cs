@@ -12,6 +12,7 @@ namespace ItemzApp.API.Profiles
             CreateMap<Models.CreateBaselineDTO, Entities.Baseline>(); // Used for creating Baseline based on CreateBaselineDTO object.
             CreateMap<Models.UpdateBaselineDTO, Entities.Baseline>(); // Used for updating Baseline based on UpdateBaselineDTO object.
             CreateMap<Entities.Baseline, Models.UpdateBaselineDTO>();  // Used for updating UpdateBaselineDTO based on Baseline object.
+            CreateMap<Models.CloneBaselineDTO, Entities.NonEntity_CloneBaseline>(); // Used for creating new baseline by cloning existing one.
         }
     }
 }

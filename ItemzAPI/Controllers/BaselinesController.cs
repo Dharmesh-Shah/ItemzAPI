@@ -200,6 +200,85 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Used for creating new Baseline record by cloning existing baseline
+        /// </summary>
+        /// <param name="cloneBaselineDTO">Used for cloning existing baseline by BaselineId</param>
+        /// <returns>Newly created Baseline property details by cloning existing baseline</returns>
+        /// <response code="201">Returns newly created Baseline property details</response>
+        /// <response code="404">Expected Baseline with ID was not found in the repository</response>
+        /// <response code="409">Conflicts encountered while creating new Baseline from existing Baseline</response>
+
+        [HttpPost("CloneBaseline", Name = "__POST_Clone_Baseline__")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<GetBaselineDTO>> CloneBaselineAsync(CloneBaselineDTO cloneBaselineDTO)
+        {
+            var sourceBaselineFromRepo = await _baselineRepository.GetBaselineAsync(cloneBaselineDTO.BaselineId);
+
+            if (sourceBaselineFromRepo == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Source Baseline with {BaselineId} could not be found while cloning Baseline in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    cloneBaselineDTO.BaselineId);
+                return NotFound();
+            }
+
+            var baselineEntity = _mapper.Map<Entities.NonEntity_CloneBaseline>(cloneBaselineDTO);
+
+            if (await _baselineRules.UniqueBaselineNameRuleAsync(sourceBaselineFromRepo.ProjectId, cloneBaselineDTO.Name!))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Baseline with name {cloneBaselineDTO_Name} already exists in the project with Id {sourceBaselineFromRepo_ProjectId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    cloneBaselineDTO.Name,
+                    sourceBaselineFromRepo.ProjectId);
+                return Conflict($"Baseline with name '{cloneBaselineDTO.Name}' already exists in the project with Id '{sourceBaselineFromRepo.ProjectId}'");
+
+            }
+
+            var foundBaselineItemzCountByBaselineId = 
+                        await _baselineRepository.GetBaselineItemzCountByBaselineAsync(
+                            cloneBaselineDTO.BaselineId);
+
+            if (foundBaselineItemzCountByBaselineId == 0)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Zero BaselineItemz found in Baseline with ID {cloneBaselineDTO_BaselineId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    cloneBaselineDTO.BaselineId);
+                return Conflict($"Zero BaselineItemz found in Baseline with ID '{ cloneBaselineDTO.BaselineId}'");
+            }
+            Guid newlyClonedBaselineId;
+
+            try
+            {
+                // EXPLANATION: Because baseline is created via User Defined Stored Procedure,
+                // We therefor do not call SaveAsync() method on the _baselineRepository. 
+
+                newlyClonedBaselineId = await _baselineRepository.CloneBaselineAsync(baselineEntity);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to clone existing baseline:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Baseline with name '{baselineEntity.Name}' already exists in the repository. DB Error reported, check the log file.");
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new Baseline with ID {newlyClonedBaselineId} by cloning from Baseline ID {cloneBaselineDTO_BaselineId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                newlyClonedBaselineId,
+                cloneBaselineDTO.BaselineId);
+
+            // EXPLANATION: Because we are creating new baseline from existing baseline by cloning it using custom user defined stored procedure
+            // we do not have access to the underlying Entity. That's why we have to call _baselineRepository.GetBaselineAsync
+            // and then use Automapper to convert it into DTO that is returned back to the user of the API.
+
+            return CreatedAtRoute("__Single_Baseline_By_GUID_ID__", new { BaselineId = newlyClonedBaselineId },
+                 _mapper.Map<GetBaselineDTO>(await _baselineRepository.GetBaselineAsync(newlyClonedBaselineId)) // Converting to DTO as this is going out to the consumer 
+                );
+        }
+
+        /// <summary>
         /// Updating exsting Baseline based on Baseline Id (GUID)
         /// </summary>
         /// <param name="baselineId">GUID representing an unique ID of the Baseline that you want to update</param>

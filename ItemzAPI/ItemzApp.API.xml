@@ -165,6 +165,16 @@
             <response code="404">Expected Project with ID was not found in the repository</response>
             <response code="409">Baseline with the same name already exists in the repository</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.CloneBaselineAsync(ItemzApp.API.Models.CloneBaselineDTO)">
+            <summary>
+            Used for creating new Baseline record by cloning existing baseline
+            </summary>
+            <param name="cloneBaselineDTO">Used for cloning existing baseline by BaselineId</param>
+            <returns>Newly created Baseline property details by cloning existing baseline</returns>
+            <response code="201">Returns newly created Baseline property details</response>
+            <response code="404">Expected Baseline with ID was not found in the repository</response>
+            <response code="409">Conflicts encountered while creating new Baseline from existing Baseline</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselinesController.UpdateBaselinePutAsync(System.Guid,ItemzApp.API.Models.UpdateBaselineDTO)">
             <summary>
             Updating exsting Baseline based on Baseline Id (GUID)
@@ -812,6 +822,29 @@
             Itemz Severity list values as ENUM
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Entities.NonEntity_CloneBaseline">
+            <summary>
+            NonEntity_CloneBaseline is used to pass in necessary properties to custom User Stored Procedure
+            via repository service that clones existing baseline to create a new Baseline from it.
+            
+            This is NOT used for mapping entities to the database via EF Core DBContext
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Entities.NonEntity_CloneBaseline.BaselineId">
+            <summary>
+            Source Baseline's Id for creating new baseline by cloning it.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Entities.NonEntity_CloneBaseline.Name">
+            <summary>
+            Name or Title of the Baseline
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Entities.NonEntity_CloneBaseline.Description">
+            <summary>
+            Description of the Baseline
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Entities.UpdateBaselineItemz">
             <summary>
             BaselineItemz are mainly readonly objects. 
@@ -832,6 +865,18 @@
         <member name="P:ItemzApp.API.Entities.UpdateBaselineItemz.BaselineItemzIds">
             <summary>
             Id of the BaselineItemz represented by a GUID.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Models.CloneBaselineDTO">
+            <summary>
+            CloneBaselineDTO shall be used for sending in request for creating new Baseline 
+            based on existing baseline by cloning the same.
+            It will expose necessary properties to allow successful creation of the Baseline.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.CloneBaselineDTO.BaselineId">
+            <summary>
+            Source Baseline's Id for creating new baseline by cloning it.
             </summary>
         </member>
         <member name="T:ItemzApp.API.Models.CreateBaselineDTO">

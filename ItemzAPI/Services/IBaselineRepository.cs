@@ -21,6 +21,8 @@ namespace ItemzApp.API.Services
 
         public Task<Guid> AddBaselineAsync(Baseline baseline);
 
+        public Task<Guid> CloneBaselineAsync(NonEntity_CloneBaseline cloneBaseline);
+
         public Task DeleteOrphanedBaselineItemzAsync();
 
         public Task<bool> SaveAsync();
