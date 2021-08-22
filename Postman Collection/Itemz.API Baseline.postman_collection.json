@@ -15017,6 +15017,49 @@
 					"name": "Create New Project",
 					"item": [
 						{
+							"name": "GET Orphan Itemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var foundOrphandCount = (parseInt(pm.response.text()) < 0 ? 0 : parseInt(pm.response.text()));",
+											"pm.collectionVariables.set(\"VerityBaselineItemzsStayPostItemzDeletion_foundOrphandCount\", foundOrphandCount);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"GetOrphanCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GET TotalBaselineItemz Count By Repository",
 							"event": [
 								{
@@ -17084,6 +17127,312 @@
 					]
 				},
 				{
+					"name": "Delete 2nd ItemzType from Project",
+					"item": [
+						{
+							"name": "DELETE ItemzType by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/{{VerityBaselineItemzsStayPostItemzDeletion_New2ndItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"{{VerityBaselineItemzsStayPostItemzDeletion_New2ndItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET TotalBaselineItemz Count By Repository",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_InitialCountOfBaselineItemz\")) ",
+											"        + 6 + (6*5) );",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetTotalBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphaned BaselineItemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemzs and Verify BaselineItemzID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"var tempBaselineItemz = pm.response.json(); ",
+											"",
+											"pm.test('Verify that number of BaselineItemz elements are as expected', () => {",
+											"    pm.expect(tempBaselineItemz.length).to.eql(1 + 5);",
+											"});",
+											"",
+											"pm.test('Verify that 1st BaselineItemzId is as expected ', () => {",
+											"    pm.expect(tempBaselineItemz[0].id).to.eql(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_1stSnapshot_BaselineItemzId_01_01\"));",
+											"    });   ",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{VerityBaselineItemzsStayPostItemzDeletion_NewItemzId_01_01}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{VerityBaselineItemzsStayPostItemzDeletion_NewItemzId_01_01}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphan Itemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Orphan Itemz\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_foundOrphandCount\")) + 3);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"GetOrphanCount"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Delete New Project",
 					"item": [
 						{
@@ -17269,6 +17618,54 @@
 										"api",
 										"Baselines",
 										"GetOrphanedBaselineItemzCount"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Orphan Itemz Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"",
+											"pm.test(\"Verify that expected number of records were found for Orphan Itemz\", function () {",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(",
+											"        parseInt(pm.collectionVariables.get(\"VerityBaselineItemzsStayPostItemzDeletion_foundOrphandCount\")) + 3 + 2);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/GetOrphanCount",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"GetOrphanCount"
 									]
 								}
 							},
@@ -17770,6 +18167,10 @@
 		},
 		{
 			"key": "VerityBaselineItemzsStayPostItemzDeletion_THROWAWAYName",
+			"value": ""
+		},
+		{
+			"key": "VerityBaselineItemzsStayPostItemzDeletion_foundOrphandCount",
 			"value": ""
 		}
 	]
