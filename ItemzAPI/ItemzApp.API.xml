@@ -131,6 +131,15 @@
             <response code="200">Returns collection of BaselineItemzTypes based on sorting order</response>
             <response code="404">No BaselineItemzTypes were found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzCountByBaselineItemzTypeAsync(System.Guid)">
+            <summary>
+            Get total number of BaselineItemz by BaselineItemzType
+            </summary>
+            <param name="baselineItemzTypeId">Provide BaselineItemzTypeID representated in GUID form</param>
+            <returns>Number of BaselineItemz found for the given BaselineItemzTypeID. Zero if none found.</returns>
+            <response code="200">Returns number of BaselineItemz count that were associated with a given BaselineItemzType</response>
+            <response code="404">BaselineItemzType based on baselineItemzTypeId was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypesOptions">
             <summary>
             Get list of supported HTTP Options for the BaselineItemzTypes controller.

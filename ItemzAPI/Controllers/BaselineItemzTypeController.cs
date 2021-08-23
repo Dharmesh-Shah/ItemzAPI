@@ -101,6 +101,39 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetBaselineItemzTypeDTO>>(BaselineItemzTypesFromRepo));
         }
 
+
+
+        /// <summary>
+        /// Get total number of BaselineItemz by BaselineItemzType
+        /// </summary>
+        /// <param name="baselineItemzTypeId">Provide BaselineItemzTypeID representated in GUID form</param>
+        /// <returns>Number of BaselineItemz found for the given BaselineItemzTypeID. Zero if none found.</returns>
+        /// <response code="200">Returns number of BaselineItemz count that were associated with a given BaselineItemzType</response>
+        /// <response code="404">BaselineItemzType based on baselineItemzTypeId was not found</response>
+        [HttpGet("GetBaselineItemzCount/{BaselineItemzTypeId:Guid}", Name = "__GET_BaselineItemz_Count_By_BaselineItemzType__")]
+        [HttpHead("GetBaselineItemzCount/{BaselineItemzTypeId:Guid}", Name = "__HEAD_BaselineItemz_Count_By_BaselineItemzType__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetBaselineItemzCountByBaselineItemzTypeAsync(Guid baselineItemzTypeId)
+        {
+            if (!(await _baselineItemzTypeRepository.BaselineItemzTypeExistsAsync(baselineItemzTypeId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of BaselineItemz as BaselineItemzType with ID {BaselineItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    baselineItemzTypeId);
+                return NotFound();
+            }
+
+            var foundBaselineItemzCountByBaselineItemzTypeId = await _baselineItemzTypeRepository.GetBaselineItemzCountByBaselineItemzTypeAsync(baselineItemzTypeId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineItemzCountByBaselineItemzTypeId} BaselineItemz records for BaselineItemzType with ID {baselineItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundBaselineItemzCountByBaselineItemzTypeId,
+                baselineItemzTypeId);
+            return foundBaselineItemzCountByBaselineItemzTypeId;
+        }
+
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 
