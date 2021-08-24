@@ -288,7 +288,7 @@ namespace ItemzApp.API.Controllers
         /// <summary>
         /// Move Itemz from one ItemzType to another
         /// </summary>
-        /// <param name="ItemzTypeId">GUID representing an unique ID of the Target ItemzType for moving Itemz into</param>
+        /// <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
         /// <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
         /// <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
         /// <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
