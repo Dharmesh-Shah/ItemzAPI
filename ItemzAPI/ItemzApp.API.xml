@@ -645,7 +645,7 @@
             <summary>
             Move Itemz from one ItemzType to another
             </summary>
-            <param name="ItemzTypeId">GUID representing an unique ID of the Target ItemzType for moving Itemz into</param>
+            <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
             <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
             <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
             <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
@@ -836,7 +836,11 @@
             NonEntity_CloneBaseline is used to pass in necessary properties to custom User Stored Procedure
             via repository service that clones existing baseline to create a new Baseline from it.
             
-            This is NOT used for mapping entities to the database via EF Core DBContext
+            This is NOT used for mapping entities to the database via EF Core DBContext. 
+            
+            We are making sure that we follow the convention of not letting DTO be sent directly to the 
+            Database for processing user request. For now, CloneBaselineDTO and NonEntity_CloneBaseline has 
+            similar properties and we keep them seperated to make sure that we follow necessary best practices.
             </summary>
         </member>
         <member name="P:ItemzApp.API.Entities.NonEntity_CloneBaseline.BaselineId">
