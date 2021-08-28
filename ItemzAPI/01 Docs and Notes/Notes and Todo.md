@@ -961,6 +961,29 @@ During discussion part, there were nice tips shared by EF Core Team related to p
 We believe that with Authentication and Authorization in place, we might not need much help from Query Filters.
 
 
+### [Entity Framework Community Standup - Dapper ](https://www.youtube.com/watch?v=txiQar6PqvA&list=PLdo4fOcmZ0oX-DBuRG4u58ZTAJgBAeQ-t&index=2)
+
+Published on 25th August 2021 
+
+By Author <span style="background-color: #99ff66">[Nick Craver](https://twitter.com/nick_craver) </span> and <span style="background-color: #99ff66">[Marc Gravell](https://twitter.com/marcgravell) </span>
+
+As specified by Marc Gravell from StackOverflow Hot path SQL Queries were taken away from LINQtoSQL and in todays world it would be EF Core.
+
+ADO .NET Libraries are complex and a developer who has worked for more then 8 years could also write code that can be considered as wrong code.
+
+Arthur said that less and less number of people are asking for support for Stored Procedure. While working on ItemzAPP, I could not find better way then using Stored Procedure for working with Baseline. This leads me to question if we are doing something wrong or have people decided to stop asking for Stored Procedure because EF Team is not having time to deliver the same. May be people are looking at old issues that are open and has necessary comments from long time ago and so people think that it's not important for EF Core team anymore.
+
+I liked what Nick Craver said at 00:44:00 minute. 
+	- **Why would I be bad at that when I could be good at this.**
+
+Nice quote. 
+
+EF has 5 engineers where as Dapper has zero fulltime engineer. It's difficult to understand that only 5 engineers are able to deliver features, bug fixes, docs, demos, conferences, etc. It's a small team compared to all the things that EF is covering in it's scope.
+
+In discussion, Nick Craver and Arthur Vickers spoke about ... How can we do more things. By keeping things simple, and dropping things that are not needed. A complex code will be difficult to maintain as well. Do things in a simple way to achieve the goal and think more about what is needed to be done instead of complecating the solution for the users. This is important discussion from requirements definition and management point of view. More we think upfront about the actual need, better we get at elicitating requirements that shall make into the product / services. We shall aim to make ItemzAPP user friendly but at the same time less complecated to give users ability use it effectively. 
+
+
+
 
 
 
