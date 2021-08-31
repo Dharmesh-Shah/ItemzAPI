@@ -331,7 +331,7 @@ namespace ItemzApp.API.DbContexts
                 .HasForeignKey(baselineForeignKey);
 
             // EXPLANATION: This way, we are adding Unique Index for
-            // Baseline Name PLUSE ProjectID.
+            // Baseline Name PLUS ProjectID.
             // It's not possible to use Attribute for creating Unique Index in
             // EF Core 3.1. That is why I'm using Fluent API for the same.
             // Docs ca be found at ...
@@ -392,8 +392,9 @@ namespace ItemzApp.API.DbContexts
 
             // EXPLANATION: This will make sure that isIncluded property is set with default value 1 (as true)
             // in SQL Server Database. This means that by default BaselineItemz are included in the
-            // Baseline and while we support Shrinking Baseline model, user can exclude specific 
-            // BaselineItemzs from the baseline at later stage.
+            // Baseline.
+            // Checkout requirements documentation at
+            // https://github.com/Dharmesh-Shah/ItemzAPI/blob/master/ItemzAPI/01%20Docs%20and%20Notes/Concept-Of-Baselining/Concept-Of-Baselining.md#will-baseline-support-including-and-excluding-of-requirements
 
             modelBuilder.Entity<BaselineItemz>(entity =>
             {
