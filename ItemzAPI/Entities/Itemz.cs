@@ -76,5 +76,10 @@ namespace ItemzApp.API.Entities
         //public List<ProjectJoinItemz> ProjectJoinItemz { get; set; }
 
         public List<ItemzTypeJoinItemz>? ItemzTypeJoinItemz { get; set; }
+
+        public virtual List<Itemz>? FromItemzJoinItemzTrace { get; set; }
+
+        public virtual List<Itemz>? ToItemzJoinItemzTrace { get; set; }
+
     }
 }

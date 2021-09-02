@@ -37,6 +37,16 @@ namespace ItemzApp.API.Services
 
             return await _context.Itemzs!
                 .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
+            
+            // EXPLAINATION: It is possible to return Itemz data with details
+            // about FromItemzJoinItemzTrace + ToItemzJoinItemzTrace + ItemzTypeJoinItemz together 
+            // as per below option.
+            
+            //return await _context.Itemzs!
+            //    .Include(i => i.FromItemzJoinItemzTrace)
+            //    .Include(i => i.ToItemzJoinItemzTrace)
+            //    .Include(i => i.ItemzTypeJoinItemz)
+            //    .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<Itemz?> GetItemzForUpdatingAsync(Guid ItemzId)

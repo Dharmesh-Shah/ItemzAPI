@@ -43,6 +43,7 @@ namespace ItemzApp.API.DbContexts
         public DbSet<BaselineItemzType>? BaselineItemzType { get; set; }
         public DbSet<BaselineItemz>? BaselineItemz { get; set; }
         public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
+        public DbSet<ItemzJoinItemzTrace>? ItemzJoinItemzTrace { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -123,6 +124,15 @@ namespace ItemzApp.API.DbContexts
                                     typeof(ItemzSeverity),
                                     EntityPropertyDefaultValues.ItemzSeverityDefaultValue,
                                     true));
+
+            modelBuilder.Entity<Itemz>()
+                .HasMany(i => i.FromItemzJoinItemzTrace)
+                .WithMany(i => i.ToItemzJoinItemzTrace)
+                .UsingEntity<ItemzJoinItemzTrace>(
+                    b => b.HasOne(e => e.FromItemz!).WithMany().HasForeignKey(e => e.FromItemzId).OnDelete(DeleteBehavior.Restrict),
+                    b => b.HasOne(e => e.ToItemz!).WithMany().HasForeignKey(e => e.ToItemzId).OnDelete(DeleteBehavior.Restrict)
+                    );
+
 
             // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
             // SQL Server Database as well.
