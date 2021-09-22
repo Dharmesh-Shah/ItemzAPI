@@ -98,5 +98,9 @@ This is going to be useful to monitor number of DB Context, Number of Queries, N
 
 Because EF Core published counters via Event Counters for different events, it will be useful to monitor how ItemzApp works when put under load for testing against Postman / other scripts.
 
+### [SQL Server Query Timeout issue](https://sqlundercover.com/2021/07/27/my-application-is-getting-sql-timeout-errors-but-what-query-is-the-problem/)
+
+This blog post gives detailed information about how to capture and monitor for aborted queries that may cause timeout issues in the application. SQL Server has in-build capabilities to monitor for queries that are aborted and log them in a separate file. This is not enabled by default but it's very easy to do so via 'Management' capabilities.
+
 
 
