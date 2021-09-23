@@ -982,7 +982,63 @@ EF has 5 engineers where as Dapper has zero fulltime engineer. It's difficult to
 
 In discussion, Nick Craver and Arthur Vickers spoke about ... How can we do more things. By keeping things simple, and dropping things that are not needed. A complex code will be difficult to maintain as well. Do things in a simple way to achieve the goal and think more about what is needed to be done instead of complecating the solution for the users. This is important discussion from requirements definition and management point of view. More we think upfront about the actual need, better we get at elicitating requirements that shall make into the product / services. We shall aim to make ItemzAPP user friendly but at the same time less complecated to give users ability use it effectively. 
 
+### [Entity Framework Community Standup - PostgreSQL and EF Core](https://youtu.be/Ya_cmZRwACM?list=PLdo4fOcmZ0oX-DBuRG4u58ZTAJgBAeQ-t&t=1672)
 
+Published on 22nd September 2021 
+
+By Author <span style="background-color: #99ff66">[Shay Rojansky](https://twitter.com/ShayRojansky) </span>
+
+EF Core - Instead of Many-To-Many relationship one could use ValueConversion
+
+In this example, We are going to first define Blog Class as below.
+
+``` C#
+public class Blog
+{
+
+	public int Id {get; set;}
+	[Required]
+	public string Name {get; set;}
+	public string[] Tags {get; set;}
+}
+```
+
+Note that there is not class defined for Tags. It's just a string Array in class Blog. 
+
+Now we can use explicit value conversion to say that Blog has many Tags which are stored in database as Comma Separated values and it gets converted to string array when we retrieve value from the database. This value conversion is defined as part of OnModelCreating method as below...
+
+``` C#
+
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+	modelBuilder.Entity<Blog>(b =>
+	{
+		b.Property(b => b.Tags)
+			.HasConversion(
+				b => string.Join(",", b),
+				b => b.Split(",", StringSplitOptions.None).ToArray());
+	});
+}
+```
+
+This is how we configure a Blog having Many Tags defined as comma separated field in SQL Server Database Table. All this code came from from performed by @shayrojansky in [Entity Framework Community Standup - PostgreSQL and EF Core](https://youtu.be/Ya_cmZRwACM?list=PLdo4fOcmZ0oX-DBuRG4u58ZTAJgBAeQ-t&t=1672) at 27:52 minutes.
+
+Following is an example where SQL Query will be generated with In Clause. 
+
+``` C#
+_ = await ctx.Blogs
+	.Where(b => new[] {"Blog1", "Blog2"}.Contains(b.name))
+	.ToListAsync();
+```
+
+
+Following SQL is generated for above LINQ query
+
+``` SQL
+SELECT [b].[Id], [b].[Name], [b].[Tags]
+FROM [Blogs] AS [b]
+WHERE [b].[Name] IN (N'Blog1', N'Blog2')
+```
 
 
 
