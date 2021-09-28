@@ -4,7 +4,7 @@ There are many reasons for linking to other requirements in the same project or 
 
  - One requirement is dependent on another requirement as part of delivery cycle. 
  - There are common features developed between two requirements and so they are supposed to be related with each other
- - Different flavor of the same component is injected in different model of the product with minor variation.
+ - Different flavour of the same component is injected in different model of the product with minor variation.
  - A change in one requirement would essentially impact another requirement(s)
  - Technical feasibility relates two features. In case if we find technical solution for one then we would essentially be able to deliver other related requirements too.
  - Customer has demanded to either deliver certain pack of requirements together. They would like to have either all of the identified features delivered or none to be delivered from the same pack.
