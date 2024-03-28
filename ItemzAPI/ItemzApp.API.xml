@@ -513,6 +513,25 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.CheckItemzTraceExistsAsync(System.Guid,System.Guid)">
+            <summary>
+            Check if specific Itemz Trace association exists
+            </summary>
+            <param name="fromTraceItemzId">Provide From Trace Itemz Id</param>
+            <param name="toTraceItemzId">Provide To Trace Itemz Id</param>
+            <returns>ItemzTraceDTO for the Itemz that has specified Itemz Trace</returns>
+            <response code="200">Returns ItemzTraceDTO for the From and To Itemz Trace</response>
+            <response code="404">Itemz Trace was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.EstablishTraceBetweenItemzAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Used for Establishing Trace link between Itemz 
+            </summary>
+            <param name="ItemzTraceDTO">Used for Associating Trace between two Itemz </param>
+            <returns>ItemzTraceDTO for the Itemz Trace Association</returns>
+            <response code="200">Itemz Trace association was either found or added successfully</response>
+            <response code="404">Either FromItemz or ToItemz was not found </response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
@@ -1248,6 +1267,16 @@
             Date and Time when Project was created
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.ItemzTraceDTO.FromTraceItemzId">
+            <summary>
+            Id of the From Trace Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ItemzTraceDTO.ToTraceItemzId">
+            <summary>
+            Id of the To Trace Itemz representated by a GUID.
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.ItemzTypeItemzDTO.ItemzId">
             <summary>
             Id of the Itemz representated by a GUID.
@@ -1422,6 +1451,19 @@
             <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
             <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
             <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzTraceRepository.ItemzsTraceExistsAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Purpose of this method is to check if Trace is already found between FromItemz and ToItemz
+            </summary>
+            <param name="itemzTraceDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzTraceRepository.EstablishTraceBetweenItemzAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Purpose for this method is to allow creating new Itemz Trace and saving it.
+            </summary>
+            <param name="itemzTraceDTO"></param>
         </member>
     </members>
 </doc>
