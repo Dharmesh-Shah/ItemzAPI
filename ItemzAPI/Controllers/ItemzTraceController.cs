@@ -89,7 +89,7 @@ namespace ItemzApp.API.Controllers
         /// <summary>
         /// Used for Establishing Trace link between Itemz 
         /// </summary>
-        /// <param name="ItemzTraceDTO">Used for Associating Trace between two Itemz </param>
+        /// <param name="itemzTraceDTO">Used for Associating Trace between two Itemz </param>
         /// <returns>ItemzTraceDTO for the Itemz Trace Association</returns>
         /// <response code="200">Itemz Trace association was either found or added successfully</response>
         /// <response code="404">Either FromItemz or ToItemz was not found </response>
@@ -123,6 +123,40 @@ namespace ItemzApp.API.Controllers
                 itemzTraceDTO.ToTraceItemzId);
 
             return itemzTraceDTO;
+        }
+
+
+        /// <summary>
+        /// Used for deleting Trace link between Itemz. This will not delete Itemz from the database,
+        /// instead it will only remove their trace association if found. 
+        /// </summary>
+        /// <returns>Status code 204 is returned without any content indicating that deletion of the specified FromItemz and ToItemz trace association was successful</returns>
+        /// <response code="404">FromItemz and ToItemz Trace not found</response>
+        [HttpDelete(Name = "__DELETE_Itemz_Trace__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteItemzTraceAsync(ItemzTraceDTO itemzTraceDTO)
+        {
+            if (!(await _itemzTraceRepository.ItemzsTraceExistsAsync(itemzTraceDTO)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find trace asscoaition between " +
+                    "Itemz ID {FromItemz} and Itemz ID {ToItemz}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzTraceDTO.FromTraceItemzId,
+                    itemzTraceDTO.ToTraceItemzId);
+                return NotFound();
+            }
+
+            await _itemzTraceRepository.RemoveItemzTraceAsync(itemzTraceDTO);
+            await _itemzTraceRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Deleted Itemz Trace between " +
+                "Itemz ID {FromItemz} and Itemz ID {ToItemz}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzTraceDTO.FromTraceItemzId,
+                itemzTraceDTO.ToTraceItemzId);
+            return NoContent();
         }
 
         //        /// <summary>
@@ -504,5 +538,5 @@ namespace ItemzApp.API.Controllers
         //                        })!;
         //            }
         //        }
-        }
+    }
     }

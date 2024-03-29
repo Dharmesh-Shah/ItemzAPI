@@ -15,6 +15,7 @@ namespace ItemzApp.API.Services
     {
 
         public Task<bool> SaveAsync();
+
         public Task<IEnumerable<ItemzJoinItemzTrace>> GetAllTracesByItemzIdAsync(Guid itemzId);
 
         public Task<bool> ItemzsTraceExistsAsync(ItemzTraceDTO itemzTraceDTO);
@@ -22,5 +23,7 @@ namespace ItemzApp.API.Services
         public Task<bool> EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO);
 
         public Task<bool> ItemzExistsAsync(Guid itemzId);
+
+        public Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO);
     }
 }

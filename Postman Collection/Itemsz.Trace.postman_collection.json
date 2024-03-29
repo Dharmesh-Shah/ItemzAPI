@@ -120,6 +120,108 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DELETETraceBetweenTwoItemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetweenTwoItemz WRONGID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([404]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"1111a111-d11e-1111-b11e-11b11111e11c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

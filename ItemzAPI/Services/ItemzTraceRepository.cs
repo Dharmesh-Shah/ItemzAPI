@@ -80,8 +80,8 @@ namespace ItemzApp.API.Services
 
             return await _itemzTraceContext.ItemzJoinItemzTrace
                             .AsNoTracking()
-                            .AnyAsync(ijit => ijit.FromItemzId == itemzTraceDTO.FromTraceItemzId
-                                        && ijit.ToItemzId == itemzTraceDTO.ToTraceItemzId);
+                            .AnyAsync(itrace => itrace.FromItemzId == itemzTraceDTO.FromTraceItemzId
+                                        && itrace.ToItemzId == itemzTraceDTO.ToTraceItemzId);
         }
 
         /// <summary>
@@ -144,6 +144,17 @@ namespace ItemzApp.API.Services
 
             return await _context.Itemzs.AsNoTracking().AnyAsync(a => a.Id == itemzId);
             // return  !(_context.Itemzs.Find(itemzId) == null);
+        }
+
+        public async Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO)
+        {
+            var itrace = await _itemzTraceContext.ItemzJoinItemzTrace!.FindAsync(itemzTraceDTO.FromTraceItemzId, itemzTraceDTO.ToTraceItemzId);
+            if (itrace != null)
+            {
+                _itemzTraceContext.ItemzJoinItemzTrace.Remove(itrace);
+                return true; // Found and removed
+            }
+            return false;  // Could not be found
         }
     }
 }
