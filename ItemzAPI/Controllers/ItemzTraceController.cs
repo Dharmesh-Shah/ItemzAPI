@@ -116,8 +116,8 @@ namespace ItemzApp.API.Controllers
 
             await _itemzTraceRepository.EstablishTraceBetweenItemzAsync(itemzTraceDTO);
             await _itemzTraceRepository.SaveAsync();
-            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz Trace was either created or found for between " +
-                "FromItemz {FromItemzTrace} to ToItemz {ToItemzTrace}",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz Trace was either created or found between " +
+                "Parent FromItemz {FromItemzTrace} and Child ToItemz {ToItemzTrace}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 itemzTraceDTO.FromTraceItemzId, 
                 itemzTraceDTO.ToTraceItemzId);
@@ -504,5 +504,5 @@ namespace ItemzApp.API.Controllers
         //                        })!;
         //            }
         //        }
-    }
+        }
     }
