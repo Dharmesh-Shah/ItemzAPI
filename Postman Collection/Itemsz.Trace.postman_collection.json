@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "5a82e00f-7cf7-48bb-a6d2-23eb4483ecf8",
+		"name": "Itemsz.Trace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33816436"
+	},
+	"item": [
+		{
+			"name": "EstablishTraceRelationship",
+			"item": [
+				{
+					"name": "POST EstablishTraceBetweenTwoItemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetweenTwoItemz WRONGID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 400 or 404\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([400,404]);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"1111a111-d11e-1111-b11e-11b11111e11c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
