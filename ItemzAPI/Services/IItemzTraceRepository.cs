@@ -20,7 +20,7 @@ namespace ItemzApp.API.Services
 
         public Task<bool> ItemzsTraceExistsAsync(ItemzTraceDTO itemzTraceDTO);
 
-        public Task<bool> EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO);
+        public Task EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO);
 
         public Task<bool> ItemzExistsAsync(Guid itemzId);
 

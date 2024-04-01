@@ -88,7 +88,7 @@ namespace ItemzApp.API.Services
         /// Purpose for this method is to allow creating new Itemz Trace and saving it.
         /// </summary>
         /// <param name="itemzTraceDTO"></param>
-        public async Task<bool> EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO)
+        public async Task EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO)
         {
             if (itemzTraceDTO.FromTraceItemzId == Guid.Empty)
             {
@@ -120,7 +120,6 @@ namespace ItemzApp.API.Services
                 };
                 await _itemzTraceContext.ItemzJoinItemzTrace.AddAsync(temp_itrace);
             }
-            return true;
         }
 
         public async Task<bool> ItemzExistsAsync(Guid itemzId)

@@ -8,8 +8,10 @@ namespace ItemzApp.API.Profiles
     {
         public ItemzTraceProfile()
         {
-            CreateMap<Entities.ItemzJoinItemzTrace, Models.ItemzTraceDTO>(); // Used for creating ItemzTraceDTO based on ItemzTrace object.
-            CreateMap<Models.ItemzTraceDTO, Entities.ItemzJoinItemzTrace>(); // Used for creating ItemzTrace based on ItemzTraceDTO object.
+            CreateMap<Entities.ItemzJoinItemzTrace, Models.ItemzTraceDTO>()
+                .ForMember(itDTO => itDTO.FromTraceItemzId, ijit => ijit.MapFrom(ijit => ijit.FromItemzId))
+                .ForMember(itDTO => itDTO.ToTraceItemzId, ijit => ijit.MapFrom(ijit => ijit.ToItemzId)); // Used for creating ItemzTraceDTO based on ItemzTrace object.
+            // CreateMap<Models.ItemzTraceDTO, Entities.ItemzJoinItemzTrace>() // Because ItemzJoinItemzTrace contains full Itemz object, I would never expect it to be created from the DTO. 
         }
     }
 }

@@ -159,94 +159,55 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
-        //        /// <summary>
-        //        /// Gets collection of Itemzs by ItemzType ID
-        //        /// </summary>
-        //        /// <param name="ItemzTypeId">ItemzType ID for which Itemz are queried</param>
-        //        /// <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
-        //        /// <returns>Collection of Itemz based on expectated pagination and sorting order.</returns>
-        //        /// <response code="200">Returns collection of Itemzs based on pagination</response>
-        //        /// <response code="404">No Itemzs were found</response>
-        //        [HttpGet("{ItemzTypeId:Guid}", Name = "__GET_Itemzs_By_ItemzType__")]
-        //        [HttpHead("{ItemzTypeId:Guid}", Name = "__HEAD_Itemzs_By_ItemzType__")]
-        //        [ProducesResponseType(StatusCodes.Status200OK)]
-        //        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        //        [ProducesDefaultResponseType]
-        //        public async Task<ActionResult<IEnumerable<GetItemzDTO>>> GetItemzsByItemzTypeAsync(Guid ItemzTypeId,
-        //            [FromQuery] ItemzResourceParameter itemzResourceParameter)
-        //        {
-        //            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
-        //                (itemzResourceParameter.OrderBy))
-        //            {
-        //                _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
-        //                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-        //                    itemzResourceParameter.OrderBy);
-        //                return BadRequest();
-        //            }
+        /// <summary>
+        /// Gets collection of Itemz Traces by Itemz ID
+        /// </summary>
+        /// <param name="itemzId">Itemz ID for which Itemz Traces are queried</param>
+        /// <returns>Collection of Itemz Traces by Itemz ID</returns>
+        /// <response code="200">Returns Collection of Itemz Traces by Itemz ID</response>
+        /// <response code="404">Either ItemzID was not found or No Itemz Traces were found for given ItemzID</response>
+        [HttpGet("{itemzId:Guid}", Name = "__GET_Itemz_Traces_By_ItemzID__")]
+        [HttpHead("{itemzId:Guid}", Name = "__HEAD_Itemz_Traces_By_ItemzID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<ItemzTraceDTO>>> GetItemzTracesByItemzIDAsync(Guid itemzId)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(itemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzId} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
+                return NotFound();
+            }
 
-        //            if(!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
-        //            {
-        //                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
-        //                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-        //                    ItemzTypeId);
-        //                return NotFound();
-        //            }
+            var itemzTracesFromRepo = await  _itemzTraceRepository.GetAllTracesByItemzIdAsync(itemzId);
 
-        //            var itemzsFromRepo = _itemzRepository.GetItemzsByItemzType(ItemzTypeId, itemzResourceParameter);
-        //            // EXPLANATION : Check if list is IsNullOrEmpty
-        //            // By default we don't have option baked in the .NET to check
-        //            // for null or empty for List type. In the following code we are first checking
-        //            // for nullable itemzsFromRepo? and then for count great then zero via Any()
-        //            // If any of above is true then we return true. This way we log that no itemz were
-        //            // found in the database.
-        //            // Ref: https://stackoverflow.com/a/54549818
-        //            if (!itemzsFromRepo?.Any() ?? true)
-        //            {
-        //                _logger.LogDebug("{FormattedControllerAndActionNames}No Items found in ItemzType with ID {ItemzTypeID}",
-        //                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-        //                    ItemzTypeId);
-        //                // TODO: If no itemz are found in a ItemzType then shall we return an error back to the calling client?
-        //                return NotFound();
-        //            }
-        //            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzNumbers} Itemz found in ItemzType with ID {ItemzTypeId}",
-        //                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-        //                itemzsFromRepo?.TotalCount, ItemzTypeId);
-        //            var previousPageLink = itemzsFromRepo!.HasPrevious ?
-        //                CreateItemzTypeItemzResourceUri(itemzResourceParameter,
-        //                ResourceUriType.PreviousPage) : null;
+            // EXPLANATION : Check if list is IsNullOrEmpty
+            // By default we don't have option baked in the .NET to check
+            // for null or empty for List type. In the following code we are first checking
+            // for nullable itemzsFromRepo? and then for count great then zero via Any()
+            // If any of above is true then we return true. This way we log that no itemz traces were
+            // found in the database.
+            // Ref: https://stackoverflow.com/a/54549818
+            if (!itemzTracesFromRepo?.Any() ?? true)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Itemz Traces found for Itemz with ID {ItemzId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
+                // TODO: If no Itemz Traces are found for an ItemzID then shall we return an error back to the calling client?
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ItemzTraceNumbers} Itemz Traces found in Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzTracesFromRepo?.Count(), itemzId);
 
-        //            var nextPageLink = itemzsFromRepo.HasNext ?
-        //                CreateItemzTypeItemzResourceUri(itemzResourceParameter,
-        //                ResourceUriType.NextPage) : null;
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} Itemzs to the caller",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzTracesFromRepo?.Count());
+            return Ok(_mapper.Map<IEnumerable<ItemzTraceDTO>>(itemzTracesFromRepo));
+        }
 
-        //            var paginationMetadata = new
-        //            {
-        //                totalCount = itemzsFromRepo.TotalCount,
-        //                pageSize = itemzsFromRepo.PageSize,
-        //                currentPage = itemzsFromRepo.CurrentPage,
-        //                totalPages = itemzsFromRepo.TotalPages,
-        //                previousPageLink,
-        //                nextPageLink
-        //            };
-
-        //            // EXPLANATION : it's possible to send customer headers in the response.
-        //            // So, before we hit 'return Ok...' statement, we can build our
-        //            // own response header as you can see in following example.
-
-        //            // TODO: Check if just passsing the header is good enough. How can we
-        //            // document it so that consumers can use it effectively. Also, 
-        //            // how to implement versioning of headers so that we don't break
-        //            // existing applications using the headers after performing upgrade
-        //            // in the future.
-
-        //            Response.Headers.Add("X-Pagination",
-        //                JsonConvert.SerializeObject(paginationMetadata));
-
-        //            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} Itemzs to the caller",
-        //                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-        //                itemzsFromRepo.TotalCount);
-        //            return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
-        //        }
 
         //        /// <summary>
         //        /// Get count of Itemzs associated with ItemzType
@@ -539,4 +500,4 @@ namespace ItemzApp.API.Controllers
         //            }
         //        }
     }
-    }
+}

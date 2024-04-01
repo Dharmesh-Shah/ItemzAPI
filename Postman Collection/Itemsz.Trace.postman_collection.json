@@ -224,6 +224,773 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "EstablishMultipleTraceRelationship",
+			"item": [
+				{
+					"name": "GET AllTracesByItemzID1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetween1and2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetween1and3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetween1and4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetween1and5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AllTracesByItemzID1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 4 Trace elements are returned\", function () {\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.be.an('array').that.has.lengthOf(4);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetween1and2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST EstablishTraceBetween2and1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n  \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AllTracesByItemzID1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 4 Trace elements are returned\", function () {\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.be.an('array').that.has.lengthOf(4);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetween2and1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n  \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AllTracesByItemzID1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 4 Trace elements are returned\", function () {\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.be.an('array').that.has.lengthOf(3);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetween1and3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetween1and4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETETraceBetween1and5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AllTracesByItemzID1 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

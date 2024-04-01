@@ -540,6 +540,15 @@
             <returns>Status code 204 is returned without any content indicating that deletion of the specified FromItemz and ToItemz trace association was successful</returns>
             <response code="404">FromItemz and ToItemz Trace not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetItemzTracesByItemzIDAsync(System.Guid)">
+            <summary>
+            Gets collection of Itemz Traces by Itemz ID
+            </summary>
+            <param name="itemzId">Itemz ID for which Itemz Traces are queried</param>
+            <returns>Collection of Itemz Traces by Itemz ID</returns>
+            <response code="200">Returns Collection of Itemz Traces by Itemz ID</response>
+            <response code="404">Either ItemzID was not found or No Itemz Traces were found for given ItemzID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
