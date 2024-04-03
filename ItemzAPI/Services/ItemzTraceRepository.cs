@@ -20,7 +20,7 @@ namespace ItemzApp.API.Services
         private readonly ItemzContext _context;
         private readonly ItemzTraceContext _itemzTraceContext;
         private readonly IPropertyMappingService _propertyMappingService;
-        public ItemzTraceRepository (ItemzContext context, 
+        public ItemzTraceRepository(ItemzContext context,
                                         ItemzTraceContext itemzTraceContext,
                                         IPropertyMappingService propertyMappingService)
         {
@@ -44,6 +44,43 @@ namespace ItemzApp.API.Services
 
             return await _itemzTraceContext.ItemzJoinItemzTrace!
                 .Where(ijit => ijit.FromItemzId == itemzId || ijit.ToItemzId == itemzId).AsNoTracking().ToListAsync();
+        }
+
+        public async Task<ItemzParentAndChildTraceDTO> GetAllParentAndChildTracesByItemzIdAsync(Guid itemzId)
+        {
+            if (itemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(itemzId));
+            }
+
+            var itemzParentAndChildTraceDTO = new ItemzParentAndChildTraceDTO();
+
+            itemzParentAndChildTraceDTO.Itemz = new();
+            itemzParentAndChildTraceDTO.Itemz.ChildItemz = new();
+            itemzParentAndChildTraceDTO.Itemz.ParentItemz = new();
+            itemzParentAndChildTraceDTO.Itemz.ID = itemzId;
+
+            var allChildTraceItemzs = _itemzTraceContext.ItemzJoinItemzTrace!
+                .Where(ijit => ijit.FromItemzId == itemzId);
+
+            foreach (var childTraceItemz in allChildTraceItemzs)
+            {
+                var tempChildTraceItemzDTO = new ChildTraceItemz__DTO();
+                tempChildTraceItemzDTO.ItemzID = childTraceItemz.ToItemzId;
+                itemzParentAndChildTraceDTO.Itemz.ChildItemz.Add(tempChildTraceItemzDTO);
+            }
+
+            var allParentTraceItemzs = _itemzTraceContext.ItemzJoinItemzTrace!
+                .Where(ijit => ijit.ToItemzId == itemzId);
+
+            foreach (var parentTraceItemz in allParentTraceItemzs)
+            {
+                var tempParentTraceItemzDTO = new ParentTraceItemz__DTO();
+                tempParentTraceItemzDTO.ItemzID = parentTraceItemz.FromItemzId;
+                itemzParentAndChildTraceDTO.Itemz.ParentItemz.Add(tempParentTraceItemzDTO);
+            }
+
+            return itemzParentAndChildTraceDTO;
         }
 
         public void Dispose()
@@ -143,6 +180,13 @@ namespace ItemzApp.API.Services
 
             return await _context.Itemzs.AsNoTracking().AnyAsync(a => a.Id == itemzId);
             // return  !(_context.Itemzs.Find(itemzId) == null);
+        }
+
+        public async Task<int> GetFromTraceCountByItemz(Guid itemzId)
+        {
+            return await _itemzTraceContext.ItemzJoinItemzTrace
+                .Include(ijit => ijit.FromItemz)
+                .Where(ijit => ijit.ToItemzId == itemzId).CountAsync();
         }
 
         public async Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO)

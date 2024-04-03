@@ -18,11 +18,15 @@ namespace ItemzApp.API.Services
 
         public Task<IEnumerable<ItemzJoinItemzTrace>> GetAllTracesByItemzIdAsync(Guid itemzId);
 
+        public Task<ItemzParentAndChildTraceDTO> GetAllParentAndChildTracesByItemzIdAsync(Guid itemzId);
+
         public Task<bool> ItemzsTraceExistsAsync(ItemzTraceDTO itemzTraceDTO);
 
         public Task EstablishTraceBetweenItemzAsync(ItemzTraceDTO itemzTraceDTO);
 
         public Task<bool> ItemzExistsAsync(Guid itemzId);
+
+        public Task<int> GetFromTraceCountByItemz(Guid itemzId);
 
         public Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO);
     }

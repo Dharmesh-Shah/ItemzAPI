@@ -209,6 +209,74 @@ namespace ItemzApp.API.Controllers
         }
 
 
+        /// <summary>
+        /// Gets All Parent and Child Itemz Traces byItemz ID
+        /// </summary>
+        /// <param name="itemzId">Itemz ID for which Parent and Child Itemz Traces are returned.</param>
+        /// <returns>Collection of all Parent and Child Itemz Traces by Itemz ID</returns>
+        /// <response code="200">Returns Collection of all Parent and Child Itemz Traces by Itemz ID</response>
+        /// <response code="404">ItemzID was not found in the repository</response>
+        [HttpGet("AllItemzTraces/{itemzId:Guid}", Name = "__GET_All_Parent_and_Child_Itemz_Traces_By_ItemzID__")]
+        [HttpHead("AllItemzTraces/{itemzId:Guid}", Name = "__HEAD_All_Parent_and_Child_Itemz_Traces_By_ItemzID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<ItemzParentAndChildTraceDTO>> GetAllParentAndChildTracesByItemzIdAsync(Guid itemzId)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(itemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzId} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzId);
+                return NotFound();
+            }
+
+            var itemzParentAndChildTraceDTO = await _itemzTraceRepository.GetAllParentAndChildTracesByItemzIdAsync(itemzId);
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ParentItemzTraceCount} Parent Itemz Traces found for Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzParentAndChildTraceDTO.Itemz?.ParentItemz?.Count, itemzId);
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {ChildItemzTraceCount} Child Itemz Traces found for Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzParentAndChildTraceDTO.Itemz?.ChildItemz?.Count, itemzId);
+
+            return Ok(itemzParentAndChildTraceDTO);
+        }
+
+
+
+        /// <summary>
+        /// Get count of FromItemz Traces associated with ItemzID
+        /// </summary>
+        /// <param name="ItemzId">Provide ItemzId in GUID form</param>
+        /// <returns>Integer representing total number of direct From Itemz Traces associated with ItemzID</returns>
+        /// <response code="200">Count of From Itemz Traces associated with ItemzID. ZERO means no From Itemz Traces were found for targeted ItemzID</response>
+        /// <response code="404">Itemz for given ID could not be found</response>
+        [HttpGet("GetFromItemzTraceCount/{ItemzId:Guid}", Name = "__GET_FromItemz_Count_By_ItemzID__")]
+        [HttpHead("GetFromItemzTraceCount/{ItemzId:Guid}", Name = "__HEAD_FromItemz_Count_By_ItemzID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+
+        public async Task<ActionResult<int>> GetFromItemzTraceCountByItemzID(Guid ItemzId)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(ItemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzId} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
+                return NotFound();
+            }
+            int countOfFromItemzTraces = await _itemzTraceRepository.GetFromTraceCountByItemz(ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {countOfFromItemzTracess} From Itemz Traces were found associated with ItemzID {ItemzID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                countOfFromItemzTraces,
+                ItemzId);
+            return Ok(countOfFromItemzTraces);
+        }
+
+
         //        /// <summary>
         //        /// Get count of Itemzs associated with ItemzType
         //        /// </summary>

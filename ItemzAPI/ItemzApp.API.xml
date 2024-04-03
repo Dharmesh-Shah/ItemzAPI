@@ -549,6 +549,24 @@
             <response code="200">Returns Collection of Itemz Traces by Itemz ID</response>
             <response code="404">Either ItemzID was not found or No Itemz Traces were found for given ItemzID</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetAllParentAndChildTracesByItemzIdAsync(System.Guid)">
+            <summary>
+            Gets All Parent and Child Itemz Traces byItemz ID
+            </summary>
+            <param name="itemzId">Itemz ID for which Parent and Child Itemz Traces are returned.</param>
+            <returns>Collection of all Parent and Child Itemz Traces by Itemz ID</returns>
+            <response code="200">Returns Collection of all Parent and Child Itemz Traces by Itemz ID</response>
+            <response code="404">ItemzID was not found in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetFromItemzTraceCountByItemzID(System.Guid)">
+            <summary>
+            Get count of FromItemz Traces associated with ItemzID
+            </summary>
+            <param name="ItemzId">Provide ItemzId in GUID form</param>
+            <returns>Integer representing total number of direct From Itemz Traces associated with ItemzID</returns>
+            <response code="200">Count of From Itemz Traces associated with ItemzID. ZERO means no From Itemz Traces were found for targeted ItemzID</response>
+            <response code="404">Itemz for given ID could not be found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
