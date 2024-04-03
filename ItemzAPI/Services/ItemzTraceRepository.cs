@@ -189,6 +189,12 @@ namespace ItemzApp.API.Services
                 .Where(ijit => ijit.ToItemzId == itemzId).CountAsync();
         }
 
+        public async Task<int> GetToTraceCountByItemz(Guid itemzId)
+        {
+            return await _itemzTraceContext.ItemzJoinItemzTrace
+                .Include(ijit => ijit.ToItemz)
+                .Where(ijit => ijit.FromItemzId == itemzId).CountAsync();
+        }
         public async Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO)
         {
             var itrace = await _itemzTraceContext.ItemzJoinItemzTrace!.FindAsync(itemzTraceDTO.FromTraceItemzId, itemzTraceDTO.ToTraceItemzId);

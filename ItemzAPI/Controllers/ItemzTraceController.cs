@@ -277,6 +277,37 @@ namespace ItemzApp.API.Controllers
         }
 
 
+        /// <summary>
+        /// Get count of ToItemz Traces associated with ItemzID
+        /// </summary>
+        /// <param name="ItemzId">Provide ItemzId in GUID form</param>
+        /// <returns>Integer representing total number of direct To Itemz Traces associated with ItemzID</returns>
+        /// <response code="200">Count of To Itemz Traces associated with ItemzID. ZERO means no To Itemz Traces were found for targeted ItemzID</response>
+        /// <response code="404">Itemz for given ID could not be found</response>
+        [HttpGet("GetToItemzTraceCount/{ItemzId:Guid}", Name = "__GET_ToItemz_Count_By_ItemzID__")]
+        [HttpHead("GetToItemzTraceCount/{ItemzId:Guid}", Name = "__HEAD_ToItemz_Count_By_ItemzID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+
+        public async Task<ActionResult<int>> GetToItemzTraceCountByItemzID(Guid ItemzId)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(ItemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzId} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
+                return NotFound();
+            }
+            int countOfToItemzTraces = await _itemzTraceRepository.GetToTraceCountByItemz(ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {countOfToItemzTracess} To Itemz Traces were found associated with ItemzID {ItemzID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                countOfToItemzTraces,
+                ItemzId);
+            return Ok(countOfToItemzTraces);
+        }
+
+
         //        /// <summary>
         //        /// Get count of Itemzs associated with ItemzType
         //        /// </summary>

@@ -567,6 +567,15 @@
             <response code="200">Count of From Itemz Traces associated with ItemzID. ZERO means no From Itemz Traces were found for targeted ItemzID</response>
             <response code="404">Itemz for given ID could not be found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetToItemzTraceCountByItemzID(System.Guid)">
+            <summary>
+            Get count of ToItemz Traces associated with ItemzID
+            </summary>
+            <param name="ItemzId">Provide ItemzId in GUID form</param>
+            <returns>Integer representing total number of direct To Itemz Traces associated with ItemzID</returns>
+            <response code="200">Count of To Itemz Traces associated with ItemzID. ZERO means no To Itemz Traces were found for targeted ItemzID</response>
+            <response code="404">Itemz for given ID could not be found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)

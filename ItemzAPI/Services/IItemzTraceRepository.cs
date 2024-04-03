@@ -28,6 +28,8 @@ namespace ItemzApp.API.Services
 
         public Task<int> GetFromTraceCountByItemz(Guid itemzId);
 
+        public Task<int> GetToTraceCountByItemz(Guid itemzId);
+        
         public Task<bool> RemoveItemzTraceAsync(ItemzTraceDTO itemzTraceDTO);
     }
 }

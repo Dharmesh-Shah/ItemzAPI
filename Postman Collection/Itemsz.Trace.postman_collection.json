@@ -355,6 +355,48 @@
 					"response": []
 				},
 				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 0\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST EstablishTraceBetween1and2",
 					"event": [
 						{
@@ -736,6 +778,48 @@
 					"response": []
 				},
 				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 4\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(4);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETETraceBetween1and2",
 					"event": [
 						{
@@ -823,6 +907,48 @@
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
 								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 3\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(3);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
 							]
 						}
 					},
@@ -1024,6 +1150,48 @@
 					"response": []
 				},
 				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 3\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(3);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETETraceBetween2and1",
 					"event": [
 						{
@@ -1201,6 +1369,48 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 3\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(3);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
 								"9153a516-d69e-4364-b17e-03b87442e21c"
 							]
 						}
@@ -1482,6 +1692,48 @@
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
 								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 0\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
 							]
 						}
 					},
