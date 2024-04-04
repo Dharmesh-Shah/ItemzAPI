@@ -48,8 +48,6 @@ namespace ItemzApp.API.Controllers
 
         }
 
-
-
         /// <summary>
         /// Check if specific Itemz Trace association exists
         /// </summary>
@@ -305,6 +303,36 @@ namespace ItemzApp.API.Controllers
                 countOfToItemzTraces,
                 ItemzId);
             return Ok(countOfToItemzTraces);
+        }
+
+        /// <summary>
+        /// Get count of FromItemz and ToItemz Traces associated with ItemzID
+        /// </summary>
+        /// <param name="ItemzId">Provide ItemzId in GUID form</param>
+        /// <returns>Integer representing total number of direct From and To Itemz Traces associated with ItemzID</returns>
+        /// <response code="200">Count of From and To Itemz Traces associated with ItemzID. ZERO means no Direct Itemz Traces were found for targeted ItemzID</response>
+        /// <response code="404">Itemz for given ID could not be found</response>
+        [HttpGet("GetAllFromAndToTracesCountByItemzId/{ItemzId:Guid}", Name = "__GET_All_From_and_To_Itemz_Traces_Count_By_ItemzID__")]
+        [HttpHead("GetAllFromAndToTracesCountByItemzId/{ItemzId:Guid}", Name = "__HEAD_All_From_and_To_Itemz_Traces_Count_By_ItemzID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+
+        public async Task<ActionResult<int>> GetAllFromAndToTracesCountByItemzId(Guid ItemzId)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(ItemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzId} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzId);
+                return NotFound();
+            }
+            int countOfAllFromAndToTraces = await _itemzTraceRepository.GetAllFromAndToTracesCountByItemzIdAsync(ItemzId);
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {countOfAllFromAndToTraces} From and To Itemz Traces were found associated with ItemzID {ItemzID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                countOfAllFromAndToTraces,
+                ItemzId);
+            return Ok(countOfAllFromAndToTraces);
         }
 
 
