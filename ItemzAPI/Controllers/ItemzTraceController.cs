@@ -336,6 +336,104 @@ namespace ItemzApp.API.Controllers
         }
 
 
+        /// <summary>
+        /// Used for bulk creating or verifiying that Itemz Trace record is present in the database
+        /// </summary>
+        /// <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used bulk creation or validation of Itemz Trace record is present in the database</param>
+        /// <returns>Collection of created or verified ItemzTraceDTO property details</returns>
+        /// <response code="200">Collection of created or verified ItemzTraceDTO property details</response>
+        /// <response code="404">Either FromItemz or ToItemz was not found from within the itemzTraceDTOCollection </response>
+        /// <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        [HttpPost("CreateOrVerifyItemzTraceCollection/", Name = "__POST_Create_Or_Verify_Itemz_Trace_Collection__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<ItemzTraceDTO>>> CreateOrVerifyItemzTraceCollectionAsync(
+            IEnumerable<ItemzTraceDTO> itemzTraceDTOCollection)
+        {
+            if (!itemzTraceDTOCollection?.Any() ?? true)
+            {
+
+                _logger.LogDebug("{FormattedControllerAndActionNames}Provided an empty list for parameter itemzTraceDTOCollection",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+
+                return BadRequest(ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext) + " itemzTraceDTOCollection can not be an empty list");
+            }
+
+            foreach (var itemzTraceDTO in itemzTraceDTOCollection!)
+            {
+
+                if (!(await _itemzTraceRepository.ItemzExistsAsync(itemzTraceDTO.FromTraceItemzId)))
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {FromTraceItemzId} was not found in the repository",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        itemzTraceDTO.FromTraceItemzId);
+                    return NotFound();
+                }
+                if (!(await _itemzTraceRepository.ItemzExistsAsync(itemzTraceDTO.ToTraceItemzId)))
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {ToTraceItemzId} was not found in the repository",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        itemzTraceDTO.ToTraceItemzId);
+                    return NotFound();
+                }
+                await _itemzTraceRepository.EstablishTraceBetweenItemzAsync(itemzTraceDTO);
+            }
+            await _itemzTraceRepository.SaveAsync();
+
+              _logger.LogDebug("{FormattedControllerAndActionNames}Created Or Verified {NumberOfItemzTraceCreatedOrVerified} ItemzTraces",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzTraceDTOCollection.Count());
+            return Ok(itemzTraceDTOCollection);
+        }
+
+
+        /// <summary>
+        /// Used for bulk deleting of Itemz Trace records
+        /// </summary>
+        /// <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used for bulk deletion of Itemz Trace record</param>
+        /// <returns>Success or Failure message for Bulk deleting of Itemz Trace request</returns>
+        /// <response code="204">Indicating that request to bulk delete Itemz Traces completed successfully</response>
+        /// <response code="404">Itemz Trace was not found for minimum of atleast one record from within the provided itemzTraceDTOCollection</response>
+        /// <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        [HttpDelete("DeleteItemzTraceCollection/", Name = "__DELETE_Itemz_Trace_Collection__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteItemzTraceCollectionAsync(
+            IEnumerable<ItemzTraceDTO> itemzTraceDTOCollection)
+        {
+            if (!itemzTraceDTOCollection?.Any() ?? true)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Provided an empty list for parameter itemzTraceDTOCollection",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+
+                return BadRequest(ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext) + " itemzTraceDTOCollection can not be an empty list");
+            }
+
+            foreach (var itemzTraceDTO in itemzTraceDTOCollection!)
+            {
+                if(!await _itemzTraceRepository.ItemzsTraceExistsAsync(itemzTraceDTO))
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Itemz Trace between From Itemz ID {FromTraceItemzId} and To Itemz ID {ToTraceItemzId} was not found in the repository",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        itemzTraceDTO.FromTraceItemzId,
+                        itemzTraceDTO.ToTraceItemzId);
+                    return NotFound();
+                }
+
+                await _itemzTraceRepository.RemoveItemzTraceAsync(itemzTraceDTO);
+            }
+            await _itemzTraceRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Deleted {NumberOfItemzTraceDeleted} ItemzTraces",
+              ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+              itemzTraceDTOCollection.Count());
+            return NoContent();
+        }
+
         //        /// <summary>
         //        /// Get count of Itemzs associated with ItemzType
         //        /// </summary>

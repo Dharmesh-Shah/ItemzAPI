@@ -585,6 +585,26 @@
             <response code="200">Count of From and To Itemz Traces associated with ItemzID. ZERO means no Direct Itemz Traces were found for targeted ItemzID</response>
             <response code="404">Itemz for given ID could not be found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.CreateOrVerifyItemzTraceCollectionAsync(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.ItemzTraceDTO})">
+            <summary>
+            Used for bulk creating or verifiying that Itemz Trace record is present in the database
+            </summary>
+            <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used bulk creation or validation of Itemz Trace record is present in the database</param>
+            <returns>Collection of created or verified ItemzTraceDTO property details</returns>
+            <response code="200">Collection of created or verified ItemzTraceDTO property details</response>
+            <response code="404">Either FromItemz or ToItemz was not found from within the itemzTraceDTOCollection </response>
+            <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.DeleteItemzTraceCollectionAsync(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.ItemzTraceDTO})">
+            <summary>
+            Used for bulk deleting of Itemz Trace records
+            </summary>
+            <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used for bulk deletion of Itemz Trace record</param>
+            <returns>Success or Failure message for Bulk deleting of Itemz Trace request</returns>
+            <response code="204">Indicating that request to bulk delete Itemz Traces completed successfully</response>
+            <response code="404">Itemz Trace was not found for minimum of atleast one record from within the provided itemzTraceDTOCollection</response>
+            <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
