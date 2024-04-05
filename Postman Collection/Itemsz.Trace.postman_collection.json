@@ -2315,6 +2315,264 @@
 					"response": []
 				},
 				{
+					"name": "BulkCreate4ToTracesFromItemz1 WRONG ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([404]);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"1111a111-d11e-1111-b11e-11b11111e11c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"CreateOrVerifyItemzTraceCollection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET AllParentAndChildTracesByItemzID1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetFromTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that From Trace count is 0\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetFromItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetToTraceCountForItemz1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that To Trace count is 0\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetToItemzTraceCount",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET GetAllFromAndToTracesCountByItemzId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that FROM+TO Trace count is 0\", function () {\r",
+									"pm.expect(parseInt(pm.response.text())).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"GetAllFromAndToTracesCountByItemzId",
+								"9153a516-d69e-4364-b17e-03b87442e21c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "BulkCreate4ToTracesFromItemz1",
 					"event": [
 						{
