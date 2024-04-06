@@ -158,6 +158,73 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Used for deleting All From-Trace links from provided parent ItemzID.
+        /// </summary>
+        /// <param name="ItemzID">Itemz ID for which All From Itemz Traces are getting deleted</param>        
+        /// <returns>Status code 204 is returned without any content indicating that deletion of All From Trace links for provided ItemzID was successful</returns>
+        /// <response code="204">Returns No Content indicating success</response>
+        /// <response code="404">Itemz with ItemzID was not found</response>
+        [HttpDelete("DeleteAllFromItemzTraces/{ItemzID:Guid}", Name = "__DELETE_AllFromItemz_Trace__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteAllFromItemzTracesAsync(Guid ItemzID)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(ItemzID)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find Itemz with Itemz ID {ItemzID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzID);
+                return NotFound();
+            }
+
+            var deletedFromItemzTraceCount = await _itemzTraceRepository.RemoveAllFromItemzTraceAsync(ItemzID);
+            await _itemzTraceRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}In Total, deleted all {deletedFromItemzTraceCount} From ItemzTrace from " +
+                "Itemz ID {FromItemz}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                deletedFromItemzTraceCount,
+                ItemzID);
+
+            return NoContent();
+        }
+
+
+        /// <summary>
+        /// Used for deleting All To-Trace links from provided parent ItemzID.
+        /// </summary>
+        /// <param name="ItemzID">Itemz ID for which All To Itemz Traces are getting deleted</param>        
+        /// <returns>Status code 204 is returned without any content indicating that deletion of All To Trace links for provided ItemzID was successful</returns>
+        /// <response code="204">Returns No Content indicating success</response>
+        /// <response code="404">Itemz with ItemzID was not found</response>
+        [HttpDelete("DeleteAllToItemzTraces/{ItemzID:Guid}",  Name = "__DELETE_AllToItemz_Trace__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteAllToItemzTracesAsync(Guid ItemzID)
+        {
+            if (!(await _itemzTraceRepository.ItemzExistsAsync(ItemzID)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find Itemz with Itemz ID {ItemzID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzID);
+                return NotFound();
+            }
+
+            var deletedToItemzTraceCount = await _itemzTraceRepository.RemoveAllToItemzTraceAsync(ItemzID);
+            await _itemzTraceRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}In Total, deleted all {deletedToItemzTraceCount} To ItemzTrace from " +
+                "Itemz ID {FromItemz}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                deletedToItemzTraceCount,
+                ItemzID);
+
+            return NoContent();
+        }
+
+        /// <summary>
         /// Gets collection of Itemz Traces by Itemz ID
         /// </summary>
         /// <param name="itemzId">Itemz ID for which Itemz Traces are queried</param>

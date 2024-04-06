@@ -195,6 +195,45 @@ namespace ItemzApp.API.Services
                 .Include(ijit => ijit.ToItemz)
                 .Where(ijit => ijit.FromItemzId == itemzId).CountAsync();
         }
+        public async Task<int> RemoveAllFromItemzTraceAsync(Guid itemzId)
+        {
+            var fromItemzJoinTraceItemzList = await _itemzTraceContext.ItemzJoinItemzTrace!
+                    // .Include(ijit => ijit.FromItemz) // This Include here will end up in Database SQL Query Error. Find out why in the futre?
+                    .Where(ijit => ijit.ToItemzId == itemzId).AsNoTracking().ToListAsync();
+            var countOfDeletedFromItemzJointItemzTrace = 0;
+            foreach (var tempIJIT in fromItemzJoinTraceItemzList)
+            {   
+                // TODO: add aditional check that tempIJIT.ToItemzId == itemzID; // This way we make sure that we only pick-up links where provided itemzID is a To-Trace
+                var itrace = await _itemzTraceContext.ItemzJoinItemzTrace!.FindAsync(tempIJIT.FromItemzId, itemzId);
+                if (itrace != null)
+                {
+                    _itemzTraceContext.ItemzJoinItemzTrace.Remove(itrace);
+                    countOfDeletedFromItemzJointItemzTrace++;
+                }
+            }
+            return countOfDeletedFromItemzJointItemzTrace;
+        }
+
+        public async Task<int> RemoveAllToItemzTraceAsync(Guid itemzId)
+        {
+            var toItemzJoinTraceItemzList = await _itemzTraceContext.ItemzJoinItemzTrace!
+                    // .Include(ijit => ijit.ToItemz) // This Include here will end up in Database SQL Query Error. Find out why in the futre?
+                    .Where(ijit => ijit.FromItemzId == itemzId).AsNoTracking().ToListAsync();
+            var countOfDeletedToItemzJointItemzTrace = 0;
+            foreach(var tempIJIT in toItemzJoinTraceItemzList)
+            {
+                // TODO: add aditional check that tempIJIT.FromItemzId == itemzID; // This way we make sure that we only pick-up links where provided itemzID is a From-Trace
+
+                var itrace = await _itemzTraceContext.ItemzJoinItemzTrace!.FindAsync(itemzId, tempIJIT.ToItemzId);
+                if (itrace != null)
+                {
+                    _itemzTraceContext.ItemzJoinItemzTrace.Remove(itrace);
+                    countOfDeletedToItemzJointItemzTrace++;
+                }
+            }
+            return countOfDeletedToItemzJointItemzTrace;
+        }
+
 
         public async Task<int> GetAllFromAndToTracesCountByItemzIdAsync(Guid itemzId)
         {
