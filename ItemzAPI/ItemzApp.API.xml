@@ -513,6 +513,116 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.CheckItemzTraceExistsAsync(System.Guid,System.Guid)">
+            <summary>
+            Check if specific Itemz Trace association exists
+            </summary>
+            <param name="fromTraceItemzId">Provide From Trace Itemz Id</param>
+            <param name="toTraceItemzId">Provide To Trace Itemz Id</param>
+            <returns>ItemzTraceDTO for the Itemz that has specified Itemz Trace</returns>
+            <response code="200">Returns ItemzTraceDTO for the From and To Itemz Trace</response>
+            <response code="404">Itemz Trace was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.EstablishTraceBetweenItemzAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Used for Establishing Trace link between Itemz 
+            </summary>
+            <param name="itemzTraceDTO">Used for Associating Trace between two Itemz </param>
+            <returns>ItemzTraceDTO for the Itemz Trace Association</returns>
+            <response code="200">Itemz Trace association was either found or added successfully</response>
+            <response code="404">Either FromItemz or ToItemz was not found </response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.DeleteItemzTraceAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Used for deleting Trace link between Itemz. This will not delete Itemz from the database,
+            instead it will only remove their trace association if found. 
+            </summary>
+            <returns>Status code 204 is returned without any content indicating that deletion of the specified FromItemz and ToItemz trace association was successful</returns>
+            <response code="404">FromItemz and ToItemz Trace not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.DeleteAllFromItemzTracesAsync(System.Guid)">
+            <summary>
+            Used for deleting All From-Trace links from provided parent ItemzID.
+            </summary>
+            <param name="ItemzID">Itemz ID for which All From Itemz Traces are getting deleted</param>        
+            <returns>Status code 204 is returned without any content indicating that deletion of All From Trace links for provided ItemzID was successful</returns>
+            <response code="204">Returns No Content indicating success</response>
+            <response code="404">Itemz with ItemzID was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.DeleteAllToItemzTracesAsync(System.Guid)">
+            <summary>
+            Used for deleting All To-Trace links from provided parent ItemzID.
+            </summary>
+            <param name="ItemzID">Itemz ID for which All To Itemz Traces are getting deleted</param>        
+            <returns>Status code 204 is returned without any content indicating that deletion of All To Trace links for provided ItemzID was successful</returns>
+            <response code="204">Returns No Content indicating success</response>
+            <response code="404">Itemz with ItemzID was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetItemzTracesByItemzIDAsync(System.Guid)">
+            <summary>
+            Gets collection of Itemz Traces by Itemz ID
+            </summary>
+            <param name="itemzId">Itemz ID for which Itemz Traces are queried</param>
+            <returns>Collection of Itemz Traces by Itemz ID</returns>
+            <response code="200">Returns Collection of Itemz Traces by Itemz ID</response>
+            <response code="404">Either ItemzID was not found or No Itemz Traces were found for given ItemzID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetAllParentAndChildTracesByItemzIdAsync(System.Guid)">
+            <summary>
+            Gets All Parent and Child Itemz Traces byItemz ID
+            </summary>
+            <param name="itemzId">Itemz ID for which Parent and Child Itemz Traces are returned.</param>
+            <returns>Collection of all Parent and Child Itemz Traces by Itemz ID</returns>
+            <response code="200">Returns Collection of all Parent and Child Itemz Traces by Itemz ID</response>
+            <response code="404">ItemzID was not found in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetFromItemzTraceCountByItemzID(System.Guid)">
+            <summary>
+            Get count of FromItemz Traces associated with ItemzID
+            </summary>
+            <param name="ItemzId">Provide ItemzId in GUID form</param>
+            <returns>Integer representing total number of direct From Itemz Traces associated with ItemzID</returns>
+            <response code="200">Count of From Itemz Traces associated with ItemzID. ZERO means no From Itemz Traces were found for targeted ItemzID</response>
+            <response code="404">Itemz for given ID could not be found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetToItemzTraceCountByItemzID(System.Guid)">
+            <summary>
+            Get count of ToItemz Traces associated with ItemzID
+            </summary>
+            <param name="ItemzId">Provide ItemzId in GUID form</param>
+            <returns>Integer representing total number of direct To Itemz Traces associated with ItemzID</returns>
+            <response code="200">Count of To Itemz Traces associated with ItemzID. ZERO means no To Itemz Traces were found for targeted ItemzID</response>
+            <response code="404">Itemz for given ID could not be found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.GetAllFromAndToTracesCountByItemzId(System.Guid)">
+            <summary>
+            Get count of FromItemz and ToItemz Traces associated with ItemzID
+            </summary>
+            <param name="ItemzId">Provide ItemzId in GUID form</param>
+            <returns>Integer representing total number of direct From and To Itemz Traces associated with ItemzID</returns>
+            <response code="200">Count of From and To Itemz Traces associated with ItemzID. ZERO means no Direct Itemz Traces were found for targeted ItemzID</response>
+            <response code="404">Itemz for given ID could not be found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.CreateOrVerifyItemzTraceCollectionAsync(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.ItemzTraceDTO})">
+            <summary>
+            Used for bulk creating or verifiying that Itemz Trace record is present in the database
+            </summary>
+            <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used bulk creation or validation of Itemz Trace record is present in the database</param>
+            <returns>Collection of created or verified ItemzTraceDTO property details</returns>
+            <response code="200">Collection of created or verified ItemzTraceDTO property details</response>
+            <response code="404">Either FromItemz or ToItemz was not found from within the itemzTraceDTOCollection </response>
+            <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTraceController.DeleteItemzTraceCollectionAsync(System.Collections.Generic.IEnumerable{ItemzApp.API.Models.ItemzTraceDTO})">
+            <summary>
+            Used for bulk deleting of Itemz Trace records
+            </summary>
+            <param name="itemzTraceDTOCollection">Array of ItemzTraceDTO used for bulk deletion of Itemz Trace record</param>
+            <returns>Success or Failure message for Bulk deleting of Itemz Trace request</returns>
+            <response code="204">Indicating that request to bulk delete Itemz Traces completed successfully</response>
+            <response code="404">Itemz Trace was not found for minimum of atleast one record from within the provided itemzTraceDTOCollection</response>
+            <response code="400">Provided itemzTraceDTOCollection is an empty list. Bad Request </response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypeAsync(System.Guid)">
             <summary>
             Get a ItemzType by ID (represented by a GUID)
@@ -1248,6 +1358,16 @@
             Date and Time when Project was created
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.ItemzTraceDTO.FromTraceItemzId">
+            <summary>
+            Id of the From Trace Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.ItemzTraceDTO.ToTraceItemzId">
+            <summary>
+            Id of the To Trace Itemz representated by a GUID.
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.ItemzTypeItemzDTO.ItemzId">
             <summary>
             Id of the Itemz representated by a GUID.
@@ -1422,6 +1542,19 @@
             <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
             <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
             <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzTraceRepository.ItemzsTraceExistsAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Purpose of this method is to check if Trace is already found between FromItemz and ToItemz
+            </summary>
+            <param name="itemzTraceDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzTraceRepository.EstablishTraceBetweenItemzAsync(ItemzApp.API.Models.ItemzTraceDTO)">
+            <summary>
+            Purpose for this method is to allow creating new Itemz Trace and saving it.
+            </summary>
+            <param name="itemzTraceDTO"></param>
         </member>
     </members>
 </doc>

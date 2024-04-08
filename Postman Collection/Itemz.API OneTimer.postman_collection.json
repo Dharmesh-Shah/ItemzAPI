@@ -3,7 +3,8 @@
 		"_postman_id": "f8042eae-2bd4-496f-9c0e-ff1e62339cc5",
 		"name": "Itemz.API OneTimer",
 		"description": "This should be executed only once to verify that expected features are working as expected.",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
