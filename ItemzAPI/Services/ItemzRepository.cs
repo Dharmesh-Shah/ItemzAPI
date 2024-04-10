@@ -340,6 +340,28 @@ namespace ItemzApp.API.Services
                                                                 && itji.ItemzTypeId == itemzTypeItemzDTO.ItemzTypeId);
         }
 
+        public async Task<bool> IsOrphanedItemzAsync(Guid ItemzId)
+        {
+            if (ItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ItemzId));
+            }
+
+            // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
+            // public bool ItemzExists(Guid itemzId)
+            var isItemzFoundInItemzTypeJoinItemzAssociation = await _context.ItemzTypeJoinItemz.AsNoTracking()
+                .AnyAsync(itji => itji.ItemzId == ItemzId);
+
+            if (isItemzFoundInItemzTypeJoinItemzAssociation)
+            {
+                return false;
+            }
+            return true;
+
+//            return await _context.ItemzTypeJoinItemz.AsNoTracking().AnyAsync(itji => itji.ItemzId == ItemzId);
+        }
+
+
         public void UpdateItemz(Itemz itemz)
         {
             // Due to Repository Pattern implementation, 

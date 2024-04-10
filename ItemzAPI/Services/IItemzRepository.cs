@@ -39,6 +39,8 @@ namespace ItemzApp.API.Services
 
         public Task<bool> ItemzTypeExistsAsync(Guid itemzTypeId);
 
+        public Task<bool> IsOrphanedItemzAsync(Guid ItemzId);
+
         public void UpdateItemz(Itemz itemz);
 
         public Task<bool> ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO itemzTypeItemzDTO);

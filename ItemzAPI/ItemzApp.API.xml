@@ -749,6 +749,7 @@
             <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
             <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
             <response code="200">Itemz to ItemzType association was either found or added successfully</response>
+            <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
             <response code="404">Either Itemz or ItemzType was not found </response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypesAsync(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
