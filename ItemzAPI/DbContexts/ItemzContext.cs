@@ -44,7 +44,7 @@ namespace ItemzApp.API.DbContexts
         public DbSet<BaselineItemz>? BaselineItemz { get; set; }
         public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
         public DbSet<ItemzJoinItemzTrace>? ItemzJoinItemzTrace { get; set; }
-
+        public DbSet<BaselineItemzJoinItemzTrace>? BaselineItemzJoinItemzTrace { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // seed the database with dummy data
@@ -412,6 +412,13 @@ namespace ItemzApp.API.DbContexts
                     .HasDefaultValue(true);
             });
 
+            modelBuilder.Entity<BaselineItemz>()
+                .HasMany(bi => bi.BaselineFromItemzJoinItemzTrace)
+                .WithMany(bi => bi.BaselineToItemzJoinItemzTrace)
+                .UsingEntity<BaselineItemzJoinItemzTrace>(
+                    b => b.HasOne(e => e.BaselineFromItemz!).WithMany().HasForeignKey(e => e.BaselineFromItemzId).OnDelete(DeleteBehavior.Restrict),
+                    b => b.HasOne(e => e.BaselineToItemz!).WithMany().HasForeignKey(e => e.BaselineToItemzId).OnDelete(DeleteBehavior.Restrict)
+                    );
 
             #endregion
 

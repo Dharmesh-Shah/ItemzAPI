@@ -1,7 +1,7 @@
 remove-migration -force
 Add-Migration -name ItemzMigration
 
-Add-Migration -name ItemzMigration -Context 'ItemzContext'
+Add-Migration -name Adding_BaselineId_in_BaselineItemzJoinItemzTrace -Context 'ItemzContext'
 
 remove-migration -Context 'ItemzContext'
 
