@@ -32,12 +32,12 @@ namespace ItemzApp.API.Controllers
         private readonly IItemzTraceRepository _itemzTraceRepository;
         private readonly IMapper _mapper;
         private readonly IPropertyMappingService _propertyMappingService;
-        private readonly ILogger<ItemzTypeItemzsController> _logger;
+        private readonly ILogger<ItemzTraceController> _logger;
 
         public ItemzTraceController(IItemzTraceRepository itemzTraceRepository,
             IMapper mapper,
             IPropertyMappingService propertyMappingService,
-            ILogger<ItemzTypeItemzsController> logger)
+            ILogger<ItemzTraceController> logger)
         {
             _itemzTraceRepository = itemzTraceRepository ?? throw new ArgumentNullException(nameof(itemzTraceRepository));
             _mapper = mapper ??
