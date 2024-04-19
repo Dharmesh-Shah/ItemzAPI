@@ -114,6 +114,61 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.CheckBaselineItemzTraceExistsAsync(System.Guid,System.Guid)">
+            <summary>
+            Check if specific Baseline Itemz Trace association exists
+            </summary>
+            <param name="fromTraceBaselineItemzId">Provide From Trace Baseline Itemz Id</param>
+            <param name="toTraceBaselineItemzId">Provide To Trace Baseline Itemz Id</param>
+            <returns>BaselineItemzTraceDTO for the Baseline Itemz that has specified Baseline Itemz Trace</returns>
+            <response code="200">Returns BaselineItemzTraceDTO for the From and To Baseline Itemz Trace</response>
+            <response code="404">Baseline Itemz Trace was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.GetBaselineItemzTracesByBaselineItemzIDAsync(System.Guid)">
+            <summary>
+            Gets collection of Baseline Itemz Traces by Baseline Itemz ID
+            </summary>
+            <param name="baselineItemzId">Baseline Itemz ID for which Baseline Itemz Traces are queried</param>
+            <returns>Collection of Baseline Itemz Traces by Baseline Itemz ID</returns>
+            <response code="200">Returns Collection of Baseline Itemz Traces by Baseline Itemz ID</response>
+            <response code="404">Either Baseline ItemzID was not found or No Baseline Itemz Traces were found for given BaselineItemzID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.GetAllParentAndChildTracesByBaselineItemzIdAsync(System.Guid)">
+            <summary>
+            Gets All Parent and Child Baseline Itemz Traces by Baseline Itemz ID
+            </summary>
+            <param name="baselineItemzId">Baseline Itemz ID for which Parent and Child Baseline Itemz Traces are returned.</param>
+            <returns>Collection of all Parent and Child Baseline Itemz Traces by Baseline Itemz ID</returns>
+            <response code="200">Returns Collection of all Parent and Child Baseline Itemz Traces by Baseline Itemz ID</response>
+            <response code="404">BaselineItemzID was not found in the repository</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.GetFromBaselineItemzTraceCountByBaselineItemzID(System.Guid)">
+            <summary>
+            Get count of FromBaselineItemz Traces associated with BaselineItemzID
+            </summary>
+            <param name="baselineItemzId">Provide BaselineItemzId in GUID form</param>
+            <returns>Integer representing total number of direct From Baseline Itemz Traces associated with BaselineItemzID</returns>
+            <response code="200">Count of From Baseline Itemz Traces associated with BaselineItemzID. ZERO means no From Baseline Itemz Traces were found for targeted BaselineItemzID</response>
+            <response code="404">Baseline Itemz for given ID could not be found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.GetToBaselineItemzTraceCountByBaselineItemzID(System.Guid)">
+            <summary>
+            Get count of ToBaselineItemz Traces associated with BaselineItemzID
+            </summary>
+            <param name="baselineItemzId">Provide BaselineItemzId in GUID form</param>
+            <returns>Integer representing total number of direct To Baseline Itemz Traces associated with BaselineItemzID</returns>
+            <response code="200">Count of To Baseline Itemz Traces associated with BaselineItemzID. ZERO means no To Baseline Itemz Traces were found for targeted BaselineItemzID</response>
+            <response code="404">Baseline Itemz for given ID could not be found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTraceController.GetAllFromAndToTracesCountByBaselineItemzId(System.Guid)">
+            <summary>
+            Get count of From and To Traces associated with BaselineItemzID
+            </summary>
+            <param name="baselineItemzId">Provide BaselineItemzId in GUID form</param>
+            <returns>Integer representing total number of direct From and To Baseline Itemz Traces associated with BaselineItemzID</returns>
+            <response code="200">Count of From and To Baseline Itemz Traces associated with BaselineItemzID. ZERO means no Direct Baseline Itemz Traces were found for targeted BaselineItemzID</response>
+            <response code="404">Baseline Itemz for given ID could not be found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypeAsync(System.Guid)">
             <summary>
             Get a BaselineItemzType by ID (represented by a GUID)
@@ -991,6 +1046,16 @@
             Id of the BaselineItemz represented by a GUID.
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
+            <summary>
+            Id of the From Trace Baseline Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.ToTraceBaselineItemzId">
+            <summary>
+            Id of the To Trace Baseline Itemz representated by a GUID.
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Models.CloneBaselineDTO">
             <summary>
             CloneBaselineDTO shall be used for sending in request for creating new Baseline 
@@ -1513,6 +1578,14 @@
             existing Project. It will expose necessary properties to allow existing
             Project to be updated with new values for those properties.
             </summary>
+        </member>
+        <member name="M:ItemzApp.API.Services.BaselineItemzTraceRepository.BaselineItemzsTraceExistsAsync(ItemzApp.API.Models.BaselineItemzTraceDTO)">
+            <summary>
+            Purpose of this method is to check if Baseline Trace is already found 
+            between FromBaselineItemz and ToBaselineItemz
+            </summary>
+            <param name="baselineItemzTraceDTO"></param>
+            <returns></returns>
         </member>
         <member name="M:ItemzApp.API.Services.ItemzChangeHistoryByItemzTypeRepository.DeleteItemzChangeHistoryByItemzTypeAsync(System.Guid,System.Nullable{System.DateTimeOffset})">
             <summary>
