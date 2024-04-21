@@ -25,6 +25,7 @@
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202404180044.sql" />
+      <None Remove="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,6 +35,7 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202108061231.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202404180044.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteAllOrphanedBaselineItemz.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcUpdateBaselineItemz.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID.sql" />
 	</ItemGroup>
