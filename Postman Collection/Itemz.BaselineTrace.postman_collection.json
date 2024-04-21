@@ -1,0 +1,4663 @@
+{
+	"info": {
+		"_postman_id": "39fa59a5-a171-4037-8e0a-79cb7b165a89",
+		"name": "Itemz.BaselineTrace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33816436"
+	},
+	"item": [
+		{
+			"name": "BaselineTraceScenario01",
+			"item": [
+				{
+					"name": "POST Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNewBaselineid = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_NewProjectId\",tempNewBaselineid);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_NewProjectName\", \"BaselineTraceScenario01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"BaselineTraceScenario01_NewProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{BaselineTraceScenario01_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{BaselineTraceScenario01_NewProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Projects Itemz Type for Parking Lot ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**\r",
+									" \r",
+									" pm.test(\"Status code is either 201 or 409\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);\r",
+									"});\r",
+									"\r",
+									"**/\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stItemzTypeId = jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_ParkingLotItemzTypeId\",tempNew1stItemzTypeId);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzTypes/{{BaselineTraceScenario01_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzTypes",
+								"{{BaselineTraceScenario01_NewProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{BaselineTraceScenario01_NewProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_2ndItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 2.\",\r\n    \"projectId\": \"{{BaselineTraceScenario01_NewProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 2 to ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_2ndItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 3 to ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_3rdItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 3\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 4 to ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_4thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 4\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 5 to ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_5thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 5\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 6 to ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_6thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 7 to ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_7thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 8 to ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_8thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 9 to ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_9thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 10 to ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_10thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 11 to ItemzType PL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_11thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_ParkingLotItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_ParkingLotItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 12 to ItemzType PL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_12thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario01_ParkingLotItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{BaselineTraceScenario01_ParkingLotItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Projects Itemz Type Count is 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"",
+									"pm.test(\"Itemz Type Count is 3\", () => {",
+									"    pm.expect(pm.response.json().length).to.equal(3)",
+									"})",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetItemzTypes/{{BaselineTraceScenario01_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetItemzTypes",
+								"{{BaselineTraceScenario01_NewProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz Count by ItemzType 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"",
+									"pm.test(\"Verify Itemz Count is 5\", () => {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(5)",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{BaselineTraceScenario01_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"GetItemzCount",
+								"{{BaselineTraceScenario01_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz Count by ItemzType 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"",
+									"pm.test(\"Verify Itemz Count is 5\", () => {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(5)",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{BaselineTraceScenario01_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"GetItemzCount",
+								"{{BaselineTraceScenario01_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz Count by ItemzType PL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"",
+									"pm.test(\"Verify Itemz Count is 2\", () => {",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(2)",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{BaselineTraceScenario01_ParkingLotItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"GetItemzCount",
+								"{{BaselineTraceScenario01_ParkingLotItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BulkCreate9Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"// PURPOSE here is to compare that request body JSON",
+									"// is the same as response body JSON",
+									"// because we expect Establish Trace Itemz endpoint",
+									"// to response back with the same JSON",
+									"",
+									"var reqBody = JSON.parse(request.data);",
+									"var resBody = pm.response.json();",
+									"",
+									"pm.test(\"Verify that Itemz Trace was established successfully\", function () {",
+									"    pm.expect(reqBody).to.eql(resBody);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_6thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_11thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_7thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_8thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_4thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_9thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_5thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_10thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_5thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_12thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_6thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_11thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{BaselineTraceScenario01_10thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{BaselineTraceScenario01_12thItemzId}}\"\r\n    }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"CreateOrVerifyItemzTraceCollection"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 1 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.childItemz[1].itemzID;\r",
+									"pm.test(\"Verify 2nd Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 2 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_7thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 3 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_8thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 4 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_9thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 5 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.childItemz[1].itemzID;\r",
+									"pm.test(\"Verify 2nd Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 6 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_6thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_6thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 7 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_2ndItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_7thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_7thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 8 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_3rdItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_8thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_8thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 9 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_4thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_9thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_9thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 10 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.childItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_10thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_10thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 11 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.parentItemz[1].itemzID;\r",
+									"pm.test(\"Verify 2nd Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_11thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_11thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Itemz 12 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.parentItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.itemz.childItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempItemzId_01 = jsonData.itemz.parentItemz[0].itemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempItemzId_02 = jsonData.itemz.parentItemz[1].itemzID;\r",
+									"pm.test(\"Verify 2nd Parent ID\", function() {\r",
+									"    pm.expect(tempItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thItemzId\")\r",
+									"\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{BaselineTraceScenario01_12thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTrace",
+								"AllItemzTraces",
+								"{{BaselineTraceScenario01_12thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Baseline by Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"",
+									"if (pm.response.code < 300 && pm.response.code > 199)",
+									"{",
+									"    var jsonData = pm.response.json();",
+									"    var tempNewBaselineid = jsonData[\"id\"];",
+									"    pm.collectionVariables.set(\"BaselineTraceScenario01_1stBaselineId\",tempNewBaselineid);",
+									"    ",
+									"    pm.test(\"Status code is 201\", function () {",
+									"        pm.response.to.have.status(201);",
+									"    });",
+									"",
+									"}",
+									"else{",
+									"    pm.test(\"Status code is 409\", function () {",
+									"        pm.response.to.have.status(409);",
+									"    });",
+									"    pm.collectionVariables.set(\"BaselineTraceScenario01_1stBaselineName\",\"\");",
+									"}",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"BaselineTraceScenario01_1stBaselineName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"projectId\": \"{{BaselineTraceScenario01_NewProjectId}}\",\r\n    \"name\": \"{{BaselineTraceScenario01_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{BaselineTraceScenario01_1stBaselineName\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_1stBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_2ndBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_3rdBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_4thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_5thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 6",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_6thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_6thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_6thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_7thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_7thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_7thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 8",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_8thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_8thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_8thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 9",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_9thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_9thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_9thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 10",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_10thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_10thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_10thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_11thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_11thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_11thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 12",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempNew1stBaselineItemzId =   jsonData[0].id;\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario01_12thBaselineItemzId\",tempNew1stBaselineItemzId);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario01_12thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemz",
+								"GetBaselineItemzs",
+								"{{BaselineTraceScenario01_12thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 1 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.childBaselineItemz[1].baselineItemzID;\r",
+									"pm.test(\"Verify 2nd Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_1stBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_1stBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 2 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_7thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_2ndBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_2ndBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 3 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_8thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_3rdBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_3rdBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 4 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_9thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_4thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_4thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 5 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.childBaselineItemz[1].baselineItemzID;\r",
+									"pm.test(\"Verify 2nd Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_5thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_5thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 6 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_11thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_6thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_6thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 7 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_2ndBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_7thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_7thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 8 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_3rdBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_8thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_8thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz  9 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_4thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_9thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_9thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz 10 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 1 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(1);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.childBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 2nd Child ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_12thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_10thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_10thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz  11 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.parentBaselineItemz[1].baselineItemzID;\r",
+									"pm.test(\"Verify 2nd Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_1stBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_6thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_11thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_11thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BaselineItemz  12 Traces",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 201\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 2 parent Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.parentBaselineItemz.count()).to.be.eq(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify that 0 child Trace elements are returned\", function () {\r",
+									"    var body = JSON.parse(responseBody);\r",
+									"    pm.expect(body.baselineItemz.childBaselineItemz.count()).to.be.eq(0);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var tempBaselineItemzId_01 = jsonData.baselineItemz.parentBaselineItemz[0].baselineItemzID;\r",
+									"pm.test(\"Verify 1st Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_01).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									"\r",
+									"var tempBaselineItemzId_02 = jsonData.baselineItemz.parentBaselineItemz[1].baselineItemzID;\r",
+									"pm.test(\"Verify 2nd Parent ID\", function() {\r",
+									"    pm.expect(tempBaselineItemzId_02).is.oneOf(\r",
+									"        [\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_5thBaselineItemzId\"),\r",
+									"            pm.variables.get(\"BaselineTraceScenario01_10thBaselineItemzId\")\r",
+									"        ]\r",
+									"        )\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/BaselineItemzTrace/AllBaselineItemzTraces/{{BaselineTraceScenario01_12thBaselineItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"BaselineItemzTrace",
+								"AllBaselineItemzTraces",
+								"{{BaselineTraceScenario01_12thBaselineItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{BaselineTraceScenario01_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{BaselineTraceScenario01_NewProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orphaned BaselineItemz Count In Repository",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify ZERO Orphaned BaselineItemz found in repository\", function () {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetOrphanedBaselineItemzCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Baseline",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400,404]);\r",
+									"});\r",
+									"\r",
+									"// pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"//     pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"// });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/{{BaselineTraceScenario01_1stBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"{{BaselineTraceScenario01_1stBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 6",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_6thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_6thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 7",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_7thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_7thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 8",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_8thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_8thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 9",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_9thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_9thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 10",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_10thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_10thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 11",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_11thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_11thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 12",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario01_12thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{BaselineTraceScenario01_12thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "In this scenario, we create\n\n1 Project\n\n2 Types + 1 Parking Lot\n\n5 + 5 + 2 Itemz\n\n\"Type 1\" 5 itemz as Parent trace to \"Type 2\" 5 Itemz\n\n\"Type 1\" 1st and 5th itemz as Parent trace to \"Parking Lot\" 2 Itemz\n\n\"Type 2\" 1st and 5th itemz as Parent trace to \"Parking Lot\" 2 Itemz\n\nIn Total we create 9 traces."
+		},
+		{
+			"name": "KEEP ASIDE",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaselineTraceScenario01_NewProjectName",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_2ndItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_1stItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_2ndItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_3rdItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_4thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_5thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_6thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_7thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_8thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_9thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_10thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_ParkingLotItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_11thItemzId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario01_12thItemzId",
+			"value": ""
+		}
+	]
+}
