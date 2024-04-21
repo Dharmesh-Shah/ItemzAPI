@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace ItemzApp.API.Services
 {
@@ -368,9 +369,24 @@ namespace ItemzApp.API.Services
             // there is no code in this implementation.  
         }
 
-        public void DeleteItemz(Itemz itemz)
+        public async Task DeleteItemzAsync(Guid itemzId)
         {
-            _context.Itemzs!.Remove(itemz);
+            var sqlParameters = new[]
+{
+                new SqlParameter
+                {
+                    ParameterName = "ItemzId",
+                    Value = itemzId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+            // Instead of using Itemzs.Remove we are now using Stored
+            // procedure because we need to perform some cleanup of 
+            // "non-cascade delete" data due to Entity Framework
+            // SQL Server limitations when it comes to many-to-many 
+            // relationship. 
+            // _context.Itemzs!.Remove(itemz);
+            await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteSingleItemzByItemzID @ItemzId", parameters: sqlParameters);
         }
 
 

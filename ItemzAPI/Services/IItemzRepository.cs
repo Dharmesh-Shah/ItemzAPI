@@ -47,7 +47,7 @@ namespace ItemzApp.API.Services
 
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
-        void DeleteItemz(Itemz itemz);
+        public Task DeleteItemzAsync(Guid itemzId);
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
