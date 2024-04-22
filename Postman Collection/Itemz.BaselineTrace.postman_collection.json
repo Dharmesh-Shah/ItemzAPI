@@ -2378,6 +2378,59 @@
 					"response": []
 				},
 				{
+					"name": "GET Baseline 1 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 9\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(9)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario01_1stBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario01_1stBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET BaselineItemz 1",
 					"event": [
 						{
@@ -7100,6 +7153,165 @@
 							"path": [
 								"api",
 								"Baselines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 1 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario02_1stBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario02_1stBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 2 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario02_2ndBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario02_2ndBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 3 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario02_3rdBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario02_3rdBaselineId}}"
 							]
 						}
 					},
@@ -12007,6 +12219,162 @@
 							"path": [
 								"api",
 								"Baselines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 1 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 4\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(4)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario03_1stBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario03_1stBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 2 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario03_2ndBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario03_2ndBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baseline 3 Total Trace Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario03_3rdBaselineId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselineItemzTraceCount",
+								"{{BaselineTraceScenario03_3rdBaselineId}}"
 							]
 						}
 					},
