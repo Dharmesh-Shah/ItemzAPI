@@ -292,6 +292,15 @@
             <response code="200">Returns number of BaselineItemz count that were associated with a given Baseline</response>
             <response code="404">Baseline based on baselineId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselineItemzTraceCountByBaselineAsync(System.Guid)">
+            <summary>
+            Get total number of BaselineItemz Traces by Baseline
+            </summary>
+            <param name="BaselineId">Provide BaselineID representated in GUID form</param>
+            <returns>Number of BaselineItemz Traces found for the given BaselineID. Zero if none found.</returns>
+            <response code="200">Returns number of BaselineItemz Traces count that are associated with a given Baseline</response>
+            <response code="404">Baseline based on baselineId was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselinesController.GetIncludedBaselineItemzCountByBaselineAsync(System.Guid)">
             <summary>
             Get total number of Included BaselineItemz by Baseline
