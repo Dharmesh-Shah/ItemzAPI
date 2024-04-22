@@ -310,6 +310,21 @@ namespace ItemzApp.API.Services
             return foundItemzByBaseline;
         }
 
+        public async Task<int> GetBaselineItemzTraceCountByBaselineAsync(Guid BaselineId)
+        {
+            if (BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(BaselineId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+            };
+            var foundBaselineItemzTraceByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzTraceCountByBaseline, sqlArgs);
+
+            return foundBaselineItemzTraceByBaseline;
+        }
+
         public async Task<int> GetIncludedBaselineItemzCountByBaselineAsync(Guid BaselineId)
         {
             if (BaselineId == Guid.Empty)

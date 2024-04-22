@@ -519,6 +519,39 @@ namespace ItemzApp.API.Controllers
             return foundBaselineItemzCountByBaselineId;
         }
 
+
+
+        /// <summary>
+        /// Get total number of BaselineItemz Traces by Baseline
+        /// </summary>
+        /// <param name="BaselineId">Provide BaselineID representated in GUID form</param>
+        /// <returns>Number of BaselineItemz Traces found for the given BaselineID. Zero if none found.</returns>
+        /// <response code="200">Returns number of BaselineItemz Traces count that are associated with a given Baseline</response>
+        /// <response code="404">Baseline based on baselineId was not found</response>
+        [HttpGet("GetBaselineItemzTraceCount/{BaselineId:Guid}", Name = "__GET_BaselineItemz_Trace_Count_By_Baseline__")]
+        [HttpHead("GetBaselineItemzTraceCount/{BaselineId:Guid}", Name = "__HEAD_BaselineItemz_Trace_Count_By_Baseline__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetBaselineItemzTraceCountByBaselineAsync(Guid BaselineId)
+        {
+            if (!(await _baselineRepository.BaselineExistsAsync(BaselineId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of BaselineItemz Traces as Baseline with ID {BaselineId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    BaselineId);
+                return NotFound();
+            }
+
+            var foundBaselineItemzTraceCountByBaselineId = await _baselineRepository.GetBaselineItemzTraceCountByBaselineAsync(BaselineId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineItemzTraceCountByBaselineId} BaselineItemz Trace records for Baseline with ID {baselineId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundBaselineItemzTraceCountByBaselineId,
+                BaselineId);
+            return foundBaselineItemzTraceCountByBaselineId;
+        }
+
+
         /// <summary>
         /// Get total number of Included BaselineItemz by Baseline
         /// </summary>
