@@ -44,7 +44,11 @@ namespace ItemzApp.API.Services
             }
 
             return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace!
-                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId || bijit.BaselineToItemzId == baselineItemzId).AsNoTracking().ToListAsync();
+                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId || 
+                        bijit.BaselineToItemzId == baselineItemzId)
+                .Where(bijit => bijit.BaselineFromItemz!.isIncluded)
+                .Where(bijit => bijit.BaselineToItemz!.isIncluded)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task<BaselineItemzParentAndChildTraceDTO> GetAllParentAndChildTracesByBaselineItemzIdAsync(Guid baselineItemzId)
@@ -62,7 +66,8 @@ namespace ItemzApp.API.Services
             baselineItemzParentAndChildTraceDTO.BaselineItemz.ID = baselineItemzId;
 
             var allChildTraceBaselineItemzs = _baselineItemzTraceContext.BaselineItemzJoinItemzTrace!
-                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId);
+                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId)
+                .Where(bijit => bijit.BaselineToItemz!.isIncluded);
 
             foreach (var childTraceBaselineItemz in allChildTraceBaselineItemzs)
             {
@@ -72,7 +77,8 @@ namespace ItemzApp.API.Services
             }
 
             var allParentTraceBaselineItemzs = _baselineItemzTraceContext.BaselineItemzJoinItemzTrace!
-                .Where(bijit => bijit.BaselineToItemzId == baselineItemzId);
+                .Where(bijit => bijit.BaselineToItemzId == baselineItemzId)
+                .Where(bijit => bijit.BaselineFromItemz!.isIncluded);
 
             foreach (var parentTraceBaselineItemz in allParentTraceBaselineItemzs)
             {
@@ -117,6 +123,12 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(baselineItemzTraceDTO.ToTraceBaselineItemzId));
             }
 
+            if (await BaselineItemzExistsAsync(baselineItemzTraceDTO.FromTraceBaselineItemzId) == false ||
+                     await BaselineItemzExistsAsync(baselineItemzTraceDTO.ToTraceBaselineItemzId) == false)
+            {
+                return false;
+            }
+
             return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace
                             .AsNoTracking()
                             .AnyAsync(bijit => bijit.BaselineFromItemzId == baselineItemzTraceDTO.FromTraceBaselineItemzId
@@ -142,7 +154,7 @@ namespace ItemzApp.API.Services
             // operations like Delete / Update or we use ItemzExists as independent method and not rely on 
             // it for subsequent operations like Delete / Update.
 
-            return await _baselineContext.BaselineItemz.AsNoTracking().AnyAsync(a => a.Id == baselineItemzId);
+            return await _baselineContext.BaselineItemz.AsNoTracking().AnyAsync(a => a.Id == baselineItemzId && a.isIncluded);
             // return  !(_baselineContext.BaselineItemz.Find(baselineItemzId) == null);
         }
 
@@ -150,14 +162,18 @@ namespace ItemzApp.API.Services
         {
             return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace
                 .Include(bijit => bijit.BaselineFromItemz)
-                .Where(bijit => bijit.BaselineToItemzId == baselineItemzId).CountAsync();
+                .Where(bijit => bijit.BaselineFromItemz!.isIncluded)
+                .Where(bijit => bijit.BaselineToItemzId == baselineItemzId)
+                .CountAsync();
         }
 
         public async Task<int> GetToTraceCountByBaselineItemz(Guid baselineItemzId)
         {
             return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace
                 .Include(bijit => bijit.BaselineToItemz)
-                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId).CountAsync();
+                .Where(bijit => bijit.BaselineToItemz!.isIncluded)
+                .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId)
+                .CountAsync();
         }
 
         public async Task<int> GetAllFromAndToTracesCountByBaselineItemzIdAsync(Guid baselineItemzId)
@@ -167,8 +183,23 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(baselineItemzId));
             }
 
+            //return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace!
+            //        .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId || bijit.BaselineToItemzId == baselineItemzId).CountAsync();
+
+            // EXPLANATION: BaselineItemz can be included or excluded from Baseline
+            // So we need to check for Traces where FromBaselineItemz 
+            // and ToBaselineItemz are NOT MARKED FOR EXCLUSION from the baseline
+            // this is why we have two separate Where clause in the below
+            // return statement.
+
             return await _baselineItemzTraceContext.BaselineItemzJoinItemzTrace!
-                    .Where(bijit => bijit.BaselineFromItemzId == baselineItemzId || bijit.BaselineToItemzId == baselineItemzId).CountAsync();
+                    .Where(bijit =>
+                               (bijit.BaselineFromItemzId == baselineItemzId || 
+                                bijit.BaselineToItemzId == baselineItemzId)
+                           )
+                    .Where(bijit => bijit.BaselineFromItemz!.isIncluded)
+                    .Where(bijit => bijit.BaselineToItemz!.isIncluded)
+                    .CountAsync();
         }
     }
 }

@@ -97,7 +97,8 @@
                     "INNER JOIN BaselineItemzType bitype " +
                     "on bitype.id = bitjbi.BaselineItemzTypeId " +
                     "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
-                    "WHERE b.id = @__BaselineID__ )" +
+                    "WHERE b.id = @__BaselineID__  " +
+                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )" +
             "AND " +
             "bijit.BaselineToItemzId in " +
                 "(SELECT bi.id from BaselineItemz bi " +
@@ -106,7 +107,8 @@
                     "INNER JOIN BaselineItemzType bitype " +
                     "on bitype.id = bitjbi.BaselineItemzTypeId " +
                     "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
-                    "WHERE b.id = @__BaselineID__ )" ;
+                    "WHERE b.id = @__BaselineID__ " +
+                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )";
 
         public static readonly string SQLStatementFor_GetIncludedBaselineItemzCountByBaseline =
 

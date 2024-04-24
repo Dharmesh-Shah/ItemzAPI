@@ -61,3 +61,26 @@ External traces to Itemz outsize of the baseline scope are not included in the b
 Baselines are designed to be self-contained.
 
 ---
+## Supporting Excluding and Including Baseline Itemz and it's impact on Traces
+
+As part of Baselines, we take a snapshot of Itemz either scoped by Project or by ItemzType. Along with Itemz, we also take snapshot of Itemz Traces based on the scope defined for baseline. At the time of creating Baseline, all the Itemz which are in scope of the Baseline are by default marked as Included in it. 
+
+Post creating Baseline, we allow users to configure BaselineItemz to be included or excluded. This feature is introduced to support cases where scope of the delivery changes post Baseline snapshot was created. This could happen due to 
+
+- Budget Constrains
+- Complexity in developing and delivering defined Itemz
+- Time constains
+- Removing nice to have features
+- Unclear definition of requirement
+- Duplicate requirement
+- etc. 
+
+
+
+So when we mark a BaselineItemz as EXCLUDED then in effect we are proposing that this BaselineItemz is not in scope of the baseline any more. In such cases, all the From and To Traces for the excluded BaselineItemz should also be treated as ineffective and excluded. 
+
+For example if BaselineItemz 1 is linked as Parent to 2, 3, 4 & 5. Also consider that Baseline Itemz 2 is linked as Parent to 6, 7 & 8. Now if we mark Baseline Itemz 2 as excluded then it's Parent trace to BaselineItemz 1 and child traces to Baseline Itemz 6, 7 & 8 should also be marked as ineffective / excluded. 
+
+In future if BaselineItemz 2 is marked back as Included then it's parent link to Baseline Itemz 1 and child trcaes to Baseline Itemz 6, 7 & 8 will also be automatically included.
+
+

@@ -319,6 +319,7 @@ namespace ItemzApp.API.Services
             KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
             {
                 new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+                new KeyValuePair<string, object>("@__IsIncluded_IsTrue__", 1),
             };
             var foundBaselineItemzTraceByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzTraceCountByBaseline, sqlArgs);
 
