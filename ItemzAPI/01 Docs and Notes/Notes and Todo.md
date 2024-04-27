@@ -1040,6 +1040,34 @@ FROM [Blogs] AS [b]
 WHERE [b].[Name] IN (N'Blog1', N'Blog2')
 ```
 
+### [Advanced API testing: Best Practices and Automation Techniques](https://www.youtube.com/watch?v=Ix6z1kBweuk)
+
+Published on 2nd June 2023
+
+By Author <span style="background-color: #99ff66">[Arlemi Turpault](https://twitter.com/arlemi) and [Joyce Lin](https://twitter.com/petuniaGray) </span>
+
+`At 15:26`, we can see that a call is being made to Get book but in the URL it uses “:id” at the end. I didn’t knew how it would pick-up variable value with syntex “:id”. Then I see there is some notion called as Path Variables in Postman and we should understand why it should be used and what advantage does it brings.
+
+`At 17:57`, presenter talks about Schema validation testing which looks very interesting. Author defines JSON Schema in the test and then validates that response data conforms to the schema. This is something we should also consider utilizing in ItemzAPI.
+
+`At 31:51`, presenter shows about how to create new workspace and then use template in Postman to get all bunch of collections and tests brought into your workspace. It will be nice to check it out to understand some of the test scripts and best practices introduced by POSTMAN in the templates they provide.
+
+`At 56:10`, Presenter shows some useful links to learn more about postman. Check those resources out which is going to be useful to enhance POSTMAN skills.
+
+### [How to programmatically save the response to file in Postman](https://www.youtube.com/watch?v=cCRmry10874)
+
+Published on 8th Jan 2021
+
+By Author <span style="background-color: #99ff66">[Valentin Despa](https://twitter.com/vdespa)  </span>
+
+This is a very nice advanced video by user valentin@vdespa.com (https://www.youtube.com/@vdespa)
+
+Valentin explains how we can store request and response to a file using   <span style="color:red">`Newman as Library`</span>. This concept is very good one and it could be useful as an important way one could use POSTMAN in an advance scenario. 
+
+POSTMAN by default do not allow writing to file using it's TEST scripts and so one has to use Newman as a workaround or as an alternative way to satisfy that advance needs.
+
+
+
 
 
 
