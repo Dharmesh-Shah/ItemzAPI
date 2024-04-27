@@ -130,6 +130,9 @@
                 "where BaselineId = @__BaselineID__) " +
                 ")";
 
+        // NOTE: With respect to SQLStatementFor_GetBaselineItemzCountByBaseline
+        // System is ignoring IsIncluded property of BaselineItemz while cloning. 
+        // i.e. we copy all BaselineItemz without filtering data out based on IsIncluded
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =
 
             "select count(Id) from BaselineItemz " +

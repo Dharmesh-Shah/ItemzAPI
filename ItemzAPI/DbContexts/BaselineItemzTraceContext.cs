@@ -2,6 +2,7 @@
 
 using ItemzApp.API.Entities;
 using Microsoft.EntityFrameworkCore;
+// using System;
 
 namespace ItemzApp.API.DbContexts
 {
@@ -16,9 +17,16 @@ namespace ItemzApp.API.DbContexts
         {
             if (optionsBuilder.IsConfigured)
             {
-                   // TODO: for some reason, this is always true here. Investigate why
-                   // EF Core team has provided this property and what is the real use 
-                   // of the same.
+                // TODO: for some reason, this is always true here. Investigate why
+                // EF Core team has provided this property and what is the real use 
+                // of the same.
+
+                // EnableSensitiveDataLogging is used only during development phase 
+                // to understand Entity Framwork SQL Queries generated during
+                // execution of EF Queries.
+                // optionsBuilder.EnableSensitiveDataLogging(true)
+                //    .LogTo(Console.WriteLine);
+
             }
         }
 
