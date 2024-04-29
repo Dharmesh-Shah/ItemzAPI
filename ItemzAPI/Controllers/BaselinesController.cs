@@ -582,6 +582,35 @@ namespace ItemzApp.API.Controllers
             return foundIncludedBaselineItemzCountByBaselineId;
         }
 
+        /// <summary>
+        /// Get total number of Baseline by Project ID
+        /// </summary>
+        /// <param name="ProjectId">Provide ProjectID representated in GUID form</param>
+        /// <returns>Number of Baseline found for the given ProjectID. Zero if none found.</returns>
+        /// <response code="200">Returns number of Baseline count that were associated with a given ProjectID</response>
+        /// <response code="404">Project based on projectID was not found</response>
+        [HttpGet("GetBaselineCount/{ProjectId:Guid}", Name = "__GET_Baseline_Count_By_Project__")]
+        [HttpHead("GetBaselineCount/{ProjectId:Guid}", Name = "__HEAD_Baseline_Count_By_Project__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<int>> GetBaselineCountByProjectIDAsync(Guid ProjectId)
+        {
+            if (!(await _baselineRepository.ProjectExistsAsync(ProjectId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot find count of Baseline as Project with ID {ProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ProjectId);
+                return NotFound();
+            }
+
+            var foundBaselineCountByProjectId = await _baselineRepository.GetBaselineCountByProjectIdAsync(ProjectId);
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselineCountByProjectId} Included BaselineItemz records for Project with ID {ProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundBaselineCountByProjectId,
+                ProjectId);
+            return foundBaselineCountByProjectId < 0 ? 0 : foundBaselineCountByProjectId;
+        }
 
         /// <summary>
         /// Get total number of Excluded BaselineItemz by Baseline

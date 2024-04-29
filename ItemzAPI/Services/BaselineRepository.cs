@@ -401,6 +401,17 @@ namespace ItemzApp.API.Services
             return foundTotalBaselineItemzInRepository;
         }
 
+        public async Task<int> GetBaselineCountByProjectIdAsync(Guid projectID)
+        {
+            var foundBaselineCount = -1;
+            foundBaselineCount = await _baselineContext.Baseline!
+                .Where(b => b!.ProjectId == projectID)
+                .TagWith("BaselineCountByProjectID")
+                .AsNoTracking()
+                .CountAsync();
+            return foundBaselineCount > 0 ? foundBaselineCount : -1;
+        }
+
 
         public async Task<bool> ProjectExistsAsync(Guid projectId)
         {
