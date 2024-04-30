@@ -32361,6 +32361,1351 @@
 			"description": "In this scenario, we create\n\n\\-- Create New Project  \n\\-- Create 2 Itemz Type in it including Parking Lot  \n\\-- Create 5 Itemz in each Itemz type  \n\\-- Create link between  \n\\-- ItemzType1_Itemz1 TO 2,3,4,5  \n\\-- ItemzType1_Itemz 1,2,3,4,5 ONE TO ONE over ItemzType2_Itemz 6,7,8,9,10  \n\\-- ItemzType1_Itemz1 to ItemzTypePL_Itemz11  \n\\-- ItemzType1_Itemz1 to ItemzTypePL_Itemz12\n\n\\-- ItemzType2_Itemz6 to ItemzTypePL_Itemz11\n\n\\-- ItemzType2_Itemz6 to ItemzTypePL_Itemz12\n\nTake more then one Project Based Baseline and verify Baseline Traces\n\nTake baselines of baseline and verify traces\n\nTake more then one ItemzType based baseline and verify Baseilne Traces\n\nTake baselines of baseline and verify traces\n\nDelete Base Baseline taken off project id and verify baseine traces\n\nDelete Base baseline taken off ItemzType ID and verify baseline traces\n\nDelete all baseline and verify no baseilne traces found\n\nPerform clean-up."
 		},
 		{
+			"name": "BaselineTraceScenario06",
+			"item": [
+				{
+					"name": "Initialize",
+					"item": [
+						{
+							"name": "POST Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"const tempNewProjectId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_NewProjectId\",tempNewProjectId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_NewProjectName\", \"BaselineTraceScenario06 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"BaselineTraceScenario06_NewProjectName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{BaselineTraceScenario06_NewProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{BaselineTraceScenario06_NewProjectName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Projects Itemz Type for Parking Lot ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"var tempNew1stItemzTypeId = jsonData[0].id;\r",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_ParkingLotItemzTypeId\",tempNew1stItemzTypeId);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzTypes/{{BaselineTraceScenario06_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzTypes",
+										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_1stItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{BaselineTraceScenario06_NewProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 10 Itemz in 1st ItemzType",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const response =  pm.response.json();",
+											"const itemzIds = response.map(itemz => itemz.id);",
+											"console.log(itemzIds);",
+											"pm.variables.set('BaselineTraceScenario06.itemzIdsArray', itemzIds);",
+											"pm.variables.set('BaselineTraceScenario06.itemzIdsArray_06_02', itemzIds);",
+											"pm.variables.set('BaselineTraceScenario06.itemzIdsArray_06_03', itemzIds);",
+											"pm.variables.set('BaselineTraceScenario06.itemzIdsArray_06_04', itemzIds);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item 001\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 002\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 003\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 004\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 005\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 006\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 007\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 008\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 009\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 010\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{BaselineTraceScenario06_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{BaselineTraceScenario06_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 06_01 Create 5 Traces",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds = pm.variables.get('BaselineTraceScenario06.itemzIdsArray');\r",
+											"pm.variables.set('BaselineTraceScenario06_TraceFromItemz', itemzIds.shift())\r",
+											"pm.variables.set('BaselineTraceScenario06_TraceToItemz', itemzIds.shift())\r",
+											"\r",
+											"if (Array.isArray(itemzIds) && itemzIds.length > 1) {\r",
+											"    postman.setNextRequest('POST 06_01 Create 5 Traces');\r",
+											"}\r",
+											"// else {\r",
+											"//     postman.setNextRequest('POST Baseline 1 by Project');\r",
+											"// }\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fromTraceItemzId\": \"{{BaselineTraceScenario06_TraceFromItemz}}\",\r\n  \"toTraceItemzId\": \"{{BaselineTraceScenario06_TraceToItemz}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTrace",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTrace"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline 1 by Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario06_1stBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario06_1stBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_1stBaselineName\", \"1st Baseline Name - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"BaselineTraceScenario06_1stBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{BaselineTraceScenario06_NewProjectId}}\",    \r\n    \"name\": \"{{BaselineTraceScenario06_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{BaselineTraceScenario06_1stBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Step01_Verify",
+					"item": [
+						{
+							"name": "GET Baseline 1 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 5\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(5)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline Count by Project 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Count is 1 for the given Project under test\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(1)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineCount/{{BaselineTraceScenario06_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineCount",
+										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET 06_02 BaselineItemz by ItemzID",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds_06_02 = pm.variables.get('BaselineTraceScenario06.itemzIdsArray_06_02');\r",
+											"pm.variables.set('BaselineTraceScenario06_CurrentItemzID', itemzIds_06_02.shift())\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_02) && itemzIds_06_02.length > 0) {\r",
+											"    postman.setNextRequest('GET 06_02 BaselineItemz by ItemzID');\r",
+											"}\r",
+											"// else {\r",
+											"//     postman.setNextRequest(null);\r",
+											"// }\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var bodyJson = pm.response.json()\r",
+											"// console.log(bodyJson);\r",
+											"\r",
+											"// pm.test(\"Check the Items array length is 1\", () => {\r",
+											"//     pm.expect(pm.response.json() ).to.eql(1);\r",
+											"// })\r",
+											"\r",
+											"// var bodyJson = pm.response.json();\r",
+											"pm.test(\"Verify that response is an Array\", function() {\r",
+											"    var yesArray = Array.isArray(bodyJson) // true\r",
+											"    pm.expect(yesArray).to.eql(true);;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify that length is 1\", () => {\r",
+											"    pm.expect(pm.response.json().length).to.eql(1)\r",
+											"})\r",
+											"\r",
+											"//console.log(pm.response.json().length) \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemz/GetBaselineItemzs/{{BaselineTraceScenario06_CurrentItemzID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemz",
+										"GetBaselineItemzs",
+										"{{BaselineTraceScenario06_CurrentItemzID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Step02 Delete 5 Itemz",
+					"item": [
+						{
+							"name": "DELETE 06_03 Itemz 2 4 6 8 10",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds_06_03 = pm.variables.get('BaselineTraceScenario06.itemzIdsArray_06_03');\r",
+											"pm.variables.set('BaselineTraceScenario06_03_CurrentItemzID', itemzIds_06_03.shift())\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_03) && itemzIds_06_03.length > 0) {\r",
+											"    pm.variables.set('BaselineTraceScenario06_03_CurrentItemzID', itemzIds_06_03.shift())\r",
+											"    if(itemzIds_06_03.length > 0) {\r",
+											"        postman.setNextRequest('DELETE 06_03 Itemz 2 4 6 8 10');\r",
+											"    }\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario06_03_CurrentItemzID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{BaselineTraceScenario06_03_CurrentItemzID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Baseline 2 by Project Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario06_2ndBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario06_2ndBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_2ndBaselineName\", \"1st Baseline Name - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"BaselineTraceScenario06_2ndBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"projectId\": \"{{BaselineTraceScenario06_NewProjectId}}\",    \r\n    \"name\": \"{{BaselineTraceScenario06_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{BaselineTraceScenario06_2ndBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Step03_Verify",
+					"item": [
+						{
+							"name": "GET Baseline 1 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 5\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(5)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline 2 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline Count by Project 1 Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Count is 2 for the given Project under test\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(2)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineCount/{{BaselineTraceScenario06_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineCount",
+										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Step04",
+					"item": [
+						{
+							"name": "POST Baseline 3 by Baseline 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"",
+											"if (pm.response.code < 300 && pm.response.code > 199)",
+											"{",
+											"    var jsonData = pm.response.json();",
+											"    var tempNewBaselineid = jsonData[\"id\"];",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario06_3rdBaselineId\",tempNewBaselineid);",
+											"    ",
+											"    pm.test(\"Status code is 201\", function () {",
+											"        pm.response.to.have.status(201);",
+											"    });",
+											"",
+											"}",
+											"else{",
+											"    pm.test(\"Status code is 409\", function () {",
+											"        pm.response.to.have.status(409);",
+											"    });",
+											"    pm.collectionVariables.set(\"BaselineTraceScenario05_4thBaselineName\",\"\");",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"BaselineTraceScenario06_3rdBaselineName\", \"3rd Baseline Name - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"BaselineTraceScenario06_3rdBaselineName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"baselineId\": \"{{BaselineTraceScenario06_1stBaselineId}}\",    \r\n    \"name\": \"{{BaselineTraceScenario06_3rdBaselineName}}\",\r\n    \"description\": \"This is Description for {{BaselineTraceScenario06_3rdBaselineName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/CloneBaseline",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"CloneBaseline"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Step05_Verify",
+					"item": [
+						{
+							"name": "GET Baseline 1 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 5\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(5)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline 2 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_2ndBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_2ndBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline 3 Total Trace Count",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Itemz Trace Count is 5\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(5)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTraceCount/{{BaselineTraceScenario06_3rdBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTraceCount",
+										"{{BaselineTraceScenario06_3rdBaselineId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Baseline Count by Project 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"\r",
+											"pm.test(\"Verify Baseline Count is 3 for the given Project under test\", () => {\r",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(3)\r",
+											"})\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineCount/{{BaselineTraceScenario06_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineCount",
+										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clean-Up",
+					"item": [
+						{
+							"name": "DELETE Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/{{BaselineTraceScenario06_NewProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE 06_04 Itemz 1 3 5 7 9",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds_06_04 = pm.variables.get('BaselineTraceScenario06.itemzIdsArray_06_04');\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 0) {\r",
+											"    pm.variables.set('BaselineTraceScenario06_04_CurrentItemzID', itemzIds_06_04.shift())\r",
+											"}\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 1) {\r",
+											"    itemzIds_06_04.shift()\r",
+											"        postman.setNextRequest('DELETE 06_04 Itemz 1 3 5 7 9');\r",
+											"}\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"// const itemzIds_06_04 = pm.variables.get('BaselineTraceScenario06.itemzIdsArray_06_04');\r",
+											"// pm.variables.set('BaselineTraceScenario06_04_CurrentItemzID', itemzIds_06_04.shift())\r",
+											"\r",
+											"// if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 1) {\r",
+											"\r",
+											"// //    if(itemzIds_06_04.length > 1) {\r",
+											"//         postman.setNextRequest('DELETE 06_04 Itemz 1 3 5 7 9');\r",
+											"// //    }\r",
+											"    \r",
+											"// //    pm.variables.set('BaselineTraceScenario06_04_CurrentItemzID', itemzIds_06_04.shift())\r",
+											"    \r",
+											"//     itemzIds_06_04.shift();\r",
+											"// }\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{BaselineTraceScenario06_04_CurrentItemzID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{BaselineTraceScenario06_04_CurrentItemzID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "We are testing that even after deleting Itemz post baseline creation, we are able to create new baselines from either project / itemz type / previous baseline without any issues. We just wanted to make sure that even though Itemz is deleted and there is a reference to ItemzId in BaseilneItemz record, we don't see any failure while we continue to work on previous baselines.\n\nCreate Project with 1 Itemz Type and 10 Itemz\n\nCreate Baseline 1\n\ndelete 5 Itemz from Project\n\nCreate 2nd baseline off project and verify\n\nCreate 3rd Baseline off Baseline 1 and verify\n\nPerform Clean-up."
+		},
+		{
 			"name": "KEEP ASIDE",
 			"item": []
 		}
@@ -32458,6 +33803,22 @@
 		},
 		{
 			"key": "BaselineTraceScenario05_1stBaselineName",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario06_NewProjectName",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario06_NewProjectId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario06_ParkingLotItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario06_1stItemzTypeId",
 			"value": ""
 		}
 	]
