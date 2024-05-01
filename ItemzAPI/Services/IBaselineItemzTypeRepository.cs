@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItemzApp.API.Entities;
+using ItemzApp.API.Helper;
+using ItemzApp.API.ResourceParameters;
 
 namespace ItemzApp.API.Services
 {
@@ -18,6 +20,8 @@ namespace ItemzApp.API.Services
         public Task<bool> BaselineItemzTypeExistsAsync(Guid baselineItemzTypeId);
 
         Task<int> GetBaselineItemzCountByBaselineItemzTypeAsync(Guid BaselineItemzTypeId);
+
+        PagedList<BaselineItemz>? GetBaselineItemzsByBaselineItemzType(Guid baselineItemzTypeId, ItemzResourceParameter itemzResourceParameter);
 
         public Task<bool> HasBaselineItemzTypeWithNameAsync(Guid baselineId, string baselineItemzTypeName);
 

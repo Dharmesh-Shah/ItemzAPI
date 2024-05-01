@@ -195,6 +195,16 @@
             <response code="200">Returns number of BaselineItemz count that were associated with a given BaselineItemzType</response>
             <response code="404">BaselineItemzType based on baselineItemzTypeId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzsByBaselineItemzTypeAsync(System.Guid,ItemzApp.API.ResourceParameters.ItemzResourceParameter)">
+            <summary>
+            Gets collection of BaselineItemzs by BaselineItemzType ID
+            </summary>
+            <param name="BaselineItemzTypeId">BaselineItemzType ID for which BaselineItemz are queried</param>
+            <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+            <returns>Collection of BaselineItemz based on expectated pagination and sorting order.</returns>
+            <response code="200">Returns collection of BaselineItemzs based on pagination</response>
+            <response code="404">Either BaselineItemzType or BaselineItemzs were not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzTypesController.GetBaselineItemzTypesOptions">
             <summary>
             Get list of supported HTTP Options for the BaselineItemzTypes controller.

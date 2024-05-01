@@ -32777,6 +32777,78 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "GET Baseline1 ItemzType 1 ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"const jsonResponse = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+											"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+											"})\r",
+											"\r",
+											"if (Array.isArray(jsonResponse))\r",
+											"{\r",
+											"    pm.test(\"Verify that responded Array length is 2\", () => {\r",
+											"        pm.expect(jsonResponse.length).to.eql(2)\r",
+											"    })\r",
+											"\r",
+											"    if( jsonResponse[0].itemzTypeId == pm.variables.get(\"BaselineTraceScenario06_1stItemzTypeId\"))\r",
+											"    {\r",
+											"        pm.collectionVariables.set(\"BaselineTraceScenario06_1stBaselineItemzTypeId\",jsonResponse[0].id);\r",
+											"    }\r",
+											"    if( jsonResponse[1].itemzTypeId == pm.variables.get(\"BaselineTraceScenario06_1stItemzTypeId\"))\r",
+											"    {\r",
+											"        pm.collectionVariables.set(\"BaselineTraceScenario06_1stBaselineItemzTypeId\",jsonResponse[1].id);\r",
+											"    }\r",
+											"\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Baselines/GetBaselineItemzTypes/{{BaselineTraceScenario06_1stBaselineId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Baselines",
+										"GetBaselineItemzTypes",
+										"{{BaselineTraceScenario06_1stBaselineId}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -32884,6 +32956,214 @@
 										"Baselines",
 										"GetBaselineCount",
 										"{{BaselineTraceScenario06_NewProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz by BaselineItemzType 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"const jsonResponse = pm.response.json();\r",
+											"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+											"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+											"})\r",
+											"\r",
+											"if (Array.isArray(jsonResponse))\r",
+											"{\r",
+											"    pm.test(\"Verify that responded Array length is 10\", () => {\r",
+											"        pm.expect(jsonResponse.length).to.eql(10)\r",
+											"    })\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/GetBaselineItemzByBaselineItemzType/{{BaselineTraceScenario06_1stBaselineItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"GetBaselineItemzByBaselineItemzType",
+										"{{BaselineTraceScenario06_1stBaselineItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz by BaselineItemzType 1 PAGE 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"const jsonResponse = pm.response.json();\r",
+											"console.log(jsonResponse);\r",
+											"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+											"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+											"})\r",
+											"\r",
+											"if (Array.isArray(jsonResponse))\r",
+											"{\r",
+											"    pm.test(\"Verify that responded Array length is 3\", () => {\r",
+											"        pm.expect(jsonResponse.length).to.eql(3)\r",
+											"    })\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/GetBaselineItemzByBaselineItemzType/{{BaselineTraceScenario06_1stBaselineItemzTypeId}}?PageNumber=2&PageSize=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"GetBaselineItemzByBaselineItemzType",
+										"{{BaselineTraceScenario06_1stBaselineItemzTypeId}}"
+									],
+									"query": [
+										{
+											"key": "PageNumber",
+											"value": "2"
+										},
+										{
+											"key": "PageSize",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET BaselineItemz by BaselineItemzType 1 PAGE 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"})\r",
+											"\r",
+											"const jsonResponse = pm.response.json();\r",
+											"\r",
+											"console.log(pm.response.headers)\r",
+											"console.log(jsonResponse);\r",
+											"\r",
+											"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+											"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+											"})\r",
+											"\r",
+											"if (Array.isArray(jsonResponse))\r",
+											"{\r",
+											"    pm.test(\"Verify that responded Array length is 1\", () => {\r",
+											"        pm.expect(jsonResponse.length).to.eql(1)\r",
+											"    })\r",
+											"}\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineItemzTypes/GetBaselineItemzByBaselineItemzType/{{BaselineTraceScenario06_1stBaselineItemzTypeId}}?PageNumber=4&PageSize=3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineItemzTypes",
+										"GetBaselineItemzByBaselineItemzType",
+										"{{BaselineTraceScenario06_1stBaselineItemzTypeId}}"
+									],
+									"query": [
+										{
+											"key": "PageNumber",
+											"value": "4"
+										},
+										{
+											"key": "PageSize",
+											"value": "3"
+										}
 									]
 								}
 							},
