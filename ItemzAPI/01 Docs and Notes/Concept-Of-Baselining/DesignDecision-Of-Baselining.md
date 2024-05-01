@@ -123,4 +123,25 @@ We shall also look into supporting feature to re-set existing baseline to includ
 
 Instead of including all by default we copy value of IsIncluded when creating new Baseline based on existing one. 
 
+# Keeping association of ItemzID with BaselineItemzID
+
+At the time when new Baseline Snapshot gets created, all the BaselineItemz that gets created under the Baseline are having reference to ItemzID. BaselineItemz are snapshot of Itemz at the time of creation of the Baseline. 
+
+ItemzApp allows creating Baseline snapshot based on Project or ItemzType. All the Itemz data within the scope of the baseline gets copied to BaselineItemz. 
+
+It's possible to take multiple Baseline snapshots of a given project and so in effect a single Itemz gets copied multiple times into different BaselineItemz. Having a cross reference stored for the source ItemzID into BaselineItemz is a design decision that mainly gets used for indication purposes. Just to know from which source Itemz were BaseilneItemz created.
+
+ItemzApp also supports creating baseline from an existing baseline as well. In this scenario, target BaselineItemz is a copy of a source BaselineItemz. Well, source BaselineItemz will still have reference for the ItemzID stored along with it and so the same ItemzId gets copied over to target BaselineItemz too. 
+
+It’s also possible that Itemz gets deleted from the repository but then all the BaselineItemz that are created based on the Itemz will still be there in the repository. In such cases, our design decision was to have a soft reference stored for the ItemzID into BaselineItemz. i.e. they are not linked via foreign key referential integrity. They are just stored as GUID objects logically referencing back to ItemzID. 
+
+So it’s possible that users might end-up with BaselineItemz that has reference to ItemzID which are actually removed from the project. 
+
+Because ItemzApp supports creation of new Baselines from existing Baseline, the design decision taken here was to simply just copy ItemzID from the source BaselineItemz over to target BaselineItemz without checking if actual Itemz is present in the repository for the given ItemzID. 
+
+This way, even though when Itemz actually gets deleted from the repository, any Baseline that is still present and refers to that ItemzID via contained BaselineItemz can be used further to create new Baselines and therefor new BaselineItemz. 
+
+### Conclusion
+
+Purpose of this design decision was to make sure that users are allowed to freely remove Itemz from the project / repository without having impact on existing baseline snapshots. Also they could create further more snapshots of the Baseline to fulfil their business needs without getting blocked due to removal of Itemz itself. 
 
