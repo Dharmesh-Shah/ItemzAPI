@@ -81,6 +81,10 @@ So when we mark a BaselineItemz as EXCLUDED then in effect we are proposing that
 
 For example if BaselineItemz 1 is linked as Parent to 2, 3, 4 & 5. Also consider that Baseline Itemz 2 is linked as Parent to 6, 7 & 8. Now if we mark Baseline Itemz 2 as excluded then it's Parent trace to BaselineItemz 1 and child traces to Baseline Itemz 6, 7 & 8 should also be marked as ineffective / excluded. 
 
+Below diagram shows us this example of excluding BaselineItemz 2 and it's impact on its Traces to Parent and Child Baseline Traces. Those traces which are linked with RED colourd line shall be excluded as well. 
+
+![Excluding Baseline Itemz And its Impact On Baseline Itemz Traces](./ExcludingBaselineItemzAndImpactOnBaselineTraces.png)
+
 In future if BaselineItemz 2 is marked back as Included then it's parent link to Baseline Itemz 1 and child trcaes to Baseline Itemz 6, 7 & 8 will also be automatically included.
 
 
