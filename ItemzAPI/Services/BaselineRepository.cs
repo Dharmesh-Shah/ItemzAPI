@@ -412,6 +412,24 @@ namespace ItemzApp.API.Services
             return foundBaselineCount > 0 ? foundBaselineCount : -1;
         }
 
+        public async Task<IEnumerable<Baseline>?> GetBaselinesByProjectIdAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+
+            if (await _baselineContext.Baseline!.Where(b => b!.ProjectId == ProjectId).AnyAsync())
+            {
+                return await _baselineContext.Baseline
+                    .AsNoTracking()
+                    .Where(b => b!.ProjectId == ProjectId)
+                    .AsQueryable<Baseline>()
+                    .OrderBy(b => b.CreatedDate)
+                    .ToListAsync();
+            }
+            return null;
+        }
 
         public async Task<bool> ProjectExistsAsync(Guid projectId)
         {

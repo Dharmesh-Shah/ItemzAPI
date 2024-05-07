@@ -53,6 +53,8 @@ namespace ItemzApp.API.Services
 
         public Task<int> GetBaselineCountByProjectIdAsync(Guid projectID);
 
+        public Task<IEnumerable<Baseline>?> GetBaselinesByProjectIdAsync(Guid ProjectId);
+
         public Task<bool> ProjectExistsAsync(Guid projectId);
     }
 }

@@ -329,6 +329,15 @@
             <response code="200">Returns number of Baseline count that were associated with a given ProjectID</response>
             <response code="404">Project based on projectID was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselinesController.GetBaselinesByProjectIDAsync(System.Guid)">
+            <summary>
+            Get Baselines that are associated with given Project ID
+            </summary>
+            <param name="ProjectId">Provide ProjectID representated in GUID form</param>
+            <returns>All Baselines associated with the given ProjectID. Zero if none found.</returns>
+            <response code="200">Returns all Baselines that are associated with a given ProjectID</response>
+            <response code="404">Project based on projectID was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselinesController.GetExcludedBaselineItemzCountByBaselineAsync(System.Guid)">
             <summary>
             Get total number of Excluded BaselineItemz by Baseline

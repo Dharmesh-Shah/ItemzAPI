@@ -613,6 +613,44 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Get Baselines that are associated with given Project ID
+        /// </summary>
+        /// <param name="ProjectId">Provide ProjectID representated in GUID form</param>
+        /// <returns>All Baselines associated with the given ProjectID. Zero if none found.</returns>
+        /// <response code="200">Returns all Baselines that are associated with a given ProjectID</response>
+        /// <response code="404">Project based on projectID was not found</response>
+        [HttpGet("GetBaselines/{ProjectId:Guid}", Name = "__GET_Baselines_By_Project_Id__")]
+        [HttpHead("GetBaselines/{ProjectId:Guid}", Name = "__HEAD_Baselines_By_Project_Id__")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<GetBaselineDTO>>> GetBaselinesByProjectIDAsync(Guid ProjectId)
+        {
+            if (!(await _baselineRepository.ProjectExistsAsync(ProjectId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Project with ID {ProjectId} were found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ProjectId);
+                return NotFound();
+            }
+
+            var foundBaselinesByProjectId = await _baselineRepository.GetBaselinesByProjectIdAsync(ProjectId);
+            if (foundBaselinesByProjectId == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No Baselines association found for Project with ID {ProjectID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ProjectId);
+                return NotFound();
+            }
+
+            _logger.LogDebug("{FormattedControllerAndActionNames} Found {foundBaselinesCountByProjectId} Baselines associated to Project with ID {ProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                foundBaselinesByProjectId.Count(),
+                ProjectId);
+            return Ok(_mapper.Map<IEnumerable<GetBaselineDTO>>(foundBaselinesByProjectId));
+        }
+
+        /// <summary>
         /// Get total number of Excluded BaselineItemz by Baseline
         /// </summary>
         /// <param name="baselineId">Provide BaselineID representated in GUID form</param>
@@ -708,8 +746,6 @@ namespace ItemzApp.API.Controllers
                 BaselineId);
             return Ok(_mapper.Map<IEnumerable<GetBaselineItemzTypeDTO>>(baselineItemzTypesFromRepo));
         }
-
-
 
         /// <summary>
         /// Get list of supported HTTP Options for the Baselines controller.
