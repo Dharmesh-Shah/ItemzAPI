@@ -36433,6 +36433,54 @@
 					"response": []
 				},
 				{
+					"name": "GET Baselines by ProjectID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is Either 400 or 404\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400,404]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselines/{{BaselineTraceScenario08_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselines",
+								"{{BaselineTraceScenario08_NewProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST Baseline 1 by ItemzType 1",
 					"event": [
 						{
@@ -36909,6 +36957,65 @@
 								"Baselines",
 								"GetBaselineItemzTraceCount",
 								"{{BaselineTraceScenario08_2ndBaselineId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Baselines by ProjectID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"const jsonResponse = pm.response.json();\r",
+									"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+									"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+									"})\r",
+									"\r",
+									"if (Array.isArray(jsonResponse))\r",
+									"{\r",
+									"    pm.test(\"Verify that responded Array length is 2\", () => {\r",
+									"        pm.expect(jsonResponse.length).to.eql(2)\r",
+									"    })\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselines/{{BaselineTraceScenario08_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselines",
+								"{{BaselineTraceScenario08_NewProjectId}}"
 							]
 						}
 					},
@@ -37738,6 +37845,65 @@
 					"response": []
 				},
 				{
+					"name": "GET Baselines by ProjectID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"const jsonResponse = pm.response.json();\r",
+									"pm.test(\"Verify that Array has been returned as response\", () => {\r",
+									"    pm.expect(Array.isArray(jsonResponse)).to.eq(true);\r",
+									"})\r",
+									"\r",
+									"if (Array.isArray(jsonResponse))\r",
+									"{\r",
+									"    pm.test(\"Verify that responded Array length is 4\", () => {\r",
+									"        pm.expect(jsonResponse.length).to.eql(4)\r",
+									"    })\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetBaselines/{{BaselineTraceScenario08_NewProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetBaselines",
+								"{{BaselineTraceScenario08_NewProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE Baseline 1",
 					"event": [
 						{
@@ -38252,7 +38418,7 @@
 					"response": []
 				}
 			],
-			"description": "We are verifying that even after deleting Itemz, we can still continue to use ItemzID to get the BaselineItemz which were created based on the ItemzID that is removed from the repository.\n\nCreate Project with 2 Itemz Type and 2 Itemz in each\n\nCreate Trace between Itemz 1 - 2, 2 - 3, 3 - 4.\n\nCreate Baseline 1 and 2 ItemzType 1 and 2 respectively\n\nDelete 1, 2, 3 and 4 Itemz from Project\n\nCreate baseline 3 and 4 based on baseline 1 and 2 respectively\n\nVerify numbers\n\nPerform Clean-up."
+			"description": "We are verifying that even after deleting Itemz, we can still continue to use ItemzID to get the BaselineItemz as it still keeps reference to deleted ItemzID. This time we are creating Baselines based on ItemzType instead of Project\n\nCreate Project with 2 Itemz Type and 2 Itemz in each\n\nCreate Trace between Itemz 1 - 2, 2 - 3, 3 - 4.\n\nCreate Baseline 1 and 2 ItemzType 1 and 2 respectively\n\nDelete 1, 2, 3 and 4 Itemz from Project\n\nCreate baseline 3 and 4 based on baseline 1 and 2 respectively\n\nVerify numbers\n\nPerform Clean-up."
 		},
 		{
 			"name": "KEEP ASIDE",
