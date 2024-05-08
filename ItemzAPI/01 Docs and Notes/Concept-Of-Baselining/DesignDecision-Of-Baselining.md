@@ -145,3 +145,24 @@ This way, even though when Itemz actually gets deleted from the repository, any 
 
 Purpose of this design decision was to make sure that users are allowed to freely remove Itemz from the project / repository without having impact on existing baseline snapshots. Also they could create further more snapshots of the Baseline to fulfil their business needs without getting blocked due to removal of Itemz itself. 
 
+---
+
+# Baselines are always associated with a Project
+
+When we take a Baseline snapshot then it shall always be associated with Project itself. This way, we can easily identify project details about a given baseline and we can also find all the baselines that belongs to a specific project. 
+
+In ItemzApp, we can take Baseline snapshot 
+
+1. by Project
+2. by ItemzType 
+3. by existing Baseline.
+
+in all this cases, Baseline always contains BaselineItemz which are in scope of a given project only. Because ItemzType are also contained within a single project, when we take Baseline which is based on the ItemzType then all the BaselineItemz that are created are also in scope of that given Project only. 
+
+So when project gets deleted, all it's Baselines are also deleted. At the time when user is deleting project via UI then that user should be provided warning information indicating that along with Project, the delete operation will also delete all the Baselines which are part of that project. This design decision was taken to make sure that we do not end-up with large about of left over data under Baselines when Project gets deleted. Someone would only decide to delete a Project when it has been concluded and no more work will be taking place on the given project. This means any Baselines that were taken as Snapshot for the given Project will also not be needed and so we shall design ItemzApp such that deleting Project will delete all it's Baseilnes along with data contained within the Baseline. 
+
+### Conclusion
+
+Baselines are always associated with Project and they gets removed when Project gets deleted. It's possible to get information about all the baselines that are associated with a given Project in ItemzApp
+
+
