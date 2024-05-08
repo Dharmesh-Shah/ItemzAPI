@@ -10,17 +10,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using ItemzApp.API.Helper;
+using ItemzApp.API.ResourceParameters;
 
 namespace ItemzApp.API.Services
 {
     public class BaselineItemzTypeRepository : IBaselineItemzTypeRepository, IDisposable
     {
         private readonly BaselineContext _baselineContext;
-
-        public BaselineItemzTypeRepository(BaselineContext baselineContext)
+        private readonly IPropertyMappingService _propertyMappingService;
+        public BaselineItemzTypeRepository(BaselineContext baselineContext,
+            IPropertyMappingService propertyMappingService)
         {
             _baselineContext = baselineContext ?? throw new ArgumentNullException(nameof(baselineContext));
+            _propertyMappingService = propertyMappingService ??
+               throw new ArgumentNullException(nameof(propertyMappingService));
         }
         public async Task<BaselineItemzType?> GetBaselineItemzTypeAsync(Guid BaselineItemzTypeId)
         {
@@ -190,6 +194,64 @@ namespace ItemzApp.API.Services
             return foundItemzByBaselineItemzType;
         }
 
+        public PagedList<BaselineItemz>? GetBaselineItemzsByBaselineItemzType(Guid baselineItemzTypeId, ItemzResourceParameter itemzResourceParameter)
+        {
+            // TODO: Should we check for itemzResourceParameter being null?
+            // There are chances that we just want to get all the itemz and
+            // consumer of the API might now pass in necessary values for pagging.
+
+            // TODO: Make this method Async.
+
+            if (itemzResourceParameter == null)
+            {
+                throw new ArgumentNullException(nameof(itemzResourceParameter));
+            }
+
+            if (baselineItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(baselineItemzTypeId));
+            }
+            try
+            {
+                if ( _baselineContext.BaselineItemz!.Count<BaselineItemz>() > 0 )
+                {
+                    var baselineItemzCollection = _baselineContext.BaselineItemz 
+                        .Include(bi => bi.BaselineItemzTypeJoinBaselineItemz )
+                        //                        .ThenInclude(PjI => PjI.ItemzType)
+                        .Where(bi => bi.BaselineItemzTypeJoinBaselineItemz!.Any(bitjbi => bitjbi.BaselineItemzTypeId == baselineItemzTypeId));
+
+                    //     .Where(i => i.  . AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+
+                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+                    {
+                        var itemzPropertyMappingDictionary =
+                                               _propertyMappingService.GetPropertyMapping<Models.GetBaselineItemzDTO, BaselineItemz>();
+
+                        baselineItemzCollection = baselineItemzCollection.ApplySort(itemzResourceParameter.OrderBy,
+                            itemzPropertyMappingDictionary).AsNoTracking();
+                    }
+
+                    // EXPLANATION: Pagging feature should be implemented at the end 
+                    // just before calling ToList. This will make sure that any filtering,
+                    // sorting, grouping, etc. that we implement on the data are 
+                    // put in place before calling ToList. 
+
+                    return PagedList<BaselineItemz>.Create(baselineItemzCollection,
+                        itemzResourceParameter.PageNumber,
+                        itemzResourceParameter.PageSize);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                // TODO: It's not good that we capture Generic Exception and then 
+                // return null here. Basically, I wanted to check if we have 
+                // itemzs returned from the DB and if it does not then
+                // it should simply return null back to the calling function.
+                // One has to learn how to do this gracefully as part of Entity Framework 
+                return null;
+            }
+        }
 
         //public async Task<bool> ProjectExistsAsync(Guid projectId)
         //{

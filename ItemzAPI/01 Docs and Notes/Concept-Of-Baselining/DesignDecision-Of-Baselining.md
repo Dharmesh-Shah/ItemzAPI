@@ -123,4 +123,46 @@ We shall also look into supporting feature to re-set existing baseline to includ
 
 Instead of including all by default we copy value of IsIncluded when creating new Baseline based on existing one. 
 
+# Keeping association of ItemzID with BaselineItemzID
+
+At the time when new Baseline Snapshot gets created, all the BaselineItemz that gets created under the Baseline are having reference to ItemzID. BaselineItemz are snapshot of Itemz at the time of creation of the Baseline. 
+
+ItemzApp allows creating Baseline snapshot based on Project or ItemzType. All the Itemz data within the scope of the baseline gets copied to BaselineItemz. 
+
+It's possible to take multiple Baseline snapshots of a given project and so in effect a single Itemz gets copied multiple times into different BaselineItemz. Having a cross reference stored for the source ItemzID into BaselineItemz is a design decision that mainly gets used for indication purposes. Just to know from which source Itemz were BaseilneItemz created.
+
+ItemzApp also supports creating baseline from an existing baseline as well. In this scenario, target BaselineItemz is a copy of a source BaselineItemz. Well, source BaselineItemz will still have reference for the ItemzID stored along with it and so the same ItemzId gets copied over to target BaselineItemz too. 
+
+It’s also possible that Itemz gets deleted from the repository but then all the BaselineItemz that are created based on the Itemz will still be there in the repository. In such cases, our design decision was to have a soft reference stored for the ItemzID into BaselineItemz. i.e. they are not linked via foreign key referential integrity. They are just stored as GUID objects logically referencing back to ItemzID. 
+
+So it’s possible that users might end-up with BaselineItemz that has reference to ItemzID which are actually removed from the project. 
+
+Because ItemzApp supports creation of new Baselines from existing Baseline, the design decision taken here was to simply just copy ItemzID from the source BaselineItemz over to target BaselineItemz without checking if actual Itemz is present in the repository for the given ItemzID. 
+
+This way, even though when Itemz actually gets deleted from the repository, any Baseline that is still present and refers to that ItemzID via contained BaselineItemz can be used further to create new Baselines and therefor new BaselineItemz. 
+
+### Conclusion
+
+Purpose of this design decision was to make sure that users are allowed to freely remove Itemz from the project / repository without having impact on existing baseline snapshots. Also they could create further more snapshots of the Baseline to fulfil their business needs without getting blocked due to removal of Itemz itself. 
+
+---
+
+# Baselines are always associated with a Project
+
+When we take a Baseline snapshot then it shall always be associated with Project itself. This way, we can easily identify project details about a given baseline and we can also find all the baselines that belongs to a specific project. 
+
+In ItemzApp, we can take Baseline snapshot 
+
+1. by Project
+2. by ItemzType 
+3. by existing Baseline.
+
+in all this cases, Baseline always contains BaselineItemz which are in scope of a given project only. Because ItemzType are also contained within a single project, when we take Baseline which is based on the ItemzType then all the BaselineItemz that are created are also in scope of that given Project only. 
+
+So when project gets deleted, all it's Baselines are also deleted. At the time when user is deleting project via UI then that user should be provided warning information indicating that along with Project, the delete operation will also delete all the Baselines which are part of that project. This design decision was taken to make sure that we do not end-up with large about of left over data under Baselines when Project gets deleted. Someone would only decide to delete a Project when it has been concluded and no more work will be taking place on the given project. This means any Baselines that were taken as Snapshot for the given Project will also not be needed and so we shall design ItemzApp such that deleting Project will delete all it's Baseilnes along with data contained within the Baseline. 
+
+### Conclusion
+
+Baselines are always associated with Project and they gets removed when Project gets deleted. It's possible to get information about all the baselines that are associated with a given Project in ItemzApp
+
 

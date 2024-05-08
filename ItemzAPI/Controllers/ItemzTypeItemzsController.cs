@@ -253,10 +253,12 @@ namespace ItemzApp.API.Controllers
         /// <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
         /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
         /// <response code="200">Itemz to ItemzType association was either found or added successfully</response>
+        /// <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
         /// <response code="404">Either Itemz or ItemzType was not found </response>
         [HttpPost(Name = "__POST_Associate_Itemz_To_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync(ItemzTypeItemzDTO ItemzTypeItemzDTO)
         {
@@ -273,6 +275,23 @@ namespace ItemzApp.API.Controllers
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                     ItemzTypeItemzDTO.ItemzId);
                 return NotFound();
+            }
+
+            if((await _itemzRepository.ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Itemz Association already existis for ItemzType ID {ItemzTypeID}" +
+                    " and Itemz Id {itemzId}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeItemzDTO.ItemzTypeId, ItemzTypeItemzDTO.ItemzId);
+                return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = ItemzTypeItemzDTO.ItemzId });
+            }
+
+            if (!(await _itemzRepository.IsOrphanedItemzAsync(ItemzTypeItemzDTO.ItemzId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz with ID {itemzID} is not an Orphaned Itemz.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeItemzDTO.ItemzId);
+                return BadRequest();
             }
 
             _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO);

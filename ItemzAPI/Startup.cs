@@ -153,6 +153,7 @@ namespace ItemzApp.API
             services.AddScoped<IItemzChangeHistoryByProjectRepository, ItemzChangeHistoryByProjectRepository>();
             services.AddScoped<IItemzChangeHistoryByRepositoryRepository, ItemzChangeHistoryByRepositoryRepository>();
             services.AddScoped<IItemzTraceRepository, ItemzTraceRepository>();
+            services.AddScoped<IBaselineItemzTraceRepository, BaselineItemzTraceRepository>();
 
             // EXPLANATION: As described in the Blog Article, https://purple.telstra.com/blog/a-better-way-of-resolving-ef-core-interceptors-with-dependency-injection
             // we are now registering ItemzContextInterceptor in the DI Container as Singleton service 
@@ -187,6 +188,12 @@ namespace ItemzApp.API
                 @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
             });
 
+            services.AddDbContext<BaselineItemzTraceContext>((serviceProvider, options) =>
+            {
+                options.UseSqlServer(
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+            });
+          
             services.AddSwaggerGen(setupAction =>
             {
                 setupAction.SwaggerDoc("ItemzApp.OpenAPI.Specification",

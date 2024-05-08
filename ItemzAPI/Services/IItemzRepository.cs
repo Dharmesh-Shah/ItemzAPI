@@ -39,13 +39,15 @@ namespace ItemzApp.API.Services
 
         public Task<bool> ItemzTypeExistsAsync(Guid itemzTypeId);
 
+        public Task<bool> IsOrphanedItemzAsync(Guid ItemzId);
+
         public void UpdateItemz(Itemz itemz);
 
         public Task<bool> ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
-        void DeleteItemz(Itemz itemz);
+        public Task DeleteItemzAsync(Guid itemzId);
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 

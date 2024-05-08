@@ -35,6 +35,8 @@ namespace ItemzApp.API.Services
 
         Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId);
 
+        Task<int> GetBaselineItemzTraceCountByBaselineAsync(Guid BaselineId);
+
         Task<int> GetIncludedBaselineItemzCountByBaselineAsync(Guid BaselineId);
 
         Task<int> GetExcludedBaselineItemzCountByBaselineAsync(Guid BaselineId);
@@ -48,6 +50,10 @@ namespace ItemzApp.API.Services
         Task<int> GetTotalBaselineItemzCountAsync();
 
         public Task<bool> HasBaselineWithNameAsync(Guid projectId, string baselineName);
+
+        public Task<int> GetBaselineCountByProjectIdAsync(Guid projectID);
+
+        public Task<IEnumerable<Baseline>?> GetBaselinesByProjectIdAsync(Guid ProjectId);
 
         public Task<bool> ProjectExistsAsync(Guid projectId);
     }

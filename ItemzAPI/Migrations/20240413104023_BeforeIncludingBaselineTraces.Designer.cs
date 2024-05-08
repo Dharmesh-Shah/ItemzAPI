@@ -4,14 +4,16 @@ using ItemzApp.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItemzApp.API.Migrations
 {
     [DbContext(typeof(ItemzContext))]
-    partial class ItemzContextModelSnapshot : ModelSnapshot
+    [Migration("20240413104023_BeforeIncludingBaselineTraces")]
+    partial class BeforeIncludingBaselineTraces
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,24 +106,6 @@ namespace ItemzApp.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BaselineItemz");
-                });
-
-            modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzJoinItemzTrace", b =>
-                {
-                    b.Property<Guid>("BaselineFromItemzId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BaselineToItemzId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BaselineId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BaselineFromItemzId", "BaselineToItemzId");
-
-                    b.HasIndex("BaselineToItemzId");
-
-                    b.ToTable("BaselineItemzJoinItemzTrace");
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzType", b =>
@@ -522,25 +506,6 @@ namespace ItemzApp.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzJoinItemzTrace", b =>
-                {
-                    b.HasOne("ItemzApp.API.Entities.BaselineItemz", "BaselineFromItemz")
-                        .WithMany()
-                        .HasForeignKey("BaselineFromItemzId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ItemzApp.API.Entities.BaselineItemz", "BaselineToItemz")
-                        .WithMany()
-                        .HasForeignKey("BaselineToItemzId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("BaselineFromItemz");
-
-                    b.Navigation("BaselineToItemz");
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzType", b =>

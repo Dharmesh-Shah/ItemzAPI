@@ -43,6 +43,10 @@ namespace ItemzApp.API.Entities
 
         public List<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
 
+        public virtual List<BaselineItemz>? BaselineFromItemzJoinItemzTrace { get; set; }
+
+        public virtual List<BaselineItemz>? BaselineToItemzJoinItemzTrace { get; set; }
+
         public Guid IgnoreMeBaselineItemzTypeId { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

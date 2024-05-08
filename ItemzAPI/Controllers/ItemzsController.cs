@@ -466,9 +466,9 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            var itemzFromRepo = await _itemzRepository.GetItemzForUpdatingAsync(itemzId);
+            var itemzFromRepo = await _itemzRepository.ItemzExistsAsync(itemzId);
 
-            if (itemzFromRepo == null)
+            if (itemzFromRepo == false)
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Itemz with ID {ItemzId} as it could not be found in the Repository",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -476,8 +476,8 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            _itemzRepository.DeleteItemz(itemzFromRepo);
-            await _itemzRepository.SaveAsync();
+            await _itemzRepository.DeleteItemzAsync(itemzId);
+            // await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Itemz with ID {ItemzId} processed successfully",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),

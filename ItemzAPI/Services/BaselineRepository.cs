@@ -310,6 +310,22 @@ namespace ItemzApp.API.Services
             return foundItemzByBaseline;
         }
 
+        public async Task<int> GetBaselineItemzTraceCountByBaselineAsync(Guid BaselineId)
+        {
+            if (BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(BaselineId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+                new KeyValuePair<string, object>("@__IsIncluded_IsTrue__", 1),
+            };
+            var foundBaselineItemzTraceByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzTraceCountByBaseline, sqlArgs);
+
+            return foundBaselineItemzTraceByBaseline;
+        }
+
         public async Task<int> GetIncludedBaselineItemzCountByBaselineAsync(Guid BaselineId)
         {
             if (BaselineId == Guid.Empty)
@@ -385,6 +401,35 @@ namespace ItemzApp.API.Services
             return foundTotalBaselineItemzInRepository;
         }
 
+        public async Task<int> GetBaselineCountByProjectIdAsync(Guid projectID)
+        {
+            var foundBaselineCount = -1;
+            foundBaselineCount = await _baselineContext.Baseline!
+                .Where(b => b!.ProjectId == projectID)
+                .TagWith("BaselineCountByProjectID")
+                .AsNoTracking()
+                .CountAsync();
+            return foundBaselineCount > 0 ? foundBaselineCount : -1;
+        }
+
+        public async Task<IEnumerable<Baseline>?> GetBaselinesByProjectIdAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+
+            if (await _baselineContext.Baseline!.Where(b => b!.ProjectId == ProjectId).AnyAsync())
+            {
+                return await _baselineContext.Baseline
+                    .AsNoTracking()
+                    .Where(b => b!.ProjectId == ProjectId)
+                    .AsQueryable<Baseline>()
+                    .OrderBy(b => b.CreatedDate)
+                    .ToListAsync();
+            }
+            return null;
+        }
 
         public async Task<bool> ProjectExistsAsync(Guid projectId)
         {

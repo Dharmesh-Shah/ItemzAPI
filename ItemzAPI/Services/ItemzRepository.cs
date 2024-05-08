@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace ItemzApp.API.Services
 {
@@ -340,15 +341,52 @@ namespace ItemzApp.API.Services
                                                                 && itji.ItemzTypeId == itemzTypeItemzDTO.ItemzTypeId);
         }
 
+        public async Task<bool> IsOrphanedItemzAsync(Guid ItemzId)
+        {
+            if (ItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ItemzId));
+            }
+
+            // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
+            // public bool ItemzExists(Guid itemzId)
+            var isItemzFoundInItemzTypeJoinItemzAssociation = await _context.ItemzTypeJoinItemz.AsNoTracking()
+                .AnyAsync(itji => itji.ItemzId == ItemzId);
+
+            if (isItemzFoundInItemzTypeJoinItemzAssociation)
+            {
+                return false;
+            }
+            return true;
+
+//            return await _context.ItemzTypeJoinItemz.AsNoTracking().AnyAsync(itji => itji.ItemzId == ItemzId);
+        }
+
+
         public void UpdateItemz(Itemz itemz)
         {
             // Due to Repository Pattern implementation, 
             // there is no code in this implementation.  
         }
 
-        public void DeleteItemz(Itemz itemz)
+        public async Task DeleteItemzAsync(Guid itemzId)
         {
-            _context.Itemzs!.Remove(itemz);
+            var sqlParameters = new[]
+{
+                new SqlParameter
+                {
+                    ParameterName = "ItemzId",
+                    Value = itemzId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+            // Instead of using Itemzs.Remove we are now using Stored
+            // procedure because we need to perform some cleanup of 
+            // "non-cascade delete" data due to Entity Framework
+            // SQL Server limitations when it comes to many-to-many 
+            // relationship. 
+            // _context.Itemzs!.Remove(itemz);
+            await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteSingleItemzByItemzID @ItemzId", parameters: sqlParameters);
         }
 
 

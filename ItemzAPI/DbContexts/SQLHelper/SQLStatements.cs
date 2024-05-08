@@ -87,6 +87,29 @@
 
         #region BaselineItemzCount
 
+        public static readonly string SQLStatementFor_GetBaselineItemzTraceCountByBaseline =
+            "SELECT count(1) as BaselineItemzTraceCount " +
+            "from BaselineItemzJoinItemzTrace bijit " +
+            "WHERE bijit.BaselineFromItemzId in " +
+                "(SELECT bi.id from BaselineItemz bi " +
+                    "INNER JOIN BaselineItemzTypeJoinBaselineItemz bitjbi " +
+                    "on bitjbi.BaselineItemzId = bi.Id " +
+                    "INNER JOIN BaselineItemzType bitype " +
+                    "on bitype.id = bitjbi.BaselineItemzTypeId " +
+                    "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
+                    "WHERE b.id = @__BaselineID__  " +
+                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )" +
+            "AND " +
+            "bijit.BaselineToItemzId in " +
+                "(SELECT bi.id from BaselineItemz bi " +
+                    "INNER JOIN BaselineItemzTypeJoinBaselineItemz bitjbi " +
+                    "on bitjbi.BaselineItemzId = bi.Id " +
+                    "INNER JOIN BaselineItemzType bitype " +
+                    "on bitype.id = bitjbi.BaselineItemzTypeId " +
+                    "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
+                    "WHERE b.id = @__BaselineID__ " +
+                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )";
+
         public static readonly string SQLStatementFor_GetIncludedBaselineItemzCountByBaseline =
 
             "select count(Id) from BaselineItemz " +
@@ -107,6 +130,9 @@
                 "where BaselineId = @__BaselineID__) " +
                 ")";
 
+        // NOTE: With respect to SQLStatementFor_GetBaselineItemzCountByBaseline
+        // System is ignoring IsIncluded property of BaselineItemz while cloning. 
+        // i.e. we copy all BaselineItemz without filtering data out based on IsIncluded
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =
 
             "select count(Id) from BaselineItemz " +

@@ -4,14 +4,16 @@ using ItemzApp.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ItemzApp.API.Migrations
 {
     [DbContext(typeof(ItemzContext))]
-    partial class ItemzContextModelSnapshot : ModelSnapshot
+    [Migration("20240422170252_USERPROC_userProcCreateBaselineByItemzTypeID_202404221759")]
+    partial class USERPROC_userProcCreateBaselineByItemzTypeID_202404221759
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
