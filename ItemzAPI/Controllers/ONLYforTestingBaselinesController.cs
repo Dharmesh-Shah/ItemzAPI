@@ -21,6 +21,7 @@ using ItemzApp.API.Helper;
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")] // e.g. http://HOST:PORT/api/ONLYforTestingBaselines
     //[ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
