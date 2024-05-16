@@ -23,6 +23,8 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Serilog;
+using Serilog.Events;
 
 namespace ItemzApp.API
 {
@@ -234,6 +236,26 @@ namespace ItemzApp.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSerilogRequestLogging(options =>
+                {
+                    // options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms; User: {@User}";
+                    // options.IncludeQueryInRequestPath = true;
+                    options.GetLevel = (ctx, _, ex) =>
+                    {
+                        if (ex != null || ctx.Response.StatusCode > 499)
+                        {
+                            return LogEventLevel.Error;
+                        }
+
+                        // ignore health check endpoints
+                        if (ctx.Request.Path.StartsWithSegments("/health"))
+                        {
+                            return LogEventLevel.Debug;
+                        }
+
+                        return LogEventLevel.Information;
+                    };
+                });
                 logger.LogInformation("Current Process ID : {0}", Process.GetCurrentProcess().Id);
             }
             else
