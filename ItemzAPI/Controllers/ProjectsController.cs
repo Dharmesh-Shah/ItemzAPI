@@ -200,6 +200,23 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Project with ID {ProjectId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectEntity.Id);
+
+            // TODO: Add Project and it's System Parking Lot ItemzType into Hierarchy Table
+
+            try
+            {
+                await _projectRepository.AddNewProjectHierarchyAsync(projectEntity);
+                await _projectRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add hierarchy for newly created project '{projectEntity.Name}' ");
+            }
+
+
             return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { ProjectId = projectEntity.Id },
                 _mapper.Map<GetProjectDTO>(projectEntity) // Converting to DTO as this is going out to the consumer
                 );

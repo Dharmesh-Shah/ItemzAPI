@@ -21,6 +21,8 @@ namespace ItemzApp.API.Services
 
         public void AddProject(Project project);
 
+        public Task AddNewProjectHierarchyAsync(Project project);
+
         public Task<bool> SaveAsync();
         
         public Task<bool> ProjectExistsAsync(Guid projectId);
