@@ -1083,6 +1083,18 @@
             Id of the BaselineItemz represented by a GUID.
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Migrations.Introducing_ItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
             Id of the From Trace Baseline Itemz representated by a GUID.

@@ -168,32 +168,37 @@ namespace ItemzApp.API
             services.AddDbContext<ItemzContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;")
+                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId())
                     .AddInterceptors(serviceProvider.GetRequiredService<ItemzContexInterceptor>()); 
             });
 
             services.AddDbContext<ItemzChangeHistoryContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
             services.AddDbContext<BaselineContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
             services.AddDbContext<ItemzTraceContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
             services.AddDbContext<BaselineItemzTraceContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
           
             services.AddSwaggerGen(setupAction =>
