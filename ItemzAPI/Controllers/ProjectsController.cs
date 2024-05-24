@@ -201,7 +201,11 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectEntity.Id);
 
-            // TODO: Add Project and it's System Parking Lot ItemzType into Hierarchy Table
+            // TODO: Try and Catch logic here is not clear and it might add project
+            // in the DB even if adding hierarchy record fails. In such cases 
+            // we need both this steps to be included in one single transaction. 
+            // If there is an issue to add Project into hierarchy table then we will not be
+            // able to work with it's ItemzType and Itemz which are expected to be childrens.
 
             try
             {

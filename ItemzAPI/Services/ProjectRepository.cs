@@ -168,6 +168,7 @@ namespace ItemzApp.API.Services
             // repository ID itself which is the root. then we find all desendents of Repository which is nothing but Project(s). 
 
             var projectHierarchyItemz = await _context.ItemzHierarchy!
+                    .AsNoTracking()
                     .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
                     .OrderByDescending(ih => ih.ItemzHierarchyId!)
                     .ToListAsync();
