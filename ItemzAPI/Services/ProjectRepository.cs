@@ -4,6 +4,7 @@ using ItemzApp.API.DbContexts;
 using ItemzApp.API.DbContexts.Extensions;
 using ItemzApp.API.DbContexts.SQLHelper;
 using ItemzApp.API.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
 using System;
@@ -277,6 +278,33 @@ namespace ItemzApp.API.Services
         public async Task<bool> HasProjectWithNameAsync(string projectName)
         {
             return await _context.Projects.AsNoTracking().AnyAsync(p => p.Name!.ToLower() == projectName.ToLower());
+        }
+
+        public async Task<bool> DeleteProjectItemzHierarchyAsync(Guid projectId)
+        {
+            bool returnValue;
+            var OUTPUT_Success = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Success",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Bit,
+            };
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter
+                {
+                    ParameterName = "ProjectId",
+                    Value = projectId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+
+            sqlParameters = sqlParameters.Append(OUTPUT_Success).ToArray();
+
+            var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteItemzHierarchyRecordsByProjectId  @ProjectId, @OUTPUT_Success  = @OUTPUT_Success OUT", parameters: sqlParameters);
+            returnValue = (bool)OUTPUT_Success.Value;
+            return returnValue;
         }
     }
 }

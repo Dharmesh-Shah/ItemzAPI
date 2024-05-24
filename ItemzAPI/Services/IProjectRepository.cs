@@ -36,5 +36,7 @@ namespace ItemzApp.API.Services
         Task<int> GetItemzCountByProjectAsync(Guid ProjectId);
 
         public Task<bool> HasProjectWithNameAsync(string projectName);
+        
+        public Task<bool> DeleteProjectItemzHierarchyAsync(Guid projectId);
     }
 }

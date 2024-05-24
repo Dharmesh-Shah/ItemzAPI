@@ -431,7 +431,17 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectId);
 
+            var projectItemzHierarchyDeletionSuccessStatus = await _projectRepository.DeleteProjectItemzHierarchyAsync(projectId);
+
+            if (!projectItemzHierarchyDeletionSuccessStatus)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for Projeect with ID {ProjectId} processed failed",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    projectId);
+            }
+
             await _projectRepository.DeleteOrphanedBaselineItemzAsync();
+
             return NoContent();
         }
 
