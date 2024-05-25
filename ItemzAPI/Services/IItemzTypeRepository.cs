@@ -19,6 +19,8 @@ namespace ItemzApp.API.Services
                 
         public void AddItemzType(ItemzType itemzType);
 
+        public Task AddNewItemzTypeHierarchyAsync(ItemzType itemzTypeEntity);
+
         public Task<bool> SaveAsync();
 
         public Task<bool> ItemzTypeExistsAsync(Guid ItemzTypeId);

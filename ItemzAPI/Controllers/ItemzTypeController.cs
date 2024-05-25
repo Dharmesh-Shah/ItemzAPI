@@ -208,6 +208,28 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new ItemzType with ID {ItemzTypeId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 ItemzTypeEntity.Id);
+
+            // TODO: Try and Catch logic here is not clear and it might add ItemzType
+            // in the DB even if adding hierarchy record fails. In such cases 
+            // we need both this steps to be included in one single transaction. 
+            // If there is an issue to add ItemzType into hierarchy table then we will not be
+            // able to work with it's Itemz which are expected to be childrens.
+
+            try
+            {
+                await _ItemzTypeRepository.AddNewItemzTypeHierarchyAsync(ItemzTypeEntity);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new ItemzType Hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add Hierarchy for newly created ItemzType '{ItemzTypeEntity.Name}' ");
+            }
+
+
+
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { ItemzTypeId = ItemzTypeEntity.Id },
                 _mapper.Map<GetItemzTypeDTO>(ItemzTypeEntity) // Converting to DTO as this is going out to the consumer
                 );
