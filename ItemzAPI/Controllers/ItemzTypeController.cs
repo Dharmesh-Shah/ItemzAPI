@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.ItemzType;
+using Microsoft.CodeAnalysis;
 
 namespace ItemzApp.API.Controllers
 {
@@ -484,7 +485,18 @@ namespace ItemzApp.API.Controllers
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for ItemzType with ID {ItemzTypeId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                ItemzTypeId);
+            ItemzTypeId);
+
+            var itemzTypeYtemzHierarchyDeletionSuccessStatus = await 
+                    _ItemzTypeRepository.DeleteItemzTypeItemzHierarchyAsync(ItemzTypeId);
+
+            if (!itemzTypeYtemzHierarchyDeletionSuccessStatus)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for ItemzType with ID {ItemzTypeId} process failed",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
+            }
+
             return NoContent();
         }
 

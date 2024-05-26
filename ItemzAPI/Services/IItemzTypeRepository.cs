@@ -30,5 +30,7 @@ namespace ItemzApp.API.Services
         public void DeleteItemzType(ItemzType itemzType);
 
         public Task<bool> HasItemzTypeWithNameAsync(Guid projectId, string itemzTypeName);
+
+        public Task<bool> DeleteItemzTypeItemzHierarchyAsync(Guid itemzTypeId);
     }
 }

@@ -2,6 +2,7 @@
 
 using ItemzApp.API.DbContexts;
 using ItemzApp.API.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -179,6 +180,33 @@ namespace ItemzApp.API.Services
         public async Task<bool> HasItemzTypeWithNameAsync(Guid projectId, string itemzTypeName)
         {
             return await _context.ItemzTypes.AsNoTracking().AnyAsync(it => it.ProjectId.ToString().ToLower() == projectId.ToString().ToLower() && it.Name!.ToLower() == itemzTypeName.ToLower());
+        }
+
+        public async Task<bool> DeleteItemzTypeItemzHierarchyAsync(Guid itemzTypeId)
+        {
+            bool returnValue;
+            var OUTPUT_Success = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Success",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Bit,
+            };
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter
+                {
+                    ParameterName = "ItemzTypeId",
+                    Value = itemzTypeId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+
+            sqlParameters = sqlParameters.Append(OUTPUT_Success).ToArray();
+
+            var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteItemzHierarchyRecordsByItemzTypeId  @ItemzTypeId, @OUTPUT_Success  = @OUTPUT_Success OUT", parameters: sqlParameters);
+            returnValue = (bool)OUTPUT_Success.Value;
+            return returnValue;
         }
     }
 }
