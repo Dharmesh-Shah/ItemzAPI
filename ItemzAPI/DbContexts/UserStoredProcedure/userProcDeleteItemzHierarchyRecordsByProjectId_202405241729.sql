@@ -20,13 +20,16 @@ BEGIN TRANSACTION
 
 DECLARE @ProjectAsRoot hierarchyID;
 DECLARE @RecordTypeToBeProject NVARCHAR(128)
-declare @ItemzHierarchyRowCount int
+DECLARE @HierarchyLevel int
+DECLARE @ItemzHierarchyRowCount int
 
 -- FIRST set @OUTPUT_Id to 0 (ZERO) so that default is set to value false.
 SET @OUTPUT_Success = 0; -- 1 means true and 0 means false
 
 
-SELECT @ProjectAsRoot = ItemzHierarchyId, @RecordTypeToBeProject = RecordType
+SELECT @ProjectAsRoot = ItemzHierarchyId
+		, @RecordTypeToBeProject = RecordType
+		,  @HierarchyLevel = ItemzHierarchyId.GetLevel()
 FROM ItemzHierarchy
 WHERE id = @ProjectId
 
@@ -43,14 +46,27 @@ If (@ItemzHierarchyRowCount <> 1) -- If RowCount is not exactly 1 then raise err
 		END
 		SET @OUTPUT_Success = 1
 	END
-
+IF (@HierarchyLevel = 0)
+	BEGIN
+		SET @OUTPUT_Success = 0
+		BEGIN
+		-- TODO improve this error message as how we have done it in itemz type user procedure
+		RAISERROR (N'Actual record found is a root record without any parents. System is not designed to delete the parent most [root] hierarchy record as it is expected to be of type ''Repository''' -- Message text.  
+					, 16 -- Severity.  
+					, 1 -- State.  
+					)
+		END
+		SET @OUTPUT_Success = 1
+	END	
 IF (@RecordTypeToBeProject <> 'Project')
 	BEGIN
 		SET @OUTPUT_Success = 0
 		BEGIN
-		RAISERROR (N'Found record in ItemzHierarchy is not of Type Project', -- Message text.  
-					16, -- Severity.  
-					1 -- State.  
+		-- TODO improve this error message as how we have done it in itemz type user procedure
+		RAISERROR (N'Actual record found by provided ProjectId within ItemzHierarchy is not of Type ''Project'' instead it is of type ''%s''' -- Message text.  
+					, 16 -- Severity.  
+					, 1 -- State.  
+					, @RecordTypeToBeProject
 					)
 		END
 		SET @OUTPUT_Success = 1

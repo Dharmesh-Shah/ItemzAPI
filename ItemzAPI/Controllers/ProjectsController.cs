@@ -435,7 +435,7 @@ namespace ItemzApp.API.Controllers
 
             if (!projectItemzHierarchyDeletionSuccessStatus)
             {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for Projeect with ID {ProjectId} processed failed",
+                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for Project with ID {ProjectId} process failed",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     projectId);
             }
