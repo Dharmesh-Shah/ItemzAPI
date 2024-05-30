@@ -507,9 +507,35 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetItemzTypeDTO>>(projectItemzTypesFromRepo));
         }
 
-
-
-
+        /// <summary>
+        /// Gets last project hierarchy number
+        /// </summary>
+        /// <returns>string representing highest most last project hierarchy id</returns>
+        /// <response code="200">string representing highest most last project hierarchy id</response>
+        /// <response code="404">No project hierarchy records found in the system</response>
+        /// 
+        [HttpGet("GetLastProjectHierarchyID/", Name = "__GET_Last_Project_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastProjectHierarchyID/
+        [HttpHead("GetLastProjectHierarchyID/", Name = "__HEAD_Last_Project_HierarchyID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<string>> GetLastProjectHierarchyIDAsync()
+        {
+            var lastProjectHierarchyID = await _projectRepository.GetLastProjectHierarchyID();
+            if (lastProjectHierarchyID == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for projects " +
+                    "in this repository. " +
+                    "If there are projects in the repository but you are not able to find last project hierarchyid " +
+                    "then please contact your system administrator.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {LastProjectHierarchyID} as highest most and last project hierarchy id in the repository",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                lastProjectHierarchyID);
+            return Ok(lastProjectHierarchyID);
+        }
 
         /// <summary>
         /// Get list of supported HTTP Options for the Projects controller.

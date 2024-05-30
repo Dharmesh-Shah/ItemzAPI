@@ -1022,6 +1022,15 @@
             <response code="200">Returns collection of ItemzTypes based on sorting order for the given ProjectID</response>
             <response code="404">No ItemzTypes were found for the given ProjectID</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetLastProjectHierarchyIDAsync">
+            <summary>
+            Gets last project hierarchy number
+            </summary>
+            <returns>string representing highest most last project hierarchy id</returns>
+            <response code="200">string representing highest most last project hierarchy id</response>
+            <response code="404">No project hierarchy records found in the system</response>
+            
+        </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsOptions">
             <summary>
             Get list of supported HTTP Options for the Projects controller.

@@ -51,6 +51,27 @@ namespace ItemzApp.API.Controllers
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                     project.Id);
             }
+
+
+            // TODO: Try and Catch logic here is not clear and it might add project
+            // in the DB even if adding hierarchy record fails. In such cases 
+            // we need both this steps to be included in one single transaction. 
+            // If there is an issue to add Project into hierarchy table then we will not be
+            // able to work with it's ItemzType and Itemz which are expected to be childrens.
+
+            try
+            {
+                await _projectRepository.AddNewProjectHierarchyAsync(project);
+                await _projectRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add hierarchy for newly created project '{project.Name}' ");
+            }
+
             return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { Controller = "Projects", ProjectId = project.Id }, await _projectRepository.GetProjectAsync(project.Id));
         }
         /// <summary>

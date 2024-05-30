@@ -1,0 +1,1033 @@
+{
+	"info": {
+		"_postman_id": "dacd7297-e212-41ff-b3aa-0b90c13edc25",
+		"name": "Itemz.Hierarchy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33816436"
+	},
+	"item": [
+		{
+			"name": "01_VerifyProjectCreateHierarchy",
+			"item": [
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_1stProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"01_VerifyProjectCreateHierarchy_1stProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{01_VerifyProjectCreateHierarchy_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{01_VerifyProjectCreateHierarchy_1stProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{01_VerifyProjectCreateHierarchy_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_P1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{01_VerifyProjectCreateHierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{01_VerifyProjectCreateHierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"\r",
+									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
+									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_VerifyProjectCreateHierarchy_LastProjectHierarchyID') + 1) + \"/\\\"\"); \r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_2ndProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_2ndProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"01_VerifyProjectCreateHierarchy_2ndProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{01_VerifyProjectCreateHierarchy_2ndProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{01_VerifyProjectCreateHierarchy_2ndProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project 3rd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_3rdProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_3rdProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"01_VerifyProjectCreateHierarchy_3rdProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{01_VerifyProjectCreateHierarchy_3rdProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{01_VerifyProjectCreateHierarchy_3rdProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project 4th",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_4thProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_4thProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"01_VerifyProjectCreateHierarchy_4thProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{01_VerifyProjectCreateHierarchy_4thProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{01_VerifyProjectCreateHierarchy_4thProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"\r",
+									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
+									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_VerifyProjectCreateHierarchy_LastProjectHierarchyID') + 3) + \"/\\\"\"); \r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{01_VerifyProjectCreateHierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{01_VerifyProjectCreateHierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 1st Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_VerifyProjectCreateHierarchy_1stProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_VerifyProjectCreateHierarchy_1stProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"\r",
+									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
+									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_VerifyProjectCreateHierarchy_LastProjectHierarchyID')) + \"/\\\"\"); \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 4th Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_VerifyProjectCreateHierarchy_4thProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_VerifyProjectCreateHierarchy_4thProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"\r",
+									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
+									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_VerifyProjectCreateHierarchy_LastProjectHierarchyID') -1 ) + \"/\\\"\"); \r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 2nd Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_VerifyProjectCreateHierarchy_2ndProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_VerifyProjectCreateHierarchy_2ndProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 3rd Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_VerifyProjectCreateHierarchy_3rdProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_VerifyProjectCreateHierarchy_3rdProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastProjectHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
+									"var tempNew1stItemzTypeId = pm.response.text();\r",
+									"\r",
+									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
+									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_VerifyProjectCreateHierarchy_LastProjectHierarchyID') -3 ) + \"/\\\"\"); \r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"01_VerifyProjectCreateHierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"GetLastProjectHierarchyID"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "01_VerifyProjectCreateHierarchy_01_LastProjectHierarchyID",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_1stProjectName",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_1stProjectId",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_P1_1stItemzId",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_02_LastProjectHierarchyID",
+			"value": ""
+		},
+		{
+			"key": "01_VerifyProjectCreateHierarchy_LastProjectHierarchyID",
+			"value": ""
+		}
+	]
+}

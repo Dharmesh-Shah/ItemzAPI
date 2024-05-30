@@ -50,6 +50,20 @@ namespace ItemzApp.API.Controllers
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                     itemzType.Id);
             }
+
+            try
+            {
+                await _itemzTypeRepository.AddNewItemzTypeHierarchyAsync(itemzType);
+                await _itemzTypeRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new ItemzType Hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add Hierarchy for newly created ItemzType '{itemzType.Name}' ");
+            }
+
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { Controller = "ItemzTypes", ItemzTypeId = itemzType.Id }, await _itemzTypeRepository.GetItemzTypeAsync(itemzType.Id));
         }
         /// <summary>
