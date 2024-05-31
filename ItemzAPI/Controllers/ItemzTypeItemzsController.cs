@@ -235,6 +235,20 @@ namespace ItemzApp.API.Controllers
             }
             await _itemzRepository.SaveAsync();
 
+            foreach (var itemz in itemzEntities)
+            {
+                await _itemzRepository.AddNewItemzHierarchyAsync(itemz, ItemzTypeId);
+
+                // EXPLAINATION: To be able to get next correct HierarchyId, we have to save previous
+                // record in the database. Then only we are able to find next available HierarchyID to be
+                // used for the next record in the collection. 
+                // TODO: Perhaps we can implement better logic here to do bulk import within HierarchyId 
+                // in the future. That said, we are not expecting people to keep importing large number
+                // of records in the DB. Few seconds to import 100 record is perhaps acceptable.
+
+                await _itemzRepository.SaveAsync();
+            }
+
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));
 

@@ -33,6 +33,8 @@ namespace ItemzApp.API.Services
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
+        public Task AddNewItemzHierarchyAsync(Itemz itemz, Guid itemzTypeId);
+
         Task<bool> SaveAsync();
 
         public Task<bool> ItemzExistsAsync(Guid itemzId);
