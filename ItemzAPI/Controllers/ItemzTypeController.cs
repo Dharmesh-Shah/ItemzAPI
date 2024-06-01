@@ -87,8 +87,6 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<GetItemzTypeDTO>(ItemzTypeFromRepo));
         }
 
-
-
         /// <summary>
         /// Gets collection of ItemzTypes
         /// </summary>
@@ -498,6 +496,40 @@ namespace ItemzApp.API.Controllers
             }
 
             return NoContent();
+        }
+
+
+        /// <summary>
+        /// Gets last Itemz hierarchy number
+        /// </summary>
+        /// <returns>string representing highest most last Itemz hierarchy id</returns>
+        /// <response code="200">string representing highest most last Itemz hierarchy id</response>
+        /// <response code="404">No Itemz hierarchy records found under ItemzTypeID</response>
+        /// 
+        [HttpGet("GetLastItemzHierarchyID/{ItemzTypeId}", Name = "__GET_Last_Itemz_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastItemzHierarchyID/
+        [HttpHead("GetLastItemzHierarchyID/{ItemzTypeId}", Name = "__HEAD_Last_Itemz_HierarchyID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<string>> GetLastItemzHierarchyIDAsync(Guid ItemzTypeId)
+        {
+
+            var lastItemzHierarchyID = await _ItemzTypeRepository.GetLastItemzHierarchyID(ItemzTypeId);
+            if (lastItemzHierarchyID == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for Itemz " +
+                    "under ItemzType ID {ItemzTypeId}. " +
+                    "If there are Itemzs in the repository but you are not able to find last Itemz hierarchyid " +
+                    "then please contact your system administrator.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    , ItemzTypeId);
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {lastItemzHierarchyID} as highest most and last Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                lastItemzHierarchyID,
+                ItemzTypeId);
+            return Ok(lastItemzHierarchyID);
         }
 
         /// <summary>

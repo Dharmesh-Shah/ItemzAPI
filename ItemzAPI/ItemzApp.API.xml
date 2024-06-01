@@ -789,6 +789,15 @@
             <response code="404">ItemzType based on ItemzTypeId was not found</response>
             <response code="405">ItemzType is not allowed to be deleted. example, ItemzType is a System one.</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetLastItemzHierarchyIDAsync(System.Guid)">
+            <summary>
+            Gets last Itemz hierarchy number
+            </summary>
+            <returns>string representing highest most last Itemz hierarchy id</returns>
+            <response code="200">string representing highest most last Itemz hierarchy id</response>
+            <response code="404">No Itemz hierarchy records found under ItemzTypeID</response>
+            
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.GetItemzTypesOptions">
             <summary>
             Get list of supported HTTP Options for the ItemzTypes controller.

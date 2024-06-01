@@ -208,5 +208,38 @@ namespace ItemzApp.API.Services
             returnValue = (bool)OUTPUT_Success.Value;
             return returnValue;
         }
+
+        public async Task<string?> GetLastItemzHierarchyID(Guid parentItemzTypeId)
+        {
+
+            if (parentItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(parentItemzTypeId));
+            }
+
+            var rootItemzType = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == parentItemzTypeId);
+
+
+            if (rootItemzType.Count() != 1)
+            {
+                throw new ApplicationException("Either no Root ItemzType Hierarchy record " +
+                    "found OR multiple Root ItemzType Hierarchy records found in the system. " +
+                    "Please contact your System Administrator.");
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+            // First find the ItemzHierarchy record where ID matches RootItemz ID. This is expected to be the
+            // repository ID itself which is the root. then we find all desendents of Repository which is nothing but Project(s). 
+
+            var itemzTypeHierarchyItemz = await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemzType.FirstOrDefault()!.ItemzHierarchyId!)
+                    .OrderByDescending(ih => ih.ItemzHierarchyId!)
+                    .ToListAsync();
+
+            return itemzTypeHierarchyItemz.Count > 0 ? itemzTypeHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString() : null;
+        }
     }
 }
