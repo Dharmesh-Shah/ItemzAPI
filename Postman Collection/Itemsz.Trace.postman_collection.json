@@ -4095,6 +4095,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -4360,6 +4367,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -4513,6 +4527,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -4574,6 +4595,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -4615,6 +4643,13 @@
 								],
 								"type": "text/javascript",
 								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -4758,6 +4793,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -4869,6 +4911,13 @@
 								],
 								"type": "text/javascript",
 								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -5135,6 +5184,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -5287,6 +5343,13 @@
 								],
 								"type": "text/javascript",
 								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -6373,7 +6436,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE Itemz 5 to P1_ItemzType2 Copy",
+					"name": "DELETE Itemz 5 to P1_ItemzType2",
 					"event": [
 						{
 							"listen": "test",
@@ -6418,7 +6481,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE Itemz 4 to P1_ItemzType2 Copy",
+					"name": "DELETE Itemz 4 to P1_ItemzType2",
 					"event": [
 						{
 							"listen": "test",
@@ -6463,7 +6526,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE Itemz 3 to P1_ItemzType2 Copy",
+					"name": "DELETE Itemz 3 to P1_ItemzType2",
 					"event": [
 						{
 							"listen": "test",
@@ -6508,7 +6571,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE Itemz 2 to P1_ItemzType1 Copy",
+					"name": "DELETE Itemz 2 to P1_ItemzType1",
 					"event": [
 						{
 							"listen": "test",
@@ -6553,7 +6616,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE Itemz 1 to P1_ItemzType1 Copy",
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
 					"event": [
 						{
 							"listen": "test",
@@ -6598,7 +6661,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE ItemzType 2 by ID Copy",
+					"name": "DELETE ItemzType 2 by ID",
 					"event": [
 						{
 							"listen": "test",
@@ -6652,7 +6715,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE ItemzType 1 by ID Copy",
+					"name": "DELETE ItemzType 1 by ID",
 					"event": [
 						{
 							"listen": "test",
@@ -6706,7 +6769,7 @@
 					"response": []
 				},
 				{
-					"name": "DELETE 1st Project Copy",
+					"name": "DELETE 1st Project",
 					"event": [
 						{
 							"listen": "test",
@@ -6753,8 +6816,552 @@
 			]
 		},
 		{
-			"name": "BulkDeleteFromItemzTrace",
+			"name": "00004 BulkDeleteFromItemzTrace",
 			"item": [
+				{
+					"name": "POST Project 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"04_Trace_1stProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"04_Trace_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"04_Trace_1stProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{04_Trace_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{04_Trace_1stProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"04_Trace_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{04_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"04_Trace_2ndItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{04_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"04_Trace_P1T1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{04_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{04_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"04_Trace_P1T1_2ndItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{04_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{04_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"04_Trace_P1T2_3rdItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 3\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{04_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{04_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"04_Trace_P1T2_4thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 4\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{04_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{04_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"04_Trace_P1T2_5thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 5\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{04_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{04_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "GET AllParentAndChildTracesByItemzID1",
 					"event": [
@@ -6798,7 +7405,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -6808,7 +7415,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -6850,7 +7457,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -6860,7 +7467,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -6902,7 +7509,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -6912,7 +7519,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -6954,7 +7561,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -6964,7 +7571,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -6997,6 +7604,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -7013,7 +7627,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    }\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T2_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T2_4thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T2_5thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    }\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
@@ -7074,7 +7688,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7084,7 +7698,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7126,7 +7740,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7136,7 +7750,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7178,7 +7792,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7188,7 +7802,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7230,7 +7844,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7240,7 +7854,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7350,7 +7964,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7360,7 +7974,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7402,7 +8016,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7412,7 +8026,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7454,7 +8068,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7464,7 +8078,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7506,7 +8120,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7516,7 +8130,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7538,6 +8152,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -7557,7 +8178,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7567,7 +8188,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllFromItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7616,7 +8237,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7626,7 +8247,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7668,7 +8289,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7678,7 +8299,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7720,7 +8341,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7730,7 +8351,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7772,7 +8393,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7782,7 +8403,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7815,6 +8436,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -7831,7 +8459,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    }\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T2_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{04_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{04_Trace_P1T2_5thItemzId}}\"\r\n    }\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
@@ -7892,7 +8520,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7902,7 +8530,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7944,7 +8572,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -7954,7 +8582,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -7996,7 +8624,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8006,7 +8634,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8048,7 +8676,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8058,7 +8686,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8080,6 +8708,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -8099,7 +8734,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8109,7 +8744,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllFromItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8158,7 +8793,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8168,7 +8803,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8210,7 +8845,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8220,7 +8855,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8262,7 +8897,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8272,7 +8907,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8314,7 +8949,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8324,7 +8959,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8346,6 +8981,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -8365,7 +9007,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/{{04_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8375,7 +9017,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllFromItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{04_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -8424,7 +9066,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8434,7 +9076,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8476,7 +9118,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8486,7 +9128,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8528,7 +9170,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8538,7 +9180,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8580,7 +9222,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8590,7 +9232,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8612,6 +9254,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -8631,7 +9280,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/{{04_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8641,7 +9290,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllFromItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{04_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -8690,7 +9339,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8700,7 +9349,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8742,7 +9391,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8752,7 +9401,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8794,7 +9443,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8804,7 +9453,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8846,7 +9495,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{04_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8856,7 +9505,385 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{04_Trace_P1T1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Trace_P1T2_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Trace_P1T2_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Trace_P1T2_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Trace_P1T2_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Trace_P1T2_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Trace_P1T2_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Trace_P1T1_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Trace_P1T1_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Trace_P1T1_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Trace_P1T1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 2 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{04_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{04_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 1 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{04_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{04_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 1st Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{04_Trace_1stProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{04_Trace_1stProjectId}}"
 							]
 						}
 					},
@@ -8865,8 +9892,552 @@
 			]
 		},
 		{
-			"name": "BulkDeleteToTrace",
+			"name": "00005 BulkDeleteToItemzTrace",
 			"item": [
+				{
+					"name": "POST Project 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"05_Trace_1stProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"05_Trace_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"05_Trace_1stProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{05_Trace_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{05_Trace_1stProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"05_Trace_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{05_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"05_Trace_2ndItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{05_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"05_Trace_P1T1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{05_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{05_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"05_Trace_P1T1_2ndItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{05_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{05_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"05_Trace_P1T2_3rdItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 3\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{05_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{05_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"05_Trace_P1T2_4thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 4\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{05_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{05_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"05_Trace_P1T2_5thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 5\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{05_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{05_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "GET AllParentAndChildTracesByItemzID1",
 					"event": [
@@ -8910,7 +10481,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8920,7 +10491,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -8962,7 +10533,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8972,7 +10543,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9014,7 +10585,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9024,7 +10595,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9066,7 +10637,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9076,7 +10647,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9109,6 +10680,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -9125,7 +10703,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    }\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T1_2ndItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T2_3rdItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T2_5thItemzId}}\"\r\n    }\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
@@ -9186,7 +10764,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9196,7 +10774,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9238,7 +10816,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9248,7 +10826,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9290,7 +10868,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9300,7 +10878,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9342,7 +10920,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9352,7 +10930,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9459,7 +11037,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9469,7 +11047,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9511,7 +11089,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9521,7 +11099,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9563,7 +11141,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9573,7 +11151,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9615,7 +11193,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9625,7 +11203,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9647,6 +11225,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -9666,7 +11251,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9676,7 +11261,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllToItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9725,7 +11310,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9735,7 +11320,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9777,7 +11362,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9787,7 +11372,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9829,7 +11414,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9839,7 +11424,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9881,7 +11466,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -9891,7 +11476,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -9924,6 +11509,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -9940,7 +11532,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\",\r\n        \"toTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    }\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T2_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{05_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{05_Trace_P1T2_5thItemzId}}\"\r\n    }\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
@@ -10001,7 +11593,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10011,7 +11603,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10053,7 +11645,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10063,7 +11655,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10105,7 +11697,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10115,7 +11707,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10157,7 +11749,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10167,7 +11759,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10189,6 +11781,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -10208,7 +11807,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10218,7 +11817,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllToItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10267,7 +11866,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10277,7 +11876,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10319,7 +11918,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10329,7 +11928,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10371,7 +11970,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10381,7 +11980,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10423,7 +12022,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10433,7 +12032,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10455,6 +12054,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -10474,7 +12080,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/{{05_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10484,7 +12090,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllToItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{05_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -10533,7 +12139,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10543,7 +12149,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10585,7 +12191,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10595,7 +12201,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10637,7 +12243,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10647,7 +12253,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10689,7 +12295,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10699,7 +12305,7 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10721,6 +12327,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -10740,7 +12353,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/{{05_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10750,7 +12363,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllToItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{05_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -10799,7 +12412,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10809,7 +12422,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10851,7 +12464,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetFromItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10861,7 +12474,7 @@
 								"api",
 								"ItemzTrace",
 								"GetFromItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10903,7 +12516,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetToItemzTraceCount/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10913,7 +12526,7 @@
 								"api",
 								"ItemzTrace",
 								"GetToItemzTraceCount",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -10955,7 +12568,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/GetAllFromAndToTracesCountByItemzId/{{05_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -10965,7 +12578,385 @@
 								"api",
 								"ItemzTrace",
 								"GetAllFromAndToTracesCountByItemzId",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{05_Trace_P1T1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{05_Trace_P1T2_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{05_Trace_P1T2_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{05_Trace_P1T2_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{05_Trace_P1T2_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{05_Trace_P1T2_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{05_Trace_P1T2_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{05_Trace_P1T1_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{05_Trace_P1T1_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{05_Trace_P1T1_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{05_Trace_P1T1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 2 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{05_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{05_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 1 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{05_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{05_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 1st Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{05_Trace_1stProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{05_Trace_1stProjectId}}"
 							]
 						}
 					},
@@ -10974,8 +12965,552 @@
 			]
 		},
 		{
-			"name": "BulkCreateOrVerifyTraces",
+			"name": "00006 BulkCreateOrVerifyTraces",
 			"item": [
+				{
+					"name": "POST Project 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"06_Trace_1stProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"06_Trace_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"06_Trace_1stProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{06_Trace_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{06_Trace_1stProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"06_Trace_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{06_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"06_Trace_2ndItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 2\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{06_Trace_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"06_Trace_P1T1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{06_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"06_Trace_P1T1_2ndItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{06_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"06_Trace_P1T2_3rdItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 3\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{06_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"06_Trace_P1T2_4thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 4\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{06_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"06_Trace_P1T2_5thItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 5\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{06_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "GET AllParentAndChildTracesByItemzID1",
 					"event": [
@@ -11019,7 +13554,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11029,7 +13564,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{06_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -11078,7 +13613,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11088,7 +13623,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{06_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -11137,7 +13672,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11147,7 +13682,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -11196,7 +13731,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11206,7 +13741,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{06_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -11255,7 +13790,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11265,7 +13800,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{06_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -11302,7 +13837,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=9153a516-d69e-4364-b17e-03b87442e21c&toTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_1stItemzId}}&toTraceItemzId={{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11316,11 +13851,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+									"value": "{{06_Trace_P1T1_1stItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								}
 							]
 						}
@@ -11358,7 +13893,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783&toTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_2ndItemzId}}&toTraceItemzId={{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11372,11 +13907,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								}
 							]
 						}
@@ -11414,7 +13949,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db&toTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_3rdItemzId}}&toTraceItemzId={{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11428,11 +13963,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								}
 							]
 						}
@@ -11470,7 +14005,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b&toTraceItemzId=4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_4thItemzId}}&toTraceItemzId={{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11484,11 +14019,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "4adde56d-8081-45ea-bd37-5c830b63873b"
+									"value": "{{06_Trace_P1T2_5thItemzId}}"
 								}
 							]
 						}
@@ -11522,6 +14057,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -11538,7 +14080,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"885b8e56-ffe6-4bc9-82e2-ce23230991db\"\r\n    }\t\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_3rdItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T2_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T2_3rdItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_3rdItemzId}}\"\r\n    }\t\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/CreateOrVerifyItemzTraceCollection",
@@ -11599,7 +14141,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11609,7 +14151,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{06_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -11658,7 +14200,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11668,7 +14210,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{06_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -11717,7 +14259,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11727,7 +14269,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -11776,7 +14318,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11786,7 +14328,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{06_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -11835,7 +14377,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11845,7 +14387,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{06_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -11903,7 +14445,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=9153a516-d69e-4364-b17e-03b87442e21c&toTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_1stItemzId}}&toTraceItemzId={{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11917,11 +14459,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+									"value": "{{06_Trace_P1T1_1stItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								}
 							]
 						}
@@ -11980,7 +14522,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783&toTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_2ndItemzId}}&toTraceItemzId={{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -11994,11 +14536,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								}
 							]
 						}
@@ -12057,7 +14599,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db&toTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_3rdItemzId}}&toTraceItemzId={{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12071,11 +14613,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								}
 							]
 						}
@@ -12135,7 +14677,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b&toTraceItemzId=4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_4thItemzId}}&toTraceItemzId={{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12149,11 +14691,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "4adde56d-8081-45ea-bd37-5c830b63873b"
+									"value": "{{06_Trace_P1T2_5thItemzId}}"
 								}
 							]
 						}
@@ -12176,6 +14718,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -12195,7 +14744,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllToItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12205,7 +14754,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllToItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -12254,7 +14803,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12264,7 +14813,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{06_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -12313,7 +14862,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12323,7 +14872,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{06_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -12372,7 +14921,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12382,7 +14931,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -12431,7 +14980,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12441,7 +14990,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{06_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -12490,7 +15039,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12500,7 +15049,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{06_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -12558,7 +15107,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=9153a516-d69e-4364-b17e-03b87442e21c&toTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_1stItemzId}}&toTraceItemzId={{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12572,11 +15121,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+									"value": "{{06_Trace_P1T1_1stItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								}
 							]
 						}
@@ -12635,7 +15184,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783&toTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_2ndItemzId}}&toTraceItemzId={{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12649,11 +15198,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								}
 							]
 						}
@@ -12692,7 +15241,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db&toTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_3rdItemzId}}&toTraceItemzId={{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12706,11 +15255,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								}
 							]
 						}
@@ -12770,7 +15319,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b&toTraceItemzId=4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_4thItemzId}}&toTraceItemzId={{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12784,11 +15333,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "4adde56d-8081-45ea-bd37-5c830b63873b"
+									"value": "{{06_Trace_P1T2_5thItemzId}}"
 								}
 							]
 						}
@@ -12811,6 +15360,13 @@
 								"type": "text/javascript",
 								"packages": {}
 							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -12830,7 +15386,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/DeleteAllFromItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12840,7 +15396,7 @@
 								"api",
 								"ItemzTrace",
 								"DeleteAllFromItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -12889,7 +15445,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12899,7 +15455,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{06_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -12948,7 +15504,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -12958,7 +15514,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{06_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -13007,7 +15563,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13017,7 +15573,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -13066,7 +15622,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13076,7 +15632,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{06_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -13125,7 +15681,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13135,7 +15691,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{06_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -13193,7 +15749,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=9153a516-d69e-4364-b17e-03b87442e21c&toTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_1stItemzId}}&toTraceItemzId={{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13207,11 +15763,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+									"value": "{{06_Trace_P1T1_1stItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								}
 							]
 						}
@@ -13249,7 +15805,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783&toTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_2ndItemzId}}&toTraceItemzId={{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13263,11 +15819,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								}
 							]
 						}
@@ -13306,7 +15862,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db&toTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_3rdItemzId}}&toTraceItemzId={{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13320,11 +15876,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								}
 							]
 						}
@@ -13384,7 +15940,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b&toTraceItemzId=4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_4thItemzId}}&toTraceItemzId={{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13398,11 +15954,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "4adde56d-8081-45ea-bd37-5c830b63873b"
+									"value": "{{06_Trace_P1T2_5thItemzId}}"
 								}
 							]
 						}
@@ -13451,7 +16007,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\",\r\n        \"toTraceItemzId\": \"4adde56d-8081-45ea-bd37-5c830b63873b\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"5e76f8e8-d3e7-41db-b084-f64c107c6783\",\r\n        \"toTraceItemzId\": \"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b\"\r\n    }\r\n]"
+							"raw": "[\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_1stItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_5thItemzId}}\"\r\n    },\r\n    {\r\n        \"fromTraceItemzId\": \"{{06_Trace_P1T1_2ndItemzId}}\",\r\n        \"toTraceItemzId\": \"{{06_Trace_P1T2_4thItemzId}}\"\r\n    }\r\n]"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/ItemzTrace/DeleteItemzTraceCollection",
@@ -13512,7 +16068,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/9153a516-d69e-4364-b17e-03b87442e21c",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_1stItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13522,7 +16078,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"9153a516-d69e-4364-b17e-03b87442e21c"
+								"{{06_Trace_P1T1_1stItemzId}}"
 							]
 						}
 					},
@@ -13571,7 +16127,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13581,7 +16137,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"5e76f8e8-d3e7-41db-b084-f64c107c6783"
+								"{{06_Trace_P1T1_2ndItemzId}}"
 							]
 						}
 					},
@@ -13630,7 +16186,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13640,7 +16196,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"885b8e56-ffe6-4bc9-82e2-ce23230991db"
+								"{{06_Trace_P1T2_3rdItemzId}}"
 							]
 						}
 					},
@@ -13689,7 +16245,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13699,7 +16255,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+								"{{06_Trace_P1T2_4thItemzId}}"
 							]
 						}
 					},
@@ -13748,7 +16304,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/AllItemzTraces/{{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13758,7 +16314,7 @@
 								"api",
 								"ItemzTrace",
 								"AllItemzTraces",
-								"4adde56d-8081-45ea-bd37-5c830b63873b"
+								"{{06_Trace_P1T2_5thItemzId}}"
 							]
 						}
 					},
@@ -13795,7 +16351,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=9153a516-d69e-4364-b17e-03b87442e21c&toTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_1stItemzId}}&toTraceItemzId={{06_Trace_P1T1_2ndItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13809,11 +16365,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "9153a516-d69e-4364-b17e-03b87442e21c"
+									"value": "{{06_Trace_P1T1_1stItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								}
 							]
 						}
@@ -13851,7 +16407,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=5e76f8e8-d3e7-41db-b084-f64c107c6783&toTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T1_2ndItemzId}}&toTraceItemzId={{06_Trace_P1T2_3rdItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13865,11 +16421,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "5e76f8e8-d3e7-41db-b084-f64c107c6783"
+									"value": "{{06_Trace_P1T1_2ndItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								}
 							]
 						}
@@ -13907,7 +16463,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=885b8e56-ffe6-4bc9-82e2-ce23230991db&toTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_3rdItemzId}}&toTraceItemzId={{06_Trace_P1T2_4thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13921,11 +16477,11 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "885b8e56-ffe6-4bc9-82e2-ce23230991db"
+									"value": "{{06_Trace_P1T2_3rdItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								}
 							]
 						}
@@ -13963,7 +16519,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId=0850bc8a-84c4-4c52-8ab6-b06e7bc2195b&toTraceItemzId=4adde56d-8081-45ea-bd37-5c830b63873b",
+							"raw": "http://localhost:51087/api/ItemzTrace/CheckExists?fromTraceItemzId={{06_Trace_P1T2_4thItemzId}}&toTraceItemzId={{06_Trace_P1T2_5thItemzId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -13977,12 +16533,390 @@
 							"query": [
 								{
 									"key": "fromTraceItemzId",
-									"value": "0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"
+									"value": "{{06_Trace_P1T2_4thItemzId}}"
 								},
 								{
 									"key": "toTraceItemzId",
-									"value": "4adde56d-8081-45ea-bd37-5c830b63873b"
+									"value": "{{06_Trace_P1T2_5thItemzId}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 5 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{06_Trace_P1T2_5thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{06_Trace_P1T2_5thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 4 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{06_Trace_P1T2_4thItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{06_Trace_P1T2_4thItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 3 to P1_ItemzType2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{06_Trace_P1T2_3rdItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{06_Trace_P1T2_3rdItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{06_Trace_P1T1_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{06_Trace_P1T1_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{06_Trace_P1T1_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{06_Trace_P1T1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 2 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{06_Trace_2ndItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{06_Trace_2ndItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType 1 by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{06_Trace_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{06_Trace_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 1st Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{06_Trace_1stProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{06_Trace_1stProjectId}}"
 							]
 						}
 					},
