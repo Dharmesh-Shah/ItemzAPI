@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Microsoft.CodeAnalysis;
+using Microsoft.Build.Evaluation;
 
 namespace ItemzApp.API.Services
 {
@@ -440,7 +442,6 @@ namespace ItemzApp.API.Services
 //            return await _context.ItemzTypeJoinItemz.AsNoTracking().AnyAsync(itji => itji.ItemzId == ItemzId);
         }
 
-
         public void UpdateItemz(Itemz itemz)
         {
             // Due to Repository Pattern implementation, 
@@ -458,13 +459,33 @@ namespace ItemzApp.API.Services
                     SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
                 }
             };
+
             // Instead of using Itemzs.Remove we are now using Stored
             // procedure because we need to perform some cleanup of 
             // "non-cascade delete" data due to Entity Framework
             // SQL Server limitations when it comes to many-to-many 
             // relationship. 
             // _context.Itemzs!.Remove(itemz);
+
             await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteSingleItemzByItemzID @ItemzId", parameters: sqlParameters);
+
+            // POST DELETING ITEMZ WE ARE NOW SOFT DELETING THE SAME FROM HIERARCHY TABLE.
+            // WE ARE SOFT DELETING ITEMZID HIERARCHY BECAUSE ITEMZ COULD ALSO BE ORPHAND ITEMZ WHICH MEANS IT WILL NOT HAVE
+            // ANY ENTRY WITHIN ITEMZ HIERARCHY TABLE.
+            // TODO : IDEALLY WE SHOULD HAVE A SINGLE STORED PROCEDURE THAT DOES ALL DELETION
+            // INSTEAD OF HAVING TWO SEPARATE STORED PROCEDURE. ALSO MAKE SURE THAT IN THE FUTURE WHEN WE IMPLEMENT SUB ITEMZ TREE 
+            // STRUCTURE THEN WE HAVE TO DELETE ALL THE DECENDENT CHILD ITEMZ RECORDS FROM EVERYWHERE. 
+            
+            var OUTPUT_Success = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Success",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Bit,
+            };
+
+            sqlParameters = sqlParameters.Append(OUTPUT_Success).ToArray();
+
+            var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteItemzHierarchyRecordsByItemzId  @ItemzId, @OUTPUT_Success  = @OUTPUT_Success OUT", parameters: sqlParameters);
         }
 
 

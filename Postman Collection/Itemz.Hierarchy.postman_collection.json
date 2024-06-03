@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a5ab3b79-c93f-4f81-96d5-7f21d358e4f9",
+		"_postman_id": "441c925e-27a8-4692-ac16-eb55eb1d748c",
 		"name": "Itemz.Hierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33816436"
@@ -1795,6 +1795,1407 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "03 VerifyItemzDeletionHierarchy",
+			"item": [
+				{
+					"name": "POST Project 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"03_Hierarchy_1stProjectId\",tempNewProjectId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"03_Hierarchy_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"03_Hierarchy_1stProjectName\");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{03_Hierarchy_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{03_Hierarchy_1stProjectName}}\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ItemzType 1st",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**",
+									" ",
+									" pm.test(\"Status code is either 201 or 409\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+									"});",
+									"",
+									"**/",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"03_Hierarchy_1stItemzTypeId\",tempNew1stItemzTypeId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{03_Hierarchy_1stProjectId}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+1)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"03_Hierarchy_P1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+1)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST New SINGLE Itemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is either 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData.id;",
+									"pm.collectionVariables.set(\"03_Hierarchy_P1_SINGLEITEMZ\",tempNew1stItemzId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+0)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{03_Hierarchy_P1_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{03_Hierarchy_P1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+1)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"03_Hierarchy_P1_1stItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+1)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"var tempNew1stItemzId =   jsonData[0].id;",
+									"pm.collectionVariables.set(\"03_Hierarchy_P1_2ndItemzId\",tempNew1stItemzId);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+1)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{03_Hierarchy_P1_1stItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{03_Hierarchy_P1_1stItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+0)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 2 to P1_ItemzType1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{03_Hierarchy_P1_2ndItemzId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{03_Hierarchy_P1_2ndItemzId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')-2)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE SINGLE Itemz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{03_Hierarchy_P1_SINGLEITEMZ}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{03_Hierarchy_P1_SINGLEITEMZ}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+0)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST 1st 100 Itemz Collection By ItemzType",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n  {\r\n    \"Name\": \"Item 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 13\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 14\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 15\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 16\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 17\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 18\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 19\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 20\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 21\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 22\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 23\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 24\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 25\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 26\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 27\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 28\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 29\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 30\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 31\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 32\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 33\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 34\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 35\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 36\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 37\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 38\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 39\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 40\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 41\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 42\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 43\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 44\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 45\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 46\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 47\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 48\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 49\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 50\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 51\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 52\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 53\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 54\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 55\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 56\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 57\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 58\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 59\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 60\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 61\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 62\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 63\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 64\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 65\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 66\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 67\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 68\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 69\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 70\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 71\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 72\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 73\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 74\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 75\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 76\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 77\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 78\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 79\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 80\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 81\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 82\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 83\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 84\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 85\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 86\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 87\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 88\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 89\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 90\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 91\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 92\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 93\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 94\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 95\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 96\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 97\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 98\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 99\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 100\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 101\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 102\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 103\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 104\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 105\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypeItemzs",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLastItemzHierarchyID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"\r",
+									"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+									"\r",
+									"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+									"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('03_Hierarchy_LastItemzHierarchyID')+100)); \r",
+									"    });\r",
+									"\r",
+									"    pm.collectionVariables.set(\"03_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"GetLastItemzHierarchyID",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ItemzType by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:51087/api/ItemzTypes/{{03_Hierarchy_1stItemzTypeId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"ItemzTypes",
+								"{{03_Hierarchy_1stItemzTypeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 1st Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{03_Hierarchy_1stProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{03_Hierarchy_1stProjectId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
@@ -1824,6 +3225,10 @@
 		},
 		{
 			"key": "01_Hierarchy_LastProjectHierarchyID",
+			"value": ""
+		},
+		{
+			"key": "03_Hierarchy_P1_SINGLEITEMZ",
 			"value": ""
 		}
 	]
