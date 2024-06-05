@@ -263,13 +263,15 @@ namespace ItemzApp.API.Controllers
         /// Used for creating new Itemz record in the database
         /// </summary>
         /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+        /// <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
         /// <returns>Newly created Itemz property details</returns>
         /// <response code="201">Returns newly created itemzs property details</response>
-
+        /// <response code="404">Expected Parent Itemz not found</response>
         [HttpPost (Name ="__POST_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO)
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO, Guid parentItemzId)
         {
             Itemz itemzEntity;
             try
@@ -284,6 +286,21 @@ namespace ItemzApp.API.Controllers
                 return ValidationProblem();
             }
             _itemzRepository.AddItemz(itemzEntity);
+
+            if (!(parentItemzId.Equals(Guid.Empty)))
+            {
+                var itemzFromRepo = await _itemzRepository.GetItemzAsync(parentItemzId);
+
+                if (itemzFromRepo == null)
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Expected parent Itemz with ID {parentItemzId} could not be found",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        parentItemzId);
+                    return NotFound();
+                }
+
+                await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id);
+            }
             await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",

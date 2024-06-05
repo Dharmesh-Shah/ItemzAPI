@@ -548,13 +548,15 @@
             <returns>Number of Orphaned itemzs found in the repository</returns>
             <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid)">
             <summary>
             Used for creating new Itemz record in the database
             </summary>
             <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
             <returns>Newly created Itemz property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
+            <response code="404">Expected Parent Itemz not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
             <summary>
@@ -1719,6 +1721,17 @@
             <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
             <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
             <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
+        </member>
+        <member name="M:ItemzApp.API.Services.ItemzRepository.AddNewItemzHierarchyAsync(System.Guid,System.Guid)">
+            <summary>
+            Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
+            It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
+            </summary>
+            <param name="parentItemzId"></param>
+            <param name="newlyAddedItemzId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ApplicationException"></exception>
         </member>
         <member name="M:ItemzApp.API.Services.ItemzTraceRepository.ItemzsTraceExistsAsync(ItemzApp.API.Models.ItemzTraceDTO)">
             <summary>

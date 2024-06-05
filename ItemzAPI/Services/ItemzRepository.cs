@@ -268,6 +268,62 @@ namespace ItemzApp.API.Services
             _context.Itemzs!.Add(itemz);
         }
 
+        /// <summary>
+        /// Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
+        /// It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
+        /// </summary>
+        /// <param name="parentItemzId"></param>
+        /// <param name="newlyAddedItemzId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ApplicationException"></exception>
+
+        public async Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId)
+        {
+            if (parentItemzId == Guid.Empty )
+            {
+                throw new ArgumentNullException(nameof(parentItemzId));
+            }
+
+            if ( newlyAddedItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(newlyAddedItemzId));
+            }
+
+            var rootItemz = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == parentItemzId);
+
+            if (rootItemz.Count() != 1)
+            {
+                throw new ApplicationException("Either no Parent Itemz Hierarchy record was " +
+                    "found OR multiple Parent Itemz Hierarchy records were found in the system");
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+            // First find the ItemzHierarchy record where ID matches Parent Itemz ID. This is expected to be the
+            // Parent Itemz ID itself which is the root OR parent to newly added Itemz.
+            // Then we find all desendents of Parent Itemz which is nothing but existing Itemz(s). 
+
+            var parentItemzHierarchyChildRecords = await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
+                    .OrderByDescending(ih => ih.ItemzHierarchyId!)
+                    .ToListAsync();
+
+            var tempItemzHierarchy = new Entities.ItemzHierarchy
+            {
+                Id = newlyAddedItemzId,
+                RecordType = "Itemz",
+                ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                                    .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
+                                                        ? parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
+                                                        : null
+                                                   , null),
+            };
+            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        }
+
         public async Task<bool> SaveAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
