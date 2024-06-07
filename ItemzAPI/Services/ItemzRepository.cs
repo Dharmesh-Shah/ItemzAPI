@@ -370,6 +370,13 @@ namespace ItemzApp.API.Services
                     "Instead of 'Itemz' it is '" + tempSecondItemz.FirstOrDefault()!.RecordType + "'");
             }
 
+            if (tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId < tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId)
+            {
+                throw new ApplicationException($"1st Itemz HierarchyID Level is '{tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()}' " +
+                    $"which is greater then 2nd Itemz Hirarchy ID Level as '{tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()}'. " +
+                                   $"Provided 1st Itemz ID is '{tempFirstItemz.FirstOrDefault()!.Id}' and 2nd Itemz ID is '{tempSecondItemz.FirstOrDefault()!.Id}'   ");
+            }
+
             if(!(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==
                     tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)))
             {
@@ -386,9 +393,9 @@ namespace ItemzApp.API.Services
 
             if ((gapBetweenLowerAndUpper).Count() > 2)
             {
-                throw new ApplicationException("Lower bound and Upper bound Itemz are not next to each other." +
+                throw new ApplicationException("1st and 2nd Itemz are not next to each other. " +
                     "Please consider adding new Itemz between two Itemz which are next to each other. " +
-                    "Total Itemz found in between lower and upper bound Itemz are '" + (gapBetweenLowerAndUpper).Count() + "'");
+                    "Total Itemz found in between 1st and 2nd Itemz are '" + (gapBetweenLowerAndUpper).Count() + "'");
             }
 
                 var tempItemzHierarchy = new Entities.ItemzHierarchy

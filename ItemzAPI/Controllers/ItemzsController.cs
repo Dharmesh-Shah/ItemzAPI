@@ -19,12 +19,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Serilog;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Types;
 
 namespace ItemzApp.API.Controllers
 {
     [ApiController]
     [Route("api/Itemzs")] // e.g. http://HOST:PORT/api/itemzs
-    //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     //[ProducesResponseType(StatusCodes.Status406NotAcceptable)]
     //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class ItemzsController : ControllerBase
@@ -374,9 +379,38 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
+            try { 
             await _itemzRepository.AddNewItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id);
-
             await _itemzRepository.SaveAsync();
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add Itemz between two existing Itemz :" + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not create new Itemz between Itemz '{firstItemzId}' " +
+                    $"and '{secondItemzId}'. " +
+                    $":: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}DBUpdateException Occured while trying to add Itemz between two existing Itemz :" + dbUpdateException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict( $"DBUpdateException : Could not create new Itemz between Itemz " +
+                    $"'{firstItemzId}' and '{secondItemzId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{dbUpdateException.Message}' ");
+            }
+            catch(Microsoft.SqlServer.Types.HierarchyIdException hierarchyIDException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}HierarchyIdException Occured while trying to add Itemz between two existing Itemz :" + hierarchyIDException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"HierarchyIdException : Could not create new Itemz between Itemz " +
+                    $"'{firstItemzId}' and '{secondItemzId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{hierarchyIDException.Message}' ");
+            }
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),

@@ -4109,14 +4109,14 @@
 					"response": []
 				},
 				{
-					"name": "POST Itemz ERR between 1/1 and 1/3",
+					"name": "POST Itemz WRONG between 1/1 and 1/3",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 500\", function () {",
-									"    pm.response.to.have.status(500);",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});",
 									"",
 									"// var jsonData = pm.response.json();",
@@ -4154,7 +4154,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"Name\": \"Itemz ERROR\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
+							"raw": "{\r\n  \"Name\": \"Itemz WRONG\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{04_Hierarchy_P1T1_Itemz_1_1}}&secondItemzId={{04_Hierarchy_P1T1_Itemz_1_3}}",
@@ -4183,14 +4183,14 @@
 					"response": []
 				},
 				{
-					"name": "POST Itemz ERR between 1/1 and 1/1/1",
+					"name": "POST Itemz WRONG between 1/1 and 1/1/1",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 500\", function () {",
-									"    pm.response.to.have.status(500);",
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
 									"});",
 									"",
 									"// var jsonData = pm.response.json();",
@@ -4228,7 +4228,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"Name\": \"Itemz ERROR\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
+							"raw": "{\r\n  \"Name\": \"Itemz WRONG\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{04_Hierarchy_P1T1_Itemz_1_1}}&secondItemzId={{04_Hierarchy_P1T1_Itemz_1_1_1}}",
@@ -4251,6 +4251,355 @@
 									"key": "secondItemzId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1_1_1}}"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Itemz WRONG between 1/2.2 and 1/2.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"// var jsonData = pm.response.json();",
+									"// var tempNew1stItemzId =   jsonData.id;",
+									"// pm.collectionVariables.set(\"04_Hierarchy_P1T1_Itemz_1_2.2\",tempNew1stItemzId);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"Name\": \"Itemz WRONG\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{04_Hierarchy_P1T1_Itemz_1_2.2}}&secondItemzId={{04_Hierarchy_P1T1_Itemz_1_2.1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"CreateItemzBetweenExistingItemz"
+							],
+							"query": [
+								{
+									"key": "firstItemzId",
+									"value": "{{04_Hierarchy_P1T1_Itemz_1_2.2}}"
+								},
+								{
+									"key": "secondItemzId",
+									"value": "{{04_Hierarchy_P1T1_Itemz_1_2.1}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/2.2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_2.2}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_2.2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/2.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_2.1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_2.1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/1.-1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_1.-1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_1.-1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/2/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_2_1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_2_1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/1/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_1_1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_1_1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_3}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_3}}"
 							]
 						}
 					},
@@ -4297,6 +4646,190 @@
 								"api",
 								"Itemzs",
 								"{{04_Hierarchy_P1T1_Itemz_1_1.0}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/1.1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_1.1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_1.1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_2}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1_1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1_1}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Itemz 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Itemzs/{{04_Hierarchy_P1T1_Itemz_1}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Itemzs",
+								"{{04_Hierarchy_P1T1_Itemz_1}}"
 							]
 						}
 					},
