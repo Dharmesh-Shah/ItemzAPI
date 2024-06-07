@@ -312,6 +312,81 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
+        /// Used for creating new Itemz record in the database
+        /// </summary>
+        /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+        /// <param name="firstItemzId">Used as first Itemz for adding new Itemz between existing two Itemz</param>
+        /// <param name="secondItemzId">Used as second Itemz for adding new Itemz between existing two Itemz</param>
+        /// <returns>Newly created Itemz property details</returns>
+        /// <response code="201">Returns newly created itemzs property details</response>
+        /// <response code="404">Expected first or second from between Itemz not found</response>
+        [HttpPost("CreateItemzBetweenExistingItemz/", Name = "__POST_Create_Itemz_Between_Existing_Itemz__")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzBetweenExistingItemzAsync([FromBody] CreateItemzDTO createItemzDTO, [FromQuery] Guid firstItemzId, [FromQuery] Guid secondItemzId)
+        {
+            if (firstItemzId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}First ItemzID from between two Itemz is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            if (secondItemzId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Second ItemzID from between two Itemz is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+
+            Itemz itemzEntity;
+
+            try
+            {
+                itemzEntity = _mapper.Map<Entities.Itemz>(createItemzDTO);
+            }
+            catch (AutoMapper.AutoMapperMappingException amm_ex)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Could not create new Itemz due to issue with value provided for {fieldname}",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        amm_ex.MemberMap.DestinationName);
+                return ValidationProblem();
+            }
+            _itemzRepository.AddItemz(itemzEntity);
+
+            var firstItemz = await _itemzRepository.GetItemzAsync(firstItemzId);
+
+            if (firstItemz == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected first Itemz with ID {firstItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    firstItemzId);
+                return NotFound();
+            }
+
+            var secondItemz = await _itemzRepository.GetItemzAsync(secondItemzId);
+
+            if (secondItemz == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected second Itemz with ID {secondItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    secondItemzId);
+                return NotFound();
+            }
+
+            await _itemzRepository.AddNewItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id);
+
+            await _itemzRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzEntity.Id);
+            return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id },
+                _mapper.Map<GetItemzDTO>(itemzEntity) // Converting to DTO as this is going out to the consumer
+                );
+        }
+
+        /// <summary>
         /// Updating exsting Itemz based on Itemz Id (GUID)
         /// </summary>
         /// <param name="itemzId">GUID representing an unique ID of the Itemz that you want to get</param>

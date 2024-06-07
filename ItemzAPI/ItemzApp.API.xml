@@ -558,6 +558,17 @@
             <response code="201">Returns newly created itemzs property details</response>
             <response code="404">Expected Parent Itemz not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzBetweenExistingItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Guid)">
+            <summary>
+            Used for creating new Itemz record in the database
+            </summary>
+            <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            <param name="firstItemzId">Used as first Itemz for adding new Itemz between existing two Itemz</param>
+            <param name="secondItemzId">Used as second Itemz for adding new Itemz between existing two Itemz</param>
+            <returns>Newly created Itemz property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+            <response code="404">Expected first or second from between Itemz not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
             <summary>
             Updating exsting Itemz based on Itemz Id (GUID)

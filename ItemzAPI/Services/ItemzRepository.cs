@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.CodeAnalysis;
 using Microsoft.Build.Evaluation;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ItemzApp.API.Services
 {
@@ -322,6 +323,100 @@ namespace ItemzApp.API.Services
                                                    , null),
             };
             _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        }
+
+        public async Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId,  Guid newlyAddedItemzId)
+        {
+            if (between1stItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(between1stItemzId));
+            }
+            if (between2ndItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(between2ndItemzId));
+            }
+
+            if (newlyAddedItemzId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(newlyAddedItemzId));
+            }
+
+
+            var tempFirstItemz = _context.ItemzHierarchy!.AsNoTracking()
+                                        .Where(ih => ih.Id == between1stItemzId);
+            if ((tempFirstItemz).Count() != 1)
+            {
+                throw new ApplicationException("For Between 1st Itemz, Either no hierarchy record was " +
+                            "found OR more then one hierarchy record were found in the system");
+            }
+
+            if ((tempFirstItemz.FirstOrDefault()!.RecordType != "Itemz" ))
+            {
+                throw new ApplicationException("Incorrect Record Type for First Itemz. " +
+                    "Instead of 'Itemz' it is '" + tempFirstItemz.FirstOrDefault()!.RecordType + "'");
+            }
+
+            var tempSecondItemz = _context.ItemzHierarchy!.AsNoTracking()
+                                        .Where(ih => ih.Id == between2ndItemzId);
+            if ((tempSecondItemz).Count() != 1)
+            {
+                throw new ApplicationException("For Between 1st Itemz, Either no hierarchy record was " +
+                            "found OR more then one hierarchy record were found in the system");
+            }
+
+            if ((tempSecondItemz.FirstOrDefault()!.RecordType != "Itemz"))
+            {
+                throw new ApplicationException("Incorrect Record Type for Second Itemz. " +
+                    "Instead of 'Itemz' it is '" + tempSecondItemz.FirstOrDefault()!.RecordType + "'");
+            }
+
+            if(!(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==
+                    tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)))
+            {
+                throw new ApplicationException("Between Itemz do not belong to the same Parent. FirstItemz " +
+                    "belongs to Hierarchy ID '" + tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString() 
+                    + "' and SecondItemz belongs to HierarchyID '" + tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString() + "'!"
+                    );
+            }
+
+            var gapBetweenLowerAndUpper = _context.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.ItemzHierarchyId >= tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId 
+                && ih.ItemzHierarchyId <= tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId 
+                && ih.ItemzHierarchyId!.GetLevel() == tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetLevel());
+
+            if ((gapBetweenLowerAndUpper).Count() > 2)
+            {
+                throw new ApplicationException("Lower bound and Upper bound Itemz are not next to each other." +
+                    "Please consider adding new Itemz between two Itemz which are next to each other. " +
+                    "Total Itemz found in between lower and upper bound Itemz are '" + (gapBetweenLowerAndUpper).Count() + "'");
+            }
+
+                var tempItemzHierarchy = new Entities.ItemzHierarchy
+            {
+                Id = newlyAddedItemzId,
+                RecordType = "Itemz",
+                ItemzHierarchyId = tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!
+                    .GetDescendant(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId
+                                        , tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId == tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId
+                                         ? HierarchyId.Parse(
+                                              localHelperGetMeNextHierarchyIDNumber(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString())
+                                           )
+                                        // ? HierarchyId.Parse("/3/2/1/1.0.1.2/")
+                                        : tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId),
+                //ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                //                    .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
+                //                                        ? parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
+                //                                        : null
+                //                                   , null),
+            };
+            await _context.ItemzHierarchy!.AddAsync(tempItemzHierarchy);
+        }
+
+        private string? localHelperGetMeNextHierarchyIDNumber(string lowerBoundHierarchyId)
+        {
+            var lastSlashPosition = lowerBoundHierarchyId.LastIndexOf("/");
+            var convertedlowerBoundHierarchyId = lowerBoundHierarchyId.Remove(lastSlashPosition, 1).Insert(lastSlashPosition, ".2/");
+            return convertedlowerBoundHierarchyId;
         }
 
         public async Task<bool> SaveAsync()
