@@ -1162,6 +1162,18 @@
         <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
             Id of the From Trace Baseline Itemz representated by a GUID.
