@@ -15,6 +15,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.CodeAnalysis;
 using Microsoft.Build.Evaluation;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.Win32.SafeHandles;
 
 namespace ItemzApp.API.Services
 {
@@ -185,9 +186,14 @@ namespace ItemzApp.API.Services
 
         public async Task<int> GetItemzsCountByItemzType(Guid itemzTypeId)
         {
-            return await _context.Itemzs
-                      .Include(i => i.ItemzTypeJoinItemz)
-                      .Where(i => i.ItemzTypeJoinItemz!.Any(itji => itji.ItemzTypeId == itemzTypeId)).CountAsync();
+            var rootItemzType = _context.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.Id == itemzTypeId).FirstOrDefault();
+
+             return (await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootItemzType!.ItemzHierarchyId))
+                    .CountAsync())
+                    - 1; // Minus One becaues Count includes ItemzType itself along with it's SubItemz
         }
 
         public PagedList<Itemz>? GetItemzsByItemzType(Guid itemzTypeId, ItemzResourceParameter itemzResourceParameter)
