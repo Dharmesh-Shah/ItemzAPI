@@ -64,15 +64,18 @@
 
         //#endregion ProjectItemzCount
 
-        #region ItemzTypeItemzCount
+        //#region ItemzTypeItemzCount
 
-        public static readonly string SQLStatementFor_GetItemzCountByItemzType =
-            "select count(Id) from Itemzs " +
-            "where Id in (select distinct(ItemzId) " +
-            "from ItemzTypeJoinItemz " +
-            "where ItemzTypeId = @__ItemzTypeID__)";
+        ////// TODO :  DELETE FOLLOWING SQL STATEMENT FOR SQLStatementFor_GetItemzCountByItemzType
+        //////          AS WE HAVE MOVED NOW TO USE HIERARCHY VIA EF CORE TO INCLUDE SUBITEMZ
 
-        #endregion ItemzTypeItemzCount
+        //public static readonly string SQLStatementFor_GetItemzCountByItemzType =
+        //    "select count(Id) from Itemzs " +
+        //    "where Id in (select distinct(ItemzId) " +
+        //    "from ItemzTypeJoinItemz " +
+        //    "where ItemzTypeId = @__ItemzTypeID__)";
+
+        //#endregion ItemzTypeItemzCount
 
         #region GetBaselineItemz
 

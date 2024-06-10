@@ -372,13 +372,22 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ItemzTypeId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
-            };
-            var foundItemzByItemzType = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByItemzType, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
+            //};
+            //var foundItemzByItemzType = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByItemzType, sqlArgs);
 
-            return foundItemzByItemzType;
+            //return foundItemzByItemzType;
+
+            var rootItemzType = _itemzContext.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.Id == ItemzTypeId).FirstOrDefault();
+
+            return (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootItemzType!.ItemzHierarchyId))
+                   .CountAsync())
+                   - 1; // Minus One becaues Count includes ItemzType itself along with it's SubItemz
         }
 
         public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
