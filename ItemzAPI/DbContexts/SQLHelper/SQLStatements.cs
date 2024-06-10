@@ -50,16 +50,19 @@
 
         #endregion ItemzChangeHistoryByRepository
 
-        #region ProjectItemzCount
+        //#region ProjectItemzCount
 
-        public static readonly string SQLStatementFor_GetItemzCountByProject = 
-            "select count(Id) from Itemzs " +
-            "where Id in (select distinct(ItemzId) " +
-            "from ItemzTypeJoinItemz " +
-            "where ItemzTypeId in (select distinct(Id) from ItemzTypes " +
-            "where ProjectId = @__ProjectID__))";
+        //// TODO :  DELETE FOLLOWING SQL STATEMENT FOR SQLStatementFor_GetItemzCountByProject
+        ////          AS WE HAVE MOVED NOW TO USE HIERARCHY VIA EF CORE TO INCLUDE SUBITEMZ
 
-        #endregion ProjectItemzCount
+        //public static readonly string SQLStatementFor_GetItemzCountByProject = 
+        //    "select count(Id) from Itemzs " +
+        //    "where Id in (select distinct(ItemzId) " +
+        //    "from ItemzTypeJoinItemz " +
+        //    "where ItemzTypeId in (select distinct(Id) from ItemzTypes " +
+        //    "where ProjectId = @__ProjectID__))";
+
+        //#endregion ProjectItemzCount
 
         #region ItemzTypeItemzCount
 

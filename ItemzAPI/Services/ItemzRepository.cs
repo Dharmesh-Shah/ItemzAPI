@@ -186,6 +186,11 @@ namespace ItemzApp.API.Services
 
         public async Task<int> GetItemzsCountByItemzType(Guid itemzTypeId)
         {
+            if (itemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(itemzTypeId));
+            }
+
             var rootItemzType = _context.ItemzHierarchy!.AsNoTracking()
                 .Where(ih => ih.Id == itemzTypeId).FirstOrDefault();
 

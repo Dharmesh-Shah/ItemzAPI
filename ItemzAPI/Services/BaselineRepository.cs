@@ -17,10 +17,12 @@ namespace ItemzApp.API.Services
     public class BaselineRepository : IBaselineRepository, IDisposable
     {
         private readonly BaselineContext _baselineContext;
+        private readonly ItemzContext _itemzContext;
 
-        public BaselineRepository(BaselineContext baselineContext)
+        public BaselineRepository(BaselineContext baselineContext, ItemzContext itemzContext)
         {
             _baselineContext = baselineContext ?? throw new ArgumentNullException(nameof(baselineContext));
+            _itemzContext = itemzContext ?? throw new ArgumentNullException(nameof(itemzContext));
         }
         public async Task<Baseline?> GetBaselineAsync(Guid BaselineId)
         {
@@ -385,13 +387,27 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ProjectID__", ProjectId.ToString()),
-            };
-            var foundItemzByProject = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ProjectID__", ProjectId.ToString()),
+            //};
+            //var foundItemzByProject = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
 
-            return foundItemzByProject;
+            // return foundItemzByProject;
+
+            var rootProject = _itemzContext.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == ProjectId).FirstOrDefault();
+
+            var sumOfProjectAndSubItemzType = (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+                   .CountAsync());
+
+            return (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
+                   .CountAsync())
+                   - sumOfProjectAndSubItemzType; // Minus sum of Project itself and it's sub ItemzType Hierarchy records
         }
 
         public async Task<int> GetTotalBaselineItemzCountAsync()

@@ -254,13 +254,33 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ProjectId__", ProjectId.ToString()),
-            };
-            var foundItemzByProject = await _context.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ProjectId__", ProjectId.ToString()),
+            //};
+            //var foundItemzByProject = await _context.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
 
-            return foundItemzByProject;
+            //return foundItemzByProject;
+
+            var rootProject = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == ProjectId).FirstOrDefault();
+
+            //var deletemeList = (await _context.ItemzHierarchy!
+            //       .AsNoTracking()
+            //       .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+            //       .ToListAsync());
+
+            var sumOfItemzTypeInTargetProject = (await _context.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+                   .CountAsync());
+
+            return (await _context.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
+                   .CountAsync())
+                   - 1 - sumOfItemzTypeInTargetProject  ; // Minus ONE for Project itself and it's sub ItemzType Hierarchy records
+
         }
         public void Dispose()
         {
