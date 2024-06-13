@@ -267,7 +267,7 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
-        /// Used for Associating Itemz to ItemzType 
+        /// Used for Associating Orphaned Itemz to ItemzType either at the TOP or BOTTOM of the existing child Itemz nodes
         /// </summary>
         /// <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
         /// <param name="AtBottomOfChildNodes">Used to indicate if Itemz should be added at Bottom or Top of existing Child Itemz list</param>
