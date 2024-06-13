@@ -498,9 +498,42 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Gets expected Top Itemz hierarchy number by ItemzTypeId
+        /// </summary>
+        /// <returns>string representing highest most last Itemz hierarchy id</returns>
+        /// <response code="200">string representing highest most last Itemz hierarchy id</response>
+        /// <response code="404">No Itemz hierarchy records found under ItemzTypeID</response>
+        /// 
+        [HttpGet("GetTopItemzHierarchyID/{ItemzTypeId}", Name = "__GET_Top_Itemz_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastItemzHierarchyID/
+        [HttpHead("GetTopItemzHierarchyID/{ItemzTypeId}", Name = "__HEAD_Top_Itemz_HierarchyID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<string>> GetTopItemzHierarchyIDAsync(Guid ItemzTypeId)
+        {
+            var topItemzHierarchyID = await _ItemzTypeRepository.GetTopItemzHierarchyID(ItemzTypeId);
+            if (topItemzHierarchyID == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for Itemz " +
+                    "under ItemzType ID {ItemzTypeId}. " +
+                    "If there are Itemzs in the repository but you are not able to find top Itemz hierarchyid " +
+                    "then please contact your system administrator.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    , ItemzTypeId);
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {topItemzHierarchyID} as expected top Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                topItemzHierarchyID,
+                ItemzTypeId);
+            return Ok(topItemzHierarchyID);
+        }
+
+
 
         /// <summary>
-        /// Gets last Itemz hierarchy number
+        /// Gets expected Bottom Itemz hierarchy number by ItemzTypeId
         /// </summary>
         /// <returns>string representing highest most last Itemz hierarchy id</returns>
         /// <response code="200">string representing highest most last Itemz hierarchy id</response>
@@ -525,7 +558,7 @@ namespace ItemzApp.API.Controllers
                     , ItemzTypeId);
                 return NotFound();
             }
-            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {lastItemzHierarchyID} as highest most and last Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {lastItemzHierarchyID} as expected last OR bottom Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 lastItemzHierarchyID,
                 ItemzTypeId);

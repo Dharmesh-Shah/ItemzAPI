@@ -233,11 +233,17 @@ namespace ItemzApp.API.Controllers
             {
                 _itemzRepository.AddItemzByItemzType(itemz, ItemzTypeId);
             }
-            await _itemzRepository.SaveAsync();
+
+            // EXPLANATION: WE SAVE ALL ITEMZ IN THE REPOSITORY FIRST BECAUSE WE ARE ADDING
+            // ONE HIERARCHY RECORD AT A TIME AND SAVING EACH RECORD INDIVIDUALLY. WE MAY 
+            // HAVE TO COME-UP WITH BETTER OPTION IN THE FUTURE BUT FOR NOW WE ARE FIRST SAVING
+            // ALL ITEMZ RECORDS BEFORE WE ADD CORRESPONDING ITEMZ HIERARCHY RECORD IN THE REPOSITORY
+
+             await _itemzRepository.SaveAsync(); 
 
             foreach (var itemz in itemzEntities)
             {
-                await _itemzRepository.AddNewItemzHierarchyAsync(itemz, ItemzTypeId);
+                await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
 
                 // EXPLAINATION: To be able to get next correct HierarchyId, we have to save previous
                 // record in the database. Then only we are able to find next available HierarchyID to be
@@ -258,13 +264,13 @@ namespace ItemzApp.API.Controllers
                 ItemzTypeId);
             return CreatedAtRoute("__GET_Itemz_Collection_By_GUID_IDS__",
                 new { Controller = "ItemzCollection", ids = idConvertedToString }, itemzCollectionToReturn);
-
         }
 
         /// <summary>
         /// Used for Associating Itemz to ItemzType 
         /// </summary>
         /// <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
+        /// <param name="AtBottomOfChildNodes">Used to indicate if Itemz should be added at Bottom or Top of existing Child Itemz list</param>
         /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
         /// <response code="200">Itemz to ItemzType association was either found or added successfully</response>
         /// <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
@@ -274,7 +280,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync(ItemzTypeItemzDTO ItemzTypeItemzDTO)
+        public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync([FromBody] ItemzTypeItemzDTO ItemzTypeItemzDTO, [FromQuery] bool AtBottomOfChildNodes = true)
         {
             if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeItemzDTO.ItemzTypeId)))
             {
@@ -308,7 +314,7 @@ namespace ItemzApp.API.Controllers
                 return BadRequest();
             }
 
-            _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO);
+            _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO, AtBottomOfChildNodes);
             await _itemzRepository.SaveAsync();
             _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
                 " and Itemz Id {itemzId}",
@@ -360,7 +366,7 @@ namespace ItemzApp.API.Controllers
                     sourceItemzTypeItemzDTO.ItemzId);
 
             }
-            _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO);
+            _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
             await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +

@@ -37,7 +37,7 @@ namespace ItemzApp.API.Services
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
-        public Task AddNewItemzHierarchyAsync(Itemz itemz, Guid itemzTypeId);
+        public Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true);
 
         Task<bool> SaveAsync();
 
@@ -55,10 +55,11 @@ namespace ItemzApp.API.Services
 
         public Task DeleteItemzAsync(Guid itemzId);
 
-        public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
+        public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes);
 
-        public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO,
-                                                       ItemzTypeItemzDTO targetItemzTypeItemzDTO);
+        public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO
+                                                       , ItemzTypeItemzDTO targetItemzTypeItemzDTO
+                                                       , bool atBottomOfChildNodes = true);
 
     }
 }
