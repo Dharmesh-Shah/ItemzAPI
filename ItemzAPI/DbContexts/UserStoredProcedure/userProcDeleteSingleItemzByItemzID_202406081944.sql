@@ -34,7 +34,7 @@ IF ( @@rowcount > 0)
 		FROM ItemzHierarchy ih
 		WHERE ih.ItemzHierarchyId.IsDescendantOf(@ItemzAsRoot) = 1 
 			AND ih.RecordType = 'Itemz' 
-			AND ih.ItemzHierarchyId.GetLevel() > 3
+			AND ih.ItemzHierarchyId.GetLevel() > 2 -- WAS THREE
 		ORDER BY ih.ItemzHierarchyId
 
 		set @ItemzHierarchyRowCount = @@rowcount
@@ -58,7 +58,7 @@ IF ( @ItemzHierarchyRowCount > 0 )
 			FROM ItemzHierarchy ih
 			WHERE ih.ItemzHierarchyId.IsDescendantOf(@ItemzAsRoot) = 1 
 				AND ih.RecordType = 'Itemz' 
-				AND ih.ItemzHierarchyId.GetLevel() > 3
+				AND ih.ItemzHierarchyId.GetLevel() > 2 -- WAS THREE
 		)
 
 		-- DELETE ITEMZ TRACES FOR THOSE ITEMZ WHERE 
@@ -71,7 +71,7 @@ IF ( @ItemzHierarchyRowCount > 0 )
 			FROM ItemzHierarchy ih
 			WHERE ih.ItemzHierarchyId.IsDescendantOf(@ItemzAsRoot) = 1 
 				AND ih.RecordType = 'Itemz' 
-				AND ih.ItemzHierarchyId.GetLevel() > 3
+				AND ih.ItemzHierarchyId.GetLevel() > 2 -- WAS THREE
 		)
 
 		-- NOW FINALLY DELETE Itemz itself.   
@@ -82,7 +82,7 @@ IF ( @ItemzHierarchyRowCount > 0 )
 			FROM ItemzHierarchy ih
 			WHERE ih.ItemzHierarchyId.IsDescendantOf(@ItemzAsRoot) = 1 
 				AND ih.RecordType = 'Itemz' 
-				AND ih.ItemzHierarchyId.GetLevel() > 3
+				AND ih.ItemzHierarchyId.GetLevel() > 2 -- WAS THREE
 		)	
 
 		set @DeletedItemzRowCount = @@ROWCOUNT
