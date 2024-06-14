@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e9dfe646-c529-4d3b-aa47-064c2686c4cd",
+		"_postman_id": "7ef86730-067a-4f53-92c2-d481669efd06",
 		"name": "Itemz.Hierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33816436"
@@ -16083,14 +16083,14 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"const itemzIds_06_04 = pm.variables.get('06_02_Hierarchy_itemzIdsArray');\r",
+											"const itemzIds_06_02_Hierarchy = pm.variables.get('06_02_Hierarchy_itemzIdsArray');\r",
 											"\r",
-											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 0) {\r",
-											"    pm.variables.set('06_02_Hierarchy_BULK_CurrentItemzID', itemzIds_06_04.shift())\r",
+											"if (Array.isArray(itemzIds_06_02_Hierarchy) && itemzIds_06_02_Hierarchy.length > 0) {\r",
+											"    pm.variables.set('06_02_Hierarchy_BULK_CurrentItemzID', itemzIds_06_02_Hierarchy.shift())\r",
 											"        \r",
 											"}\r",
 											"\r",
-											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 0) {\r",
+											"if (Array.isArray(itemzIds_06_02_Hierarchy) && itemzIds_06_02_Hierarchy.length > 0) {\r",
 											"    postman.setNextRequest('DELETE 06_02_Hierarchy 10 Itemz BULK');\r",
 											"}\r",
 											""
@@ -20214,7 +20214,7 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.execution.setNextRequest(null);\r",
+											"\r",
 											"\r",
 											""
 										],
@@ -20530,21 +20530,21 @@
 							"response": []
 						},
 						{
-							"name": "DELETE 06_02_Hierarchy 10 Itemz BULK",
+							"name": "DELETE 06_03_Hierarchy 10 Itemz BULK",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"const itemzIds_06_04 = pm.variables.get('06_03_Hierarchy_itemzIdsArray');\r",
+											"const itemzIds_06_03_Hierarchy = pm.variables.get('06_03_Hierarchy_itemzIdsArray');\r",
 											"\r",
-											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 0) {\r",
-											"    pm.variables.set('06_03_Hierarchy_BULK_CurrentItemzID', itemzIds_06_04.shift())\r",
+											"if (Array.isArray(itemzIds_06_03_Hierarchy) && itemzIds_06_03_Hierarchy.length > 0) {\r",
+											"    pm.variables.set('06_03_Hierarchy_BULK_CurrentItemzID', itemzIds_06_03_Hierarchy.shift())\r",
 											"        \r",
 											"}\r",
 											"\r",
-											"if (Array.isArray(itemzIds_06_04) && itemzIds_06_04.length > 0) {\r",
-											"    postman.setNextRequest('DELETE 06_02_Hierarchy 10 Itemz BULK');\r",
+											"if (Array.isArray(itemzIds_06_03_Hierarchy) && itemzIds_06_03_Hierarchy.length > 0) {\r",
+											"    postman.setNextRequest('DELETE 06_03_Hierarchy 10 Itemz BULK');\r",
 											"}\r",
 											""
 										],
@@ -20684,6 +20684,5073 @@
 						}
 					],
 					"description": "This test verifies that it's possible to move subset of sub-Itemz structure under Itemz over to Parking Lot ItemzType\n\n1. Create Project with Parking Lot Itemz Type\n    \n2. Create Itemz Type 1\n    \n3. Create few Itemz in Itemz Type 1 including associating Orphaned Itemz at TOP and BOTTOM of the list\n    \n4. Then move 1.1 Itemz which contains several level of sub-Itemz over to Parking Lot Itemz Type\n    \n5. At different places verify count of Itemz and also next TOP and BOTTOM Itemz Hierarchy ID."
+				},
+				{
+					"name": "06_04 VerifyMovingMultipleSetOfSubItemzToAnotherItemzType",
+					"item": [
+						{
+							"name": "POST Project 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"var jsonData = pm.response.json();",
+											"const tempNewProjectId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_1stProjectId\",tempNewProjectId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+											"\r",
+											"pm.variables.get(\"06_04_Hierarchy_1stProjectName\");\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{06_04_Hierarchy_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{06_04_Hierarchy_1stProjectName}}\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Projects",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET 1st Projects Parking Lot ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"var tempNew1stItemzTypeId = jsonData[0].id;\r",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_1stProjectParkingLotItemzTypeId\",tempNew1stItemzTypeId);\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzTypes/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzTypes",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"/**",
+											" ",
+											" pm.test(\"Status code is either 201 or 409\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+											"});",
+											"",
+											"**/",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_1stItemzTypeId\",tempNew1stItemzTypeId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{06_04_Hierarchy_1stProjectId}}\"\r\n}"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID')+1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID')+1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotTopItemzHierarchyID')+1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotLastItemzHierarchyID')+1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\" , () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Itemz 1 to P1T1_ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData[0].id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1stItemzId\",tempNew1stItemzId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Itemz 2 to P1T1_ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData[0].id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_2ndItemzId\",tempNew1stItemzId);",
+											"",
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New SINGLE Itemz at TOP",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at TOP\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Associate Itemz1 With ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											" pm.test(\"Status code is 200,201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stItemzTypeId}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs"
+									],
+									"query": [
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST 10 Itemz in 1st ItemzType BULK",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"const response =  pm.response.json();",
+											"const itemzIds = response.map(itemz => itemz.id);",
+											"console.log(itemzIds);",
+											"pm.variables.set('06_04_Hierarchy_itemzIdsArray', itemzIds);",
+											"pm.variables.set('06_04_Hierarchy_itemzIdsArray_02', itemzIds);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"Name\": \"Item 6\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 7\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 8\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 9\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 10\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 11\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 12\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 13\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"High\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 14\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Low\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  },\r\n  {\r\n    \"Name\": \"Item 15\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New SINGLE Itemz at BOTTOM",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at BOTTOM \",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Associate Itemz1 With ItemzType 1st",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											" pm.test(\"Status code is 200,201\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stItemzTypeId}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs"
+									],
+									"query": [
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_Project1_ChildItemzCount\") + 4 + 10)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"var expectedItemzCount = 0 ;",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count ${expectedItemzCount}\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1PL_ChildItemzCount\") + expectedItemzCount)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1T1_ChildItemzCount\") + 4 + 10)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID')-1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID') + 2 + 1 + 10));\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.1.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_1_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.1.1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_1_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New 1.1_1 between 1.1 and 1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1__1_ItemzId\",tempNew1stItemzId);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.1_1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{06_04_Hierarchy_P1T1_1_1_ItemzId}}&secondItemzId={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"CreateItemzBetweenExistingItemz"
+									],
+									"query": [
+										{
+											"key": "firstItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
+										},
+										{
+											"key": "secondItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New 1.1_1_1 between 1.1 and 1.1_1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"// var jsonData = pm.response.json();",
+											"// var tempNew1stItemzId =   jsonData.id;",
+											"// pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1__1_ItemzId\",tempNew1stItemzId);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.1_1_1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{06_04_Hierarchy_P1T1_1_1_ItemzId}}&secondItemzId={{06_04_Hierarchy_P1T1_1__1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"CreateItemzBetweenExistingItemz"
+									],
+									"query": [
+										{
+											"key": "firstItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
+										},
+										{
+											"key": "secondItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_1__1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_3_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.3\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_4_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.4\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.2.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_2_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.2.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.2.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_2_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.2.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.3.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_3_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.3.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_3_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.3.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_3_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.3.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_3_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.4.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_4_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.4.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_4_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.4.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_4_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.4.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_4_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.2.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_2_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.2.1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.2.1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_2_1_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.2.1.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.3.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_3_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.3.1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.3.1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_3_1_2_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.3.1.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.4.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_4_1_1_ItemzId\",tempNew1stItemzId);",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.4.1.1\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST New Itemz 1.4.1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is either 200 or 201\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_1_4_1_2_ItemzId\",tempNew1stItemzId);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1.4.1.2\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs"
+									],
+									"query": [
+										{
+											"key": "parentItemzID",
+											"value": "{{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_Project1_ChildItemzCount\") + 20)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"var expectedItemzCount = 0 ;",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1PL_ChildItemzCount\") + 0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1T1_ChildItemzCount\") + 20)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID')));\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Move P1T1 Itemz 1.1 to Parking Lot",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_1_1_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_Project1_ChildItemzCount\") + 0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"var expectedItemzCount = 0 ;",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1PL_ChildItemzCount\") + 3)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1T1_ChildItemzCount\") - 3)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID')));\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotTopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotLastItemzHierarchyID')+ 1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT Move P1T1 Itemz 1.2 to Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_1_2_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_Project1_ChildItemzCount\") + 0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"var expectedItemzCount = 0 ;",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1PL_ChildItemzCount\") + 5)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1T1_ChildItemzCount\") - 5)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID')));\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotTopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotTopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetParkingLotLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_ParkingLotLastItemzHierarchyID')+ 1)); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_ParkingLotLastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Itemz 1 between 0 and 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"var jsonData = pm.response.json();",
+											"var tempNew1stItemzId =   jsonData.id;",
+											"pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_SINGLEITEMZ_BETWEEN\",tempNew1stItemzId);",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"Name\": \"SINGLE Itemz BETWEEN 0 & 1 AS 0.1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/CreateItemzBetweenExistingItemz?firstItemzId={{06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}&secondItemzId={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"CreateItemzBetweenExistingItemz"
+									],
+									"query": [
+										{
+											"key": "firstItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}"
+										},
+										{
+											"key": "secondItemzId",
+											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Project1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_Project1_ChildItemzCount\") + 1)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_Project1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/GetItemzCount/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"var expectedItemzCount = 0 ;",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1PL_ChildItemzCount\") + 0)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1PL_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET Itemz Count by ItemzType1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test('Status code is 200', function () {",
+											"    pm.response.to.have.status(200);",
+											"})",
+											"",
+											"if (pm.response.code == 404)",
+											"{",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",0);",
+											"}",
+											"else",
+											"{",
+											"   pm.test(\"Verify Itemz Count\", () => {",
+											"        pm.expect(parseInt(pm.response.text())).to.eql(pm.collectionVariables.get(\"06_04_Hierarchy_P1T1_ChildItemzCount\") + 1)",
+											"        });",
+											"",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_P1T1_ChildItemzCount\",parseInt(pm.response.text()));",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"GetItemzCount",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetTopItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the top Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_TopItemzHierarchyID'))); \r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_TopItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetTopItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetLastItemzHierarchyID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"if (pm.response.code == 404)\r",
+											"{\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",0);\r",
+											"}\r",
+											"else\r",
+											"{\r",
+											"\r",
+											"    var tempNew1stItemzId = pm.response.text().split(\"/\");\r",
+											"\r",
+											"    pm.test(\"Verify that expected HierarchyID for the last Itemz is returned\", function () {\r",
+											"        pm.expect(Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)])).to.be.eql((pm.collectionVariables.get('06_04_Hierarchy_LastItemzHierarchyID')));\r",
+											"    });\r",
+											"\r",
+											"    pm.collectionVariables.set(\"06_04_Hierarchy_LastItemzHierarchyID\",Number(tempNew1stItemzId[(tempNew1stItemzId.length-2)] ));\r",
+											"}\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"GetLastItemzHierarchyID",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT ove 06_04_Hierarchy 10 Itemz BULK Parking Lot Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds_06_04_02_Hierarchy = pm.variables.get('06_04_Hierarchy_itemzIdsArray_02');\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04_02_Hierarchy) && itemzIds_06_04_02_Hierarchy.length > 0) {\r",
+											"    pm.variables.set('06_04_Hierarchy_BULK_CurrentItemzID_02', itemzIds_06_04_02_Hierarchy.shift())\r",
+											"        \r",
+											"}\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04_02_Hierarchy) && itemzIds_06_04_02_Hierarchy.length > 0) {\r",
+											"    postman.setNextRequest('PUT ove 06_04_Hierarchy 10 Itemz BULK Parking Lot Copy');\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_BULK_CurrentItemzID_02}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypeItemzs",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Itemz 1.2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Itemz 1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_1_1_ItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Itemz 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_1stItemzId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE Itemz 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_2ndItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_2ndItemzId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE SINGLE Itemz TOP",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE SINGLE Itemz BETWEEN",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_SINGLEITEMZ_BETWEEN}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_SINGLEITEMZ_BETWEEN}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE SINGLE Itemz BOTTOM",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE 06_04_Hierarchy 10 Itemz BULK",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const itemzIds_06_04_Hierarchy = pm.variables.get('06_04_Hierarchy_itemzIdsArray');\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04_Hierarchy) && itemzIds_06_04_Hierarchy.length > 0) {\r",
+											"    pm.variables.set('06_04_Hierarchy_BULK_CurrentItemzID', itemzIds_06_04_Hierarchy.shift())\r",
+											"        \r",
+											"}\r",
+											"\r",
+											"if (Array.isArray(itemzIds_06_04_Hierarchy) && itemzIds_06_04_Hierarchy.length > 0) {\r",
+											"    postman.setNextRequest('DELETE 06_04_Hierarchy 10 Itemz BULK');\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_BULK_CurrentItemzID}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Itemzs",
+										"{{06_04_Hierarchy_BULK_CurrentItemzID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE ItemzType by ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:51087/api/ItemzTypes/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"ItemzTypes",
+										"{{06_04_Hierarchy_1stItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE 1st Project",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Projects/{{06_04_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Projects",
+										"{{06_04_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "This test verifies that it's possible to move subset of sub-Itemz structure under Itemz over to Parking Lot ItemzType\n\n1. Create Project with Parking Lot Itemz Type\n    \n2. Create Itemz Type 1\n    \n3. Create few Itemz in Itemz Type 1 including associating Orphaned Itemz at TOP and BOTTOM of the list\n    \n4. Then move 1.1 Itemz which contains several level of sub-Itemz over to Parking Lot Itemz Type\n    \n5. Then move 1.2 Itemz which contains several level of sub-Itemz over to Parking Lot Itemz Type\n    \n6. We also do BULK move of 10 Itemz at the end.\n    \n7. At different places verify count of Itemz and also next TOP and BOTTOM Itemz Hierarchy ID."
 				}
 			]
 		}
