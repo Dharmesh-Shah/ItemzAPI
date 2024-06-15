@@ -442,6 +442,16 @@ namespace ItemzApp.API.Services
             }
 
             await _context.ItemzHierarchy!.AddAsync(tempItemzHierarchy);
+
+            var parentOfNewlyAddedtempItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.ItemzHierarchyId == tempItemzHierarchy.ItemzHierarchyId.GetAncestor(1)).FirstOrDefault();
+
+            if (parentOfNewlyAddedtempItemzHierarchy!.ItemzHierarchyId!.GetLevel() == 2 ) // if it's ItemzType
+            {
+                // TODO :: HERE WE NEED TO ADD NEW ASSOCIATION BETWEEN ITEMZ TYPE AND ITEMZ
+                var itji = new ItemzTypeJoinItemz { ItemzId = tempItemzHierarchy.Id, ItemzTypeId = parentOfNewlyAddedtempItemzHierarchy.Id };
+                _context.ItemzTypeJoinItemz!.Add(itji);
+            }
         }
 
         //private string? localHelperGetMeNextHierarchyIDNumber(string lowerBoundHierarchyId)
@@ -784,18 +794,45 @@ namespace ItemzApp.API.Services
             var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteSingleItemzByItemzID @ItemzId, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
         }
 
-
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO)
         {
-            var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
-            if (itji != null)
+            // var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+            //if (itji != null)
+            //{
+            //    _context.ItemzTypeJoinItemz.Remove(itji);
+            //}
+
+            var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId);
+            if (fount_itji.Any())
             {
-                _context.ItemzTypeJoinItemz.Remove(itji);
+                foreach(var itji in fount_itji)
+                {
+                    _context.ItemzTypeJoinItemz!.Remove(itji);
+                }
             }
 
-            // TODO :: NOW THAT WE HAVE IMPLEMENTED ITEMZ HIERARCHY, WE NEED TO ALSO REMOVE HIERARCHY RECORD AS WELL
-            // OR PERHAPS WE SHOULD MOVE THAT TO NEW LOCATION.  
+            var found_ih = _context!.ItemzHierarchy!
+                        .AsNoTracking()
+                        .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId
+                                && ih.ItemzHierarchyId!.GetLevel() > 2);
+             
+            //var allDescendentfound_ih = _context.ItemzHierarchy!
+            //        .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == (_context!.ItemzHierarchy!
+            //            .AsNoTracking()
+            //            .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId
+            //                    && ih.ItemzHierarchyId!.GetLevel() > 2)).FirstOrDefault()!.ItemzHierarchyId!)
+            //        .OrderByDescending(ih => ih.ItemzHierarchyId!);
 
+            var allDescendentfound_ih = _context.ItemzHierarchy!
+                            .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(found_ih!.FirstOrDefault()!.ItemzHierarchyId));
+
+            if (allDescendentfound_ih.Any())
+            {
+                foreach (var descendent_ih in allDescendentfound_ih)
+                {
+                    _context.ItemzHierarchy!.Remove(descendent_ih);
+                }
+            }
         }
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes = true)
@@ -837,7 +874,23 @@ namespace ItemzApp.API.Services
             // is not very efficient. We will have to come-up with alternative option for 
             // Bulk updating multiple itemz and itemzType association. 
 
-            RemoveItemzFromItemzType(sourceItemzTypeItemzDTO);
+            var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == sourceItemzTypeItemzDTO.ItemzId);
+            if (fount_itji.Any())
+            {
+                foreach (var itji in fount_itji)
+                {
+                    _context.ItemzTypeJoinItemz!.Remove(itji);
+                }
+            }
+
+            //// EXPLANATION: Previously we were using following function but then we 
+            /// stopped using it because we do not want to remove ItemzHierarchy records
+            /// while we are suppose to query it and move it to another location. So now we 
+            /// perform remove of ItemzTypeJoinItemz association manually above as part of 
+            /// logic implementation for this specific method MoveItemzFromOneItemzTypeToAnother. 
+            
+            // RemoveItemzFromItemzType(sourceItemzTypeItemzDTO);
+
             AssociateItemzToItemzType(targetItemzTypeItemzDTO, atBottomOfChildNodes);
         }
 

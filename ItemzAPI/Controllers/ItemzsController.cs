@@ -592,15 +592,15 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            var itemzFromRepo = await _itemzRepository.ItemzExistsAsync(itemzId);
+            //var itemzFromRepo = await _itemzRepository.ItemzExistsAsync(itemzId);
 
-            if (itemzFromRepo == false)
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Itemz with ID {ItemzId} as it could not be found in the Repository",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    itemzId);
-                return NotFound();
-            }
+            //if (itemzFromRepo == false)
+            //{
+            //    _logger.LogDebug("{FormattedControllerAndActionNames}Cannot Delete Itemz with ID {ItemzId} as it could not be found in the Repository",
+            //        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+            //        itemzId);
+            //    return NotFound();
+            //}
 
             await _itemzRepository.DeleteItemzAsync(itemzId);
             // await _itemzRepository.SaveAsync();
