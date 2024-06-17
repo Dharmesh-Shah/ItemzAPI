@@ -139,6 +139,11 @@ namespace ItemzApp.API.Services
             {
                 if (_context.Itemzs!.Count<Itemz>() > 0) //TODO: await and use CountAsync
                 {
+                    // TODO :: Instead of utilizing ItemzTypeJoinItemz for finding Orphaned Itemz,
+                    // now that we have implemented support for Hierarchy, we should utilize ItemzHierarchy
+                    // instead. 
+
+
                     var itemzCollection = _context.Itemzs
                         .Include(i => i.ItemzTypeJoinItemz)
                         .Where (i => i.ItemzTypeJoinItemz!.Count() == 0)
@@ -221,6 +226,12 @@ namespace ItemzApp.API.Services
             {
                 if (_context.Itemzs!.Count<Itemz>() > 0)
                 {
+                    // TODO: This only returns Itemz which are associated with ItemzType via ItemzTypeJoinItemz
+                    // NOW THAT WE HAVE IMPLEMENTED HIERARCHY, WE NEED TO MAKE SURE THAT WE RETURN ITEMZ
+                    // FOR ENTIRE ITEMZ TYPE. OTHERWISE WE CAN ALSO JUST RETURN ITEMZ WHICH ARE ASSOCIATED WITH
+                    // ITEMZ TYPE BUT INSTEAD USE HIERARCHY TABLE INSTEAD OF ItemzTypeJoinItemz TABLE.
+                    // WE WILL HAVE TO TAKE THIS DECISION SOON.
+
                     var itemzCollection = _context.Itemzs
                         .Include(i => i.ItemzTypeJoinItemz)
                         //                        .ThenInclude(PjI => PjI.ItemzType)
@@ -287,11 +298,12 @@ namespace ItemzApp.API.Services
         /// </summary>
         /// <param name="parentItemzId"></param>
         /// <param name="newlyAddedItemzId"></param>
+        /// <param name="atBottomOfChildNodes"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ApplicationException"></exception>
 
-        public async Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId)
+        public async Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId , bool atBottomOfChildNodes = true)
         {
             if (parentItemzId == Guid.Empty )
             {
@@ -321,20 +333,64 @@ namespace ItemzApp.API.Services
             var parentItemzHierarchyChildRecords = await _context.ItemzHierarchy!
                     .AsNoTracking()
                     .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
-                    .OrderByDescending(ih => ih.ItemzHierarchyId!)
+                    .OrderBy(ih => ih.ItemzHierarchyId!)
                     .ToListAsync();
 
-            var tempItemzHierarchy = new Entities.ItemzHierarchy
+
+            //var tempItemzHierarchy = new Entities.ItemzHierarchy
+            //{
+            //    Id = newlyAddedItemzId,
+            //    RecordType = "Itemz",
+            //    ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+            //                        .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
+            //                                            ? parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
+            //                                            : null
+            //                                       , null),
+            //};
+            //_context.ItemzHierarchy!.Add(tempItemzHierarchy);
+
+            if (parentItemzHierarchyChildRecords.Count() > 0)
             {
-                Id = newlyAddedItemzId,
-                RecordType = "Itemz",
-                ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
-                                    .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
-                                                        ? parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
-                                                        : null
-                                                   , null),
-            };
-            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+                if (atBottomOfChildNodes)
+                {
+                    var tempItemzHierarchy = new Entities.ItemzHierarchy
+                    {
+                        Id = newlyAddedItemzId,
+                        RecordType = "Itemz",
+                        ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                                        .GetDescendant(parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
+                                                       , null),
+                    };
+
+                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+                }
+                else
+                {
+                    var tempItemzHierarchy = new Entities.ItemzHierarchy
+                    {
+                        Id = newlyAddedItemzId,
+                        RecordType = "Itemz",
+                        ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                                        .GetDescendant(null
+                                                        , parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
+                                                       ),
+                    };
+
+                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+                }
+            }
+            else
+            {
+                var tempItemzHierarchy = new Entities.ItemzHierarchy
+                {
+                    Id = newlyAddedItemzId,
+                    RecordType = "Itemz",
+                    ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                                    .GetDescendant(null, null),
+                };
+
+                _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+            }
         }
 
         public async Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId,  Guid newlyAddedItemzId)
@@ -732,8 +788,21 @@ namespace ItemzApp.API.Services
             // EXPLANATION: Using ".Any()" instead of ".Find" as explained in method
             // public bool ItemzExists(Guid itemzId)
 
-            return await _context.ItemzTypeJoinItemz.AsNoTracking().AnyAsync(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId
-                                                                && itji.ItemzTypeId == itemzTypeItemzDTO.ItemzTypeId);
+            var foundItemzNode = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId).FirstOrDefault();
+
+            var foundItemzTypeNode = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzTypeId).FirstOrDefault();
+
+            if (foundItemzNode != null && foundItemzTypeNode != null)
+            {
+                if (foundItemzNode.ItemzHierarchyId!.GetAncestor(1) == foundItemzTypeNode.ItemzHierarchyId)
+                {
+                    return true;
+                }
+            }
+
+            return false;   
         }
 
         public async Task<bool> IsOrphanedItemzAsync(Guid ItemzId)

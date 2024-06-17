@@ -548,12 +548,13 @@
             <returns>Number of Orphaned itemzs found in the repository</returns>
             <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Boolean)">
             <summary>
             Used for creating new Itemz record in the database
             </summary>
             <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
             <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
+            <param name="AtBottomOfChildNodes">Indicates if we should add new Itemz at TOP or BOTTOM of child Itemz nodes list</param>
             <returns>Newly created Itemz property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
             <response code="404">Expected Parent Itemz not found</response>
@@ -856,12 +857,24 @@
             <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
             <response code="404">No ItemzType and Itemzs association was found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzByItemzTypeAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Boolean)">
+            <summary>
+            Used for creating single new Itemz record in the repository by ItemzType ID
+            </summary>
+            <param name="createItemzDTO">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
+            <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
+            <param name="AtBottomOfChildNodes">New Itemz will be added at the bottom of existing child Itemz records under target ItemzType ID. 
+            By default new Itemz will be created at the bottom. To create new Itemz at the TOP of the existing child Itemz list then use 'false' </param>
+            <returns>Newly created Itemzs property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+            <response code="400">Validation Issue OR Bad Request encountered while creating new Itemz under target ItemzType</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzCollectionByItemzTypeAsync(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
             <summary>
-            Used for creating new Itemz record in the database by ItemzType ID
+            Used for creating new multiple Itemz record in the repository by ItemzType ID
             </summary>
             <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
-            <param name="itemzCollection">Used for populating information in the newly created itemz in the database by ItemzType ID</param>
+            <param name="itemzCollection">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
             <returns>Newly created Itemzs property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
         </member>
@@ -1767,13 +1780,14 @@
             <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
             <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
         </member>
-        <member name="M:ItemzApp.API.Services.ItemzRepository.AddNewItemzHierarchyAsync(System.Guid,System.Guid)">
+        <member name="M:ItemzApp.API.Services.ItemzRepository.AddNewItemzHierarchyAsync(System.Guid,System.Guid,System.Boolean)">
             <summary>
             Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
             It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
             </summary>
             <param name="parentItemzId"></param>
             <param name="newlyAddedItemzId"></param>
+            <param name="atBottomOfChildNodes"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentNullException"></exception>
             <exception cref="T:System.ApplicationException"></exception>

@@ -24,6 +24,7 @@ using Serilog;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Types;
+using System.Runtime.Serialization;
 
 namespace ItemzApp.API.Controllers
 {
@@ -269,14 +270,18 @@ namespace ItemzApp.API.Controllers
         /// </summary>
         /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
         /// <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
+        /// <param name="AtBottomOfChildNodes">Indicates if we should add new Itemz at TOP or BOTTOM of child Itemz nodes list</param>
         /// <returns>Newly created Itemz property details</returns>
         /// <response code="201">Returns newly created itemzs property details</response>
         /// <response code="404">Expected Parent Itemz not found</response>
-        [HttpPost (Name ="__POST_Create_Itemz__")]
+        [HttpPost(Name = "__POST_Create_Itemz__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(CreateItemzDTO createItemzDTO, Guid parentItemzId)
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(
+                    [FromBody] CreateItemzDTO createItemzDTO
+                    , [FromQuery] Guid parentItemzId
+                    , [FromQuery] bool AtBottomOfChildNodes = true)
         {
             Itemz itemzEntity;
             try
@@ -304,7 +309,7 @@ namespace ItemzApp.API.Controllers
                     return NotFound();
                 }
 
-                await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id);
+                await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
             }
             await _itemzRepository.SaveAsync();
 

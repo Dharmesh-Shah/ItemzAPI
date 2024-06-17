@@ -31,7 +31,7 @@ namespace ItemzApp.API.Services
 
         void AddItemz(Itemz itemz);
 
-        public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId);
+        public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId, bool atBottomOfChildNodes = true);
 
         public Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid newlyAddedItemzId);
 
