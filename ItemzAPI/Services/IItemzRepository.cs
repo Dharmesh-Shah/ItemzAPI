@@ -61,5 +61,7 @@ namespace ItemzApp.API.Services
                                                        , ItemzTypeItemzDTO targetItemzTypeItemzDTO
                                                        , bool atBottomOfChildNodes = true);
 
+        public Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true);
+
     }
 }

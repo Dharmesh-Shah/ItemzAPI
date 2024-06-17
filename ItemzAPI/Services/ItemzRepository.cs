@@ -618,58 +618,68 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public async Task MoveItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true)
+
+
+
+
+
+
+        public async Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true)
         {
-            if (itemzId == Guid.Empty)
+            if (movingItemzId == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(itemzId));
+                throw new ArgumentNullException(nameof(movingItemzId));
             }
 
-            if (itemzTypeId == Guid.Empty)
+            if (targetId == Guid.Empty)
             {
-                throw new ArgumentNullException(nameof(itemzTypeId));
+                throw new ArgumentNullException(nameof(targetId));
             }
 
-            var itemzHierarchyRecordList = _context.ItemzHierarchy!
-                .Where(ih => ih.Id == itemzId);
+            var movingItemzHierarchyRecordList = _context.ItemzHierarchy!
+                .Where(ih => ih.Id == movingItemzId);
 
-            if (itemzHierarchyRecordList.Count() != 1)
+            if (movingItemzHierarchyRecordList.Count() != 1)
             {
-                // TODO: Following error can be improved by providing expected Vs actual found records.
-                throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
-                    "found OR multiple Root Itemz Type Hierarchy records found in the system");
+                throw new ApplicationException($"{movingItemzHierarchyRecordList.Count()} records found for the " +
+                    $"moving Itemz Id {movingItemzId} in the system. " +
+                    $"Expected 1 record but instead found {movingItemzHierarchyRecordList.Count()}");
             }
 
-            var itemzHierarchyRecord = itemzHierarchyRecordList.FirstOrDefault();
-            var originalItemzHierarchyIdString = itemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+            var movingItemzHierarchyRecord = movingItemzHierarchyRecordList.FirstOrDefault();
+            var originalItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
             var allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
-                .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(itemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
+                .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
 
-            var oldRootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+            // TODO :: IN THE FUTURE WE SHOULD NOT CHECK FOR OLD ROOT ITEMZ AT ALL. THIS MIGHT
+            // NOT BE RELAVENT WHEN IT COMES TO ASSOCIATING ORPHAN ITEMZ.
+            // PERHAPS WE CAN USE THE SAME METHOD TO DO MOVE ITEMZ AS WELL AS ASSOCIATED ORPHAN ITEMZ
+
+            var oldRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
                     .Where(ih => ih.ItemzHierarchyId ==
-                            (itemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
+                            (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
                 );
 
-            if (oldRootItemzTypeHierarchyRecord.Count() != 1)
+            if (oldRootHierarchyRecord.Count() != 1)
             {
                 // TODO: Following error can be improved by providing expected Vs actual found records.
                 throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
                     "found OR multiple Root Itemz Type Hierarchy records found in the system");
             }
 
-            var newRootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
-                            .Where(ih => ih.Id == itemzTypeId);
+            var newRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == targetId);
 
-            if (newRootItemzTypeHierarchyRecord.Count() != 1)
+            if (newRootHierarchyRecord.Count() != 1)
             {
-                // TODO: Following error can be improved by providing expected Vs actual found records.
-                throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
-                    "found OR multiple Root Itemz Type Hierarchy records found in the system");
+                throw new ApplicationException($"{newRootHierarchyRecord.Count()} records found for the " +
+                    $"New Root Hierarchy Id {targetId} in the system. " +
+                    $"Expected 1 record but instead found {newRootHierarchyRecord.Count()}");
             }
 
-            if( newRootItemzTypeHierarchyRecord.FirstOrDefault()!.RecordType != "ItemzType")
+            if (newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel() < 2)
             {
-                throw new ApplicationException($"New Root Hierarchy record is not of type 'ItemzType'");
+                throw new ApplicationException($"New Root Hierarchy record has to be either 'Itemz Type' or 'Itemz'");
             }
 
             // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
@@ -680,25 +690,20 @@ namespace ItemzApp.API.Services
 
             var childItemzHierarchyRecords = await _context.ItemzHierarchy!
                     .AsNoTracking()
-                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
                     .OrderBy(ih => ih.ItemzHierarchyId!)
                     .ToListAsync();
 
-            //itemzHierarchyRecord!.ItemzHierarchyId = itemzHierarchyRecord.ItemzHierarchyId!
-            //        .GetReparentedValue(oldRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId
-            //        , newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId
-            //         );
-
             if (childItemzHierarchyRecords.Count() == 0)
             {
-                itemzHierarchyRecord!.ItemzHierarchyId = newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
                     .GetDescendant(null, null);
             }
             else
             {
                 if (atBottomOfChildNodes)
                 {
-                    itemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
                         HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
                             childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId!.ToString()
                             , diffValue: 1
@@ -707,7 +712,7 @@ namespace ItemzApp.API.Services
                 }
                 else
                 {
-                    itemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
                         HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
                             childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId!.ToString()
                             , diffValue: -1
@@ -715,31 +720,151 @@ namespace ItemzApp.API.Services
                         );
                 }
             }
-            var newItemzHierarchyIdString = itemzHierarchyRecord!.ItemzHierarchyId!.ToString();
-            // TODO :: I THINK I KNOW HOW TO DO ALL DESCENDENTS MOVE 
-            // 1. NOTE ORIGINAL HIERARCHY ID OF THE MAIN ITEMZ WHICH IS MOVING
-            // 2. MOVE THE FIRST ITEMZ TO THE NEW LOCATION BY GENERATING TOP OR BOTTOM NUMBER
-            // 3. NOTE NEW HIERARCHY ID OF THE MAIN ITEM THAT WE JUST MOVED
-            // 4. PERFORM STRING REPLACE AT THE BIGGINING OF THE STRING FOR EACH CHILD NODE FROM 
-            //    ORIGINAL HIERARCHY ID NUMBER TO NEW HIERARCHY ID NUMBER OF THE MAIN ITEMZ
-            // 5. PERFORM SAVE ALL.
-
-            // Console.WriteLine($"Found {allDescendentItemzHierarchyRecord.Count()} allDescendentItemzHierarchyRecord");
+            var newItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
 
             foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
             {
-                // Console.WriteLine($"Found descendent Itemz {descendentItemzHierarchyRecord.ItemzHierarchyId.ToString()}");
-
                 Regex oldValueRegEx = new Regex(originalItemzHierarchyIdString);
                 descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
-                    (oldValueRegEx.Replace( (descendentItemzHierarchyRecord!
+                    (oldValueRegEx.Replace((descendentItemzHierarchyRecord!
                                             .ItemzHierarchyId!.ToString())
                                             , newItemzHierarchyIdString
                                             , 1)
-                    ) 
+                    )
                 );
             }
         }
+
+
+
+
+
+
+
+
+
+        //public async Task MoveItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true)
+        //{
+        //    if (itemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzId));
+        //    }
+
+        //    if (itemzTypeId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzTypeId));
+        //    }
+
+        //    var itemzHierarchyRecordList = _context.ItemzHierarchy!
+        //        .Where(ih => ih.Id == itemzId);
+
+        //    if (itemzHierarchyRecordList.Count() != 1)
+        //    {
+        //        // TODO: Following error can be improved by providing expected Vs actual found records.
+        //        throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
+        //            "found OR multiple Root Itemz Type Hierarchy records found in the system");
+        //    }
+
+        //    var itemzHierarchyRecord = itemzHierarchyRecordList.FirstOrDefault();
+        //    var originalItemzHierarchyIdString = itemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+        //    var allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
+        //        .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(itemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
+
+        //    var oldRootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+        //            .Where(ih => ih.ItemzHierarchyId ==
+        //                    (itemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
+        //        );
+
+        //    if (oldRootItemzTypeHierarchyRecord.Count() != 1)
+        //    {
+        //        // TODO: Following error can be improved by providing expected Vs actual found records.
+        //        throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
+        //            "found OR multiple Root Itemz Type Hierarchy records found in the system");
+        //    }
+
+        //    var newRootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+        //                    .Where(ih => ih.Id == itemzTypeId);
+
+        //    if (newRootItemzTypeHierarchyRecord.Count() != 1)
+        //    {
+        //        // TODO: Following error can be improved by providing expected Vs actual found records.
+        //        throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
+        //            "found OR multiple Root Itemz Type Hierarchy records found in the system");
+        //    }
+
+        //    if( newRootItemzTypeHierarchyRecord.FirstOrDefault()!.RecordType != "ItemzType")
+        //    {
+        //        throw new ApplicationException($"New Root Hierarchy record is not of type 'ItemzType'");
+        //    }
+
+        //    // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+        //    // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+        //    // First find the ItemzHierarchy record where ID matches RootItemzType ID. This is expected to be the
+        //    // ItemzType ID itself which is the root OR parent to newly added Itemz.
+        //    // Then we find all desendents of Repository which is nothing but existing Itemz(s). 
+
+        //    var childItemzHierarchyRecords = await _context.ItemzHierarchy!
+        //            .AsNoTracking()
+        //            .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
+        //            .OrderBy(ih => ih.ItemzHierarchyId!)
+        //            .ToListAsync();
+
+        //    //itemzHierarchyRecord!.ItemzHierarchyId = itemzHierarchyRecord.ItemzHierarchyId!
+        //    //        .GetReparentedValue(oldRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId
+        //    //        , newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId
+        //    //         );
+
+        //    if (childItemzHierarchyRecords.Count() == 0)
+        //    {
+        //        itemzHierarchyRecord!.ItemzHierarchyId = newRootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+        //            .GetDescendant(null, null);
+        //    }
+        //    else
+        //    {
+        //        if (atBottomOfChildNodes)
+        //        {
+        //            itemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+        //                HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+        //                    childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId!.ToString()
+        //                    , diffValue: 1
+        //                    , addDecimal: false)
+        //                );
+        //        }
+        //        else
+        //        {
+        //            itemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+        //                HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+        //                    childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId!.ToString()
+        //                    , diffValue: -1
+        //                    , addDecimal: false)
+        //                );
+        //        }
+        //    }
+        //    var newItemzHierarchyIdString = itemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+        //    // TODO :: I THINK I KNOW HOW TO DO ALL DESCENDENTS MOVE 
+        //    // 1. NOTE ORIGINAL HIERARCHY ID OF THE MAIN ITEMZ WHICH IS MOVING
+        //    // 2. MOVE THE FIRST ITEMZ TO THE NEW LOCATION BY GENERATING TOP OR BOTTOM NUMBER
+        //    // 3. NOTE NEW HIERARCHY ID OF THE MAIN ITEM THAT WE JUST MOVED
+        //    // 4. PERFORM STRING REPLACE AT THE BIGGINING OF THE STRING FOR EACH CHILD NODE FROM 
+        //    //    ORIGINAL HIERARCHY ID NUMBER TO NEW HIERARCHY ID NUMBER OF THE MAIN ITEMZ
+        //    // 5. PERFORM SAVE ALL.
+
+        //    // Console.WriteLine($"Found {allDescendentItemzHierarchyRecord.Count()} allDescendentItemzHierarchyRecord");
+
+        //    foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
+        //    {
+        //        // Console.WriteLine($"Found descendent Itemz {descendentItemzHierarchyRecord.ItemzHierarchyId.ToString()}");
+
+        //        Regex oldValueRegEx = new Regex(originalItemzHierarchyIdString);
+        //        descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
+        //            (oldValueRegEx.Replace( (descendentItemzHierarchyRecord!
+        //                                    .ItemzHierarchyId!.ToString())
+        //                                    , newItemzHierarchyIdString
+        //                                    , 1)
+        //            ) 
+        //        );
+        //    }
+        //}
 
 
         public async Task<bool> ItemzExistsAsync(Guid itemzId)
@@ -871,37 +996,10 @@ namespace ItemzApp.API.Services
             //    _context.ItemzTypeJoinItemz.Remove(itji);
             //}
 
-            var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == itemzTypeItemzDTO.ItemzId);
-            if (fount_itji.Any())
-            {
-                foreach(var itji in fount_itji)
-                {
-                    _context.ItemzTypeJoinItemz!.Remove(itji);
-                }
-            }
+            RemoveItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzId);
 
-            var found_ih = _context!.ItemzHierarchy!
-                        .AsNoTracking()
-                        .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId
-                                && ih.ItemzHierarchyId!.GetLevel() > 2);
-             
-            //var allDescendentfound_ih = _context.ItemzHierarchy!
-            //        .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == (_context!.ItemzHierarchy!
-            //            .AsNoTracking()
-            //            .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId
-            //                    && ih.ItemzHierarchyId!.GetLevel() > 2)).FirstOrDefault()!.ItemzHierarchyId!)
-            //        .OrderByDescending(ih => ih.ItemzHierarchyId!);
-
-            var allDescendentfound_ih = _context.ItemzHierarchy!
-                            .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(found_ih!.FirstOrDefault()!.ItemzHierarchyId));
-
-            if (allDescendentfound_ih.Any())
-            {
-                foreach (var descendent_ih in allDescendentfound_ih)
-                {
-                    _context.ItemzHierarchy!.Remove(descendent_ih);
-                }
-            }
+            RemoveItemzHierarchyRecordsIncludingDescendents(itemzTypeItemzDTO.ItemzId);
+           
         }
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes = true)
@@ -928,7 +1026,7 @@ namespace ItemzApp.API.Services
             }
             else
             {
-                MoveItemzHierarchyByItemzTypeIdAsync(itemzTypeItemzDTO.ItemzId,
+                MoveItemzHierarchyAsync(itemzTypeItemzDTO.ItemzId,
                                                         itemzTypeItemzDTO.ItemzTypeId,
                                                         atBottomOfChildNodes).Wait(); 
             }
@@ -943,14 +1041,7 @@ namespace ItemzApp.API.Services
             // is not very efficient. We will have to come-up with alternative option for 
             // Bulk updating multiple itemz and itemzType association. 
 
-            var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == sourceItemzTypeItemzDTO.ItemzId);
-            if (fount_itji.Any())
-            {
-                foreach (var itji in fount_itji)
-                {
-                    _context.ItemzTypeJoinItemz!.Remove(itji);
-                }
-            }
+            RemoveItemzTypeJoinItemzRecord(sourceItemzTypeItemzDTO.ItemzId);
 
             //// EXPLANATION: Previously we were using following function but then we 
             /// stopped using it because we do not want to remove ItemzHierarchy records
@@ -962,6 +1053,40 @@ namespace ItemzApp.API.Services
 
             AssociateItemzToItemzType(targetItemzTypeItemzDTO, atBottomOfChildNodes);
         }
+
+
+        private void RemoveItemzTypeJoinItemzRecord(Guid itemzId)
+        {
+            var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == itemzId);
+            if (fount_itji.Any())
+            {
+                foreach (var itji in fount_itji)
+                {
+                    _context.ItemzTypeJoinItemz!.Remove(itji);
+                }
+            }
+        }
+
+        private void RemoveItemzHierarchyRecordsIncludingDescendents(Guid itemzId)
+        {
+            var found_ih = _context!.ItemzHierarchy!
+                                   .AsNoTracking()
+                                   .Where(ih => ih.Id == itemzId
+                                           && ih.ItemzHierarchyId!.GetLevel() > 2);
+
+            var allDescendentfound_ih = _context.ItemzHierarchy!
+                            .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(found_ih!.FirstOrDefault()!.ItemzHierarchyId));
+
+            if (allDescendentfound_ih.Any())
+            {
+                foreach (var descendent_ih in allDescendentfound_ih)
+                {
+                    _context.ItemzHierarchy!.Remove(descendent_ih);
+                }
+            }
+        }
+
+
 
     }
 }
