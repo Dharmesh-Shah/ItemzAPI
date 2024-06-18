@@ -568,6 +568,15 @@ namespace ItemzApp.API.Services
                     "found OR multiple Root Itemz Type Hierarchy records found in the system");
             }
 
+            var rootItemzTypeHierarchyRecordLevel = rootItemzTypeHierarchyRecord!.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+
+            if (rootItemzTypeHierarchyRecordLevel != 2)
+            {
+                throw new ApplicationException($"Found root hierarchy record for ID {itemzTypeId} " +
+                    $"does not represent ItemzType. Instead it's " +
+                    $"{rootItemzTypeHierarchyRecord.FirstOrDefault()!.RecordType}");
+            }
+
             // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
             // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
             // First find the ItemzHierarchy record where ID matches RootItemzType ID. This is expected to be the
@@ -622,8 +631,12 @@ namespace ItemzApp.API.Services
 
                 _context.ItemzHierarchy!.Add(tempItemzHierarchy);
             }
-        }
 
+            if (rootItemzTypeHierarchyRecordLevel == 2)
+            {
+                AddItemzTypeJoinItemzRecord(itemzTypeId, itemzId);
+            }
+        }
 
 
 
@@ -657,25 +670,28 @@ namespace ItemzApp.API.Services
             var allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
                 .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
 
-            // TODO :: IN THE FUTURE WE SHOULD NOT CHECK FOR OLD ROOT ITEMZ AT ALL. THIS MIGHT
-            // NOT BE RELAVENT WHEN IT COMES TO ASSOCIATING ORPHAN ITEMZ.
-            // PERHAPS WE CAN USE THE SAME METHOD TO DO MOVE ITEMZ AS WELL AS ASSOCIATED ORPHAN ITEMZ
+            //// TODO :: IN THE FUTURE WE SHOULD NOT CHECK FOR OLD ROOT ITEMZ AT ALL. THIS MIGHT
+            //// NOT BE RELAVENT WHEN IT COMES TO ASSOCIATING ORPHAN ITEMZ.
+            //// PERHAPS WE CAN USE THE SAME METHOD TO DO MOVE ITEMZ AS WELL AS ASSOCIATED ORPHAN ITEMZ
 
-            var oldRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
-                    .Where(ih => ih.ItemzHierarchyId ==
-                            (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
-                );
+            //var oldRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+            //        .Where(ih => ih.ItemzHierarchyId ==
+            //                (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
+            //    );
 
-            if (oldRootHierarchyRecord.Count() != 1)
-            {
-                // TODO: Following error can be improved by providing expected Vs actual found records.
-                throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
-                    "found OR multiple Root Itemz Type Hierarchy records found in the system");
-            }
+            //if (oldRootHierarchyRecord.Count() != 1)
+            //{
+            //    // TODO: Following error can be improved by providing expected Vs actual found records.
+            //    throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
+            //        "found OR multiple Root Itemz Type Hierarchy records found in the system");
+            //}
+
+             // TODO :: WE CAN INCLUDE CALL HERE TO REMOVE ITEMZTYPEJOINITEMZ RECORD HERE ITSELF.
+            RemoveItemzTypeJoinItemzRecord(movingItemzId);
 
             var newRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
                             .Where(ih => ih.Id == targetId);
-
+            var newRootHierarchyRecordLevel = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
             if (newRootHierarchyRecord.Count() != 1)
             {
                 throw new ApplicationException($"{newRootHierarchyRecord.Count()} records found for the " +
@@ -683,7 +699,7 @@ namespace ItemzApp.API.Services
                     $"Expected 1 record but instead found {newRootHierarchyRecord.Count()}");
             }
 
-            if (newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel() < 2)
+            if (newRootHierarchyRecordLevel < 2)
             {
                 throw new ApplicationException($"New Root Hierarchy record has to be either 'Itemz Type' or 'Itemz'");
             }
@@ -726,6 +742,12 @@ namespace ItemzApp.API.Services
                         );
                 }
             }
+
+            if (newRootHierarchyRecordLevel == 2)
+            {
+                AddItemzTypeJoinItemzRecord(targetId, movingItemzId);
+            }
+
             var newItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
 
             foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
@@ -1021,7 +1043,7 @@ namespace ItemzApp.API.Services
             //    _context.ItemzTypeJoinItemz.Add(temp_itji);
             //}
 
-            AddItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+            // AddItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
 
             var foundItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
                 .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId);
