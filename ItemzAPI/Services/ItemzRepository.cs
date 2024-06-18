@@ -505,8 +505,11 @@ namespace ItemzApp.API.Services
             if (parentOfNewlyAddedtempItemzHierarchy!.ItemzHierarchyId!.GetLevel() == 2 ) // if it's ItemzType
             {
                 // TODO :: HERE WE NEED TO ADD NEW ASSOCIATION BETWEEN ITEMZ TYPE AND ITEMZ
-                var itji = new ItemzTypeJoinItemz { ItemzId = tempItemzHierarchy.Id, ItemzTypeId = parentOfNewlyAddedtempItemzHierarchy.Id };
-                _context.ItemzTypeJoinItemz!.Add(itji);
+
+                AddItemzTypeJoinItemzRecord(parentOfNewlyAddedtempItemzHierarchy.Id, tempItemzHierarchy.Id);
+
+                //var itji = new ItemzTypeJoinItemz { ItemzId = tempItemzHierarchy.Id, ItemzTypeId = parentOfNewlyAddedtempItemzHierarchy.Id };
+                //_context.ItemzTypeJoinItemz!.Add(itji);
             }
         }
 
@@ -534,10 +537,13 @@ namespace ItemzApp.API.Services
                 throw new ArgumentNullException(nameof(itemzTypeId));
             }
 
-            var tempitemzType = _context.ItemzTypes!.Find(itemzTypeId);
+            //var tempitemzType = _context.ItemzTypes!.Find(itemzTypeId);
             _context.Itemzs!.Add(itemz);
-            var itji = new ItemzTypeJoinItemz { Itemz = itemz, ItemzType = tempitemzType };
-            _context.ItemzTypeJoinItemz!.Add(itji);
+            
+            // TODO : ERROR HANDLING 
+            AddItemzTypeJoinItemzRecord(itemzTypeId, itemz.Id);
+            //var itji = new ItemzTypeJoinItemz { Itemz = itemz, ItemzType = tempitemzType };
+            //_context.ItemzTypeJoinItemz!.Add(itji);
         }
 
         public async Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true)
@@ -1004,16 +1010,18 @@ namespace ItemzApp.API.Services
 
         public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes = true)
         {
-            var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
-            if (itji == null)
-            {
-                var temp_itji = new ItemzTypeJoinItemz
-                {
-                    ItemzId = itemzTypeItemzDTO.ItemzId,
-                    ItemzTypeId = itemzTypeItemzDTO.ItemzTypeId
-                };
-                _context.ItemzTypeJoinItemz.Add(temp_itji);
-            }
+            //var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+            //if (itji == null)
+            //{
+            //    var temp_itji = new ItemzTypeJoinItemz
+            //    {
+            //        ItemzId = itemzTypeItemzDTO.ItemzId,
+            //        ItemzTypeId = itemzTypeItemzDTO.ItemzTypeId
+            //    };
+            //    _context.ItemzTypeJoinItemz.Add(temp_itji);
+            //}
+
+            AddItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
 
             var foundItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
                 .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId);
@@ -1054,7 +1062,6 @@ namespace ItemzApp.API.Services
             AssociateItemzToItemzType(targetItemzTypeItemzDTO, atBottomOfChildNodes);
         }
 
-
         private void RemoveItemzTypeJoinItemzRecord(Guid itemzId)
         {
             var fount_itji = _context.ItemzTypeJoinItemz!.Where(itji => itji.ItemzId == itemzId);
@@ -1086,7 +1093,19 @@ namespace ItemzApp.API.Services
             }
         }
 
+        private void AddItemzTypeJoinItemzRecord(Guid itemzTypeId, Guid itemzId)
+        {
+            var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeId, itemzId);
+            if (itji == null)
+            {
+                var temp_itji = new ItemzTypeJoinItemz
+                {
+                    ItemzId = itemzId,
+                    ItemzTypeId = itemzTypeId
+                };
+                _context.ItemzTypeJoinItemz.Add(temp_itji);
+            }
+        }
 
-
-    }
+}
 }
