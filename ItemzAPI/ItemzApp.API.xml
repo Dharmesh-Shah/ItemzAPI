@@ -553,7 +553,7 @@
             Used for creating new Itemz record in the database
             </summary>
             <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
-            <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
+            <param name="parentId">Used as parent for adding new Itemz as children</param>
             <param name="AtBottomOfChildNodes">Indicates if we should add new Itemz at TOP or BOTTOM of child Itemz nodes list</param>
             <returns>Newly created Itemz property details</returns>
             <response code="201">Returns newly created itemzs property details</response>

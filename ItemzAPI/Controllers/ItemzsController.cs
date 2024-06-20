@@ -270,7 +270,7 @@ namespace ItemzApp.API.Controllers
         /// Used for creating new Itemz record in the database
         /// </summary>
         /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
-        /// <param name="parentItemzId">Used as parent for adding new Itemz as children</param>
+        /// <param name="parentId">Used as parent for adding new Itemz as children</param>
         /// <param name="AtBottomOfChildNodes">Indicates if we should add new Itemz at TOP or BOTTOM of child Itemz nodes list</param>
         /// <returns>Newly created Itemz property details</returns>
         /// <response code="201">Returns newly created itemzs property details</response>
@@ -281,7 +281,7 @@ namespace ItemzApp.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<ActionResult<GetItemzDTO>> CreateItemzAsync(
                     [FromBody] CreateItemzDTO createItemzDTO
-                    , [FromQuery] Guid parentItemzId
+                    , [FromQuery] Guid parentId
                     , [FromQuery] bool AtBottomOfChildNodes = true)
         {
             Itemz itemzEntity;
@@ -298,20 +298,21 @@ namespace ItemzApp.API.Controllers
             }
             _itemzRepository.AddItemz(itemzEntity);
 
-            if (!(parentItemzId.Equals(Guid.Empty)))
+            if (!(parentId.Equals(Guid.Empty)))
             {
-                var itemzFromRepo = await _itemzRepository.GetItemzAsync(parentItemzId);
+                //var itemzFromRepo = await _itemzRepository.GetItemzAsync(parentId);
 
-                if (itemzFromRepo == null)
+                //if (itemzFromRepo == null)
+                if (!((await _itemzRepository.ItemzExistsAsync(parentId)) || (await _itemzRepository.ItemzTypeExistsAsync(parentId))))
                 {
-                    _logger.LogDebug("{FormattedControllerAndActionNames}Expected parent Itemz with ID {parentItemzId} could not be found",
+                    _logger.LogDebug("{FormattedControllerAndActionNames}Target ID {parentId} could not be found for either 'ItemzType' or 'Itemz'",
                         ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                        parentItemzId);
+                        parentId);
                     return NotFound();
                 }
 
                 //await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
-                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentItemzId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentId, atBottomOfChildNodes: AtBottomOfChildNodes);
             }
             await _itemzRepository.SaveAsync();
 

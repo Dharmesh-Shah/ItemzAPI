@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "559b2375-e271-46ef-84b0-12634f39dbb6",
+		"_postman_id": "c457966f-0e1d-47b8-aa55-9e1822c325a8",
 		"name": "Itemz.Hierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33816436"
@@ -3446,7 +3446,7 @@
 							"raw": "{\r\n  \"Name\": \"Itemz 1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{04_Hierarchy_P1T1_Itemz_1}}",
+							"raw": "http://localhost:51087/api/Itemzs?parentId={{04_Hierarchy_P1T1_Itemz_1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3458,7 +3458,7 @@
 							],
 							"query": [
 								{
-									"key": "parentItemzID",
+									"key": "parentId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1}}"
 								}
 							]
@@ -3514,7 +3514,7 @@
 							"raw": "{\r\n  \"Name\": \"Itemz 1_2\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{04_Hierarchy_P1T1_Itemz_1}}",
+							"raw": "http://localhost:51087/api/Itemzs?parentId={{04_Hierarchy_P1T1_Itemz_1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3526,7 +3526,7 @@
 							],
 							"query": [
 								{
-									"key": "parentItemzID",
+									"key": "parentId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1}}"
 								}
 							]
@@ -3729,7 +3729,7 @@
 							"raw": "{\r\n  \"Name\": \"Itemz 1_3\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{04_Hierarchy_P1T1_Itemz_1}}",
+							"raw": "http://localhost:51087/api/Itemzs?parentId={{04_Hierarchy_P1T1_Itemz_1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3741,7 +3741,7 @@
 							],
 							"query": [
 								{
-									"key": "parentItemzID",
+									"key": "parentId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1}}"
 								}
 							]
@@ -3797,7 +3797,7 @@
 							"raw": "{\r\n  \"Name\": \"Itemz 1_1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{04_Hierarchy_P1T1_Itemz_1_1}}",
+							"raw": "http://localhost:51087/api/Itemzs?parentId={{04_Hierarchy_P1T1_Itemz_1_1}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3809,7 +3809,7 @@
 							],
 							"query": [
 								{
-									"key": "parentItemzID",
+									"key": "parentId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1_1}}"
 								}
 							]
@@ -3866,7 +3866,7 @@
 							"raw": "{\r\n  \"Name\": \"Itemz 1_2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{04_Hierarchy_P1T1_Itemz_1_2}}",
+							"raw": "http://localhost:51087/api/Itemzs?parentId={{04_Hierarchy_P1T1_Itemz_1_2}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3878,7 +3878,7 @@
 							],
 							"query": [
 								{
-									"key": "parentItemzID",
+									"key": "parentId",
 									"value": "{{04_Hierarchy_P1T1_Itemz_1_2}}"
 								}
 							]
@@ -5270,7 +5270,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -5282,7 +5282,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -5338,7 +5338,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -5350,7 +5350,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -5632,7 +5632,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_3\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -5644,7 +5644,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -5700,7 +5700,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_01_Hierarchy_P1T1_Itemz_1_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_01_Hierarchy_P1T1_Itemz_1_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -5712,7 +5712,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_01_Hierarchy_P1T1_Itemz_1_1}}"
 										}
 									]
@@ -5769,7 +5769,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_01_Hierarchy_P1T1_Itemz_1_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_01_Hierarchy_P1T1_Itemz_1_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -5781,7 +5781,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_01_Hierarchy_P1T1_Itemz_1_2}}"
 										}
 									]
@@ -7320,7 +7320,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7332,7 +7332,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -7388,7 +7388,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7400,7 +7400,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -7456,7 +7456,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T2_Itemz_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T2_Itemz_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7468,7 +7468,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T2_Itemz_2}}"
 										}
 									]
@@ -7524,7 +7524,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 2_2\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T2_Itemz_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T2_Itemz_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7536,7 +7536,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T2_Itemz_2}}"
 										}
 									]
@@ -7818,7 +7818,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_3\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7830,7 +7830,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -7886,7 +7886,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T1_Itemz_1_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T1_Itemz_1_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7898,7 +7898,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T1_Itemz_1_1}}"
 										}
 									]
@@ -7955,7 +7955,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T1_Itemz_1_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T1_Itemz_1_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -7967,7 +7967,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T1_Itemz_1_2}}"
 										}
 									]
@@ -8392,7 +8392,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_3\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T2_Itemz_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T2_Itemz_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -8404,7 +8404,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T2_Itemz_2}}"
 										}
 									]
@@ -8460,7 +8460,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 2_1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T2_Itemz_2_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T2_Itemz_2_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -8472,7 +8472,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T2_Itemz_2_1}}"
 										}
 									]
@@ -8529,7 +8529,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{05_02_Hierarchy_P1T2_Itemz_2_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{05_02_Hierarchy_P1T2_Itemz_2_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -8541,7 +8541,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{05_02_Hierarchy_P1T2_Itemz_2_2}}"
 										}
 									]
@@ -10507,7 +10507,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -10519,7 +10519,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -10575,7 +10575,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -10587,7 +10587,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -10869,7 +10869,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_3\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_01_Hierarchy_P1T1_Itemz_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_01_Hierarchy_P1T1_Itemz_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -10881,7 +10881,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_01_Hierarchy_P1T1_Itemz_1}}"
 										}
 									]
@@ -10937,7 +10937,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_1_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_01_Hierarchy_P1T1_Itemz_1_1}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_01_Hierarchy_P1T1_Itemz_1_1}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -10949,7 +10949,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_01_Hierarchy_P1T1_Itemz_1_1}}"
 										}
 									]
@@ -11006,7 +11006,7 @@
 									"raw": "{\r\n  \"Name\": \"Itemz 1_2_1\",\r\n  \"Status\": \"New\",\r\n  \"Priority\": \"Medium\",\r\n  \"Description\": \"Requirements to be described here.\"\r\n}\r\n"
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_01_Hierarchy_P1T1_Itemz_1_2}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_01_Hierarchy_P1T1_Itemz_1_2}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -11018,7 +11018,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_01_Hierarchy_P1T1_Itemz_1_2}}"
 										}
 									]
@@ -13424,7 +13424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13436,7 +13436,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -13493,7 +13493,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13505,7 +13505,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -13562,7 +13562,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13574,7 +13574,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -13631,7 +13631,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13643,7 +13643,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -13850,7 +13850,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13862,7 +13862,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -13919,7 +13919,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -13931,7 +13931,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -13988,7 +13988,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14000,7 +14000,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -14057,7 +14057,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14069,7 +14069,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -14126,7 +14126,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14138,7 +14138,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -14195,7 +14195,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14207,7 +14207,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -14264,7 +14264,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14276,7 +14276,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -14333,7 +14333,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14345,7 +14345,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -14402,7 +14402,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14414,7 +14414,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -14471,7 +14471,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14483,7 +14483,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -14540,7 +14540,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14552,7 +14552,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -14609,7 +14609,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14621,7 +14621,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -14678,7 +14678,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14690,7 +14690,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -14748,7 +14748,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -14760,7 +14760,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_02_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -17699,7 +17699,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -17711,7 +17711,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -17768,7 +17768,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -17780,7 +17780,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -17837,7 +17837,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -17849,7 +17849,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -17906,7 +17906,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -17918,7 +17918,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -18125,7 +18125,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18137,7 +18137,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -18194,7 +18194,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18206,7 +18206,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -18263,7 +18263,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18275,7 +18275,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -18332,7 +18332,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18344,7 +18344,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -18401,7 +18401,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18413,7 +18413,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -18470,7 +18470,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18482,7 +18482,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -18539,7 +18539,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18551,7 +18551,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -18608,7 +18608,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18620,7 +18620,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -18677,7 +18677,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18689,7 +18689,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -18746,7 +18746,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18758,7 +18758,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -18815,7 +18815,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18827,7 +18827,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -18884,7 +18884,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18896,7 +18896,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -18953,7 +18953,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -18965,7 +18965,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -19023,7 +19023,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -19035,7 +19035,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_03_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -22154,7 +22154,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22166,7 +22166,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -22223,7 +22223,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22235,7 +22235,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -22292,7 +22292,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22304,7 +22304,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -22361,7 +22361,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22373,7 +22373,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -22580,7 +22580,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22592,7 +22592,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -22649,7 +22649,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22661,7 +22661,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -22718,7 +22718,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22730,7 +22730,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -22787,7 +22787,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22799,7 +22799,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -22856,7 +22856,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22868,7 +22868,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -22925,7 +22925,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -22937,7 +22937,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -22994,7 +22994,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23006,7 +23006,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -23063,7 +23063,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23075,7 +23075,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -23132,7 +23132,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23144,7 +23144,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -23201,7 +23201,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23213,7 +23213,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -23270,7 +23270,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23282,7 +23282,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -23339,7 +23339,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23351,7 +23351,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -23408,7 +23408,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23420,7 +23420,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -23478,7 +23478,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23490,7 +23490,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_04_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -27123,7 +27123,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27135,7 +27135,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -27192,7 +27192,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27204,7 +27204,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -27261,7 +27261,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27273,7 +27273,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -27330,7 +27330,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27342,7 +27342,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -27549,7 +27549,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27561,7 +27561,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -27618,7 +27618,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27630,7 +27630,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -27687,7 +27687,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27699,7 +27699,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -27756,7 +27756,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -27768,7 +27768,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{06_05_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -32800,7 +32800,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -32812,7 +32812,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -32869,7 +32869,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -32881,7 +32881,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -32938,7 +32938,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -32950,7 +32950,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -33007,7 +33007,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33019,7 +33019,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -33226,7 +33226,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33238,7 +33238,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -33295,7 +33295,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33307,7 +33307,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -33364,7 +33364,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33376,7 +33376,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -33433,7 +33433,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -33445,7 +33445,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_01_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -37259,7 +37259,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37271,7 +37271,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -37328,7 +37328,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37340,7 +37340,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -37397,7 +37397,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37409,7 +37409,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -37466,7 +37466,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37478,7 +37478,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -37685,7 +37685,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37697,7 +37697,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -37754,7 +37754,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37766,7 +37766,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -37823,7 +37823,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37835,7 +37835,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -37892,7 +37892,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -37904,7 +37904,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -38220,7 +38220,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_ItemzId}}&AtBottomOfChildNodes=false",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_ItemzId}}&AtBottomOfChildNodes=false",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -38232,7 +38232,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										},
 										{
@@ -38552,7 +38552,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_ItemzId}}&AtBottomOfChildNodes=true",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_ItemzId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -38564,7 +38564,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_ItemzId}}"
 										},
 										{
@@ -38884,7 +38884,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}&AtBottomOfChildNodes=false",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}&AtBottomOfChildNodes=false",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -38896,7 +38896,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										},
 										{
@@ -39216,7 +39216,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}&AtBottomOfChildNodes=true",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -39228,7 +39228,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_02_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										},
 										{
@@ -40729,7 +40729,9 @@
 											"",
 											"var jsonData = pm.response.json();",
 											"var tempNew1stItemzId =   jsonData.id;",
-											"pm.collectionVariables.set(\"07_03_Hierarchy_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+											"pm.collectionVariables.set(\"07_03_Hierarchy_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);",
+											"",
+											""
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -40764,7 +40766,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_1stItemzTypeId}}&AtBottomOfChildNodes=false",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -40773,62 +40775,12 @@
 									"path": [
 										"api",
 										"Itemzs"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Associate Itemz1 With ItemzType 1st",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											" pm.test(\"Status code is 200,201\", function () {\r",
-											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
-											"});\r",
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_03_Hierarchy_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{07_03_Hierarchy_1stItemzTypeId}}\"\r\n}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=false",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"ItemzTypeItemzs"
 									],
 									"query": [
+										{
+											"key": "parentId",
+											"value": "{{07_03_Hierarchy_1stItemzTypeId}}"
+										},
 										{
 											"key": "AtBottomOfChildNodes",
 											"value": "false"
@@ -41400,7 +41352,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41412,7 +41364,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -41469,7 +41421,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41481,7 +41433,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_1_ItemzId}}"
 										}
 									]
@@ -41538,7 +41490,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_1_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_1_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41550,7 +41502,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_1_1_ItemzId}}"
 										}
 									]
@@ -41607,7 +41559,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41619,7 +41571,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -41826,7 +41778,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41838,7 +41790,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -41895,7 +41847,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1stItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1stItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41907,7 +41859,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1stItemzId}}"
 										}
 									]
@@ -41964,7 +41916,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -41976,7 +41928,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -42033,7 +41985,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_2_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_2_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42045,7 +41997,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_2_ItemzId}}"
 										}
 									]
@@ -42102,7 +42054,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42114,7 +42066,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -42171,7 +42123,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_3_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_3_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42183,7 +42135,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_3_ItemzId}}"
 										}
 									]
@@ -42240,7 +42192,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42252,7 +42204,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -42309,7 +42261,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_4_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_4_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42321,7 +42273,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_4_ItemzId}}"
 										}
 									]
@@ -42378,7 +42330,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42390,7 +42342,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -42447,7 +42399,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42459,7 +42411,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_2_1_ItemzId}}"
 										}
 									]
@@ -42516,7 +42468,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42528,7 +42480,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -42585,7 +42537,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42597,7 +42549,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_3_1_ItemzId}}"
 										}
 									]
@@ -42654,7 +42606,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42666,7 +42618,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -42724,7 +42676,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs?parentItemzID={{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
+									"raw": "http://localhost:51087/api/Itemzs?parentId={{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -42736,7 +42688,7 @@
 									],
 									"query": [
 										{
-											"key": "parentItemzID",
+											"key": "parentId",
 											"value": "{{07_03_Hierarchy_P1T1_1_4_1_ItemzId}}"
 										}
 									]
@@ -43080,6 +43032,13 @@
 										],
 										"type": "text/javascript",
 										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
 									}
 								}
 							],
@@ -43584,6 +43543,13 @@
 										"type": "text/javascript",
 										"packages": {}
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -44081,7 +44047,7 @@
 							"response": []
 						},
 						{
-							"name": "DELETE Itemz 1.1",
+							"name": "DELETE Itemz 1.2",
 							"event": [
 								{
 									"listen": "test",
