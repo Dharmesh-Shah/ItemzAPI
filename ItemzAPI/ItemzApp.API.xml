@@ -604,6 +604,17 @@
                 ]
             </remarks>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.MoveItemzAsync(System.Guid,System.Guid,System.Boolean)">
+            <summary>
+            Move Itemz to a new location in the repository including all its sub-Itemz
+            </summary>
+            <param name="MovingItemzId">GUID representing an unique ID of the moving Itemz</param>
+            <param name="TargetId">Details about target ID under which Itemz will be moving</param>
+            <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+            <returns>No contents are returned when Itemz gets moved to its new desired location</returns>
+            <response code="204">No content are returned but status of 204 indicating that Itemz has successfully moved to its desired location</response>
+            <response code="404">Either Itemz or ItemzType was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteItemzAsync(System.Guid)">
             <summary>
             Deleting a specific Itemz
@@ -1779,18 +1790,6 @@
             <param name="ItemzId">GUID representing ItemzID for which Change History records should be deleted</param>
             <param name="DeleteUptoDateTime">Date time value which is treated as Cut-Off for identifying records that should be deleted</param>
             <returns>Integer value indicating number of itemz change history records that are deleted.</returns>
-        </member>
-        <member name="M:ItemzApp.API.Services.ItemzRepository.AddNewItemzHierarchyAsync(System.Guid,System.Guid,System.Boolean)">
-            <summary>
-            Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
-            It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
-            </summary>
-            <param name="parentItemzId"></param>
-            <param name="newlyAddedItemzId"></param>
-            <param name="atBottomOfChildNodes"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentNullException"></exception>
-            <exception cref="T:System.ApplicationException"></exception>
         </member>
         <member name="M:ItemzApp.API.Services.ItemzTraceRepository.ItemzsTraceExistsAsync(ItemzApp.API.Models.ItemzTraceDTO)">
             <summary>

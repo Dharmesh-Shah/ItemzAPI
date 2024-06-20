@@ -249,7 +249,9 @@ namespace ItemzApp.API.Controllers
 
             _itemzRepository.AddItemzByItemzType(itemzEntity, ItemzTypeId);
             // await _itemzRepository.SaveAsync(); // MAY BE THIS WOULD BE NEEDED TO ADD NEXT HIERARCHY RECORD IN THE REPO.
-            await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
+
+            //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
             await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
@@ -299,7 +301,9 @@ namespace ItemzApp.API.Controllers
 
             foreach (var itemz in itemzEntities)
             {
-                await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
+                //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
+
+                await _itemzRepository.MoveItemzHierarchyAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
 
                 // EXPLAINATION: To be able to get next correct HierarchyId, we have to save previous
                 // record in the database. Then only we are able to find next available HierarchyID to be
@@ -370,7 +374,10 @@ namespace ItemzApp.API.Controllers
                 return BadRequest();
             }
 
-            _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO, AtBottomOfChildNodes);
+            // _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO, AtBottomOfChildNodes);
+            await _itemzRepository.MoveItemzHierarchyAsync(ItemzTypeItemzDTO.ItemzId
+                ,ItemzTypeItemzDTO.ItemzTypeId
+                , AtBottomOfChildNodes);
             await _itemzRepository.SaveAsync();
             _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
                 " and Itemz Id {itemzId}",
@@ -422,8 +429,9 @@ namespace ItemzApp.API.Controllers
                     sourceItemzTypeItemzDTO.ItemzId);
 
             }
-            _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
-            await _itemzRepository.SaveAsync();
+            //_itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
+            await _itemzRepository.MoveItemzHierarchyAsync(targetItemzTypeItemzDTO.ItemzId, targetItemzTypeItemzDTO.ItemzTypeId, atBottomOfChildNodes: true);
+                        await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
                 "to Target ItemzType ID {targetItemzTypeID} was successfully completed",

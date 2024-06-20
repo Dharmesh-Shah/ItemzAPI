@@ -292,108 +292,108 @@ namespace ItemzApp.API.Services
             _context.Itemzs!.Add(itemz);
         }
 
-        /// <summary>
-        /// Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
-        /// It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
-        /// </summary>
-        /// <param name="parentItemzId"></param>
-        /// <param name="newlyAddedItemzId"></param>
-        /// <param name="atBottomOfChildNodes"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="ApplicationException"></exception>
+        ///// <summary>
+        ///// Purpose of this method is to add new Itemz under parent ItemzID which is passed in as parameter
+        ///// It adds new Itemz at the end of the existing list of child Itemz under supplied parent ItemzId
+        ///// </summary>
+        ///// <param name="parentItemzId"></param>
+        ///// <param name="newlyAddedItemzId"></param>
+        ///// <param name="atBottomOfChildNodes"></param>
+        ///// <returns></returns>
+        ///// <exception cref="ArgumentNullException"></exception>
+        ///// <exception cref="ApplicationException"></exception>
 
-        public async Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId , bool atBottomOfChildNodes = true)
-        {
-            if (parentItemzId == Guid.Empty )
-            {
-                throw new ArgumentNullException(nameof(parentItemzId));
-            }
+        //public async Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId , bool atBottomOfChildNodes = true)
+        //{
+        //    if (parentItemzId == Guid.Empty )
+        //    {
+        //        throw new ArgumentNullException(nameof(parentItemzId));
+        //    }
 
-            if ( newlyAddedItemzId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(newlyAddedItemzId));
-            }
+        //    if ( newlyAddedItemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(newlyAddedItemzId));
+        //    }
 
-            var rootItemz = _context.ItemzHierarchy!.AsNoTracking()
-                            .Where(ih => ih.Id == parentItemzId);
+        //    var rootItemz = _context.ItemzHierarchy!.AsNoTracking()
+        //                    .Where(ih => ih.Id == parentItemzId);
 
-            if (rootItemz.Count() != 1)
-            {
-                throw new ApplicationException("Either no Parent Itemz Hierarchy record was " +
-                    "found OR multiple Parent Itemz Hierarchy records were found in the system");
-            }
+        //    if (rootItemz.Count() != 1)
+        //    {
+        //        throw new ApplicationException("Either no Parent Itemz Hierarchy record was " +
+        //            "found OR multiple Parent Itemz Hierarchy records were found in the system");
+        //    }
 
-            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
-            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
-            // First find the ItemzHierarchy record where ID matches Parent Itemz ID. This is expected to be the
-            // Parent Itemz ID itself which is the root OR parent to newly added Itemz.
-            // Then we find all desendents of Parent Itemz which is nothing but existing Itemz(s). 
+        //    // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+        //    // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+        //    // First find the ItemzHierarchy record where ID matches Parent Itemz ID. This is expected to be the
+        //    // Parent Itemz ID itself which is the root OR parent to newly added Itemz.
+        //    // Then we find all desendents of Parent Itemz which is nothing but existing Itemz(s). 
 
-            var parentItemzHierarchyChildRecords = await _context.ItemzHierarchy!
-                    .AsNoTracking()
-                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
-                    .OrderBy(ih => ih.ItemzHierarchyId!)
-                    .ToListAsync();
+        //    var parentItemzHierarchyChildRecords = await _context.ItemzHierarchy!
+        //            .AsNoTracking()
+        //            .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
+        //            .OrderBy(ih => ih.ItemzHierarchyId!)
+        //            .ToListAsync();
 
 
-            //var tempItemzHierarchy = new Entities.ItemzHierarchy
-            //{
-            //    Id = newlyAddedItemzId,
-            //    RecordType = "Itemz",
-            //    ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
-            //                        .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
-            //                                            ? parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
-            //                                            : null
-            //                                       , null),
-            //};
-            //_context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //    //var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //    //{
+        //    //    Id = newlyAddedItemzId,
+        //    //    RecordType = "Itemz",
+        //    //    ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+        //    //                        .GetDescendant(parentItemzHierarchyChildRecords.Count() > 0
+        //    //                                            ? parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
+        //    //                                            : null
+        //    //                                       , null),
+        //    //};
+        //    //_context.ItemzHierarchy!.Add(tempItemzHierarchy);
 
-            if (parentItemzHierarchyChildRecords.Count() > 0)
-            {
-                if (atBottomOfChildNodes)
-                {
-                    var tempItemzHierarchy = new Entities.ItemzHierarchy
-                    {
-                        Id = newlyAddedItemzId,
-                        RecordType = "Itemz",
-                        ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
-                                        .GetDescendant(parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
-                                                       , null),
-                    };
+        //    if (parentItemzHierarchyChildRecords.Count() > 0)
+        //    {
+        //        if (atBottomOfChildNodes)
+        //        {
+        //            var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //            {
+        //                Id = newlyAddedItemzId,
+        //                RecordType = "Itemz",
+        //                ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+        //                                .GetDescendant(parentItemzHierarchyChildRecords.LastOrDefault()!.ItemzHierarchyId
+        //                                               , null),
+        //            };
 
-                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-                }
-                else
-                {
-                    var tempItemzHierarchy = new Entities.ItemzHierarchy
-                    {
-                        Id = newlyAddedItemzId,
-                        RecordType = "Itemz",
-                        ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
-                                        .GetDescendant(null
-                                                        , parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
-                                                       ),
-                    };
+        //            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //        }
+        //        else
+        //        {
+        //            var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //            {
+        //                Id = newlyAddedItemzId,
+        //                RecordType = "Itemz",
+        //                ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+        //                                .GetDescendant(null
+        //                                                , parentItemzHierarchyChildRecords.FirstOrDefault()!.ItemzHierarchyId
+        //                                               ),
+        //            };
 
-                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-                }
-            }
-            else
-            {
-                var tempItemzHierarchy = new Entities.ItemzHierarchy
-                {
-                    Id = newlyAddedItemzId,
-                    RecordType = "Itemz",
-                    ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
-                                    .GetDescendant(null, null),
-                };
+        //            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //        {
+        //            Id = newlyAddedItemzId,
+        //            RecordType = "Itemz",
+        //            ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+        //                            .GetDescendant(null, null),
+        //        };
 
-                _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-            }
-        }
+        //        _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //    }
+        //}
 
-        public async Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId,  Guid newlyAddedItemzId)
+        public async Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid newlyAddedItemzId)
         {
             if (between1stItemzId == Guid.Empty)
             {
@@ -418,7 +418,7 @@ namespace ItemzApp.API.Services
                             "found OR more then one hierarchy record were found in the system");
             }
 
-            if ((tempFirstItemz.FirstOrDefault()!.RecordType != "Itemz" ))
+            if ((tempFirstItemz.FirstOrDefault()!.RecordType != "Itemz"))
             {
                 throw new ApplicationException("Incorrect Record Type for First Itemz. " +
                     "Instead of 'Itemz' it is '" + tempFirstItemz.FirstOrDefault()!.RecordType + "'");
@@ -445,18 +445,18 @@ namespace ItemzApp.API.Services
                                    $"Provided 1st Itemz ID is '{tempFirstItemz.FirstOrDefault()!.Id}' and 2nd Itemz ID is '{tempSecondItemz.FirstOrDefault()!.Id}'   ");
             }
 
-            if(!(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==
+            if (!(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==
                     tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)))
             {
                 throw new ApplicationException("Between Itemz do not belong to the same Parent. FirstItemz " +
-                    "belongs to Hierarchy ID '" + tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString() 
+                    "belongs to Hierarchy ID '" + tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString()
                     + "' and SecondItemz belongs to HierarchyID '" + tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString() + "'!"
                     );
             }
 
             var gapBetweenLowerAndUpper = _context.ItemzHierarchy!.AsNoTracking()
-                .Where(ih => ih.ItemzHierarchyId >= tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId 
-                && ih.ItemzHierarchyId <= tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId 
+                .Where(ih => ih.ItemzHierarchyId >= tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId
+                && ih.ItemzHierarchyId <= tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId
                 && ih.ItemzHierarchyId!.GetLevel() == tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetLevel());
 
             if ((gapBetweenLowerAndUpper).Count() > 2)
@@ -492,7 +492,7 @@ namespace ItemzApp.API.Services
             var checkItemzWithNewHierarchyIdExists = _context.ItemzHierarchy!.AsNoTracking()
                                         .Where(ih => ih.ItemzHierarchyId!.ToString() == tempItemzHierarchy.ItemzHierarchyId.ToString());
 
-            if ((checkItemzWithNewHierarchyIdExists).Count() > 0 )
+            if ((checkItemzWithNewHierarchyIdExists).Count() > 0)
             {
                 throw new ApplicationException($"Itemz with HierarchyID '{tempItemzHierarchy.ItemzHierarchyId.ToString()}' already existing in the repository.");
             }
@@ -502,7 +502,7 @@ namespace ItemzApp.API.Services
             var parentOfNewlyAddedtempItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
                 .Where(ih => ih.ItemzHierarchyId == tempItemzHierarchy.ItemzHierarchyId.GetAncestor(1)).FirstOrDefault();
 
-            if (parentOfNewlyAddedtempItemzHierarchy!.ItemzHierarchyId!.GetLevel() == 2 ) // if it's ItemzType
+            if (parentOfNewlyAddedtempItemzHierarchy!.ItemzHierarchyId!.GetLevel() == 2) // if it's ItemzType
             {
                 // TODO :: HERE WE NEED TO ADD NEW ASSOCIATION BETWEEN ITEMZ TYPE AND ITEMZ
 
@@ -546,97 +546,97 @@ namespace ItemzApp.API.Services
             //_context.ItemzTypeJoinItemz!.Add(itji);
         }
 
-        public async Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true)
-        {
-            if (itemzId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(itemzId));
-            }
+        //public async Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true)
+        //{
+        //    if (itemzId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzId));
+        //    }
 
-            if (itemzTypeId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(itemzTypeId));
-            }
+        //    if (itemzTypeId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(itemzTypeId));
+        //    }
 
-            var rootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
-                            .Where(ih => ih.Id == itemzTypeId);
+        //    var rootItemzTypeHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+        //                    .Where(ih => ih.Id == itemzTypeId);
 
-            if (rootItemzTypeHierarchyRecord.Count() != 1)
-            {
-                // TODO: Following error can be improved by providing expected Vs actual found records.
-                throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
-                    "found OR multiple Root Itemz Type Hierarchy records found in the system");
-            }
+        //    if (rootItemzTypeHierarchyRecord.Count() != 1)
+        //    {
+        //        // TODO: Following error can be improved by providing expected Vs actual found records.
+        //        throw new ApplicationException("Either no Root Itemz Type Hierarchy record " +
+        //            "found OR multiple Root Itemz Type Hierarchy records found in the system");
+        //    }
 
-            var rootItemzTypeHierarchyRecordLevel = rootItemzTypeHierarchyRecord!.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+        //    var rootItemzTypeHierarchyRecordLevel = rootItemzTypeHierarchyRecord!.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
 
-            if (rootItemzTypeHierarchyRecordLevel != 2)
-            {
-                throw new ApplicationException($"Found root hierarchy record for ID {itemzTypeId} " +
-                    $"does not represent ItemzType. Instead it's " +
-                    $"{rootItemzTypeHierarchyRecord.FirstOrDefault()!.RecordType}");
-            }
+        //    if (rootItemzTypeHierarchyRecordLevel != 2)
+        //    {
+        //        throw new ApplicationException($"Found root hierarchy record for ID {itemzTypeId} " +
+        //            $"does not represent ItemzType. Instead it's " +
+        //            $"{rootItemzTypeHierarchyRecord.FirstOrDefault()!.RecordType}");
+        //    }
 
-            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
-            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
-            // First find the ItemzHierarchy record where ID matches RootItemzType ID. This is expected to be the
-            // ItemzType ID itself which is the root OR parent to newly added Itemz.
-            // Then we find all desendents of Repository which is nothing but existing Itemz(s). 
+        //    // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+        //    // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+        //    // First find the ItemzHierarchy record where ID matches RootItemzType ID. This is expected to be the
+        //    // ItemzType ID itself which is the root OR parent to newly added Itemz.
+        //    // Then we find all desendents of Repository which is nothing but existing Itemz(s). 
 
-            var itemzHierarchyRecords = await _context.ItemzHierarchy!
-                    .AsNoTracking()
-                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
-                    .OrderBy(ih => ih.ItemzHierarchyId!)
-                    .ToListAsync();
+        //    var itemzHierarchyRecords = await _context.ItemzHierarchy!
+        //            .AsNoTracking()
+        //            .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
+        //            .OrderBy(ih => ih.ItemzHierarchyId!)
+        //            .ToListAsync();
 
-            if (itemzHierarchyRecords.Count() > 0)
-            {
-                if (atBottomOfChildNodes)
-                {
-                    var tempItemzHierarchy = new Entities.ItemzHierarchy
-                    {
-                        Id = itemzId,
-                        RecordType = "Itemz",
-                        ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
-                                        .GetDescendant(itemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId
-                                                       , null),
-                    };
+        //    if (itemzHierarchyRecords.Count() > 0)
+        //    {
+        //        if (atBottomOfChildNodes)
+        //        {
+        //            var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //            {
+        //                Id = itemzId,
+        //                RecordType = "Itemz",
+        //                ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+        //                                .GetDescendant(itemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId
+        //                                               , null),
+        //            };
 
-                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-                }
-                else
-                {
-                    var tempItemzHierarchy = new Entities.ItemzHierarchy
-                    {
-                        Id = itemzId,
-                        RecordType = "Itemz",
-                        ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
-                                        .GetDescendant(null
-                                                        , itemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId
-                                                       ),
-                    };
+        //            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //        }
+        //        else
+        //        {
+        //            var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //            {
+        //                Id = itemzId,
+        //                RecordType = "Itemz",
+        //                ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+        //                                .GetDescendant(null
+        //                                                , itemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId
+        //                                               ),
+        //            };
 
-                    _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-                }
-            }
-            else
-            {
-                var tempItemzHierarchy = new Entities.ItemzHierarchy
-                {
-                    Id = itemzId,
-                    RecordType = "Itemz",
-                    ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
-                                    .GetDescendant(null, null),
-                };
+        //            _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var tempItemzHierarchy = new Entities.ItemzHierarchy
+        //        {
+        //            Id = itemzId,
+        //            RecordType = "Itemz",
+        //            ItemzHierarchyId = rootItemzTypeHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+        //                            .GetDescendant(null, null),
+        //        };
 
-                _context.ItemzHierarchy!.Add(tempItemzHierarchy);
-            }
+        //        _context.ItemzHierarchy!.Add(tempItemzHierarchy);
+        //    }
 
-            if (rootItemzTypeHierarchyRecordLevel == 2)
-            {
-                AddItemzTypeJoinItemzRecord(itemzTypeId, itemzId);
-            }
-        }
+        //    if (rootItemzTypeHierarchyRecordLevel == 2)
+        //    {
+        //        AddItemzTypeJoinItemzRecord(itemzTypeId, itemzId);
+        //    }
+        //}
 
 
 
@@ -657,37 +657,61 @@ namespace ItemzApp.API.Services
 
             var movingItemzHierarchyRecordList = _context.ItemzHierarchy!
                 .Where(ih => ih.Id == movingItemzId);
-
-            if (movingItemzHierarchyRecordList.Count() != 1)
+            var foundMovingItemzHierarchyRecordCount = movingItemzHierarchyRecordList.Count();
+            if (foundMovingItemzHierarchyRecordCount > 1)
             {
                 throw new ApplicationException($"{movingItemzHierarchyRecordList.Count()} records found for the " +
                     $"moving Itemz Id {movingItemzId} in the system. " +
                     $"Expected 1 record but instead found {movingItemzHierarchyRecordList.Count()}");
             }
 
-            var movingItemzHierarchyRecord = movingItemzHierarchyRecordList.FirstOrDefault();
-            var originalItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
-            var allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
-                .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
+            var movingItemzHierarchyRecord = new ItemzHierarchy();
+            string originalItemzHierarchyIdString = "";
+            List<ItemzHierarchy> allDescendentItemzHierarchyRecord = new List<ItemzHierarchy>();
 
-            //// TODO :: IN THE FUTURE WE SHOULD NOT CHECK FOR OLD ROOT ITEMZ AT ALL. THIS MIGHT
-            //// NOT BE RELAVENT WHEN IT COMES TO ASSOCIATING ORPHAN ITEMZ.
-            //// PERHAPS WE CAN USE THE SAME METHOD TO DO MOVE ITEMZ AS WELL AS ASSOCIATED ORPHAN ITEMZ
+            if (foundMovingItemzHierarchyRecordCount == 1)
+            {
+                movingItemzHierarchyRecord = movingItemzHierarchyRecordList.FirstOrDefault();
+                if(movingItemzHierarchyRecord!.ItemzHierarchyId!.GetLevel() < 3)
+                {
+                    throw new ApplicationException($"Expected {movingItemzHierarchyRecord.Id} " +
+                        $"to be 'Itemz' but instead it's found in Itemz Hierarchy Record " +
+                        $"as '{movingItemzHierarchyRecord.RecordType}' ");
+                }
 
-            //var oldRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
-            //        .Where(ih => ih.ItemzHierarchyId ==
-            //                (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
-            //    );
+                originalItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+                allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
+                    .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
 
-            //if (oldRootHierarchyRecord.Count() != 1)
-            //{
-            //    // TODO: Following error can be improved by providing expected Vs actual found records.
-            //    throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
-            //        "found OR multiple Root Itemz Type Hierarchy records found in the system");
-            //}
+                //// TODO :: IN THE FUTURE WE SHOULD NOT CHECK FOR OLD ROOT ITEMZ AT ALL. THIS MIGHT
+                //// NOT BE RELAVENT WHEN IT COMES TO ASSOCIATING ORPHAN ITEMZ.
+                //// PERHAPS WE CAN USE THE SAME METHOD TO DO MOVE ITEMZ AS WELL AS ASSOCIATED ORPHAN ITEMZ
 
-             // TODO :: WE CAN INCLUDE CALL HERE TO REMOVE ITEMZTYPEJOINITEMZ RECORD HERE ITSELF.
-            RemoveItemzTypeJoinItemzRecord(movingItemzId);
+                //var oldRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+                //        .Where(ih => ih.ItemzHierarchyId ==
+                //                (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetAncestor(1))
+                //    );
+
+                //if (oldRootHierarchyRecord.Count() != 1)
+                //{
+                //    // TODO: Following error can be improved by providing expected Vs actual found records.
+                //    throw new ApplicationException("Either no old Root Itemz Type Hierarchy record " +
+                //        "found OR multiple Root Itemz Type Hierarchy records found in the system");
+                //}
+
+                // TODO :: WE CAN INCLUDE CALL HERE TO REMOVE ITEMZTYPEJOINITEMZ RECORD HERE ITSELF.
+                RemoveItemzTypeJoinItemzRecord(movingItemzId);
+            }
+            else
+            {
+                movingItemzHierarchyRecord = new Entities.ItemzHierarchy
+                {
+                    Id = movingItemzId,
+                    RecordType = "Itemz",
+                    ItemzHierarchyId = null,
+                };
+
+            }
 
             var newRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
                             .Where(ih => ih.Id == targetId);
@@ -725,21 +749,28 @@ namespace ItemzApp.API.Services
             {
                 if (atBottomOfChildNodes)
                 {
-                    movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
-                        HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
-                            childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId!.ToString()
-                            , diffValue: 1
-                            , addDecimal: false)
-                        );
+                    //movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+                    //    HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+                    //        childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId!.ToString()
+                    //        , diffValue: 1
+                    //        , addDecimal: false)
+                    //    );
+
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                                        .GetDescendant(childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId
+                                                       , null);
                 }
                 else
                 {
-                    movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
-                        HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
-                            childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId!.ToString()
-                            , diffValue: -1
-                            , addDecimal: false)
-                        );
+                    //movingItemzHierarchyRecord!.ItemzHierarchyId = HierarchyId.Parse(
+                    //    HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+                    //        childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId!.ToString()
+                    //        , diffValue: -1
+                    //        , addDecimal: false)
+                    //    );
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                    .GetDescendant(null
+                                    , childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId);
                 }
             }
 
@@ -748,18 +779,26 @@ namespace ItemzApp.API.Services
                 AddItemzTypeJoinItemzRecord(targetId, movingItemzId);
             }
 
-            var newItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
-
-            foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
+            if (foundMovingItemzHierarchyRecordCount == 1)
             {
-                Regex oldValueRegEx = new Regex(originalItemzHierarchyIdString);
-                descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
-                    (oldValueRegEx.Replace((descendentItemzHierarchyRecord!
-                                            .ItemzHierarchyId!.ToString())
-                                            , newItemzHierarchyIdString
-                                            , 1)
-                    )
-                );
+                var newItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+
+                foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
+                {
+                    Regex oldValueRegEx = new Regex(originalItemzHierarchyIdString);
+                    descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
+                        (oldValueRegEx.Replace((descendentItemzHierarchyRecord!
+                                                .ItemzHierarchyId!.ToString())
+                                                , newItemzHierarchyIdString
+                                                , 1)
+                        )
+                    );
+                }
+            }
+            else
+            {
+                //_context.ItemzHierarchy.Add()
+                _context.ItemzHierarchy!.Add(movingItemzHierarchyRecord);
             }
         }
 
@@ -1030,59 +1069,64 @@ namespace ItemzApp.API.Services
            
         }
 
-        public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes = true)
-        {
-            //var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
-            //if (itji == null)
-            //{
-            //    var temp_itji = new ItemzTypeJoinItemz
-            //    {
-            //        ItemzId = itemzTypeItemzDTO.ItemzId,
-            //        ItemzTypeId = itemzTypeItemzDTO.ItemzTypeId
-            //    };
-            //    _context.ItemzTypeJoinItemz.Add(temp_itji);
-            //}
+        //public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes = true)
+        //{
+        //    //var itji = _context.ItemzTypeJoinItemz!.Find(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+        //    //if (itji == null)
+        //    //{
+        //    //    var temp_itji = new ItemzTypeJoinItemz
+        //    //    {
+        //    //        ItemzId = itemzTypeItemzDTO.ItemzId,
+        //    //        ItemzTypeId = itemzTypeItemzDTO.ItemzTypeId
+        //    //    };
+        //    //    _context.ItemzTypeJoinItemz.Add(temp_itji);
+        //    //}
 
-            // AddItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
+        //    // AddItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzTypeId, itemzTypeItemzDTO.ItemzId);
 
-            var foundItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
-                .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId);
+        //    ////var foundItemzHierarchy = _context.ItemzHierarchy!.AsNoTracking()
+        //    ////    .Where(ih => ih.Id == itemzTypeItemzDTO.ItemzId);
 
-            if (foundItemzHierarchy.Count() == 0)
-            {
-                AddNewItemzHierarchyByItemzTypeIdAsync(itemzTypeItemzDTO.ItemzId,
-                                                        itemzTypeItemzDTO.ItemzTypeId,
-                                                        atBottomOfChildNodes).Wait();
-            }
-            else
-            {
-                MoveItemzHierarchyAsync(itemzTypeItemzDTO.ItemzId,
-                                                        itemzTypeItemzDTO.ItemzTypeId,
-                                                        atBottomOfChildNodes).Wait(); 
-            }
-        }
+        //    ////if (foundItemzHierarchy.Count() == 0)
+        //    ////{
+        //    ////    AddNewItemzHierarchyByItemzTypeIdAsync(itemzTypeItemzDTO.ItemzId,
+        //    ////                                            itemzTypeItemzDTO.ItemzTypeId,
+        //    ////                                            atBottomOfChildNodes).Wait();
+        //    ////}
+        //    ////else
+        //    ////{
+        //        MoveItemzHierarchyAsync(itemzTypeItemzDTO.ItemzId,
+        //                                                itemzTypeItemzDTO.ItemzTypeId,
+        //                                                atBottomOfChildNodes).Wait(); 
+        //    ////}
+        //}
 
-        public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO, ItemzTypeItemzDTO targetItemzTypeItemzDTO, bool atBottomOfChildNodes = true)
-        {
-            // EXPLANATION: Fow now best thing to do would be to remove unwanted itemz and itemzType association 
-            // and then find target  association and if not found then simply add it. 
-            // This method should be used for moving one itemz at a time. If one would like to move
-            // multiple items (i.e. 100s of them in bulk) then this method of updating one record at a time
-            // is not very efficient. We will have to come-up with alternative option for 
-            // Bulk updating multiple itemz and itemzType association. 
+        //public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO, ItemzTypeItemzDTO targetItemzTypeItemzDTO, bool atBottomOfChildNodes = true)
+        //{
+        //    // EXPLANATION: Fow now best thing to do would be to remove unwanted itemz and itemzType association 
+        //    // and then find target  association and if not found then simply add it. 
+        //    // This method should be used for moving one itemz at a time. If one would like to move
+        //    // multiple items (i.e. 100s of them in bulk) then this method of updating one record at a time
+        //    // is not very efficient. We will have to come-up with alternative option for 
+        //    // Bulk updating multiple itemz and itemzType association. 
 
-            RemoveItemzTypeJoinItemzRecord(sourceItemzTypeItemzDTO.ItemzId);
 
-            //// EXPLANATION: Previously we were using following function but then we 
-            /// stopped using it because we do not want to remove ItemzHierarchy records
-            /// while we are suppose to query it and move it to another location. So now we 
-            /// perform remove of ItemzTypeJoinItemz association manually above as part of 
-            /// logic implementation for this specific method MoveItemzFromOneItemzTypeToAnother. 
+        //    // TODO :: NOW WE DON'T NEED TO EXPLICITELY CALL BELOW RemoveItemzTypeJoinItemzRecord 
+        //    // RemoveItemzTypeJoinItemzRecord(sourceItemzTypeItemzDTO.ItemzId);
+
+        //    //// EXPLANATION: Previously we were using following function but then we 
+        //    /// stopped using it because we do not want to remove ItemzHierarchy records
+        //    /// while we are suppose to query it and move it to another location. So now we 
+        //    /// perform remove of ItemzTypeJoinItemz association manually above as part of 
+        //    /// logic implementation for this specific method MoveItemzFromOneItemzTypeToAnother. 
             
-            // RemoveItemzFromItemzType(sourceItemzTypeItemzDTO);
+        //    // RemoveItemzFromItemzType(sourceItemzTypeItemzDTO);
 
-            AssociateItemzToItemzType(targetItemzTypeItemzDTO, atBottomOfChildNodes);
-        }
+        //    // AssociateItemzToItemzType(targetItemzTypeItemzDTO, atBottomOfChildNodes);
+        //    MoveItemzHierarchyAsync(targetItemzTypeItemzDTO.ItemzId,
+        //                                targetItemzTypeItemzDTO.ItemzTypeId,
+        //                                atBottomOfChildNodes).Wait();
+        //}
 
         private void RemoveItemzTypeJoinItemzRecord(Guid itemzId)
         {

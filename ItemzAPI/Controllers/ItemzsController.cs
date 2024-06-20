@@ -25,6 +25,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Types;
 using System.Runtime.Serialization;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ItemzApp.API.Controllers
 {
@@ -309,7 +310,8 @@ namespace ItemzApp.API.Controllers
                     return NotFound();
                 }
 
-                await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
+                //await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentItemzId, atBottomOfChildNodes: AtBottomOfChildNodes);
             }
             await _itemzRepository.SaveAsync();
 
@@ -575,6 +577,66 @@ namespace ItemzApp.API.Controllers
 
             return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Move Itemz to a new location in the repository including all its sub-Itemz
+        /// </summary>
+        /// <param name="MovingItemzId">GUID representing an unique ID of the moving Itemz</param>
+        /// <param name="TargetId">Details about target ID under which Itemz will be moving</param>
+        /// <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+        /// <returns>No contents are returned when Itemz gets moved to its new desired location</returns>
+        /// <response code="204">No content are returned but status of 204 indicating that Itemz has successfully moved to its desired location</response>
+        /// <response code="404">Either Itemz or ItemzType was not found</response>
+        [HttpPost("{MovingItemzId}", Name = "__POST_Move_Itemz__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveItemzAsync([FromRoute] Guid MovingItemzId, [FromQuery] Guid TargetId, [FromQuery] bool AtBottomOfChildNodes = true)
+        {
+            if (!(await _itemzRepository.ItemzExistsAsync(MovingItemzId)))// Check if Itemz exists
+
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {MovingItemzId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    MovingItemzId);
+                return NotFound();
+            }
+
+            // TODO :: WE HAVE TO ALSO CHECK IN THE HIERARCHY TABLE IF TARGET EXISTITS OTHERWISE THERE IS NO
+            // POINT IN MOVING ITEMZ UNDER AN ORPHANED ITEMZ.
+
+            if (!((await _itemzRepository.ItemzTypeExistsAsync(TargetId)) || (await _itemzRepository.ItemzExistsAsync(TargetId))))  // Check if Target ItemzType or Itemz Exists
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Target ID {TargetId} could not be found for either 'ItemzType' or 'Itemz'",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    TargetId);
+                return NotFound();
+            }
+
+            await _itemzRepository.MoveItemzHierarchyAsync(MovingItemzId, TargetId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _itemzRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {MovingItemzId} successfully moved under Target ID {TargetId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                MovingItemzId,
+                TargetId);
+            return NoContent(); // This indicates that update was successfully saved in the DB.
+        }
+
+
+
+
+
+
+
 
 
         /// <summary>
