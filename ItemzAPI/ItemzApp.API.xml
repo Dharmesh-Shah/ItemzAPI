@@ -570,6 +570,17 @@
             <response code="201">Returns newly created itemzs property details</response>
             <response code="404">Expected first or second from between Itemz not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.MoveItemzBetweenExistingItemzAsync(System.Guid,System.Guid,System.Guid)">
+            <summary>
+            Used for moving Itemz record between two existing Itemz records
+            </summary>
+            <param name="movingItemzId">Source moving Itemz ID that will be moved to new location</param>
+            <param name="firstItemzId">Used as first Itemz for moving Itemz between existing two Itemz</param>
+            <param name="secondItemzId">Used as second Itemz for moving Itemz between existing two Itemz</param>
+            <returns>No Content</returns>
+            <response code="204">No Content</response>
+            <response code="404">Expected moveing OR target between Itemz could not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
             <summary>
             Updating exsting Itemz based on Itemz Id (GUID)

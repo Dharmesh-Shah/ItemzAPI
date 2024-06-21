@@ -33,7 +33,7 @@ namespace ItemzApp.API.Services
 
         //public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId, bool atBottomOfChildNodes = true);
 
-        public Task AddNewItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid newlyAddedItemzId);
+        public Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId);
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
