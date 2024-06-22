@@ -17,6 +17,7 @@ using Microsoft.Build.Evaluation;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Win32.SafeHandles;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ItemzApp.API.Services
 {
@@ -498,6 +499,16 @@ namespace ItemzApp.API.Services
                 allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
                     .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(addingOrMovingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
 
+                if (allDescendentItemzHierarchyRecord.Any( ih => ih.Id == tempFirstItemz.FirstOrDefault().Id || ih.Id == tempSecondItemz.FirstOrDefault().Id))
+                {
+                    throw new ApplicationException($"System does not support moving parent Itemz under it's existing child Itemz. " +
+                        $"Moving Itemz {addingOrMovingItemzHierarchyRecord.Id} (with hierarchy id '" +
+                            $"{addingOrMovingItemzHierarchyRecord.ItemzHierarchyId.ToString()}') is a parent to either " +
+                        $"{tempFirstItemz.FirstOrDefault().Id} (with hierarchy id '" +
+                        $"{tempFirstItemz.FirstOrDefault().ItemzHierarchyId.ToString()}') " +
+                        $"OR {tempSecondItemz.FirstOrDefault().Id}  (with hierarchy id '" +
+                        $"{tempSecondItemz.FirstOrDefault().ItemzHierarchyId.ToString()}') " );
+                }
 
                 // EXPLANATION : This method is used not only to add new records but now also to move existing
                 // Itemz record from one place to another place between two existing Itemz records.

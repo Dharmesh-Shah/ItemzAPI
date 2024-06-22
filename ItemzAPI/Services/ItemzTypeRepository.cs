@@ -238,12 +238,16 @@ namespace ItemzApp.API.Services
                     .OrderBy(ih => ih.ItemzHierarchyId!)
                     .ToListAsync();
 
+            //return itemzTypeHierarchyItemz.Count > 0 ?
+            //                HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+            //                itemzTypeHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()
+            //                , diffValue: -1
+            //                , addDecimal: false)
+            //             : null;
+
             return itemzTypeHierarchyItemz.Count > 0 ?
-                            HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
                             itemzTypeHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()
-                            , diffValue: -1
-                            , addDecimal: false)
-                         : null;
+                            : null;
         }
         public async Task<string?> GetLastItemzHierarchyID(Guid parentItemzTypeId)
         {
