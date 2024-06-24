@@ -457,9 +457,20 @@ namespace ItemzApp.API.Controllers
             }
 
             // TODO :: ADD NECESSARY EXCEPTION HANDLING CODE FOR MOVING ITEMZTYPE TO ANOTHER PROJECT
-
-            await _ItemzTypeRepository.MoveItemzTypeToAnotherProjectAsync(MovingItemzTypeId, TargetProjectId, atBottomOfChildNodes: AtBottomOfChildNodes);
-            await _ItemzTypeRepository.SaveAsync();
+            try
+            {
+                await _ItemzTypeRepository.MoveItemzTypeToAnotherProjectAsync(MovingItemzTypeId, TargetProjectId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to move ItemzType :" + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not move Itemz Type with ID '{MovingItemzTypeId}' " +
+                    $":: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
 
             _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {MovingItemzTypeId} successfully moved under Target Project ID {TargetProjectId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),

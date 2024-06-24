@@ -327,8 +327,8 @@ namespace ItemzApp.API.Services
 
                 if (currentProjectHierarchyRecord.FirstOrDefault()!.Id == targetProjectId)
                 {
-                    throw new ApplicationException($"Current parent Project ID for {movingItemzTypeId} is {currentProjectHierarchyRecord.FirstOrDefault().Id} " +
-                        $"which is same as target Project ID. ItemzType can not be moved to under current parent Project.");
+                    throw new ApplicationException($"Current parent Project ID is {currentProjectHierarchyRecord.FirstOrDefault().Id} for ItemzType with ID {movingItemzTypeId}. " +
+                        $"ItemzType can not be moved under its current parent project!");
                 }
 
             }
