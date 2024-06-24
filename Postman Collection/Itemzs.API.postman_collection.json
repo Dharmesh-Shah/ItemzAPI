@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8f718ebe-9815-4090-a6f4-0d2929544ac5",
+		"_postman_id": "e0b77120-387b-4431-a640-d7964386beeb",
 		"name": "Itemzs.API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33816436"
+		"_exporter_id": "36455815"
 	},
 	"item": [
 		{
@@ -3673,7 +3673,7 @@
 			"response": []
 		},
 		{
-			"name": "PUT Move Itemz Between ItemzTypes",
+			"name": "POST Move Itemz Between ItemzTypes",
 			"event": [
 				{
 					"listen": "test",
@@ -3683,12 +3683,20 @@
 							"    pm.response.to.have.status(204);",
 							"});"
 						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
 						"type": "text/javascript"
 					}
 				}
 			],
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -3703,7 +3711,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"8414bf58-6331-4b3e-bbf0-f780950a337b\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3711,7 +3719,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypeItemzs/611639db-577a-48f6-9b08-f6aef477368f",
+					"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c?TargetId=8414bf58-6331-4b3e-bbf0-f780950a337b&AtBottomOfChildNodes=true",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -3719,15 +3727,25 @@
 					"port": "51087",
 					"path": [
 						"api",
-						"ItemzTypeItemzs",
-						"611639db-577a-48f6-9b08-f6aef477368f"
+						"Itemzs",
+						"9153a516-d69e-4364-b17e-03b87442e21c"
+					],
+					"query": [
+						{
+							"key": "TargetId",
+							"value": "8414bf58-6331-4b3e-bbf0-f780950a337b"
+						},
+						{
+							"key": "AtBottomOfChildNodes",
+							"value": "true"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "PUT Undo Previous Move Itemz Between ItemzTypes",
+			"name": "POST Undo Previous Move Itemz Between ItemzTypes",
 			"event": [
 				{
 					"listen": "test",
@@ -3737,12 +3755,23 @@
 							"    pm.response.to.have.status(204);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -3757,7 +3786,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"itemzId\": \"9153a516-d69e-4364-b17e-03b87442e21c\",\r\n  \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3765,7 +3794,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:51087/api/ItemzTypeItemzs/8414bf58-6331-4b3e-bbf0-f780950a337b",
+					"raw": "http://localhost:51087/api/Itemzs/9153a516-d69e-4364-b17e-03b87442e21c?TargetId=611639db-577a-48f6-9b08-f6aef477368f&AtBottomOfChildNodes=true",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -3773,8 +3802,18 @@
 					"port": "51087",
 					"path": [
 						"api",
-						"ItemzTypeItemzs",
-						"8414bf58-6331-4b3e-bbf0-f780950a337b"
+						"Itemzs",
+						"9153a516-d69e-4364-b17e-03b87442e21c"
+					],
+					"query": [
+						{
+							"key": "TargetId",
+							"value": "611639db-577a-48f6-9b08-f6aef477368f"
+						},
+						{
+							"key": "AtBottomOfChildNodes",
+							"value": "true"
+						}
 					]
 				}
 			},

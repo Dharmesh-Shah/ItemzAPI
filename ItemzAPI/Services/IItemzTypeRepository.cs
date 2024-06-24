@@ -36,5 +36,7 @@ namespace ItemzApp.API.Services
         public Task<string?> GetTopItemzHierarchyID(Guid parentItemzTypeId);
 
         public Task<string?> GetLastItemzHierarchyID(Guid parentItemzTypeId);
+
+        public Task MoveItemzTypeToAnotherProjectAsync(Guid movingItemzTypeId, Guid targetProjectId, bool atBottomOfChildNodes = true);
     }
 }

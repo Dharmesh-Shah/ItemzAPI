@@ -387,61 +387,61 @@ namespace ItemzApp.API.Controllers
             return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = ItemzTypeItemzDTO.ItemzId });
         }
 
-        /// <summary>
-        /// Move Itemz from one ItemzType to another
-        /// </summary>
-        /// <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
-        /// <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
-        /// <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
-        /// <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
-        /// <response code="404">Either Itemz or ItemzType was not found</response>
-        [HttpPut("{ItemzTypeId}", Name = "__PUT_Move_Itemz_Between_ItemzTypes__")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzBetweenItemzTypesAsync(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
-        {
-            if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
+        ///// <summary>
+        ///// Move Itemz from one ItemzType to another
+        ///// </summary>
+        ///// <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
+        ///// <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
+        ///// <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
+        ///// <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
+        ///// <response code="404">Either Itemz or ItemzType was not found</response>
+        //[HttpPut("{ItemzTypeId}", Name = "__PUT_Move_Itemz_Between_ItemzTypes__")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public async Task<ActionResult> MoveItemzBetweenItemzTypesAsync(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
+        //{
+        //    if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
 
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                    targetItemzTypeItemzDTO.ItemzId);
-                return NotFound();
-            }
-            if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Target ItemzType for ID {ItemzTypeId} could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                    targetItemzTypeItemzDTO.ItemzTypeId);
-                return NotFound();
-            }
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //            targetItemzTypeItemzDTO.ItemzId);
+        //        return NotFound();
+        //    }
+        //    if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Target ItemzType for ID {ItemzTypeId} could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //            targetItemzTypeItemzDTO.ItemzTypeId);
+        //        return NotFound();
+        //    }
 
-            var sourceItemzTypeItemzDTO = new ItemzTypeItemzDTO();
-            sourceItemzTypeItemzDTO.ItemzId = targetItemzTypeItemzDTO.ItemzId;
-            sourceItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
+        //    var sourceItemzTypeItemzDTO = new ItemzTypeItemzDTO();
+        //    sourceItemzTypeItemzDTO.ItemzId = targetItemzTypeItemzDTO.ItemzId;
+        //    sourceItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
 
-            if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    sourceItemzTypeItemzDTO.ItemzTypeId,
-                    sourceItemzTypeItemzDTO.ItemzId);
+        //    if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+        //            sourceItemzTypeItemzDTO.ItemzTypeId,
+        //            sourceItemzTypeItemzDTO.ItemzId);
 
-            }
-            //_itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
-            await _itemzRepository.MoveItemzHierarchyAsync(targetItemzTypeItemzDTO.ItemzId, targetItemzTypeItemzDTO.ItemzTypeId, atBottomOfChildNodes: true);
-                        await _itemzRepository.SaveAsync();
+        //    }
+        //    //_itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
+        //    await _itemzRepository.MoveItemzHierarchyAsync(targetItemzTypeItemzDTO.ItemzId, targetItemzTypeItemzDTO.ItemzTypeId, atBottomOfChildNodes: true);
+        //                await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
-                "to Target ItemzType ID {targetItemzTypeID} was successfully completed",
-                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                sourceItemzTypeItemzDTO.ItemzId,
-                sourceItemzTypeItemzDTO.ItemzTypeId,
-                targetItemzTypeItemzDTO.ItemzTypeId);
-            return NoContent(); // This indicates that update was successfully saved in the DB.
+        //    _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
+        //        "to Target ItemzType ID {targetItemzTypeID} was successfully completed",
+        //        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //        sourceItemzTypeItemzDTO.ItemzId,
+        //        sourceItemzTypeItemzDTO.ItemzTypeId,
+        //        targetItemzTypeItemzDTO.ItemzTypeId);
+        //    return NoContent(); // This indicates that update was successfully saved in the DB.
 
-        }
+        //}
 
         public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
         {

@@ -422,6 +422,53 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Move ItemzType to a new project in the repository including all its sub-Itemz
+        /// </summary>
+        /// <param name="MovingItemzTypeId">GUID representing an unique ID of the moving ItemzType</param>
+        /// <param name="TargetProjectId">Details about target Project ID under which ItemzType will be moving</param>
+        /// <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+        /// <returns>No contents are returned when ItemzType gets moved to its new desired location</returns>
+        /// <response code="204">No content are returned but status of 204 indicating that ItemzType has successfully moved to its desired location</response>
+        /// <response code="404">Either moving ItemzType or target Project was not found</response>
+        [HttpPost("{MovingItemzTypeId}", Name = "__POST_Move_ItemzType__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveItemzTypeAsync([FromRoute] Guid MovingItemzTypeId, [FromQuery] Guid TargetProjectId, [FromQuery] bool AtBottomOfChildNodes = true)
+        {
+            if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(MovingItemzTypeId)))  
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType for ID {MovingItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    MovingItemzTypeId);
+                return NotFound();
+            }
+
+            // TODO :: WE HAVE TO ALSO CHECK IN THE HIERARCHY TABLE IF TARGET EXISTITS OTHERWISE THERE IS NO
+            // POINT IN MOVING ITEMZTYPE.
+
+            if (!(await _projectRepository.ProjectExistsAsync(TargetProjectId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Target Project for ID {TargetProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    TargetProjectId);
+                return NotFound();
+            }
+
+            // TODO :: ADD NECESSARY EXCEPTION HANDLING CODE FOR MOVING ITEMZTYPE TO ANOTHER PROJECT
+
+            await _ItemzTypeRepository.MoveItemzTypeToAnotherProjectAsync(MovingItemzTypeId, TargetProjectId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _ItemzTypeRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {MovingItemzTypeId} successfully moved under Target Project ID {TargetProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                MovingItemzTypeId,
+                TargetProjectId);
+            return NoContent(); // This indicates that update was successfully saved in the DB.
+        }
+
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 
@@ -433,7 +480,6 @@ namespace ItemzApp.API.Controllers
 
             return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
-
 
         /// <summary>
         /// Deleting a specific ItemzType
@@ -529,8 +575,6 @@ namespace ItemzApp.API.Controllers
                 ItemzTypeId);
             return Ok(topItemzHierarchyID);
         }
-
-
 
         /// <summary>
         /// Gets expected Bottom Itemz hierarchy number by ItemzTypeId

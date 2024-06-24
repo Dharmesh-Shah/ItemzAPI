@@ -15094,13 +15094,48 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1 to Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_02_Hierarchy_P1T1_1stItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_02_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -15108,7 +15143,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_02_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_02_Hierarchy_P1T1_1stItemzId}}?TargetId={{06_02_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -15116,8 +15151,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_02_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_02_Hierarchy_P1T1_1stItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_02_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -19369,13 +19414,48 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1 to Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_03_Hierarchy_P1T1_1_1_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_03_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -19383,7 +19463,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_03_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_03_Hierarchy_P1T1_1_1_ItemzId}}?TargetId={{06_03_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -19391,8 +19471,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_03_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_03_Hierarchy_P1T1_1_1_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_03_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -23824,13 +23914,48 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1.1 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1.1 to Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_1_1_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -23838,7 +23963,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_1_1_ItemzId}}?TargetId={{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -23846,8 +23971,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_1_1_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -24310,16 +24445,15 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1.2 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1.2 to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is Either 204\", function () {\r",
-											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
-											"});\r",
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -24328,17 +24462,31 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_P1T1_1_2_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -24346,7 +24494,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_P1T1_1_2_ItemzId}}?TargetId={{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -24354,8 +24502,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_04_Hierarchy_P1T1_1_2_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -25217,7 +25375,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT ove 06_04_Hierarchy 10 Itemz BULK Parking Lot",
+							"name": "POST over 06_04_Hierarchy 10 Itemz BULK Parking Lot",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -25231,7 +25389,7 @@
 											"}\r",
 											"\r",
 											"if (Array.isArray(itemzIds_06_04_02_Hierarchy) && itemzIds_06_04_02_Hierarchy.length > 0) {\r",
-											"    postman.setNextRequest('PUT ove 06_04_Hierarchy 10 Itemz BULK Parking Lot');\r",
+											"    pm.execution.setNextRequest('POST over 06_04_Hierarchy 10 Itemz BULK Parking Lot');\r",
 											"}\r",
 											""
 										],
@@ -25254,11 +25412,11 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_04_Hierarchy_BULK_CurrentItemzID_02}}\",\r\n  \"itemzTypeId\": \"{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -25266,7 +25424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_04_Hierarchy_BULK_CurrentItemzID_02}}?TargetId={{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -25274,8 +25432,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_04_Hierarchy_BULK_CurrentItemzID_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -28102,13 +28270,48 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1.1 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1.1 to Parking Lot",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_05_Hierarchy_P1T1_1_1_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -28116,7 +28319,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_05_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_05_Hierarchy_P1T1_1_1_ItemzId}}?TargetId={{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -28124,8 +28327,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_05_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_05_Hierarchy_P1T1_1_1_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -28588,16 +28801,15 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1.2 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1.2 to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is Either 204\", function () {\r",
-											"    pm.expect(pm.response.code).to.be.oneOf([204]);\r",
-											"});\r",
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -28606,17 +28818,31 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_05_Hierarchy_P1T1_1_2_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -28624,7 +28850,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_05_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_05_Hierarchy_P1T1_1_2_ItemzId}}?TargetId={{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -28632,8 +28858,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_05_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_05_Hierarchy_P1T1_1_2_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -29495,7 +29731,7 @@
 							"response": []
 						},
 						{
-							"name": "PUT over 06_05_Hierarchy 10 Itemz BULK Parking Lot",
+							"name": "POST over 06_05_Hierarchy 10 Itemz BULK Parking Lot",
 							"event": [
 								{
 									"listen": "prerequest",
@@ -29509,7 +29745,7 @@
 											"}\r",
 											"\r",
 											"if (Array.isArray(itemzIds_06_05_02_Hierarchy) && itemzIds_06_05_02_Hierarchy.length > 0) {\r",
-											"    postman.setNextRequest('PUT over 06_05_Hierarchy 10 Itemz BULK Parking Lot');\r",
+											"     pm.execution.setNextRequest('POST over 06_05_Hierarchy 10 Itemz BULK Parking Lot');\r",
 											"}\r",
 											""
 										],
@@ -29532,11 +29768,11 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{06_05_Hierarchy_BULK_CurrentItemzID_02}}\",\r\n  \"itemzTypeId\": \"{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29544,7 +29780,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{06_05_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{06_05_Hierarchy_BULK_CurrentItemzID_02}}?TargetId={{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29552,8 +29788,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{06_05_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{06_05_Hierarchy_BULK_CurrentItemzID_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{06_05_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -43022,13 +43268,15 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1.2 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1.2 to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -43037,17 +43285,31 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"exec": [],
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_03_Hierarchy_P1T1_1_2_ItemzId}}\",\r\n  \"itemzTypeId\": \"{{07_03_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -43055,7 +43317,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{07_03_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_03_Hierarchy_P1T1_1_2_ItemzId}}?TargetId={{07_03_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -43063,8 +43325,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{07_03_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{07_03_Hierarchy_P1T1_1_2_ItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{07_03_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -47457,13 +47729,15 @@
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz TOP to Parking Lot",
+							"name": "POST Move P1T1 Itemz TOP to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -47481,11 +47755,22 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -47493,7 +47778,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{07_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}?TargetId={{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -47501,21 +47786,33 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{07_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{07_04_Hierarchy_P1T1_SINGLEITEMZ_TOP}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 1 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 1 to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -47533,11 +47830,22 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_04_Hierarchy_P1T1_1stItemzId}}\",\r\n  \"itemzTypeId\": \"{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -47545,7 +47853,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{07_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_04_Hierarchy_P1T1_1stItemzId}}?TargetId={{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -47553,21 +47861,33 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{07_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{07_04_Hierarchy_P1T1_1stItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz 2 to Parking Lot",
+							"name": "POST Move P1T1 Itemz 2 to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -47585,11 +47905,22 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_04_Hierarchy_P1T1_2ndItemzId}}\",\r\n  \"itemzTypeId\": \"{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -47597,7 +47928,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{07_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_04_Hierarchy_P1T1_2ndItemzId}}?TargetId={{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -47605,21 +47936,33 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{07_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{07_04_Hierarchy_P1T1_2ndItemzId}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move P1T1 Itemz BOTTOM to Parking Lot",
+							"name": "POST Move P1T1 Itemz BOTTOM to Parking Lot",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
 										"exec": [
-											""
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -47637,11 +47980,22 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "conten",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{07_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}\"\r\n}\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -47649,7 +48003,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{07_04_Hierarchy_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}?TargetId={{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -47657,8 +48011,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{07_04_Hierarchy_1stItemzTypeId}}"
+										"Itemzs",
+										"{{07_04_Hierarchy_P1T1_SINGLEITEMZ_BOTTOM}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{07_04_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},

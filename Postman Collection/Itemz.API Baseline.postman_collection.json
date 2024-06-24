@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1b3bd95d-c668-4e21-a263-daf2fa13e535",
+		"_postman_id": "7ec21312-13c0-4a70-9478-27d115c26f00",
 		"name": "Itemz.API Baseline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33816436"
+		"_exporter_id": "36455815"
 	},
 	"item": [
 		{
@@ -29327,7 +29327,7 @@
 					"name": "Move 3 Itemz to Parking Lot",
 					"item": [
 						{
-							"name": "PUT Move 01_01 Itemz to Parking Lot Type",
+							"name": "POST Move 01_01 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29337,12 +29337,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29357,7 +29368,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29365,7 +29376,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29373,15 +29384,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 01_02 Itemz to Parking Lot Type",
+							"name": "POST Move 01_02 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29391,12 +29412,20 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29411,7 +29440,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29419,7 +29448,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29427,15 +29456,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 01_03 Itemz to Parking Lot Type",
+							"name": "POST Move 01_03 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29462,7 +29501,7 @@
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29477,7 +29516,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29485,7 +29524,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29493,8 +29532,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -29837,7 +29886,7 @@
 					"name": "Move 3 more Itemz to Parking Lot",
 					"item": [
 						{
-							"name": "PUT Move 02_01 Itemz to Parking Lot Type",
+							"name": "POST Move 02_01 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29847,12 +29896,20 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29867,7 +29924,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29875,7 +29932,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29883,15 +29940,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 02_02 Itemz to Parking Lot Type",
+							"name": "POST Move 02_02 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29901,12 +29968,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29921,7 +29999,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29929,7 +30007,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29937,15 +30015,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 02_03 Itemz to Parking Lot Type",
+							"name": "POST Move 02_03 Itemz to Parking Lot Type",
 							"event": [
 								{
 									"listen": "test",
@@ -29955,12 +30043,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -29975,7 +30074,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}\"\r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -29983,7 +30082,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}?TargetId={{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -29991,8 +30090,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
@@ -30666,7 +30775,7 @@
 					"name": "Move 6 Itemz back to their position",
 					"item": [
 						{
-							"name": "PUT Move 01_01 Itemz to Parking Lot Type",
+							"name": "POST Move 01_01 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30676,12 +30785,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30696,7 +30816,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30704,7 +30824,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}?TargetId={{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30712,15 +30832,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_01}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 01_02 Itemz to Parking Lot Type",
+							"name": "POST Move 01_02 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30730,12 +30860,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30750,7 +30891,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30758,7 +30899,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}?TargetId={{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30766,15 +30907,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 01_03 Itemz to Parking Lot Type",
+							"name": "POST Move 01_03 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30784,12 +30935,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30804,7 +30966,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30812,7 +30974,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}?TargetId={{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30820,15 +30982,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_01_03}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_1stItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 02_01 Itemz to Parking Lot Type",
+							"name": "POST Move 02_01 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30838,12 +31010,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30858,7 +31041,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30866,7 +31049,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}?TargetId={{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30874,15 +31057,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_01}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 02_02 Itemz to Parking Lot Type",
+							"name": "POST Move 02_02 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30892,12 +31085,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30912,7 +31116,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30920,7 +31124,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}?TargetId={{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30928,15 +31132,25 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_02}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "PUT Move 02_03 Itemz to Parking Lot Type",
+							"name": "POST Move 02_03 Itemz to P1T1",
 							"event": [
 								{
 									"listen": "test",
@@ -30946,12 +31160,23 @@
 											"    pm.response.to.have.status(204);",
 											"});"
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Accept",
@@ -30966,7 +31191,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"itemzId\": \"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}\",\r\n  \"itemzTypeId\": \"{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}\"\r\n}\r\n\r\n\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -30974,7 +31199,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/Itemzs/{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}?TargetId={{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -30982,8 +31207,18 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ItemzTypeItemzs",
-										"{{VerifyParkingLotTypeAndBaseline_ParkingLotItemzTypeId}}"
+										"Itemzs",
+										"{{VerifyParkingLotTypeAndBaseline_ItemzId_02_03}}"
+									],
+									"query": [
+										{
+											"key": "TargetId",
+											"value": "{{VerifyParkingLotTypeAndBaseline_2ndItemzTypeId}}"
+										},
+										{
+											"key": "AtBottomOfChildNodes",
+											"value": "true"
+										}
 									]
 								}
 							},

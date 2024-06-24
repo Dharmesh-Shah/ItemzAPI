@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f8042eae-2bd4-496f-9c0e-ff1e62339cc5",
+		"_postman_id": "71e44353-1b8e-43a9-af58-8e9193749524",
 		"name": "Itemz.API OneTimer",
 		"description": "This should be executed only once to verify that expected features are working as expected.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33816436"
+		"_exporter_id": "36455815"
 	},
 	"item": [
 		{
@@ -14061,7 +14061,7 @@
 					"response": []
 				},
 				{
-					"name": "PUT Move Itemz to Parking Lot Type",
+					"name": "POST Move Itemz to Parking Lot Type",
 					"event": [
 						{
 							"listen": "test",
@@ -14079,13 +14079,16 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
@@ -14100,10 +14103,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"itemzId\": \"{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}\",\r\n  \"itemzTypeId\": \"{{VerifyProjectParkingLotTypeItemzChangeHistory_1stProjectParkingLotItemzTypeId}}\"\r\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyProjectParkingLotTypeItemzChangeHistory_1stItemzTypeId}}",
+							"raw": "http://localhost:51087/api/Itemzs/{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}?TargetId={{VerifyProjectParkingLotTypeItemzChangeHistory_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -14111,8 +14114,18 @@
 							"port": "51087",
 							"path": [
 								"api",
-								"ItemzTypeItemzs",
-								"{{VerifyProjectParkingLotTypeItemzChangeHistory_1stItemzTypeId}}"
+								"Itemzs",
+								"{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}"
+							],
+							"query": [
+								{
+									"key": "TargetId",
+									"value": "{{VerifyProjectParkingLotTypeItemzChangeHistory_1stProjectParkingLotItemzTypeId}}"
+								},
+								{
+									"key": "AtBottomOfChildNodes",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -14411,7 +14424,7 @@
 					"response": []
 				},
 				{
-					"name": "PUT Move Itemz Out of Parking Lot Type",
+					"name": "POST Move Itemz to Parking Lot Type Copy",
 					"event": [
 						{
 							"listen": "test",
@@ -14429,13 +14442,16 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
@@ -14450,10 +14466,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"itemzId\": \"{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}\",\r\n  \"itemzTypeId\": \"{{VerifyProjectParkingLotTypeItemzChangeHistory_1stItemzTypeId}}\"\r\n}"
+							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{VerifyProjectParkingLotTypeItemzChangeHistory_1stProjectParkingLotItemzTypeId}}",
+							"raw": "http://localhost:51087/api/Itemzs/{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}?TargetId={{VerifyProjectParkingLotTypeItemzChangeHistory_1stItemzTypeId}}&AtBottomOfChildNodes=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -14461,8 +14477,18 @@
 							"port": "51087",
 							"path": [
 								"api",
-								"ItemzTypeItemzs",
-								"{{VerifyProjectParkingLotTypeItemzChangeHistory_1stProjectParkingLotItemzTypeId}}"
+								"Itemzs",
+								"{{VerifyProjectParkingLotTypeItemzChangeHistory_P1_1stItemzId}}"
+							],
+							"query": [
+								{
+									"key": "TargetId",
+									"value": "{{VerifyProjectParkingLotTypeItemzChangeHistory_1stItemzTypeId}}"
+								},
+								{
+									"key": "AtBottomOfChildNodes",
+									"value": "true"
+								}
 							]
 						}
 					},

@@ -816,6 +816,17 @@
                 ]
             </remarks>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.MoveItemzTypeAsync(System.Guid,System.Guid,System.Boolean)">
+            <summary>
+            Move ItemzType to a new project in the repository including all its sub-Itemz
+            </summary>
+            <param name="MovingItemzTypeId">GUID representing an unique ID of the moving ItemzType</param>
+            <param name="TargetProjectId">Details about target Project ID under which ItemzType will be moving</param>
+            <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+            <returns>No contents are returned when ItemzType gets moved to its new desired location</returns>
+            <response code="204">No content are returned but status of 204 indicating that ItemzType has successfully moved to its desired location</response>
+            <response code="404">Either moving ItemzType or target Project was not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzTypeAsync(System.Guid)">
             <summary>
             Deleting a specific ItemzType
@@ -910,16 +921,6 @@
             <response code="200">Itemz to ItemzType association was either found or added successfully</response>
             <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
             <response code="404">Either Itemz or ItemzType was not found </response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypesAsync(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
-            <summary>
-            Move Itemz from one ItemzType to another
-            </summary>
-            <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
-            <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
-            <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
-            <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
-            <response code="404">Either Itemz or ItemzType was not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.DeleteItemzTypeAndItemzAssociationAsync(ItemzApp.API.Models.ItemzTypeItemzDTO)">
             <summary>

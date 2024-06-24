@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace ItemzApp.API.Services
 {
@@ -281,5 +282,139 @@ namespace ItemzApp.API.Services
 
             return itemzTypeHierarchyItemz.Count > 0 ? itemzTypeHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString() : null;
         }
+
+
+        public async Task MoveItemzTypeToAnotherProjectAsync(Guid movingItemzTypeId, Guid targetProjectId, bool atBottomOfChildNodes = true)
+        {
+            if (movingItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(movingItemzTypeId));
+            }
+
+            if (targetProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(targetProjectId));
+            }
+
+            var movingItemzTypeHierarchyRecordList = _context.ItemzHierarchy!
+                .Where(ih => ih.Id == movingItemzTypeId);
+            var foundMovingItemzHierarchyRecordCount = movingItemzTypeHierarchyRecordList.Count();
+            if (foundMovingItemzHierarchyRecordCount != 1)
+            {
+                throw new ApplicationException($"{movingItemzTypeHierarchyRecordList.Count()} records found for the " +
+                    $"moving Itemz Id {movingItemzTypeId} in the system. " +
+                    $"Expected 1 record but instead found {movingItemzTypeHierarchyRecordList.Count()}");
+            }
+
+            var movingItemzHierarchyRecord = new ItemzHierarchy();
+            string originalItemzHierarchyIdString = "";
+            List<ItemzHierarchy> allDescendentItemzHierarchyRecord = new List<ItemzHierarchy>();
+
+
+            movingItemzHierarchyRecord = movingItemzTypeHierarchyRecordList.FirstOrDefault();
+            if (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetLevel() != 2)
+            {
+                throw new ApplicationException($"Expected {movingItemzHierarchyRecord.Id} " +
+                    $"to be 'ItemzType' but instead it's found in Itemz Hierarchy Record " +
+                    $"as '{movingItemzHierarchyRecord.RecordType}' ");
+            }
+
+            var currentProjectHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()  
+                .Where(ih => ih.ItemzHierarchyId == movingItemzHierarchyRecord.ItemzHierarchyId!.GetAncestor(1));
+
+            if (currentProjectHierarchyRecord.Any())
+            {
+
+                if (currentProjectHierarchyRecord.FirstOrDefault()!.Id == targetProjectId)
+                {
+                    throw new ApplicationException($"Current parent Project ID for {movingItemzTypeId} is {currentProjectHierarchyRecord.FirstOrDefault().Id} " +
+                        $"which is same as target Project ID. ItemzType can not be moved to under current parent Project.");
+                }
+
+            }
+
+            originalItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+            allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
+                .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
+
+            // RemoveItemzTypeJoinItemzRecord(movingItemzTypeId);
+
+
+            var newRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == targetProjectId);
+            var newRootHierarchyRecordLevel = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+            if (newRootHierarchyRecord.Count() != 1)
+            {
+                throw new ApplicationException($"{newRootHierarchyRecord.Count()} records found for the " +
+                    $"New Root Hierarchy Id {targetProjectId} in the system. " +
+                    $"Expected 1 record but instead found {newRootHierarchyRecord.Count()}");
+            }
+
+            if (newRootHierarchyRecordLevel != 1)
+            {
+                throw new ApplicationException($"New Root Hierarchy record has to be of type 'Project'");
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+            // First find the ItemzHierarchy record where ID matches RootItemzType ID. This is expected to be the
+            // ItemzType ID itself which is the root OR parent to newly added Itemz.
+            // Then we find all desendents of Repository which is nothing but existing Itemz(s). 
+
+            var childItemzHierarchyRecords = await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!)
+                    .OrderBy(ih => ih.ItemzHierarchyId!)
+                    .ToListAsync();
+
+            if (childItemzHierarchyRecords.Count() == 0)
+            {
+                movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                    .GetDescendant(null, null);
+            }
+            else
+            {
+                if (atBottomOfChildNodes)
+                {
+
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                                        .GetDescendant(childItemzHierarchyRecords.LastOrDefault()!.ItemzHierarchyId
+                                                       , null);
+                }
+                else
+                {
+                    movingItemzHierarchyRecord!.ItemzHierarchyId = newRootHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!
+                    .GetDescendant(null
+                                    , childItemzHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId);
+                }
+            }
+
+            var newItemzHierarchyIdString = movingItemzHierarchyRecord!.ItemzHierarchyId!.ToString();
+
+            foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
+            {
+                Regex oldValueRegEx = new Regex(originalItemzHierarchyIdString);
+                descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
+                    (oldValueRegEx.Replace((descendentItemzHierarchyRecord!
+                                            .ItemzHierarchyId!.ToString())
+                                            , newItemzHierarchyIdString
+                                            , 1)
+                    )
+                );
+            }
+
+            // EXPLANATION :: Now that ItemzType has been moved to another project,
+            // we should update ItemzType to Project One to One relationship data as well.
+
+            var found_it = await _context.ItemzTypes!.Where(it => it.Id == movingItemzTypeId).ToListAsync();
+            if (found_it.Any())
+            {
+                foreach (var it in found_it)
+                {
+                    found_it.FirstOrDefault()!.ProjectId = targetProjectId;
+                }
+            }
+        }
+
     }
 }
