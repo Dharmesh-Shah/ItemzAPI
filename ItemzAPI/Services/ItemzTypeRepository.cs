@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Linq.Dynamic.Core;
 
 namespace ItemzApp.API.Services
 {
@@ -309,7 +310,17 @@ namespace ItemzApp.API.Services
             var movingItemzHierarchyRecord = new ItemzHierarchy();
             string originalItemzHierarchyIdString = "";
             List<ItemzHierarchy> allDescendentItemzHierarchyRecord = new List<ItemzHierarchy>();
+            var found_ItemzType = await _context.ItemzTypes!.Where(it => it.Id == movingItemzTypeId).ToListAsync();
 
+
+            if (found_ItemzType.FirstOrDefault()!.IsSystem == true)
+            {
+                if (found_ItemzType.FirstOrDefault()!.ProjectId != targetProjectId)
+                {
+                    throw new ApplicationException($"System does not support moving 'Parking Lot' system ItemzType " +
+                        $"from source Project with ID {found_ItemzType.FirstOrDefault()!.ProjectId} to target Project with Id {targetProjectId}");
+                }
+            }
 
             movingItemzHierarchyRecord = movingItemzTypeHierarchyRecordList.FirstOrDefault();
             if (movingItemzHierarchyRecord!.ItemzHierarchyId!.GetLevel() != 2)
@@ -321,6 +332,8 @@ namespace ItemzApp.API.Services
 
             var currentProjectHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()  
                 .Where(ih => ih.ItemzHierarchyId == movingItemzHierarchyRecord.ItemzHierarchyId!.GetAncestor(1));
+
+
 
             if (currentProjectHierarchyRecord.Any())
             {
@@ -406,15 +419,212 @@ namespace ItemzApp.API.Services
             // EXPLANATION :: Now that ItemzType has been moved to another project,
             // we should update ItemzType to Project One to One relationship data as well.
 
-            var found_it = await _context.ItemzTypes!.Where(it => it.Id == movingItemzTypeId).ToListAsync();
-            if (found_it.Any())
+            // var found_ItemzType = await _context.ItemzTypes!.Where(it => it.Id == movingItemzTypeId).ToListAsync();
+            if (found_ItemzType.Any())
             {
-                foreach (var it in found_it)
+                // TODO :: FOLLOWING LOOP IS ACTUALLY NOT NEEDED. WE SHOULD ONLY UPDATE ONE RECORD WHICH 
+                // IS GOING TO BE FirstOrDefault() ONCE. LOOK INTO VALIDATING THAT THIS LOOPING IS REUQIRED
+                // AND WE SHOULD ONLY MAKE ONE SINGLE UPDATE RATHER THEN LOOPING THROUGH MANY IF MULTIPLE
+                // RECORDS ARE RETURNED FOR SOME REASON.
+
+                foreach (var it in found_ItemzType)
                 {
-                    found_it.FirstOrDefault()!.ProjectId = targetProjectId;
+                    found_ItemzType.FirstOrDefault()!.ProjectId = targetProjectId;
                 }
             }
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task MoveItemzTypeBetweenTwoHierarchyRecordsAsync(Guid between1stItemzTypeId, Guid between2ndItemzTypeId, Guid movingItemzTypeId)
+        {
+            if (between1stItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(between1stItemzTypeId));
+            }
+            if (between2ndItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(between2ndItemzTypeId));
+            }
+
+            if (movingItemzTypeId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(movingItemzTypeId));
+            }
+
+
+            var tempFirstItemzType = _context.ItemzHierarchy!.AsNoTracking()
+                                        .Where(ih => ih.Id == between1stItemzTypeId);
+            if ((tempFirstItemzType).Count() != 1)
+            {
+                throw new ApplicationException("For Between 1st ItemzType, Either no hierarchy record was " +
+                            "found OR more then one hierarchy record were found in the system");
+            }
+
+            if ((tempFirstItemzType.FirstOrDefault()!.RecordType != "ItemzType"))
+            {
+                throw new ApplicationException("Incorrect Record Type for First ItemzType. " +
+                    "Instead of 'ItemzType' it is '" + tempFirstItemzType.FirstOrDefault()!.RecordType + "'");
+            }
+
+            var tempSecondItemzType = _context.ItemzHierarchy!.AsNoTracking()
+                                        .Where(ih => ih.Id == between2ndItemzTypeId);
+            if ((tempSecondItemzType).Count() != 1)
+            {
+                throw new ApplicationException("For Between 2nd ItemzType, Either no hierarchy record was " +
+                            "found OR more then one hierarchy record were found in the system");
+            }
+
+            if ((tempSecondItemzType.FirstOrDefault()!.RecordType != "ItemzType"))
+            {
+                throw new ApplicationException("Incorrect Record Type for Second ItemzType. " +
+                    "Instead of 'ItemzType' it is '" + tempSecondItemzType.FirstOrDefault()!.RecordType + "'");
+            }
+
+            if (tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId < tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId)
+            {
+                throw new ApplicationException($"1st ItemzType Hierarchy ID is '{tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.ToString()}' " +
+                    $"which is greater then 2nd ItemzType Hirarchy ID as '{tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId!.ToString()}'. " +
+                                   $"Provided 1st ItemzType ID is '{tempFirstItemzType.FirstOrDefault()!.Id}' and 2nd ItemzType ID is '{tempSecondItemzType.FirstOrDefault()!.Id}' ");
+            }
+
+            if (!(tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==
+                    tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)))
+            {
+                throw new ApplicationException("Between ItemzType do not belong to the same Parent. FirstItemzType " +
+                    "belongs to Hierarchy ID '" + tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString()
+                    + "' and SecondItemzType belongs to HierarchyID '" + tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!.ToString() + "'!"
+                    );
+            }
+
+            var gapBetweenLowerAndUpper = _context.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.ItemzHierarchyId >= tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId
+                && ih.ItemzHierarchyId <= tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId
+                && ih.ItemzHierarchyId!.GetLevel() == tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetLevel());
+
+            if ((gapBetweenLowerAndUpper).Count() != 2)
+            {
+                throw new ApplicationException("1st and 2nd ItemzType are not next to each other. " +
+                    "Please consider moving ItemzType between two ItemzType which are next to each other. " +
+                    "Total ItemzType found in between 1st and 2nd ItemzType are '" + (gapBetweenLowerAndUpper).Count() + "'");
+            }
+
+
+            var movingItemzTypeHierarchyRecordList = _context.ItemzHierarchy!
+                    .Where(ih => ih.Id == movingItemzTypeId);
+            var foundMovingItemzTypeHierarchyRecordCount = movingItemzTypeHierarchyRecordList.Count();
+
+            if (foundMovingItemzTypeHierarchyRecordCount > 1)
+            {
+                throw new ApplicationException($"{movingItemzTypeHierarchyRecordList.Count()} records found for the " +
+                    $"moving ItemzType Id {movingItemzTypeId} in the system. " +
+                    $"Expected 1 record but instead found {movingItemzTypeHierarchyRecordList.Count()}");
+            }
+
+            // DEFINE VARIABLES THAT WE USE IN AND OUT OF CODE BLOCKS
+            var movingItemzTypeHierarchyRecord = new ItemzHierarchy();
+            string originalItemzTypeHierarchyIdString = "";
+            List<ItemzHierarchy> allDescendentItemzHierarchyRecord = new List<ItemzHierarchy>();
+            var found_ItemzType = await _context.ItemzTypes!.Where(it => it.Id == movingItemzTypeId).ToListAsync();
+            var target_ProjectId = _context.ItemzHierarchy!.AsNoTracking()
+                        .Where(ih => ih.ItemzHierarchyId ==
+                            tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!
+                                .GetAncestor(1)).ToList().FirstOrDefault()!.Id;
+
+
+            if (found_ItemzType.FirstOrDefault()!.IsSystem == true)
+            {
+                if (found_ItemzType.FirstOrDefault()!.ProjectId != target_ProjectId)
+                {
+                    throw new ApplicationException($"System does not support moving 'Parking Lot' system ItemzType " +
+                        $"from source Project with ID {found_ItemzType.FirstOrDefault()!.ProjectId} to target Project with Id {target_ProjectId}");
+                }
+            }
+
+            if (foundMovingItemzTypeHierarchyRecordCount == 1)
+            {
+                movingItemzTypeHierarchyRecord = movingItemzTypeHierarchyRecordList.FirstOrDefault();
+                if (movingItemzTypeHierarchyRecord!.ItemzHierarchyId!.GetLevel() != 2)
+                {
+                    throw new ApplicationException($"Expected {movingItemzTypeHierarchyRecord.Id} " +
+                        $"to be 'ItemzType' but instead it's found moving ItemzType Hierarchy Record " +
+                        $"as '{movingItemzTypeHierarchyRecord.RecordType}' ");
+                }
+
+                originalItemzTypeHierarchyIdString = movingItemzTypeHierarchyRecord!.ItemzHierarchyId!.ToString();
+                allDescendentItemzHierarchyRecord = await _context.ItemzHierarchy!
+                    .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(movingItemzTypeHierarchyRecord!.ItemzHierarchyId)).ToListAsync();
+
+                if (allDescendentItemzHierarchyRecord.Any(ih => ih.Id == tempFirstItemzType.FirstOrDefault().Id || ih.Id == tempSecondItemzType.FirstOrDefault().Id))
+                {
+                    throw new ApplicationException($"System does not support moving parent ItemzType under it's existing child Itemz. " +
+                        $"Moving ItemzType {movingItemzTypeHierarchyRecord.Id} (with hierarchy id '" +
+                            $"{movingItemzTypeHierarchyRecord.ItemzHierarchyId.ToString()}') is a parent to either " +
+                        $"{tempFirstItemzType.FirstOrDefault().Id} (with hierarchy id '" +
+                        $"{tempFirstItemzType.FirstOrDefault().ItemzHierarchyId.ToString()}') " +
+                        $"OR {tempSecondItemzType.FirstOrDefault().Id}  (with hierarchy id '" +
+                        $"{tempSecondItemzType.FirstOrDefault().ItemzHierarchyId.ToString()}') ");
+                }
+
+                movingItemzTypeHierarchyRecord!.ItemzHierarchyId = tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!
+                            .GetDescendant(tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId
+                            , tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId == tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId
+                             ? HierarchyId.Parse(
+                                  HierarchyIdStringHelper.ManuallyGenerateHierarchyIdNumberString(
+                                      tempFirstItemzType.FirstOrDefault()!.ItemzHierarchyId!.ToString()
+                                      , diffValue: 2
+                                      , addDecimal: true
+                                      )
+                               )
+                            : tempSecondItemzType.FirstOrDefault()!.ItemzHierarchyId);
+
+                var newItemzTypeHierarchyIdString = movingItemzTypeHierarchyRecord!.ItemzHierarchyId!.ToString();
+
+                foreach (var descendentItemzHierarchyRecord in allDescendentItemzHierarchyRecord)
+                {
+                    Regex oldValueRegEx = new Regex(originalItemzTypeHierarchyIdString);
+                    descendentItemzHierarchyRecord.ItemzHierarchyId = HierarchyId.Parse(
+                        (oldValueRegEx.Replace((descendentItemzHierarchyRecord!
+                                                .ItemzHierarchyId!.ToString())
+                                                , newItemzTypeHierarchyIdString
+                                                , 1)
+                        )
+                    );
+                }
+
+            }
+           
+            // EXPLANATION :: In both the cases, whether we are adding new ItemzType or Moving existing ItemzType
+            // between two ItemzType in the hierarchy, we need to make sure that we check the newly added or moved ItemzType
+            // location. If new location is under Project then we have to add entry in ItemzTypeJoinItemz table.
+            // which is what following code is doing.
+
+            var parentOfNewlyAddedtempItemzTypeHierarchy = _context.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.ItemzHierarchyId == movingItemzTypeHierarchyRecord.ItemzHierarchyId.GetAncestor(1)).FirstOrDefault();
+
+            if (parentOfNewlyAddedtempItemzTypeHierarchy!.ItemzHierarchyId!.GetLevel() == 1) // if it's Project
+            {
+                // EXPLANATION :: Now that ItemzType has been moved to another project,
+                // we should update ItemzType to Project One to One relationship data as well.
+
+                if (found_ItemzType.Any())
+                {
+                    //foreach (var it in found_it)
+                    //{
+                        found_ItemzType.FirstOrDefault()!.ProjectId = parentOfNewlyAddedtempItemzTypeHierarchy.Id;
+                    //}
+                }
+            }
+        }
     }
 }

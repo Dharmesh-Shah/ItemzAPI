@@ -827,6 +827,17 @@
             <response code="204">No content are returned but status of 204 indicating that ItemzType has successfully moved to its desired location</response>
             <response code="404">Either moving ItemzType or target Project was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.MoveItemzTypeBetweenItemzTypesAsync(System.Guid,System.Guid,System.Guid)">
+            <summary>
+            Used for moving ItemzType record between two existing ItemzType records
+            </summary>
+            <param name="movingItemzTypeId">Source moving ItemzType ID that will be moved to new location</param>
+            <param name="firstItemzTypeId">Used as first ItemzType for moving ItemzType between existing two ItemzTypes</param>
+            <param name="secondItemzTypeId">Used as second ItemzType for moving ItemzType between existing two ItemzTypes</param>
+            <returns>No Content</returns>
+            <response code="204">No Content</response>
+            <response code="404">Expected moveing OR target between ItemzTypes could not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzTypeAsync(System.Guid)">
             <summary>
             Deleting a specific ItemzType

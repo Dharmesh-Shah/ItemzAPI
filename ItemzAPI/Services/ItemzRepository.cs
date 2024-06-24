@@ -429,7 +429,7 @@ namespace ItemzApp.API.Services
                                         .Where(ih => ih.Id == between2ndItemzId);
             if ((tempSecondItemz).Count() != 1)
             {
-                throw new ApplicationException("For Between 1st Itemz, Either no hierarchy record was " +
+                throw new ApplicationException("For Between 2nd Itemz, Either no hierarchy record was " +
                             "found OR more then one hierarchy record were found in the system");
             }
 
@@ -443,7 +443,7 @@ namespace ItemzApp.API.Services
             {
                 throw new ApplicationException($"1st Itemz Hierarchy ID is '{tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()}' " +
                     $"which is greater then 2nd Itemz Hirarchy ID as '{tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString()}'. " +
-                                   $"Provided 1st Itemz ID is '{tempFirstItemz.FirstOrDefault()!.Id}' and 2nd Itemz ID is '{tempSecondItemz.FirstOrDefault()!.Id}'   ");
+                                   $"Provided 1st Itemz ID is '{tempFirstItemz.FirstOrDefault()!.Id}' and 2nd Itemz ID is '{tempSecondItemz.FirstOrDefault()!.Id}' ");
             }
 
             if (!(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1) ==

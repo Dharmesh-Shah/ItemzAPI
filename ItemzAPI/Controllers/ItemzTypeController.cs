@@ -480,6 +480,123 @@ namespace ItemzApp.API.Controllers
         }
 
 
+
+
+
+
+
+
+
+        /// <summary>
+        /// Used for moving ItemzType record between two existing ItemzType records
+        /// </summary>
+        /// <param name="movingItemzTypeId">Source moving ItemzType ID that will be moved to new location</param>
+        /// <param name="firstItemzTypeId">Used as first ItemzType for moving ItemzType between existing two ItemzTypes</param>
+        /// <param name="secondItemzTypeId">Used as second ItemzType for moving ItemzType between existing two ItemzTypes</param>
+        /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="404">Expected moveing OR target between ItemzTypes could not found</response>
+        [HttpPost("MoveItemzTypeBetweenItemzTypes/", Name = "__POST_Move_ItemzType_Between_ItemzTypes__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveItemzTypeBetweenItemzTypesAsync([FromQuery] Guid movingItemzTypeId, [FromQuery] Guid firstItemzTypeId, [FromQuery] Guid secondItemzTypeId)
+        {
+            if (movingItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Source moving ItemzTypeID is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            if (firstItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}First ItemzTypeID from between two ItemzTypes is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            if (secondItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Second ItemzTypeID from between two ItemzTypes is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+
+            var movingItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(movingItemzTypeId);
+
+            if (movingItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected moving ItemzType with ID {movingItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    movingItemzTypeId);
+                return NotFound();
+            }
+
+            var firstItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(firstItemzTypeId);
+
+            if (firstItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected first ItemzType with ID {firstItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    firstItemzTypeId);
+                return NotFound();
+            }
+
+            var secondItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(secondItemzTypeId);
+
+            if (secondItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected second ItemzType with ID {secondItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    secondItemzTypeId);
+                return NotFound();
+            }
+
+            try
+            {
+                await _ItemzTypeRepository.MoveItemzTypeBetweenTwoHierarchyRecordsAsync(firstItemzTypeId, secondItemzTypeId, movingItemzTypeId);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to move ItemzType between two existing ItemzTypes :" + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not move ItemzType with Id {movingItemzTypeId} between ItemzType '{firstItemzTypeId}' " +
+                    $"and '{secondItemzTypeId}'. " +
+                    $":: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}DBUpdateException Occured while trying to move ItemzType between two existing ItemzTypes :" + dbUpdateException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"DBUpdateException : Could not move ItemzType with Id {movingItemzTypeId} between ItemzTypes " +
+                    $"'{firstItemzTypeId}' and '{secondItemzTypeId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{dbUpdateException.Message}' ");
+            }
+            catch (Microsoft.SqlServer.Types.HierarchyIdException hierarchyIDException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}HierarchyIdException Occured while trying to add Itemz between two existing Itemz :" + hierarchyIDException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"HierarchyIdException : Could not move ItemzType with Id {movingItemzTypeId} between ItemzTypes " +
+                    $"'{firstItemzTypeId}' and '{secondItemzTypeId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{hierarchyIDException.Message}' ");
+            }
+
+            return NoContent();
+            //_logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
+            //    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+            //    itemzEntity.Id);
+            //return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id },
+            //    _mapper.Map<GetItemzDTO>(itemzEntity) // Converting to DTO as this is going out to the consumer
+            //    );
+        }
+
+
+
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 
