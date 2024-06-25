@@ -711,7 +711,7 @@ namespace ItemzApp.API.Controllers
 
 
         /// <summary>
-        /// Move Itemz to a new location in the repository including all its sub-Itemz
+        /// Move Itemz and it's sub-Itemz to a new location in the repository
         /// </summary>
         /// <param name="MovingItemzId">GUID representing an unique ID of the moving Itemz</param>
         /// <param name="TargetId">Details about target ID under which Itemz will be moving</param>
