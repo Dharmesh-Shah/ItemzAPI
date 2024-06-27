@@ -702,14 +702,6 @@ namespace ItemzApp.API.Controllers
             return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
 
-
-
-
-
-
-
-
-
         /// <summary>
         /// Move Itemz and it's sub-Itemz to a new location in the repository
         /// </summary>
@@ -754,14 +746,6 @@ namespace ItemzApp.API.Controllers
                 TargetId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
         }
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Deleting a specific Itemz

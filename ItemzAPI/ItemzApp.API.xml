@@ -376,6 +376,15 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.HierarchyController.GetHierarchyRecordDetailsAsync(System.Guid)">
+            <summary>
+            Gets Hierarchy Record details based on Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+            <returns>Hierarchy record details containing various information about given Record Id</returns>
+            <response code="200">Hierarchy record details containing various information about given Record Id</response>
+            <response code="404">Hierarchy record not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.DeleteItemzChangeHistoryByItemzTypeAsync(ItemzApp.API.Models.DeleteChangeHistoryDTO)">
             <summary>
             Deleting ItemzChangeHistory for all the Itemz that are associated with given ItemzType ID upto provided Date and Time.
@@ -1619,6 +1628,41 @@
         <member name="P:ItemzApp.API.Models.GetProjectDTO.CreatedDate">
             <summary>
             Date and Time when Project was created
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.RecordId">
+            <summary>
+            Parent Record ID representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.HierarchyId">
+            <summary>
+            Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.Level">
+            <summary>
+            Hierarchy Level for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.RecordType">
+            <summary>
+            Record Type within Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.TopChildHierarchyId">
+            <summary>
+            Hierarchy Id for the TOP Hierarchy Record within a given Parent Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.BottomChildHierarchyId">
+            <summary>
+            Hierarchy Id for the BOTTOM Hierarchy Record within a given Parent Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.NumberOfChildNodes">
+            <summary>
+            Total Number of Child nodes under RecordId
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.ItemzTraceDTO.FromTraceItemzId">
