@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "1b8f8631-73e2-46d1-bd22-084d73ba9edc",
+		"_postman_id": "bb224250-6d51-40b5-b329-cd430faf7c18",
 		"name": "Itemz.Hierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33816436"
+		"_exporter_id": "36455815"
 	},
 	"item": [
 		{
@@ -77944,7 +77944,7 @@
 											"\r",
 											"var jsonData = pm.response.json();\r",
 											"var tempNew1stItemzTypeId = jsonData[0].id;\r",
-											"pm.collectionVariables.set(\"07_13_Hierarchy_1stProjectParkingLotItemzTypeId\",tempNew1stItemzTypeId);\r",
+											"pm.collectionVariables.set(\"07_13_Hierarchy_P1PL_ItemzTypeId\",tempNew1stItemzTypeId);\r",
 											"\r",
 											"\r",
 											""
@@ -77978,6 +77978,64 @@
 										"api",
 										"Projects",
 										"GetItemzTypes",
+										"{{07_13_Hierarchy_1stProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1 and STORE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"const tempHierarchyId = jsonData[\"hierarchyId\"];\r",
+											"pm.collectionVariables.set(\"07_13_Hierarchy_1stProject_HeirarchyId\",tempHierarchyId);\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy Level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(1);});\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"Project\");});\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(1);});     \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_1stProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
 										"{{07_13_Hierarchy_1stProjectId}}"
 									]
 								}
@@ -78067,7 +78125,7 @@
 											"\r",
 											"var jsonData = pm.response.json();\r",
 											"var tempNew1stItemzTypeId = jsonData[0].id;\r",
-											"pm.collectionVariables.set(\"07_13_Hierarchy_2ndProjectParkingLotItemzTypeId\",tempNew1stItemzTypeId);\r",
+											"pm.collectionVariables.set(\"07_13_Hierarchy_P2PL_ItemzTypeId\",tempNew1stItemzTypeId);\r",
 											"\r",
 											"\r",
 											""
@@ -78101,6 +78159,64 @@
 										"api",
 										"Projects",
 										"GetItemzTypes",
+										"{{07_13_Hierarchy_2ndProjectId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P2 and STORE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"const tempHierarchyId = jsonData[\"hierarchyId\"];\r",
+											"pm.collectionVariables.set(\"07_13_Hierarchy_2ndProject_HeirarchyId\",tempHierarchyId);\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy Level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(1);});\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"Project\");});\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(1);});     \r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_2ndProjectId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
 										"{{07_13_Hierarchy_2ndProjectId}}"
 									]
 								}
@@ -78242,6 +78358,140 @@
 									"path": [
 										"api",
 										"ItemzTypes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"    \r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"     "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1T1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"    \r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"     "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1T1_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1T1_ItemzTypeId}}"
 									]
 								}
 							},
@@ -78429,7 +78679,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -78439,7 +78689,7 @@
 										"api",
 										"ItemzTypes",
 										"GetTopItemzHierarchyID",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
@@ -78495,7 +78745,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -78505,7 +78755,7 @@
 										"api",
 										"ItemzTypes",
 										"GetLastItemzHierarchyID",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
@@ -78684,7 +78934,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -78694,7 +78944,7 @@
 										"api",
 										"ItemzTypeItemzs",
 										"GetItemzCount",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
@@ -78956,6 +79206,139 @@
 										"api",
 										"ItemzTypeItemzs",
 										"GetItemzCount",
+										"{{07_13_Hierarchy_P1T1_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"    \r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"     "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1T1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0 + 2);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/1/\"); });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/2/\"); });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1T1_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
 										"{{07_13_Hierarchy_P1T1_ItemzTypeId}}"
 									]
 								}
@@ -79913,6 +80296,139 @@
 							"response": []
 						},
 						{
+							"name": "GET HierarchyDetails by P1PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"    \r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"     "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1T1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0 + 2);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/1/\"); });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"2/2/\"); });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1T1_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1T1_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GetTopItemzHierarchyID",
 							"event": [
 								{
@@ -80400,6 +80916,205 @@
 							"response": []
 						},
 						{
+							"name": "GET HierarchyDetails by P1PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"    \r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(\"\");});\r",
+											"     "
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P1T1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0 + 1);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"0/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"0/2/\"); });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"0/2/\"); });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1T1_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1T1_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET HierarchyDetails by P2T1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0 + 1);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"2/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"2/1/\"); });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_2ndProject_HeirarchyId\") + \"2/1/\"); });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P2T1_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P2T1_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GetTopItemzHierarchyID",
 							"event": [
 								{
@@ -80582,7 +81297,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/Itemzs/{{07_13_Hierarchy_P1T1_1stItemzId}}?TargetId={{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}&AtBottomOfChildNodes=true",
+									"raw": "http://localhost:51087/api/Itemzs/{{07_13_Hierarchy_P1T1_1stItemzId}}?TargetId={{07_13_Hierarchy_P1PL_ItemzTypeId}}&AtBottomOfChildNodes=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -80596,7 +81311,7 @@
 									"query": [
 										{
 											"key": "TargetId",
-											"value": "{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+											"value": "{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 										},
 										{
 											"key": "AtBottomOfChildNodes",
@@ -80752,6 +81467,72 @@
 							"response": []
 						},
 						{
+							"name": "GET HierarchyDetails by P1PL",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy level\", function () {\r",
+											"     pm.expect(jsonData[\"level\"]).to.be.eq(2);});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy recordType\", function () {\r",
+											"     pm.expect(jsonData[\"recordType\"]).to.be.eq(\"ItemzType\");});\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy numberOfChildNodes\", function () {\r",
+											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0 + 1);     });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy hierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"hierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/\");    });  \r",
+											"\r",
+											"pm.test(\"Verify Hierarchy topChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"topChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/1/\"); });\r",
+											"\r",
+											"pm.test(\"Verify Hierarchy bottomChildHierarchyId\", function () {\r",
+											"     pm.expect(jsonData[\"bottomChildHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"07_13_Hierarchy_1stProject_HeirarchyId\") + \"1/1/\"); });"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/Hierarchy/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"Hierarchy",
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "GetParkingLotTopItemzHierarchyID",
 							"event": [
 								{
@@ -80801,7 +81582,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypes/GetTopItemzHierarchyID/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -80811,7 +81592,7 @@
 										"api",
 										"ItemzTypes",
 										"GetTopItemzHierarchyID",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
@@ -80867,7 +81648,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypes/GetLastItemzHierarchyID/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -80877,7 +81658,7 @@
 										"api",
 										"ItemzTypes",
 										"GetLastItemzHierarchyID",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
@@ -80929,7 +81710,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}",
+									"raw": "http://localhost:51087/api/ItemzTypeItemzs/GetItemzCount/{{07_13_Hierarchy_P1PL_ItemzTypeId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -80939,7 +81720,7 @@
 										"api",
 										"ItemzTypeItemzs",
 										"GetItemzCount",
-										"{{07_13_Hierarchy_1stProjectParkingLotItemzTypeId}}"
+										"{{07_13_Hierarchy_P1PL_ItemzTypeId}}"
 									]
 								}
 							},
