@@ -33,9 +33,9 @@ namespace ItemzApp.API.Services
 
         public Task<bool> DeleteItemzTypeItemzHierarchyAsync(Guid itemzTypeId);
 
-        public Task<string?> GetTopItemzHierarchyID(Guid parentItemzTypeId);
+        //public Task<string?> GetTopItemzHierarchyID(Guid parentItemzTypeId);
 
-        public Task<string?> GetLastItemzHierarchyID(Guid parentItemzTypeId);
+        //public Task<string?> GetLastItemzHierarchyID(Guid parentItemzTypeId);
 
         public Task MoveItemzTypeToAnotherProjectAsync(Guid movingItemzTypeId, Guid targetProjectId, bool atBottomOfChildNodes = true);
 
