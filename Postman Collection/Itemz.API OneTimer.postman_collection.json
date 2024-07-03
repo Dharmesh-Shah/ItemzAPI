@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ff72b037-066c-4b6d-b110-a753545ec57b",
+		"_postman_id": "b283164d-2137-4cf7-bcce-5e5767c173ae",
 		"name": "Itemz.API OneTimer",
 		"description": "This should be executed only once to verify that expected features are working as expected.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -549,7 +549,7 @@
 			"name": "0002 BusinessRule - UniqueBaselineNameRule",
 			"item": [
 				{
-					"name": "ByProjectID",
+					"name": "01 ByProjectID",
 					"item": [
 						{
 							"name": "01 VerifyEmptyProject",
@@ -812,7 +812,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"const tempNewProjectId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_1stProjectId\",tempNewProjectId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_1stProjectId\",tempNewProjectId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -829,9 +829,9 @@
 											"script": {
 												"exec": [
 													"\r",
-													"pm.collectionVariables.set(\"02_02_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
 													"\r",
-													"pm.variables.get(\"02_02_OneTimer_1stProjectName\");\r",
+													"pm.variables.get(\"02_01_02_OneTimer_1stProjectName\");\r",
 													"\r",
 													""
 												],
@@ -854,7 +854,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"{{02_02_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_02_OneTimer_1stProjectName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"name\": \"{{02_01_02_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_01_02_OneTimer_1stProjectName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Projects",
@@ -888,7 +888,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -924,7 +924,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_02_OneTimer_1stProjectId}}\"\r\n}"
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_01_02_OneTimer_1stProjectId}}\"\r\n}"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/ItemzTypes",
@@ -955,7 +955,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P1T1_1stItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_1stItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -993,7 +993,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_OneTimer_P1T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_02_OneTimer_P1T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1002,7 +1002,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_02_OneTimer_P1T1_ItemzTypeId}}"
+												"{{02_01_02_OneTimer_P1T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -1022,7 +1022,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P1T1_2ndItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_2ndItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1060,7 +1060,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_OneTimer_P1T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_02_OneTimer_P1T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1069,7 +1069,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_02_OneTimer_P1T1_ItemzTypeId}}"
+												"{{02_01_02_OneTimer_P1T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -1088,7 +1088,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -1169,7 +1169,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_02_OneTimer_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_02_OneTimer_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_01_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1210,7 +1210,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -1292,7 +1292,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_01_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1330,7 +1330,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"const tempNewProjectId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_2ndProjectId\",tempNewProjectId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_2ndProjectId\",tempNewProjectId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1347,9 +1347,9 @@
 											"script": {
 												"exec": [
 													"\r",
-													"pm.collectionVariables.set(\"02_02_OneTimer_2ndProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_2ndProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
 													"\r",
-													"pm.variables.get(\"02_02_OneTimer_2ndProjectName\");\r",
+													"pm.variables.get(\"02_01_02_OneTimer_2ndProjectName\");\r",
 													"\r",
 													""
 												],
@@ -1372,7 +1372,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"{{02_02_OneTimer_2ndProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_02_OneTimer_2ndProjectName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"name\": \"{{02_01_02_OneTimer_2ndProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_01_02_OneTimer_2ndProjectName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Projects",
@@ -1406,7 +1406,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_ItemzTypeId\",tempNew1stItemzTypeId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1442,7 +1442,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_02_OneTimer_2ndProjectId}}\"\r\n}"
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_01_02_OneTimer_2ndProjectId}}\"\r\n}"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/ItemzTypes",
@@ -1473,7 +1473,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_1stItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_1stItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1511,7 +1511,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_OneTimer_P2T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_02_OneTimer_P2T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1520,7 +1520,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_02_OneTimer_P2T1_ItemzTypeId}}"
+												"{{02_01_02_OneTimer_P2T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -1540,7 +1540,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_2ndItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_2ndItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1578,7 +1578,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_OneTimer_P2T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_02_OneTimer_P2T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -1587,7 +1587,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_02_OneTimer_P2T1_ItemzTypeId}}"
+												"{{02_01_02_OneTimer_P2T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -1606,7 +1606,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -1687,7 +1687,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_02_OneTimer_P2T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_02_OneTimer_P2T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_01_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1728,7 +1728,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -1810,7 +1810,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_01_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1848,7 +1848,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_1stBaselineId\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_1stBaselineId\",tempNewBaselineid);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1892,7 +1892,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"{{02_02_OneTimer_1stProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_01_02_OneTimer_1stProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",
@@ -1919,7 +1919,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_02_OneTimer_P2T1_2ndBaselineId\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_2ndBaselineId\",tempNewBaselineid);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -2028,7 +2028,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{02_02_OneTimer_P2T1_1stBaselineId}}",
+											"raw": "http://localhost:51087/api/Baselines/{{02_01_02_OneTimer_P2T1_1stBaselineId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2037,7 +2037,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{02_02_OneTimer_P2T1_1stBaselineId}}"
+												"{{02_01_02_OneTimer_P2T1_1stBaselineId}}"
 											]
 										}
 									},
@@ -2093,7 +2093,7 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{02_02_OneTimer_P2T1_2ndBaselineId}}",
+											"raw": "http://localhost:51087/api/Baselines/{{02_01_02_OneTimer_P2T1_2ndBaselineId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2102,7 +2102,7 @@
 											"path": [
 												"api",
 												"Baselines",
-												"{{02_02_OneTimer_P2T1_2ndBaselineId}}"
+												"{{02_01_02_OneTimer_P2T1_2ndBaselineId}}"
 											]
 										}
 									},
@@ -2202,7 +2202,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:51087/api/Projects/{{02_02_OneTimer_1stProjectId}}",
+											"raw": "http://localhost:51087/api/Projects/{{02_01_02_OneTimer_1stProjectId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2211,7 +2211,7 @@
 											"path": [
 												"api",
 												"Projects",
-												"{{02_02_OneTimer_1stProjectId}}"
+												"{{02_01_02_OneTimer_1stProjectId}}"
 											]
 										}
 									},
@@ -2247,7 +2247,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:51087/api/Projects/{{02_02_OneTimer_2ndProjectId}}",
+											"raw": "http://localhost:51087/api/Projects/{{02_01_02_OneTimer_2ndProjectId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2256,7 +2256,7 @@
 											"path": [
 												"api",
 												"Projects",
-												"{{02_02_OneTimer_2ndProjectId}}"
+												"{{02_01_02_OneTimer_2ndProjectId}}"
 											]
 										}
 									},
@@ -2265,7 +2265,7 @@
 							]
 						},
 						{
-							"name": "03 VerifySamdBaselineNameInSingleProject",
+							"name": "03 VerifySameBaselineNameInSingleProject",
 							"item": [
 								{
 									"name": "POST Project 1st",
@@ -2277,7 +2277,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"const tempNewProjectId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_03_OneTimer_1stProjectId\",tempNewProjectId);",
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_1stProjectId\",tempNewProjectId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -2294,9 +2294,9 @@
 											"script": {
 												"exec": [
 													"\r",
-													"pm.collectionVariables.set(\"02_03_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
 													"\r",
-													"pm.variables.get(\"02_03_OneTimer_1stProjectName\");\r",
+													"pm.variables.get(\"02_01_03_OneTimer_1stProjectName\");\r",
 													"\r",
 													""
 												],
@@ -2319,7 +2319,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"{{02_03_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_03_OneTimer_1stProjectName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"name\": \"{{02_01_03_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_01_03_OneTimer_1stProjectName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Projects",
@@ -2353,7 +2353,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_03_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -2389,7 +2389,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_03_OneTimer_1stProjectId}}\"\r\n}"
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_01_03_OneTimer_1stProjectId}}\"\r\n}"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/ItemzTypes",
@@ -2420,7 +2420,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_03_OneTimer_P1T1_1stItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_P1T1_1stItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -2458,7 +2458,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_03_OneTimer_P1T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_03_OneTimer_P1T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2467,7 +2467,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_03_OneTimer_P1T1_ItemzTypeId}}"
+												"{{02_01_03_OneTimer_P1T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -2487,7 +2487,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData[0].id;",
-													"pm.collectionVariables.set(\"02_03_OneTimer_P1T1_2ndItemzId\",tempNew1stItemzId);",
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_P1T1_2ndItemzId\",tempNew1stItemzId);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -2525,7 +2525,7 @@
 											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
 										},
 										"url": {
-											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_03_OneTimer_P1T1_ItemzTypeId}}",
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_01_03_OneTimer_P1T1_ItemzTypeId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -2534,7 +2534,7 @@
 											"path": [
 												"api",
 												"ItemzTypeItemzs",
-												"{{02_03_OneTimer_P1T1_ItemzTypeId}}"
+												"{{02_01_03_OneTimer_P1T1_ItemzTypeId}}"
 											]
 										}
 									},
@@ -2553,7 +2553,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_03_OneTimer_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -2634,7 +2634,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_03_OneTimer_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_03_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_03_OneTimer_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_01_03_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2675,7 +2675,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNew1stItemzId =   jsonData.id;",
-													"pm.collectionVariables.set(\"02_03_OneTimer_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+													"pm.collectionVariables.set(\"02_01_03_OneTimer_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
 												],
 												"type": "text/javascript",
 												"packages": {}
@@ -2757,7 +2757,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"itemzId\": \"{{02_03_OneTimer_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_03_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"itemzId\": \"{{02_01_03_OneTimer_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_01_03_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -3510,7 +3510,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:51087/api/Projects/{{02_03_OneTimer_1stProjectId}}",
+											"raw": "http://localhost:51087/api/Projects/{{02_01_03_OneTimer_1stProjectId}}",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -3519,7 +3519,7 @@
 											"path": [
 												"api",
 												"Projects",
-												"{{02_03_OneTimer_1stProjectId}}"
+												"{{02_01_03_OneTimer_1stProjectId}}"
 											]
 										}
 									},
@@ -3530,11 +3530,150 @@
 					]
 				},
 				{
-					"name": "ByItemzTypeID",
+					"name": "02 ByItemzTypeID",
 					"item": [
 						{
-							"name": "Verify Empty ItemzType",
+							"name": "01 Verify Empty ItemzType",
 							"item": [
+								{
+									"name": "POST Project 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"const tempNewProjectId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_01_OneTimer_1stProjectId\",tempNewProjectId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_01_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_01_OneTimer_1stProjectName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{02_02_01_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_02_01_OneTimer_1stProjectName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST ItemzType P1T1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"/**",
+													" ",
+													" pm.test(\"Status code is either 201 or 409\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"});",
+													"",
+													"**/",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_01_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_02_01_OneTimer_1stProjectId}}\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypes"
+											]
+										}
+									},
+									"response": []
+								},
 								{
 									"name": "POST Baseline (WithoutChildItemz)",
 									"event": [
@@ -3549,7 +3688,8 @@
 													"",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										},
 										{
@@ -3560,7 +3700,8 @@
 													"\r",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -3580,7 +3721,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"itemzTypeId\": \"52ca1dfc-b187-47fc-a379-57af33404b34\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_02_01_OneTimer_1stProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_01_OneTimer_P1T1_ItemzTypeId}}\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",
@@ -3596,1029 +3737,2270 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "DELETE 1st Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/{{02_02_01_OneTimer_1stProjectId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"{{02_02_01_OneTimer_1stProjectId}}"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
 						{
-							"name": "POST Baseline First Time",
-							"event": [
+							"name": "02 VerifySameBaselineNameInTwoDifferentProjectItemzType",
+							"item": [
 								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"var jsonData = pm.response.json();",
-											"var tempNewBaselineid = jsonData[\"id\"];",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"\r",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
-											"\r",
-											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Baseline Second Time",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"pm.test(\"Status code is 409\", function () {",
-											"    pm.response.to.have.status(409);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Baseline Two",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"var jsonData = pm.response.json();",
-											"var tempNewBaselineid = jsonData[\"id\"];",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"\r",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
-											"\r",
-											"pm.variables.get(\"UniqueBaselineNameRule_2ndBaselineName\");\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PATCH Baseline One Name",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json-patch+json",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueBaselineNameRule - Baseline 1\"\r\n\t}\r\n]\r\n\t",
-									"options": {
-										"raw": {
-											"language": "json"
+									"name": "POST Project 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"const tempNewProjectId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stProjectId\",tempNewProjectId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_02_OneTimer_1stProjectName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET Baseline One Verify Name has been updated after patch",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test('The `Baseline Name` is a specific value', () => {",
-											"    var jsonData = pm.response.json(); ",
-											"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueBaselineNameRule - Baseline 1\");",
-											"    });"
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PATCH Baseline One Name to Existing Baseline Two Name",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 409\", function () {",
-											"    pm.response.to.have.status(409);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json-patch+json",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n\t}\r\n]\r\n\t",
-									"options": {
-										"raw": {
-											"language": "json"
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{02_02_02_OneTimer_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_02_02_OneTimer_1stProjectName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects"
+											]
 										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Baseline One",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
 									},
-									{
-										"key": "conten",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"PUT - UniqueBaselineNameRule - Baseline 1\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"response": []
+								},
+								{
+									"name": "POST ItemzType P1T1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"/**",
+													" ",
+													" pm.test(\"Status code is either 201 or 409\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"});",
+													"",
+													"**/",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P1T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
 										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET Baseline One Verify Name has been updated after patch",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test('The `Baseline Name` is a specific value', () => {",
-											"    var jsonData = pm.response.json(); ",
-											"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueBaselineNameRule - Baseline 1\");",
-											"    });"
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PUT Baseline One",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 409\", function () {",
-											"    pm.response.to.have.status(409);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "conten",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_02_02_OneTimer_1stProjectId}}\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypes"
+											]
 										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE Baseline One",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"//pm.test(\"Status code is either 201 or 409\", function () {",
-											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-											"//});",
-											"",
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST Itemz 1 to P1T1_ItemzType1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData[0].id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P1T1_1stItemzId\",tempNew1stItemzId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE Baseline Two",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"//pm.test(\"Status code is either 201 or 409\", function () {",
-											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-											"//});",
-											"",
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											""
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_02_OneTimer_P1T1_ItemzTypeId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs",
+												"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}"
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST Itemz 2 to P1T1_ItemzType1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData[0].id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P1T1_2ndItemzId\",tempNew1stItemzId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_2ndBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET Orphaned BaselineItemz Count",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
-											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_02_OneTimer_P1T1_ItemzTypeId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs",
+												"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}"
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST New SINGLE Itemz at TOP",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 201\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData.id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P1T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"GetOrphanedBaselineItemzCount"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Baseline in 1st Project",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"var jsonData = pm.response.json();",
-											"var tempNewBaselineid = jsonData[\"id\"];",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineId\",tempNewBaselineid);",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											""
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"\r",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
-											"\r",
-											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+										"body": {
+											"mode": "raw",
+											"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at TOP\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Itemzs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Itemzs"
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"itemzTypeId\": \"611639db-577a-48f6-9b08-f6aef477368f\",  \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST Associate Itemz1 With ItemzType 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													" pm.test(\"Status code is 200,201\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Baseline in 2nd Project",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"",
-											"var jsonData = pm.response.json();",
-											"var tempNewBaselineid = jsonData[\"id\"];",
-											"pm.collectionVariables.set(\"UniqueBaselineNameRule_2ndBaselineId\",tempNewBaselineid);",
-											"",
-											"",
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"pm.variables.get(\"UniqueBaselineNameRule_1stBaselineName\");\r",
-											"\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"itemzId\": \"{{02_02_02_OneTimer_P1T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=false",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs"
+											],
+											"query": [
+												{
+													"key": "AtBottomOfChildNodes",
+													"value": "false"
+												}
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"itemzTypeId\": \"8414bf58-6331-4b3e-bbf0-f780950a337b\",      \r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST New SINGLE Itemz at BOTTOM",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 201\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData.id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE Baseline One",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"//pm.test(\"Status code is either 201 or 409\", function () {",
-											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-											"//});",
-											"",
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											""
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+										"body": {
+											"mode": "raw",
+											"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at BOTTOM \",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Itemzs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Itemzs"
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_1stBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST Associate Itemz1 With ItemzType 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													" pm.test(\"Status code is 200,201\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_1stBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "DELETE Baseline Two",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"//pm.test(\"Status code is either 201 or 409\", function () {",
-											"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-											"//});",
-											"",
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"itemzId\": \"{{02_02_02_OneTimer_P1T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=true",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs"
+											],
+											"query": [
+												{
+													"key": "AtBottomOfChildNodes",
+													"value": "true"
+												}
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/{{UniqueBaselineNameRule_2ndBaselineId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST Project 2nd",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"const tempNewProjectId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_2ndProjectId\",tempNewProjectId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_2ndProjectName\", \"01 Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_02_OneTimer_2ndProjectName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"{{UniqueBaselineNameRule_2ndBaselineId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "GET Orphaned BaselineItemz Count",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
-											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
 										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{02_02_02_OneTimer_2ndProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for - {{02_02_02_OneTimer_2ndProjectName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Projects",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects"
+											]
+										}
 									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
+									"response": []
 								},
-								"url": {
-									"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
-									"protocol": "http",
-									"host": [
-										"localhost"
+								{
+									"name": "POST ItemzType P2T1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"/**",
+													" ",
+													" pm.test(\"Status code is either 201 or 409\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"});",
+													"",
+													"**/",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzTypeId = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P2T1_ItemzTypeId\",tempNew1stItemzTypeId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
 									],
-									"port": "51087",
-									"path": [
-										"api",
-										"Baselines",
-										"GetOrphanedBaselineItemzCount"
-									]
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"ItemzType 1\",\r\n    \"status\": \"New\",\r\n    \"description\": \"Description of ItemzType 1.\",\r\n    \"projectId\": \"{{02_02_02_OneTimer_2ndProjectId}}\"\r\n}"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypes",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypes"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Itemz 1 to P2T1_ItemzType1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData[0].id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P2T1_1stItemzId\",tempNew1stItemzId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 1\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_02_OneTimer_P2T1_ItemzTypeId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs",
+												"{{02_02_02_OneTimer_P2T1_ItemzTypeId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Itemz 2 to P2T1_ItemzType1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData[0].id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P2T1_2ndItemzId\",tempNew1stItemzId);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n  {\r\n    \"Name\": \"Itemz 2\",\r\n    \"Status\": \"New\",\r\n    \"Priority\": \"Medium\",\r\n    \"Description\": \"Requirements to be described here.\"\r\n  }\r\n]"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs/{{02_02_02_OneTimer_P2T1_ItemzTypeId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs",
+												"{{02_02_02_OneTimer_P2T1_ItemzTypeId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST New SINGLE Itemz at TOP",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 201\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData.id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P2T1_SINGLEITEMZ_TOP\",tempNew1stItemzId);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at TOP\",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Itemzs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Itemzs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Associate Itemz1 With ItemzType 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													" pm.test(\"Status code is 200,201\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"itemzId\": \"{{02_02_02_OneTimer_P2T1_SINGLEITEMZ_TOP}}\",\r\n  \"itemzTypeId\": \"{{02_02_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=false",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs"
+											],
+											"query": [
+												{
+													"key": "AtBottomOfChildNodes",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST New SINGLE Itemz at BOTTOM",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is either 200 or 201\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+													"});",
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNew1stItemzId =   jsonData.id;",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM\",tempNew1stItemzId);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "    {\r\n        \"name\": \"SINGLE Itemz 1 at BOTTOM \",\r\n        \"status\": \"New\",\r\n        \"priority\": \"Medium\",\r\n        \"description\": \"Requirements to be described here.\",\r\n        \"severity\": \"Medium\"\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Itemzs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Itemzs"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Associate Itemz1 With ItemzType 1st",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													" pm.test(\"Status code is 200,201\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"itemzId\": \"{{02_02_02_OneTimer_P2T1_SINGLEITEMZ_BOTTOM}}\",\r\n  \"itemzTypeId\": \"{{02_02_02_OneTimer_P2T1_ItemzTypeId}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/ItemzTypeItemzs?AtBottomOfChildNodes=true",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"ItemzTypeItemzs"
+											],
+											"query": [
+												{
+													"key": "AtBottomOfChildNodes",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline First Time",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stBaselineId\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_02_OneTimer_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{02_02_02_OneTimer_1stProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\",  \r\n    \"name\": \"{{02_02_02_OneTimer_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{02_02_02_OneTimer_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline Second Time",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 409\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.get(\"02_02_02_OneTimer_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{02_02_02_OneTimer_1stProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\",      \r\n    \"name\": \"{{02_02_02_OneTimer_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{02_02_02_OneTimer_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline Two",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_2ndBaselineId\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_2ndBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_02_OneTimer_2ndBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{02_02_02_OneTimer_1stProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\",       \r\n    \"name\": \"{{02_02_02_OneTimer_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{02_02_02_OneTimer_2ndBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH Baseline One Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json-patch+json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueBaselineNameRule - Baseline 1\"\r\n\t}\r\n]\r\n\t",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Baseline One Verify Name has been updated after patch",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test('The `Baseline Name` is a specific value', () => {",
+													"    var jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueBaselineNameRule - Baseline 1\");",
+													"    });"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PATCH Baseline One Name to Existing Baseline Two Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 409\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json-patch+json",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{02_02_02_OneTimer_2ndBaselineName}}\"\r\n\t}\r\n]\r\n\t",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "conten",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"PUT - UniqueBaselineNameRule - Baseline 1\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Baseline One Verify Name has been updated after patch",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test('The `Baseline Name` is a specific value', () => {",
+													"    var jsonData = pm.response.json(); ",
+													"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueBaselineNameRule - Baseline 1\");",
+													"    });"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "PUT Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 409\", function () {",
+													"    pm.response.to.have.status(409);",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "conten",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"{{02_02_02_OneTimer_2ndBaselineName}}\",\r\n    \"description\": \"This is Baseline 1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline Two",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_2ndBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_2ndBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Orphaned BaselineItemz Count",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetOrphanedBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline in 1st Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stBaselineId\",tempNewBaselineid);",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_1stBaselineName\", \"New Baseline - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+													"\r",
+													"pm.variables.get(\"02_02_02_OneTimer_1stBaselineName\");\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{02_02_02_OneTimer_1stProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_02_OneTimer_P1T1_ItemzTypeId}}\",      \r\n    \"name\": \"{{02_02_02_OneTimer_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{02_02_02_OneTimer_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "POST Baseline in 2nd Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"var jsonData = pm.response.json();",
+													"var tempNewBaselineid = jsonData[\"id\"];",
+													"pm.collectionVariables.set(\"02_02_02_OneTimer_2ndBaselineId\",tempNewBaselineid);",
+													"",
+													"",
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.get(\"02_02_02_OneTimer_1stBaselineName\");\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"projectId\": \"{{02_02_02_OneTimer_2ndProjectId}}\",\r\n    \"itemzTypeId\": \"{{02_02_02_OneTimer_P2T1_ItemzTypeId}}\",      \r\n     \"name\": \"{{02_02_02_OneTimer_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{02_02_02_OneTimer_1stBaselineName}}\"\r\n}\r\n"
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE Baseline Two",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_02_02_OneTimer_2ndBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_02_02_OneTimer_2ndBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "GET Orphaned BaselineItemz Count",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
+													"    pm.expect(parseInt(pm.response.text())).to.eql(0)});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/GetOrphanedBaselineItemzCount",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"GetOrphanedBaselineItemzCount"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE 1st Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/{{02_02_02_OneTimer_1stProjectId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"{{02_02_02_OneTimer_1stProjectId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE 2nd Project",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:51087/api/Projects/{{02_02_02_OneTimer_2ndProjectId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Projects",
+												"{{02_02_02_OneTimer_2ndProjectId}}"
+											]
+										}
+									},
+									"response": []
 								}
-							},
-							"response": []
+							]
 						}
 					]
 				}
