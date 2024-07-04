@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "01 VerifyProjectCreateHierarchy",
+			"name": "0001 VerifyProjectCreateHierarchy",
 			"item": [
 				{
 					"name": "GetLastProjectHierarchyID",
@@ -998,7 +998,7 @@
 			]
 		},
 		{
-			"name": "02 VerifyItemzCreationHierarchy",
+			"name": "0002 VerifyItemzCreationHierarchy",
 			"item": [
 				{
 					"name": "POST Project 1st",
@@ -1855,7 +1855,7 @@
 			]
 		},
 		{
-			"name": "03 VerifyItemzDeletionHierarchy",
+			"name": "0003 VerifyItemzDeletionHierarchy",
 			"item": [
 				{
 					"name": "POST Project 1st",
@@ -3310,7 +3310,7 @@
 			]
 		},
 		{
-			"name": "04 InsertBetweenTwoItemz",
+			"name": "0004 InsertBetweenTwoItemz",
 			"item": [
 				{
 					"name": "POST Project 1st",
@@ -5050,7 +5050,7 @@
 			]
 		},
 		{
-			"name": "05 Project",
+			"name": "0005 Project",
 			"item": [
 				{
 					"name": "05_01 VerifyItemzCountWithSubItemz",
@@ -10288,7 +10288,7 @@
 			]
 		},
 		{
-			"name": "06 ItemzType",
+			"name": "0006 ItemzType",
 			"item": [
 				{
 					"name": "06_01 VerifyItemzCountWithSubItemz",
@@ -39195,7 +39195,7 @@
 			]
 		},
 		{
-			"name": "07 Itemz",
+			"name": "0007 Itemz",
 			"item": [
 				{
 					"name": "07_01 VerifyDeleteItemzTypeAndItemzAssociation",
