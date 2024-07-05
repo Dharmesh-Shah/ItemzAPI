@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "77ef31c9-59fc-438e-b546-1edccfc37afd",
+		"_postman_id": "4abf3231-4437-409d-8201-542edc7812ab",
 		"name": "Itemz.API OneTimer",
 		"description": "This should be executed only once to verify that expected features are working as expected.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -11,7 +11,7 @@
 			"name": "0001 BusinessRule - UniqueProjectNameRule",
 			"item": [
 				{
-					"name": "POST Project First Time",
+					"name": "POST Project 1st",
 					"event": [
 						{
 							"listen": "test",
@@ -38,9 +38,9 @@
 							"script": {
 								"exec": [
 									"\r",
-									"pm.collectionVariables.set(\"UniqueProjectNameRule_ProjectName\", \"New Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"pm.collectionVariables.set(\"UniqueProjectNameRule_1stProjectName\", \"New Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
 									"\r",
-									"pm.variables.get(\"UniqueProjectNameRule_ProjectName\");\r",
+									"pm.variables.get(\"UniqueProjectNameRule_1stProjectName\");\r",
 									"\r",
 									"\r",
 									"\r",
@@ -67,7 +67,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_ProjectName}}\"\r\n}"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_1stProjectName}}\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects",
@@ -85,7 +85,7 @@
 					"response": []
 				},
 				{
-					"name": "POST Project Second Time",
+					"name": "POST Project 1st Second Time",
 					"event": [
 						{
 							"listen": "test",
@@ -96,18 +96,20 @@
 									"    pm.response.to.have.status(409);",
 									"});"
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						},
 						{
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.variables.get(\"UniqueProjectNameRule_ProjectName\");\r",
+									"pm.variables.get(\"UniqueProjectNameRule_1stProjectName\");\r",
 									"\r",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -127,7 +129,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_ProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_ProjectName}}\"\r\n}"
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_1stProjectName}}\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects",
@@ -139,6 +141,145 @@
 							"path": [
 								"api",
 								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Project 2nd",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"",
+									"var jsonData = pm.response.json();",
+									"const tempNewProjectId = jsonData[\"id\"];",
+									"pm.collectionVariables.set(\"01_OneTimer_2ndProjectId\",tempNewProjectId);",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.collectionVariables.set(\"UniqueProjectNameRule_2ndProjectName\", \"New Project - \" + pm.variables.replaceIn(\"{{$randomFullName}} {{$randomPhoneNumber}}\" ));\r",
+									"\r",
+									"pm.variables.get(\"UniqueProjectNameRule_2ndProjectName\");\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{UniqueProjectNameRule_2ndProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Description for {{UniqueProjectNameRule_2ndProjectName}}\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Project Name to Existing Project Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"{{UniqueProjectNameRule_1stProjectName}}\"\r\n\t}\r\n]\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_2ndProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_OneTimer_2ndProjectId}}"
 							]
 						}
 					},
@@ -162,8 +303,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -183,7 +327,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH UniqueProjectNameRule - Project 1\"\r\n\t}\r\n]\r\n\t",
+							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"PATCH - {{UniqueProjectNameRule_1stProjectName}}\"\r\n\t}\r\n]\r\n\t",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -219,7 +363,7 @@
 									"",
 									"pm.test('The `Project Name` is a specific value', () => {",
 									"    var jsonData = pm.response.json(); ",
-									"    pm.expect(jsonData.name).to.eql(\"PATCH UniqueProjectNameRule - Project 1\");",
+									"    pm.expect(jsonData.name).to.eql(\"PATCH - \" + pm.collectionVariables.get(\"UniqueProjectNameRule_1stProjectName\"));",
 									"    });"
 								],
 								"type": "text/javascript",
@@ -229,8 +373,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -243,68 +390,6 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_1stProjectId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Projects",
-								"{{01_OneTimer_1stProjectId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH Project Name to Existing Project Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json-patch+json",
-								"type": "text"
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "[\r\n\t{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/name\",\r\n    \"value\": \"Project 2\"\r\n\t}\r\n]\r\n\t",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_1stProjectId}}",
 							"protocol": "http",
@@ -339,8 +424,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -360,7 +448,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"PUT - UniqueProjectNameRule - Project 1\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}",
+							"raw": "{\r\n    \"name\": \"PUT - {{UniqueProjectNameRule_1stProjectName}}\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -396,7 +484,7 @@
 									"",
 									"pm.test('The `Project Name` is a specific value', () => {",
 									"    var jsonData = pm.response.json(); ",
-									"    pm.expect(jsonData.name).to.eql(\"PUT - UniqueProjectNameRule - Project 1\");",
+									"     pm.expect(jsonData.name).to.eql(\"PUT - \" + pm.collectionVariables.get(\"UniqueProjectNameRule_1stProjectName\"));",
 									"    });"
 								],
 								"type": "text/javascript",
@@ -406,8 +494,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -420,68 +511,6 @@
 								"type": "text"
 							}
 						],
-						"url": {
-							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_1stProjectId}}",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Projects",
-								"{{01_OneTimer_1stProjectId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT Project to Existing Project Name",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 409\", function () {",
-									"    pm.response.to.have.status(409);",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "conten",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project 2\",\r\n    \"status\": \"Active\",\r\n    \"description\": \"This is Project 1\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_1stProjectId}}",
 							"protocol": "http",
@@ -538,6 +567,51 @@
 								"api",
 								"Projects",
 								"{{01_OneTimer_1stProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE 2nd Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is Either 200 or 204\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Projects/{{01_OneTimer_2ndProjectId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Projects",
+								"{{01_OneTimer_2ndProjectId}}"
 							]
 						}
 					},
@@ -1848,7 +1922,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_1stBaselineId\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P1T1_1stBaselineId\",tempNewBaselineid);",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
 													"    pm.response.to.have.status(201);",
@@ -1919,7 +1993,7 @@
 													"",
 													"var jsonData = pm.response.json();",
 													"var tempNewBaselineid = jsonData[\"id\"];",
-													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_2ndBaselineId\",tempNewBaselineid);",
+													"pm.collectionVariables.set(\"02_01_02_OneTimer_P2T1_1stBaselineId\",tempNewBaselineid);",
 													"",
 													"",
 													"pm.test(\"Status code is 201\", function () {",
@@ -1961,7 +2035,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"b69cf0d7-70ad-4f73-aa4a-8daad5181e1e\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_01_02_OneTimer_2ndProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",
@@ -1979,7 +2053,72 @@
 									"response": []
 								},
 								{
-									"name": "DELETE Baseline One",
+									"name": "DELETE P1T1 Baseline One",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"//pm.test(\"Status code is either 201 or 409\", function () {",
+													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
+													"//});",
+													"",
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "http://localhost:51087/api/Baselines/{{02_01_02_OneTimer_P1T1_1stBaselineId}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "51087",
+											"path": [
+												"api",
+												"Baselines",
+												"{{02_01_02_OneTimer_P1T1_1stBaselineId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DELETE P2T1 Baseline One",
 									"event": [
 										{
 											"listen": "test",
@@ -2038,71 +2177,6 @@
 												"api",
 												"Baselines",
 												"{{02_01_02_OneTimer_P2T1_1stBaselineId}}"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "DELETE Baseline Two",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"//pm.test(\"Status code is either 201 or 409\", function () {",
-													"//    pm.expect(pm.response.code).to.be.oneOf([201,409]);",
-													"//});",
-													"",
-													"pm.test(\"Status code is 204\", function () {",
-													"    pm.response.to.have.status(204);",
-													"});",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										},
-										{
-											"listen": "prerequest",
-											"script": {
-												"exec": [
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Accept",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": ""
-										},
-										"url": {
-											"raw": "http://localhost:51087/api/Baselines/{{02_01_02_OneTimer_P2T1_2ndBaselineId}}",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "51087",
-											"path": [
-												"api",
-												"Baselines",
-												"{{02_01_02_OneTimer_P2T1_2ndBaselineId}}"
 											]
 										}
 									},
@@ -2803,7 +2877,8 @@
 													"",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										},
 										{
@@ -2817,7 +2892,8 @@
 													"\r",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2837,7 +2913,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_01_03_OneTimer_1stProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",
@@ -2867,7 +2943,8 @@
 													"});",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										},
 										{
@@ -2878,7 +2955,8 @@
 													"\r",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2898,7 +2976,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_01_03_OneTimer_1stProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_1stBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_1stBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",
@@ -2933,7 +3011,8 @@
 													"",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										},
 										{
@@ -2947,7 +3026,8 @@
 													"\r",
 													""
 												],
-												"type": "text/javascript"
+												"type": "text/javascript",
+												"packages": {}
 											}
 										}
 									],
@@ -2967,7 +3047,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"projectId\": \"42f62a6c-fcda-4dac-a06c-406ac1c17770\",\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
+											"raw": "{\r\n    \"projectId\": \"{{02_01_03_OneTimer_1stProjectId}}\",\r\n    \"name\": \"{{UniqueBaselineNameRule_2ndBaselineName}}\",\r\n    \"description\": \"This is Description for {{UniqueBaselineNameRule_2ndBaselineName}}\"\r\n}\r\n"
 										},
 										"url": {
 											"raw": "http://localhost:51087/api/Baselines",

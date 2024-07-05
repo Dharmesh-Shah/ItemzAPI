@@ -17,15 +17,19 @@
 							"script": {
 								"exec": [
 									"\r",
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
+									"if (pm.response.code == 404)\r",
+									"{\r",
+									"    pm.collectionVariables.set(\"01_Hierarchy_LastProjectHierarchyID\",0);\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"    var tempNew1stItemzTypeId = pm.response.text();\r",
+									"    pm.collectionVariables.set(\"01_Hierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
+									"        (tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
+									"        (tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
+									"            - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
+									"}\r",
 									"\r",
-									"var tempNew1stItemzTypeId = pm.response.text();\r",
-									"pm.collectionVariables.set(\"01_Hierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
-									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
-									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
-									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
 									""
 								],
 								"type": "text/javascript",
@@ -932,64 +936,6 @@
 								"api",
 								"Projects",
 								"{{01_Hierarchy_3rdProjectId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GetLastProjectHierarchyID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"// TODO: Get the Last Project HierarchyID Number only when response status is 200\r",
-									"var tempNew1stItemzTypeId = pm.response.text();\r",
-									"\r",
-									"pm.test(\"Verify that expected HierarchyID for the last project is returned\", function () {\r",
-									"    pm.expect(tempNew1stItemzTypeId).to.be.eql(\"\\\"/\" + (pm.collectionVariables.get('01_Hierarchy_LastProjectHierarchyID') -3 ) + \"/\\\"\"); \r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"01_Hierarchy_LastProjectHierarchyID\",Number(tempNew1stItemzTypeId.substr(\r",
-									"\t(tempNew1stItemzTypeId.indexOf(\"/\")+1) , \r",
-									"\t(tempNew1stItemzTypeId.indexOf(\"/\", (tempNew1stItemzTypeId.indexOf(\"/\")+1))\r",
-									"\t    - (tempNew1stItemzTypeId.indexOf(\"/\")+1) ))));\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:51087/api/Projects/GetLastProjectHierarchyID",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "51087",
-							"path": [
-								"api",
-								"Projects",
-								"GetLastProjectHierarchyID"
 							]
 						}
 					},
