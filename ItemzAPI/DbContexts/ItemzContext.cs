@@ -45,7 +45,9 @@ namespace ItemzApp.API.DbContexts
         public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
         public DbSet<ItemzJoinItemzTrace>? ItemzJoinItemzTrace { get; set; }
         public DbSet<BaselineItemzJoinItemzTrace>? BaselineItemzJoinItemzTrace { get; set; }
-        public DbSet<ItemzHierarchy>? ItemzHierarchy { get; set; } 
+        public DbSet<ItemzHierarchy>? ItemzHierarchy { get; set; }
+        public DbSet<BaselineItemzHierarchy>? BaselineItemzHierarchy { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // seed the database with dummy data
