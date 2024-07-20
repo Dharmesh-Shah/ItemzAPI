@@ -1342,6 +1342,18 @@
         <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407200225.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
             Id of the From Trace Baseline Itemz representated by a GUID.
