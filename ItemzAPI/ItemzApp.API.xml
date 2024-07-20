@@ -1306,6 +1306,30 @@
         <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407161706.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
             Id of the From Trace Baseline Itemz representated by a GUID.

@@ -22,6 +22,7 @@ namespace ItemzApp.API.Entities
 
         public HierarchyId? SourceItemzHierarchyId { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public bool isIncluded { get; set; } = true;
     }
-
 }

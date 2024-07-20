@@ -519,6 +519,16 @@ namespace ItemzApp.API.DbContexts
             );
             #endregion
 
+
+            #region BaselineItemzHierarchy
+
+            modelBuilder.Entity<BaselineItemzHierarchy>(entity =>
+            {
+                entity.Property(bih => bih.isIncluded)
+                    .HasDefaultValue(true);
+            });
+
+            #endregion
             base.OnModelCreating(modelBuilder);
         }
     }
