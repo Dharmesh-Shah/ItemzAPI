@@ -41,6 +41,7 @@
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteSingleItemzByItemzID_202404211645.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteSingleItemzByItemzID_202406081944.sql" />
+      <None Remove="DbContexts\UserStoredProcedure\userProcUpdateBaselineItemz_202407212043.sql" />
     </ItemGroup>
 
     <ItemGroup>
@@ -66,8 +67,9 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteSingleItemzByItemzID_202406081944.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteSingleItemzByItemzID_202404211645.sql" />
-		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcUpdateBaselineItemz.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcUpdateBaselineItemz.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByExistingBaselineID.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcUpdateBaselineItemz_202407212043.sql" />
 	</ItemGroup>
 	
   <ItemGroup>
