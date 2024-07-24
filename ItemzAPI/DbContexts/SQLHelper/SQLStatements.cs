@@ -97,57 +97,58 @@
             "SELECT count(1) as BaselineItemzTraceCount " +
             "from BaselineItemzJoinItemzTrace bijit " +
             "WHERE bijit.BaselineFromItemzId in " +
-                "(SELECT bi.id from BaselineItemz bi " +
-                    "INNER JOIN BaselineItemzTypeJoinBaselineItemz bitjbi " +
-                    "on bitjbi.BaselineItemzId = bi.Id " +
-                    "INNER JOIN BaselineItemzType bitype " +
-                    "on bitype.id = bitjbi.BaselineItemzTypeId " +
-                    "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
-                    "WHERE b.id = @__BaselineID__  " +
-                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )" +
+                "(" +
+                    "SELECT bi.id from BaselineItemz bi " +
+                    "WHERE bi.id IN ( SELECT Id FROM BaselineItemzHierarchy  " +
+                    "WHERE BaselineItemzHierarchyId.IsDescendantOf(  " +
+                    "	(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineID__)) = 1 " +
+                    "AND RecordType = 'BaselineItemz' " +
+                    "AND BaselineItemzHierarchyId.GetLevel() > 3 " +
+                    "AND isIncluded = 1)" +
+                ")" +
             "AND " +
             "bijit.BaselineToItemzId in " +
-                "(SELECT bi.id from BaselineItemz bi " +
-                    "INNER JOIN BaselineItemzTypeJoinBaselineItemz bitjbi " +
-                    "on bitjbi.BaselineItemzId = bi.Id " +
-                    "INNER JOIN BaselineItemzType bitype " +
-                    "on bitype.id = bitjbi.BaselineItemzTypeId " +
-                    "INNER JOIN Baseline b on b.id = bitype.BaselineId " +
-                    "WHERE b.id = @__BaselineID__ " +
-                    "AND bi.isIncluded = @__IsIncluded_IsTrue__ )";
+                "(" +
+                    "SELECT bi.id from BaselineItemz bi " +
+                    "WHERE bi.id IN ( SELECT Id FROM BaselineItemzHierarchy  " +
+                    "WHERE BaselineItemzHierarchyId.IsDescendantOf(  " +
+                    "	(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineID__)) = 1 " +
+                    "AND RecordType = 'BaselineItemz' " +
+                    "AND BaselineItemzHierarchyId.GetLevel() > 3 " +
+                    "AND isIncluded = 1)" +
+                ")";
 
         public static readonly string SQLStatementFor_GetIncludedBaselineItemzCountByBaseline =
 
-            "select count(Id) from BaselineItemz " +
-            "where isIncluded = 1 AND Id in (select distinct(BaselineItemzId) " +
-            "from BaselineItemzTypeJoinBaselineItemz " +
-            "where BaselineItemzTypeId in ( " +
-                "select distinct(Id) from BASELINEITEMZTYPE " +
-                "where BaselineId = @__BaselineID__) "+ 
-                ")";
-        
+            "select count(Id) from BaselineItemzHierarchy " +
+            "where BaselineItemzHierarchyId.IsDescendantOf( " +
+                "(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineID__)" +
+            ") = 1 " +
+            "AND RecordType = 'BaselineItemz' " +
+            "AND BaselineItemzHierarchyId.GetLevel() > 3 " +
+            "AND isIncluded = 1";
+
         public static readonly string SQLStatementFor_GetExcludedBaselineItemzCountByBaseline =
 
-            "select count(Id) from BaselineItemz " +
-            "where isIncluded = 0 AND Id in (select distinct(BaselineItemzId) " +
-            "from BaselineItemzTypeJoinBaselineItemz " +
-            "where BaselineItemzTypeId in ( " +
-                "select distinct(Id) from BASELINEITEMZTYPE " +
-                "where BaselineId = @__BaselineID__) " +
-                ")";
+            "select count(Id) from BaselineItemzHierarchy " +
+            "where BaselineItemzHierarchyId.IsDescendantOf( " +
+                "(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineID__)" +
+            ") = 1 " +
+            "AND RecordType = 'BaselineItemz' " +
+            "AND BaselineItemzHierarchyId.GetLevel() > 3 " +
+            "AND isIncluded = 0";  
 
         // NOTE: With respect to SQLStatementFor_GetBaselineItemzCountByBaseline
         // System is ignoring IsIncluded property of BaselineItemz while cloning. 
         // i.e. we copy all BaselineItemz without filtering data out based on IsIncluded
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaseline =
 
-            "select count(Id) from BaselineItemz " +
-            "where Id in (select distinct(BaselineItemzId) " +
-            "from BaselineItemzTypeJoinBaselineItemz " +
-            "where BaselineItemzTypeId in ( " +
-                "select distinct(Id) from BASELINEITEMZTYPE " +
-                "where BaselineId = @__BaselineID__) " +
-                ")";
+            "select count(Id) from BaselineItemzHierarchy " +
+            "where BaselineItemzHierarchyId.IsDescendantOf( " +
+                "(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineID__)" +
+            ") = 1 " +
+            "AND RecordType = 'BaselineItemz' " +
+            "AND BaselineItemzHierarchyId.GetLevel() > 3 ";
 
         public static readonly string SQLStatementFor_GetBaselineItemzByItemzId =
             "select count(Id) from [dbo].[BaselineItemz] as bi " +
@@ -161,14 +162,19 @@
         #region BaselineItemzCountByBaselineItemzType
 
         public static readonly string SQLStatementFor_GetBaselineItemzCountByBaselineItemzType =
-            "select count(Id) from BaselineItemz " +
-            "where Id in (select distinct(BaselineItemzId) " +
-            "from BaselineItemzTypeJoinBaselineItemz " +
-            "where BaselineItemzTypeId = @__BaselineItemzTypeID__ )";
+            "SELECT count(Id) FROM BaselineItemz " + 
+            "WHERE Id IN (SELECT id FROM BaselineItemzHierarchy  " + 
+            "WHERE BaselineItemzHierarchyId.IsDescendantOf(  " + 
+            "	(SELECT BaselineItemzHierarchyId FROM BaselineItemzHierarchy WHERE id = @__BaselineItemzTypeID__)) = 1 " + 
+            "AND RecordType = 'BaselineItemz'  " + 
+            "AND BaselineItemzHierarchyId.GetLevel() > 3)";
 
         #endregion BaselineItemzCountByBaselineItemzType
 
         #region Baseline_OrphanedBaseilneItemzCount
+
+        // TODO :: Improve logic for getting count of OrphanedBaselineItemz now that we implement
+        // BaselineItemzHierarchy.
 
         public static readonly string SQLStatementFor_GetOrphanedBaselineItemzCount =
             "SELECT COUNT(bi.id) " +
