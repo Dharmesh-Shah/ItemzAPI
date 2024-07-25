@@ -246,6 +246,30 @@ namespace ItemzApp.API.Services
         public void DeleteProject(Project project)
         {
             _context.Projects!.Remove(project);
+
+            // EXPLANATION: We need to first get the BaselineItemzHierarchy record from the repository
+            // then we use it within IsDescendantOf to find all the child nodes including Baseline node itself
+            // and then we remove all those records using EF Core entity tracking feature.
+
+            var baselineItemzHierarchyRecordForProject = _context.BaselineItemzHierarchy!.AsNoTracking()
+                .Where(bih => bih.Id == project.Id).FirstOrDefault();
+
+            if (baselineItemzHierarchyRecordForProject != null)
+            {
+                _context.BaselineItemzHierarchy!.RemoveRange
+                    (
+                        _context.BaselineItemzHierarchy.Where
+                        (
+                            bih => bih.BaselineItemzHierarchyId!.IsDescendantOf
+                            (
+                                baselineItemzHierarchyRecordForProject!.BaselineItemzHierarchyId
+                            )
+                        ).AsEnumerable()
+                    );
+            }
+            // TODO: If we can't automatically remove Trace data using this method then it's better to remove all data using
+            // stored procedure for deleting Baseline. This will be similar approach when it comes to removing Single Itemz like
+            // userProcDeleteSingleItemzByItemzID STORED PROCEDURE.
         }
 
         public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)

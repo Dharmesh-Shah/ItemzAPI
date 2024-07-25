@@ -36,6 +36,7 @@
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407112003.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407200225.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
+      <None Remove="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202407251305.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.sql" />
@@ -61,8 +62,9 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202407200227.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID_202407200226.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407200225.sql" />
-		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202407251305.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteSingleItemzByItemzID_202406081944.sql" />

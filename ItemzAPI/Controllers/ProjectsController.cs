@@ -427,7 +427,7 @@ namespace ItemzApp.API.Controllers
             _projectRepository.DeleteProject(projectFromRepo);
             await _projectRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Projeect with ID {ProjectId} processed successfully",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Project with ID {ProjectId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectId);
 

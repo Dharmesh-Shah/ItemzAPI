@@ -26,6 +26,7 @@ namespace ItemzApp.API.DbContexts
         public DbSet<BaselineItemzType>? BaselineItemzType { get; set; }
         public DbSet<BaselineItemz>? BaselineItemz { get; set; }
         public DbSet<BaselineItemzTypeJoinBaselineItemz>? BaselineItemzTypeJoinBaselineItemz { get; set; }
+        public DbSet<BaselineItemzHierarchy>? BaselineItemzHierarchy { get; set; }
 
         // EXPLANATION : Additional DBSets listed here that are required 
         // for query and update purposes in services
@@ -126,6 +127,16 @@ namespace ItemzApp.API.DbContexts
 
             modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasKey(t => new { t.ItemzTypeId, t.ItemzId });
+
+            #endregion
+
+            #region BaselineItemzHierarchy
+
+            modelBuilder.Entity<BaselineItemzHierarchy>(entity =>
+            {
+                entity.Property(bih => bih.isIncluded)
+                    .HasDefaultValue(true);
+            });
 
             #endregion
 

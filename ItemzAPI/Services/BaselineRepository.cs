@@ -295,6 +295,31 @@ namespace ItemzApp.API.Services
         public void DeleteBaseline(Baseline baseline)
         {
             _baselineContext.Baseline!.Remove(baseline);
+  
+            // EXPLANATION: We need to first get the BaselineItemzHierarchy record from the repository
+            // then we use it within IsDescendantOf to find all the child nodes including Baseline node itself
+            // and then we remove all those records using EF Core entity tracking feature.
+
+            var baselineHierarchyRecord = _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                .Where(bih => bih.Id == baseline.Id).FirstOrDefault();
+
+            if (baselineHierarchyRecord != null)
+            {
+                _baselineContext.BaselineItemzHierarchy!.RemoveRange
+                    (
+                        _baselineContext.BaselineItemzHierarchy.Where
+                        (
+                            bi => bi.BaselineItemzHierarchyId!.IsDescendantOf
+                            (
+                                baselineHierarchyRecord!.BaselineItemzHierarchyId
+                            )
+                        ).AsEnumerable()
+                    );
+            }
+            // TODO: If we can't automatically remove Trace data using this method then it's better to remove all data using
+            // stored procedure for deleting Baseline. This will be similar approach when it comes to removing Single Itemz like
+            // userProcDeleteSingleItemzByItemzID STORED PROCEDURE.
+
         }
 
         public async Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId)
