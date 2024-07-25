@@ -59,6 +59,15 @@
             <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
             <returns>true if project with same name exist in the repository otherwise false</returns>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.GetBaselineHierarchyRecordDetailsAsync(System.Guid)">
+            <summary>
+            Gets BaselineHierarchy Record details based on Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a BaselineHierarchy record</param>
+            <returns>BaselineHierarchy record details containing various information about given Record Id</returns>
+            <response code="200">BaselineHierarchy record details containing various information about given Record Id</response>
+            <response code="404">BaselineHierarchy record not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzAsync(System.Guid)">
             <summary>
             Get a BaselineItemz by ID (represented by a GUID)
@@ -1389,6 +1398,51 @@
         </member>
         <member name="M:ItemzApp.API.Migrations.UPDATE_userProcDeleteAllOrphanedBaselineItemz_202407251305.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
+            <summary>
+            Parent Record ID representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.BaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.SourceHierarchyId">
+            <summary>
+            Source Itemz Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.Level">
+            <summary>
+            Baseline Hierarchy Level for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordType">
+            <summary>
+            Record Type within Baseline Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.TopChildBaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy Id for the TOP Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.BottomChildBaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy Id for the BOTTOM Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.NumberOfChildNodes">
+            <summary>
+            Total Number of Child nodes under RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.IsIncluded">
+            <summary>
+            TRUE if included in the baseline and FALSE if excluded from the baseline. 
+            </summary>
         </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
