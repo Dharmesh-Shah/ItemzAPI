@@ -60,7 +60,7 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByItemzTypeID_202407150051.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByProjectID_202407112003.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202407200227.sql" />
-		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID_202407200226.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByItemzTypeID_202407200226.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByProjectID_202407200225.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.sql" />
