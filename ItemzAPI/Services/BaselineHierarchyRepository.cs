@@ -57,7 +57,9 @@ namespace ItemzApp.API.Services
             var baselineHierarchyIdRecordDetails = new BaselineHierarchyIdRecordDetailsDTO();
             baselineHierarchyIdRecordDetails.RecordId = recordId;
             baselineHierarchyIdRecordDetails.BaselineHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.ToString();
-            baselineHierarchyIdRecordDetails.SourceHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.SourceItemzHierarchyId!.ToString();
+            baselineHierarchyIdRecordDetails.SourceHierarchyId = (foundBaselineHierarchyRecord.FirstOrDefault()!.SourceItemzHierarchyId != null) 
+                                                                    ? foundBaselineHierarchyRecord.FirstOrDefault()!.SourceItemzHierarchyId!.ToString() 
+                                                                    : "";
             baselineHierarchyIdRecordDetails.RecordType = foundBaselineHierarchyRecord.FirstOrDefault()!.RecordType;
             baselineHierarchyIdRecordDetails.Level = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
             baselineHierarchyIdRecordDetails.IsIncluded = foundBaselineHierarchyRecord.FirstOrDefault()!.isIncluded;
