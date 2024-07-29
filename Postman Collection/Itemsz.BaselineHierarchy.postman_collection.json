@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "83b1ce5b-190c-481b-9672-f311f7199b45",
+		"_postman_id": "2e1d10ff-eb8f-4798-bc85-bfda759924b9",
 		"name": "Itemsz.BaselineHierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36455815"
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
@@ -1093,13 +1093,12 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"\r",
 											"var jsonData = pm.response.json();\r",
 											"var tempId = jsonData[0].id;\r",
 											"pm.collectionVariables.set(\"01_01_BaselineHierarchy_2_1_1_BaselineItemzId\",tempId);\r",
 											"\r",
-											"   pm.test(\"Verify ItemzId from the response\", () => {\r",
-											"        pm.expect(parseInt(pm.response.text())).to.eql( 1 )\r",
+											"   pm.test(\"Verify number of BaselineItemz is \" + jsonData.length , () => {\r",
+											"        pm.expect(jsonData).to.be.an('array').that.has.lengthOf(1)\r",
 											"        });\r",
 											""
 										],
@@ -1163,10 +1162,10 @@
 											"     pm.expect(jsonData[\"numberOfChildNodes\"]).to.be.eq(0);     });\r",
 											"\r",
 											"pm.test(\"Verify Hierarchy topChildBaselineHierarchyId\", function () {\r",
-											"     pm.expect(jsonData[\"topChildBaselineHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"01_01_BaselineHierarchy_2_1_1_BaselineHeirarchyId\") + \"1/\"); });\r",
+											"     pm.expect(jsonData[\"topChildBaselineHierarchyId\"]).to.be.eq(\"\"); });\r",
 											"\r",
 											"pm.test(\"Verify Hierarchy bottomChildBaselineHierarchyId\", function () {\r",
-											"     pm.expect(jsonData[\"bottomChildBaselineHierarchyId\"]).to.be.eq(pm.collectionVariables.get(\"01_01_BaselineHierarchy_2_1_1_BaselineHeirarchyId\") + \"1/\"); });\r",
+											"     pm.expect(jsonData[\"bottomChildBaselineHierarchyId\"]).to.be.eq(\"\"); });\r",
 											"\r",
 											"pm.test(\"Verify that Hierarchy ID does not start with /999\", function () { \r",
 											"    pm.expect(jsonData[\"baselineHierarchyId\"]).to.not.match(/^\\/999/g);\r",

@@ -81,13 +81,11 @@
 
         public static readonly string SQLStatementFor_GetBaselineItemzByItemzIdOrderByCreatedDate =
                 "SELECT [bi].* " +
-                "FROM [dbo].[Baseline] as [b] " +
-                "LEFT JOIN [dbo].[BaselineItemzType] as [tbl_bit] on [tbl_bit].BaselineId = [b].Id " +
-                "LEFT JOIN [dbo].[BaselineItemzTypeJoinBaselineItemz] as [bitjbi] on [bitjbi].BaselineItemzTypeId = [tbl_bit].Id " +
-                "LEFT JOIN [dbo].[BaselineItemz] as [bi] on [bi].Id = [bitjbi].BaselineItemzId " +
+                "FROM [dbo].[BaselineItemz] as [bi] " +
+                "INNER JOIN [BaselineItemzHierarchy] as [bih] " +
+                "	ON [bih].Id = [bi].Id " +
                 "WHERE [bi].ItemzId = @__ItemzID__ AND [bi].id IS NOT NULL " +
-                "Order By [b].CreatedDate ";
-
+                "Order By [bih].BaselineItemzHierarchyId";
 
         #endregion GetBaselineItemz
 
