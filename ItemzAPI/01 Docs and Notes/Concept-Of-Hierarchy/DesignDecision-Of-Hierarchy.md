@@ -87,3 +87,65 @@ In this example, we are moving “Itemz 3” at the BOTTOM of the child Itemz li
 
 ---
 
+# Design Decision – Moving Itemz to different projects.
+
+Sometimes, users may need to move Itemz from one project to another project along with its associated child breakdown structure.. This could occur when users would like to restructure their projects or in cases where the user begins defining their requirements in a side project and once that reaches maturity, they decide to relocate that data into the main project. Users could use this feature to satisfying different needs for their product and services that they offer.
+
+In this example, we are moving “Itemz 1” from “Project 1, Itemz Type 1” over to “Project 2, Itemz Type 1” at the BOTTOM of existing child Itemz structure. Due to this move, the hierarchy ID for “Itemz 1” will change from “/1/2/1/” to “/2/2/3/” because target “Project 2 Itemz Type 1” already has two child Itemz in it. Also “Itemz 1.1” from Project 1 will be moved over to Project 2 along with it’s parent “Itemz 1”. Due to this move, “Itemz 1.1” Hierarchy Id will change from “1/2/1/1/” over to “/2/2/3/1/”
+
+| Hierarchy Node Name | HierarchyId as String |
+| ------------------- | --------------------- |
+| Repository          | /                     |
+| Project2            | /1/                   |
+| ParkingLot          | /1/1/                 |
+| ItemzType1          | /1/2/                 |
+| Itemz1              | /1/2/1/               |
+| Itemz1.1            | /1/2/1/1/             |
+| Itemz2              | /1/2/2/               |
+| ItemzType2          | /1/3/                 |
+| Itemz3              | /1/3/1/               |
+| Itemz3.1            | /1/3/1/1/             |
+| Project2            | /2/                   |
+| ParkingLot          | /2/1/                 |
+| ItemzType1          | /2/2/                 |
+| Itemz1              | /2/2/1/               |
+| Itemz1.1            | /2/2/1/1/             |
+| Itemz2              | /2/2/2/               |
+| ItemzType2          | /2/3/                 |
+| Itemz3              | /2/3/1/               |
+| Itemz4              | /2/3/2/               |
+
+# Design Decision – Moving of ItemzType within project
+
+By default, ItemzApp allows Itemz Type to be moved within a project. However, they still remain to be direct child elements of the project. i.e. you can move their position within the project by moving them either at the TOP, BOTTOM or in BETWEEN two ItemzType. The Hierarchy ID value for ItemzType will change according to it’s new position. 
+
+In this example, we shall be moving Parking Lot ItemzType to the BOTTOM of the Projects’s child elements. This action will change Parking Lot ItemzType’s hierarchy ID from ‘/1/1/’ to ‘/1/4/’. This means that the new structure of the project will be as per the below table. 
+
+| Hierarchy Node Name | HierarchyId as String |
+| ------------------- | --------------------- |
+| Repository          | /                     |
+| Project             | /1/                   |
+| ItemzType1          | /1/2/                 |
+| ItemzType2          | /1/3/                 |
+| ParkingLot          | /1/4/                 |
+
+Now if I move ParkingLot ItemzType between ItemzType1 and ItemzType2 then it’s HierarchyID string will become “/1/2.1/” 
+
+# Design Decision – Moving of ItemzType to another project
+
+ItemzApp will allow moving ItemzType to another project within the same repository. That said, beware that the Parking Lot ItemzType is not allowed to be moved because every project will contain one system defined Parking Lot ItemzType. But any child Itemz including its Itemz breakdown structure from within the Parking Lot ItemzType can be moved to another project at the users desired destination. 
+
+In this example, we moved ItemzType2 from Project1 to Project2. This action changed  the HierarchyId of the ItemzType2 from “/1/3/” to “/2/3”.  
+
+| Hierarchy Node Name | HierarchyId as String |
+| ------------------- | --------------------- |
+| Repository          | /                     |
+| Project 1           | /1/                   |
+| Parking Lot         | /1/1/                 |
+| ItemzType1          | /1/2/                 |
+| Project 2           | /2/                   |
+| Parking Lot         | /2/1/                 |
+| ItemzType1          | /2/2/                 |
+| ItemzType2          | /2/3/                 |
+
+ItemzApp does not support hosting two different ItemzType with the same name under a single project. That means moving ItemzType with the same name from one project to another project may fail. 
