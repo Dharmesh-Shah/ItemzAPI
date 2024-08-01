@@ -84,5 +84,34 @@ namespace ItemzApp.API.Services
             }
             return baselineHierarchyIdRecordDetails;
         }
+
+        public async Task<bool> CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(Guid parentId, Guid childId) 
+        {
+            var foundParentId = await _context.BaselineItemzHierarchy!.AsNoTracking()
+                .Where(bih => bih.Id == parentId)
+                .Where(bih => bih.BaselineItemzHierarchyId!.GetLevel() > 1 ) 
+                .FirstOrDefaultAsync();
+
+            if (foundParentId != null)
+            {
+                var foundChildId =  await _context.BaselineItemzHierarchy!.AsNoTracking()
+                    .Where(bih => bih.Id == childId)
+                    .Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf( foundParentId!.BaselineItemzHierarchyId))
+                    .ToListAsync();
+                
+                if (foundChildId.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

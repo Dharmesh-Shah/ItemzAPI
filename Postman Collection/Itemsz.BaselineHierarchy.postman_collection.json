@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "17ea739a-df07-4f3d-bc46-b3396483af2c",
+		"_postman_id": "bf0497ed-ea8b-44b7-8095-f5f3815cb1c5",
 		"name": "Itemsz.BaselineHierarchy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36455815"
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
@@ -7096,6 +7096,126 @@
 										"api",
 										"BaselineHierarchy",
 										"{{01_03_BaselineHierarchy_2_1_1_BaselineItemzId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET VerifiyBreakdownStructure for BaselineItemz 2.1.1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Verify Baseline Hierarchy Ids for Breakdown Structure\",  function () {\r",
+											"    pm.expect(jsonData).to.be.eq(true); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineHierarchy/VerifyParentChildBreakdownStructure?parentId={{01_03_BaselineHierarchy_1stBaselineId}}&childId={{01_03_BaselineHierarchy_2_1_1_BaselineItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineHierarchy",
+										"VerifyParentChildBreakdownStructure"
+									],
+									"query": [
+										{
+											"key": "parentId",
+											"value": "{{01_03_BaselineHierarchy_1stBaselineId}}"
+										},
+										{
+											"key": "childId",
+											"value": "{{01_03_BaselineHierarchy_2_1_1_BaselineItemzId}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET VerifiyBreakdownStructure for 1st Project ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:51087/api/BaselineHierarchy/VerifyParentChildBreakdownStructure?parentId={{01_03_BaselineHierarchy_1stProjectId}}&childId={{01_03_BaselineHierarchy_2_1_1_BaselineItemzId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "51087",
+									"path": [
+										"api",
+										"BaselineHierarchy",
+										"VerifyParentChildBreakdownStructure"
+									],
+									"query": [
+										{
+											"key": "parentId",
+											"value": "{{01_03_BaselineHierarchy_1stProjectId}}"
+										},
+										{
+											"key": "childId",
+											"value": "{{01_03_BaselineHierarchy_2_1_1_BaselineItemzId}}"
+										}
 									]
 								}
 							},

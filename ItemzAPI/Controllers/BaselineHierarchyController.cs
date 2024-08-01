@@ -85,6 +85,100 @@ namespace ItemzApp.API.Controllers
             return Ok(baselineHierarchyIdRecordDetailsDTO);
         }
 
+
+        /// <summary>
+        /// Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
+        /// </summary>
+        /// <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
+        /// <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
+        /// <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
+        /// <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
+        /// <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [HttpGet("VerifyParentChildBreakdownStructure/",
+            Name = "__Get_VerifyParentChild_BreakdownStructure__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/42f62a6c-fcda-4dac-a06c-406ac1c17770
+        [HttpHead("VerifyParentChildBreakdownStructure/", Name = "__HEAD_VerifyParentChild_BreakdownStructure__")]
+        public async Task<ActionResult<bool>> VerifyParentChildBreakdownStructureAsync([FromQuery] Guid parentId, [FromQuery] Guid childId)
+        {
+
+            if (parentId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames} Parent Baseline Hierarchy Breakdown Structure is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+
+            if (childId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames} Child Baseline Hierarchy Breakdown Structure is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to verify parent and child Baseline Hieararchy " +
+                "Breakdown Structure between Parent ID {ParentId} and Child ID {ChildId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                , parentId
+                , childId);
+
+            var parentBaselineHierarchyIdRecordDetailsDTO = new BaselineHierarchyIdRecordDetailsDTO();
+            try
+            {
+                parentBaselineHierarchyIdRecordDetailsDTO = await _baselineHierarchyRepository.GetBaselineHierarchyRecordDetailsByID(parentId);
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get Parent BaselineHierarchy Details : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce Parent BaselineHierarchy details for given Id {parentId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+
+            var childBaselineHierarchyIdRecordDetailsDTO = new BaselineHierarchyIdRecordDetailsDTO();
+            try
+            {
+                childBaselineHierarchyIdRecordDetailsDTO = await _baselineHierarchyRepository.GetBaselineHierarchyRecordDetailsByID(childId);
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get child BaselineHierarchy Details : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce child BaselineHierarchy details for given Id {childId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+
+            if (parentBaselineHierarchyIdRecordDetailsDTO is null)
+            {
+                return BadRequest($"Baseline Hierarchy Id details could not be found for provided Parent ID {parentId}");
+            }
+
+            if (childBaselineHierarchyIdRecordDetailsDTO is null)
+            { 
+                return BadRequest($"Baseline Hierarchy Id details could not be found for provided Child ID {childId}");
+            }
+
+            if (parentBaselineHierarchyIdRecordDetailsDTO.Level < 2 )
+            { 
+                return BadRequest("Provided Parent Id is for record above Baseline Level.");
+            }
+
+            if (childBaselineHierarchyIdRecordDetailsDTO.Level < 2)
+            {
+                return BadRequest("Provided Child Id is for record above Baseline Level.");
+            }
+
+            return Ok(await
+                _baselineHierarchyRepository.CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(parentId, childId)
+            );
+
+        }
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 

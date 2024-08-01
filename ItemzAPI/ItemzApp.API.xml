@@ -68,6 +68,16 @@
             <response code="200">BaselineHierarchy record details containing various information about given Record Id</response>
             <response code="404">BaselineHierarchy record not found in the repository for the given GUID ID</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.VerifyParentChildBreakdownStructureAsync(System.Guid,System.Guid)">
+            <summary>
+            Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
+            </summary>
+            <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
+            <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
+            <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
+            <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
+            <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzAsync(System.Guid)">
             <summary>
             Get a BaselineItemz by ID (represented by a GUID)

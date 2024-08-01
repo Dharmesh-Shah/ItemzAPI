@@ -10,6 +10,8 @@ namespace ItemzApp.API.Services
 {
     public interface IBaselineHierarchyRepository
     {
+        Task<bool> CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(Guid parentId, Guid childId);
+
         public Task<BaselineHierarchyIdRecordDetailsDTO?> GetBaselineHierarchyRecordDetailsByID(Guid recordId);
 
     }
