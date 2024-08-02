@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0" version="24.7.6">
+  <diagram name="ItemzHierarchyStructure" id="KO4kyHjszz_fl1TxYeWL">
+    <mxGraphModel dx="1867" dy="1121" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dSunSq2zt5m2kqFdNRze-41" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="745" y="826" width="213" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-40" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="738" y="818" width="208" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dSunSq2zt5m2kqFdNRze-1" target="dSunSq2zt5m2kqFdNRze-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="176" y="210" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-2" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Repository&amp;nbsp;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="230" y="220" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dSunSq2zt5m2kqFdNRze-3" target="dSunSq2zt5m2kqFdNRze-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="316" y="390" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-6" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;&lt;b&gt;Project&lt;/b&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="361" y="400" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dSunSq2zt5m2kqFdNRze-7" target="dSunSq2zt5m2kqFdNRze-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="426" y="550" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-9" value="&lt;b&gt;&lt;font style=&quot;font-size: 24px;&quot;&gt;B&lt;span style=&quot;background-color: initial;&quot;&gt;aseline&lt;/span&gt;&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="471" y="560" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="dSunSq2zt5m2kqFdNRze-10" target="dSunSq2zt5m2kqFdNRze-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-10" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="510" y="680" width="260" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-12" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;BaselineItemzType&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="611" y="690" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-15" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+          <mxGeometry x="726" y="810" width="208" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-17" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;BaselineItemz&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="800" y="820" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-27" value="" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;rotation=-180;size=30;position=0.92;position2=1;fillColor=#b0e3e6;strokeColor=#0e8088;base=17;" vertex="1" parent="1">
+          <mxGeometry x="763" y="877" width="715" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-28" value="" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;base=35;size=20;position=0.1;position2=0.06;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="276" y="40" width="606" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-29" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Repository&lt;/h1&gt;&lt;div&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 20px; background-color: initial; font-weight: normal;&quot;&gt;This is the &lt;/span&gt;&lt;span style=&quot;font-size: 20px; background-color: initial;&quot;&gt;&lt;i style=&quot;&quot;&gt;Highest Most Container&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; background-color: initial; font-weight: normal;&quot;&gt;.&amp;nbsp;&lt;/span&gt;&lt;font style=&quot;background-color: initial; font-size: 20px; font-weight: normal;&quot;&gt;At the start of a new Database Repository Hierarchy ID is produced&lt;/font&gt;&lt;span style=&quot;background-color: initial; font-size: 20px; font-weight: normal;&quot;&gt;.&amp;nbsp;&lt;/span&gt;&lt;/h1&gt;&lt;/div&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="282" y="40" width="570" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-32" value="" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;size=30;position=0.07;position2=0.01;base=31;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="489" y="190" width="721" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-30" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Project&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;When first &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baseline &lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;for the &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Project &lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;is created then ProjectID is reused to insert BaselineHierarchy record for the &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Project&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;. Later on, any subsequent &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baselines &lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;that are created will be inserted below the &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Project&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;.&amp;nbsp;&lt;br&gt;&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="507.5" y="200" width="702.5" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-33" value="" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;size=20;position=0.07;position2=0.03;base=39;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="582" y="410" width="570" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-35" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Baseline&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;Always add a new entry for &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baseline &lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;under Target &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Project &lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;within BaselineHierarchy.&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="592" y="424" width="540" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-36" value="" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;base=21;size=50;position=0.05;position2=0;rotation=-180;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="150" y="740" width="443.5" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-37" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Baseline Itemz Type&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;Always add a new entry for &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baseline Itemz Type&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt; under newly added target &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baseline&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;.&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="163.5" y="800" width="416.5" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="dSunSq2zt5m2kqFdNRze-38" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;Baseline Itemz&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt;System generates new BaseLineItemz ID for all Parent and Child &lt;/span&gt;&lt;span style=&quot;font-size: 20px;&quot;&gt;&lt;i&gt;Baseline Itemz Breakdown Structure&lt;/i&gt;&lt;/span&gt;&lt;span style=&quot;font-size: 20px; font-weight: 400;&quot;&gt; and adds them to BaselineHierarchy according to their hierarchical position based on its source Hierarchy structure.&lt;/span&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="771" y="907" width="696" height="170" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
