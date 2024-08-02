@@ -1,4 +1,21 @@
 ﻿
+
+# Design Decision - Baseline Hierarchy Structure
+
+ItemzApp supports taking Baseline during which it takes snapshot of hierarchy breakdown structure of Itemz. Following diagram shows information about different level of data being captured during the process of Baseline creation. 
+
+![Baseline Itemz Hierarchy Breakdown Structure](./Diagrams/010_BaselineItemzHeirarchyStructure.png)
+
+For BaselineHierarchy data 
+
+- every repostiory of ItemzApp will contain only one Repository node in the hierarchy data structure
+- a Repository can contain many Projects in it
+- a Project can contain many Baselines in it
+- a Baseline con contain many BaselineItemzType in it
+- a BaselineItemzType can contain BaselineItemz in it
+- a BaselineItemz can contain further many BaselineItemz in it to form Breakdown Structure.
+
+
 # Design Decision - Baselining is scopped to a single project
 
 ItemzApp allows users to take snapshots as Baselines of their data within a single project. Baseline Hierarchy details are stored in a separate table in the database as compared to Itemz Hierarchy details. They are managed as separate instances of data. As a result, users can independently manage their Itemz and Baseline Itemz. 
