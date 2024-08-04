@@ -124,6 +124,7 @@
             <param name="baselineItemzsToBeUpdated">required instructions of inclusion or exclusion of BaselineItemzs from Baseline. </param>
             <returns>No contents are returned but only Status 204 indicating that BaselineItemzs were updated successfully </returns>
             <response code="204">No content are returned but status of 204 indicated that BaselineItemzs were successfully updated</response>
+            <response code="400">Issue encounted to include BaselineItemz. Please check log messages for more details</response>
             <response code="404">Either Baseline not found OR BaselineItemzs were not found.</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzsOptions">
