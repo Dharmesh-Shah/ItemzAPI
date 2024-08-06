@@ -148,6 +148,18 @@ Excluded BaselineItemzs are like soft deleted (soft removed) BaselineItemzs from
 
 You can Include BaselineItemzs that are in exclusion state where as you can’t bring back Orphaned Baseline Itemzs as their parent has been hard deleted already. 
 
+# Endpoint to retrieve OrphandBaselineItemz will not be implemented
+
+Baselines taken are used as Snapshot of requirements at a given point in time. When Baseline is deleted then all it’s contained BaselineItemz are also deleted. That means we do not expect any Orphaned BaselineItemz be left in the repository. This is the reason why ItemzApp do not provide endpoint for accessing Orphaned BaselineItemz. 
+
+### Conclusion
+
+Any leftover Orphaned BaselineItemz will be deleted from the system without any further confirmation. 
+
+# No support for excluding BaselineItemzType
+
+ItemzApp do not support excluding BaselineItemzType. Users can exclude all Baseline Itemz within a given BaselineItemzType but ItemzApp is not designed to completely remove BaselineItemzType itself from the Baseline in the repository. 
+
 # Copy value for IsIncluded when creating new Baseline based on existing Baseline
 
 In most cases, users may would like to create new baseline based on existing baseline for making further changes. This is the reason to copy value for IsIncluded as part of Create Baseline based on existing Baseline feature. 
