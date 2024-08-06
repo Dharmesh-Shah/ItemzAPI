@@ -6,6 +6,7 @@ GO
 CREATE PROCEDURE userProcUpdateBaselineItemz
 @BaselineId [uniqueidentifier],
 @ShouldBeIncluded [bit],
+@SingleNodeInclusion [bit],
 @BaselineItemzIds [varchar](max),
 @OUTPUT_Success [bit] out
 
@@ -101,21 +102,33 @@ IF @TempInputBaselineItemzNumberOfRows > 0
 				END
 			END
 
-
 			IF (@ShouldBeIncluded = 1 OR @ShouldBeIncluded = 0)
 				BEGIN 
-					UPDATE BaselineItemzHierarchy
-					SET isIncluded = @ShouldBeIncluded
-					where BaselineItemzHierarchyId.IsDescendantOf(
-						(select BaselineItemzHierarchyiD FROM BaselineItemzHierarchy WHERE id = @CurrentInputBaselineItemzId) ) = 1
+				IF (@ShouldBeIncluded = 1 AND @SingleNodeInclusion =  1 )
+					BEGIN
+						UPDATE BaselineItemzHierarchy
+						SET isIncluded = @ShouldBeIncluded
+						WHERE id = @CurrentInputBaselineItemzId
 
-					UPDATE BaselineItemz
-					SET isIncluded = @ShouldBeIncluded
-					Where id in ( select id
-									from BaselineItemzHierarchy 
-									where BaselineItemzHierarchyId.IsDescendantOf(
-										(select BaselineItemzHierarchyiD FROM BaselineItemzHierarchy WHERE id = @CurrentInputBaselineItemzId) ) = 1
-								)
+						UPDATE BaselineItemz
+						SET isIncluded = @ShouldBeIncluded
+						Where id = @CurrentInputBaselineItemzId
+					END 
+				ELSE
+					BEGIN
+						UPDATE BaselineItemzHierarchy
+						SET isIncluded = @ShouldBeIncluded
+						where BaselineItemzHierarchyId.IsDescendantOf(
+							(select BaselineItemzHierarchyiD FROM BaselineItemzHierarchy WHERE id = @CurrentInputBaselineItemzId) ) = 1
+
+						UPDATE BaselineItemz
+						SET isIncluded = @ShouldBeIncluded
+						Where id in ( select id
+										from BaselineItemzHierarchy 
+										where BaselineItemzHierarchyId.IsDescendantOf(
+											(select BaselineItemzHierarchyiD FROM BaselineItemzHierarchy WHERE id = @CurrentInputBaselineItemzId) ) = 1
+									)
+					END
 
 				SET @TempInputBaselineItemzIterator = @TempInputBaselineItemzIterator + 1
 				END

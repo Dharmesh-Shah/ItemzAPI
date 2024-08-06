@@ -1177,6 +1177,11 @@
             True if action is to include BaselineItemzs otherwise False
             </summary>
         </member>
+        <member name="F:ItemzApp.API.Entities.UpdateBaselineItemz.SingleNodeInclusion">
+            <summary>
+            True if action is to only include single node without including it's child breakdown structure. Will be ignored when ShouldBeIncluded is false.
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Entities.UpdateBaselineItemz.BaselineItemzIds">
             <summary>
             Id of the BaselineItemz represented by a GUID.
@@ -2043,6 +2048,11 @@
         <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.ShouldBeIncluded">
             <summary>
             True if action is to include BaselineItemzs otherwise False
+            </summary>
+        </member>
+        <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.SingleNodeInclusion">
+            <summary>
+            True if action is to include only Single BaselineItemzs Node without its child breakdown structure nodes. This property will be ignored when ShouldBeIncluded is set to false.
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.BaselineItemzIds">

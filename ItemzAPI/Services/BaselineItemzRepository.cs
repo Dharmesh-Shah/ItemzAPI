@@ -187,6 +187,12 @@ namespace ItemzApp.API.Services
                 },
                 new SqlParameter
                 {
+                    ParameterName = "SingleNodeInclusion",
+                    Value = updateBaselineItemz.SingleNodeInclusion,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                new SqlParameter
+                {
                     ParameterName = "BaselineItemzIds",
                     Value = csvBaselineItemzIds.ToString(),
                     SqlDbType = System.Data.SqlDbType.VarChar,
@@ -196,7 +202,7 @@ namespace ItemzApp.API.Services
 
             sqlParameters = sqlParameters.Append(OUTPUT_isSuccessful).ToArray();
 
-            var tempResultOfExecution = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcUpdateBaselineItemz @BaselineId, @ShouldBeIncluded, @BaselineItemzIds, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
+            var tempResultOfExecution = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcUpdateBaselineItemz @BaselineId, @ShouldBeIncluded, @SingleNodeInclusion, @BaselineItemzIds, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
 
             return ((bool)OUTPUT_isSuccessful.Value);
         }
