@@ -235,13 +235,13 @@ namespace ItemzApp.API.Controllers
                     // EXPLAINATION : First check if the immediate parent Itemz is included in the baseline and 
                     // also verify that BaselineID and BaselineItemzIDs belongs to a single Breakdown Structure within a single target Baseline. 
 
-                    if (detailsOfUpdateBaselineItemz.ShouldBeIncluded == true)
-                    {
-                        if (await _baselineItemzRepository.CheckBaselineitemzForInclusionBeforeImplementingAsync(detailsOfUpdateBaselineItemz) == false)
-                        {
-                            return BadRequest("Unable to include BaselineItemz in the baseline due to validation and check errors encounted.");
-                        }
-                    }
+                    //if (detailsOfUpdateBaselineItemz.ShouldBeIncluded == true)
+                    //{
+                    //    if (await _baselineItemzRepository.NOT_IN_USE_CheckBaselineitemzForInclusionBeforeImplementingAsync(detailsOfUpdateBaselineItemz) == false)
+                    //    {
+                    //        return BadRequest("Unable to include BaselineItemz in the baseline due to validation and check errors encounted.");
+                    //    }
+                    //}
 
 
                     try
@@ -257,6 +257,13 @@ namespace ItemzApp.API.Controllers
                             ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                             );
                         return Conflict($"Could not update BaselineItemzs for BaselineID'{baselineItemzsToBeUpdated.BaselineId}'. DB Error reported, check the log file.");
+                    }
+                    catch (Microsoft.Data.SqlClient.SqlException sqlException)
+                    {
+                        _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update BaselineItemzs for inclusion or exclusion :" + sqlException.Message,
+                            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                            );
+                        return BadRequest($"Could not update BaselineItemzs for BaselineID '{baselineItemzsToBeUpdated.BaselineId}'. DB Error reported, check the log file.");
                     }
                     _logger.LogDebug("{FormattedControllerAndActionNames}Request to update BaselineItemzs for BaselineID {BaselineId} was successful",
                         ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
