@@ -238,7 +238,7 @@ namespace ItemzApp.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, ItemzContext itemzContext)
         {
             if (env.IsDevelopment())
             {
@@ -302,6 +302,14 @@ namespace ItemzApp.API
                 setupAction.EnableDeepLinking(); // Allows URL to contain path to Tags and Operations
                 setupAction.DisplayOperationId(); // Shows Opeartion ID against each Operation.
             });
+
+            // EXPLANATION :: At the starting point of the application, we are going to check if
+            // Repository entry is there in the DB for ItemzHierarchy table. If it's not there
+            // then we will insert a new entry. This is important to uniquely identify repository. 
+
+            var insertRepositoryEntryInDatabase = new InsertRepositoryEntryInDatabase(itemzContext);
+            insertRepositoryEntryInDatabase.EnsureRepositoryEntryInDatabaseExists();
+            insertRepositoryEntryInDatabase = null;
         }
     }
 }

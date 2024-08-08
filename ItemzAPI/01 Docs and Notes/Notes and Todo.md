@@ -1076,6 +1076,22 @@ Very nice explanation about how to use multiple context in EF Core single applic
 
 Also, if one would like to learn about how to implement single transaction across multiple DB Context actions then it's possible to do so. Milan Jovanovic explains it really well in this short video. Perhaps there are other articles on the Web which explains little bit more in detail about transactions within EF Core. 
 
+### Manually create DBContext in a Standalone class
 
+Sometimes within application there is a requirement to create DBContext manually becauase DI Container is not able to inject the same in the Class Constructor. In such cases, one can create DBContext manully by following example as per below...
+
+``` C#
+var connectionstring = @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;";
+
+var optionsBuilder = new DbContextOptionsBuilder<ItemzContext>();
+optionsBuilder.UseSqlServer(connectionstring,
+                            builder => builder.UseHierarchyId());
+
+ItemzContext itemzContext = new ItemzContext(optionsBuilder.Options);
+```
+
+Above example worked for me while I was initially working with `public class InsertRepositoryEntryInDatabase` in ItemzApp.
+
+Now that we are going to remove above code from the application, it was important to make a note of the same so that we can use this technique in the future. 
 
 
