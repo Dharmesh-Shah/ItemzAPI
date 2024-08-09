@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "7ec21312-13c0-4a70-9478-27d115c26f00",
+		"_postman_id": "cb8124e6-8915-4e3f-9b04-787b8b867f13",
 		"name": "Itemz.API Baseline",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36455815"
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
@@ -12203,10 +12203,10 @@
 					]
 				},
 				{
-					"name": "Delete 2nd Snapshot via ONLYforTesting",
+					"name": "Delete 2nd Snapshot",
 					"item": [
 						{
-							"name": "Delete 2nd Baseline via ONLYforTesting",
+							"name": "Delete 2nd Baseline",
 							"event": [
 								{
 									"listen": "test",
@@ -12221,7 +12221,8 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -12230,7 +12231,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -12253,7 +12255,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ONLYforTestingBaselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId}}",
+									"raw": "http://localhost:51087/api/Baselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -12261,7 +12263,7 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ONLYforTestingBaselines",
+										"Baselines",
 										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_2ndBaselineId}}"
 									]
 								}
@@ -12282,11 +12284,19 @@
 											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 											"    pm.expect(parseInt(pm.response.text())).to.eql(",
 											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ ",
-											"        6 + 6 + 6 );",
+											"        6 + 6);",
 											"});",
 											"",
 											""
 										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
 										"type": "text/javascript"
 									}
 								}
@@ -12340,10 +12350,11 @@
 											"});",
 											"",
 											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
-											"    pm.expect(parseInt(pm.response.text())).to.eql(6)});",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -12352,7 +12363,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -12396,10 +12408,10 @@
 					]
 				},
 				{
-					"name": "Delete 3rd Snapshot via ONLYforTesting",
+					"name": "Delete 3rd Snapshot",
 					"item": [
 						{
-							"name": "Delete 3rd Baseline via ONLYforTesting",
+							"name": "Delete 3rd Baseline",
 							"event": [
 								{
 									"listen": "test",
@@ -12414,7 +12426,8 @@
 											"});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -12423,7 +12436,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -12446,7 +12460,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/ONLYforTestingBaselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId}}",
+									"raw": "http://localhost:51087/api/Baselines/{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -12454,7 +12468,7 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"ONLYforTestingBaselines",
+										"Baselines",
 										"{{VerifySQLQueryForOrphanedBaselineItemzWorks_3rdBaselineId}}"
 									]
 								}
@@ -12475,11 +12489,19 @@
 											"pm.test(\"Verify that expected number of records were found for BaselineItemz by Repository\", function () {",
 											"    pm.expect(parseInt(pm.response.text())).to.eql(",
 											"        parseInt(pm.collectionVariables.get(\"VerifySQLQueryForOrphanedBaselineItemzWorks_InitialCountOfBaselineItemz\"))+ ",
-											"        6 + 6 + 6 );",
+											"        6);",
 											"});",
 											"",
 											""
 										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [],
 										"type": "text/javascript"
 									}
 								}
@@ -12533,10 +12555,11 @@
 											"});",
 											"",
 											"pm.test(\"Verify that Orphaned BaselineItemz count is ZERO in the repository\", function () {",
-											"    pm.expect(parseInt(pm.response.text())).to.eql(6 + 6)});",
+											"    pm.expect(parseInt(pm.response.text())).to.eql(0)});",
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								},
 								{
@@ -12545,7 +12568,8 @@
 										"exec": [
 											""
 										],
-										"type": "text/javascript"
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
