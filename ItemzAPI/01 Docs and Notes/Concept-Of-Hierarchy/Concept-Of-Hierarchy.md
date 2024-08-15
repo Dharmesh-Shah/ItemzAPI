@@ -69,6 +69,16 @@ As far as implementation is concerned, we expect following reserved numbers form
 -	Second number as '/1/**1**/' indicates ItemzType number within project. Most likely this will be “Parking Lot” Itemz type as that would be 1st ItemzType within each project.
 -	Third number as '/1/1/**1**/' Indicates first Itemz
 
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| Itemz1              | /1/1/1/                |
+
+
 **Next example**
 
 /1/4/2/8/
@@ -78,16 +88,73 @@ As far as implementation is concerned, we expect following reserved numbers form
 -	Number 2 indicates 2nd Itemz
 -	Number 8 indicates 8th Sub-Itemz.
 
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| ItemzType1          | /1/2/                  |
+| ItemzType2          | /1/3/                  |
+| ItemzType3          | /1/4/                  |
+| Itemz1              | /1/4/1/                |
+| Itemz2              | /1/4/2/                |
+| Itemz2_1            | /1/4/2/1               |
+| Itemz2_2            | /1/4/2/2               |
+| Itemz2_3            | /1/4/2/3               |
+| Itemz2_4            | /1/4/2/4               |
+| Itemz2_5            | /1/4/2/5               |
+| Itemz2_6            | /1/4/2/6               |
+| Itemz2_7            | /1/4/2/7               |
+| Itemz2_8            | **/1/4/2/8/**          |
+
+
 **Next example**
 
 /4/3/7/2/1/9/
 
--	Number 4 represents 3rd Project
+-	Number 4 represents 4th Project
 -	Number 3 indicates 3rd ItemzType
 -	Number 7 indicates 7th Itemz
 -	Number 2 indicates 2nd child of 7th Itemz
 -	Number 1 indicates 1st child of 2nd child of 7th Itemz
 -	Number 9 indicates 9th child of 1st child of 2nd child of 7th Itemz
+
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| Project2            | /2/                    |
+| Parking Lot         | /2/1/                  |
+| Project3            | /3/                    |
+| Parking Lot         | /3/1/                  |
+| Project4            | /4/                    |
+| Parking Lot         | /4/1/                  |
+| ItemzType1          | /4/2/                  |
+| ItemzType2          | /4/3/                  |
+| Itemz1              | /4/3/1/                |
+| Itemz2              | /4/3/2/                |
+| Itemz3              | /4/3/3/                |
+| Itemz4              | /4/3/4/                |
+| Itemz5              | /4/3/5/                |
+| Itemz6              | /4/3/6/                |
+| Itemz7              | /4/3/7/                |
+| Itemz7_1            | /4/3/7/1/              |
+| Itemz7_2            | /4/3/7/2/              |
+| Itemz7_2_1          | /4/3/7/2/1/            |
+| Itemz7_2_1_1        | /4/3/7/2/1/1/          |
+| Itemz7_2_1_2        | /4/3/7/2/1/2/          |
+| Itemz7_2_1_3        | /4/3/7/2/1/3/          |
+| Itemz7_2_1_4        | /4/3/7/2/1/4/          |
+| Itemz7_2_1_5        | /4/3/7/2/1/5/          |
+| Itemz7_2_1_6        | /4/3/7/2/1/6/          |
+| Itemz7_2_1_7        | /4/3/7/2/1/7/          |
+| Itemz7_2_1_8        | /4/3/7/2/1/8/          |
+| Itemz7_2_1_9        | **/4/3/7/2/1/9/**      |
 
 **Next example**
 
@@ -99,6 +166,29 @@ As far as implementation is concerned, we expect following reserved numbers form
 -	Number 2 indicates 2nd child of 3rd Itemz
 -   Number 1.1 indicates that it's in between '/1/7/3/2/1' and '/1/7/3/2/2/' as 1.1 child of 2nd child of 3rd Itemz. 
 
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| ItemzType1          | /1/2/                  |
+| ItemzType2          | /1/3/                  |
+| ItemzType3          | /1/4/                  |
+| ItemzType4          | /1/5/                  |
+| ItemzType5          | /1/6/                  |
+| ItemzType6          | /1/7/                  |
+| Itemz1              | /1/7/1/                |
+| Itemz2              | /1/7/2/                |
+| Itemz3              | /1/7/3/                |
+| Itemz3_1            | /1/7/3/1/              |
+| Itemz3_2            | /1/7/3/2/              |
+| Itemz3_2_1          | /1/7/3/2/1/            |
+| Itemz3_2_1.1        | **/1/7/3/2/1.1/**      |
+| Itemz3_2_2          | /1/7/3/2/2/            |
+
+
 **Next example**
 
 /1/3/
@@ -106,18 +196,43 @@ As far as implementation is concerned, we expect following reserved numbers form
 -	Number 3 indicates 3rd ItemzType
 -	This number stops at ItemzType and it does not represent any Itemz instead it represents ItemzType.
 
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| ItemzType1          | /1/2/                  |
+| ItemzType2          | **/1/3/**              |
+
 **Next example**
 
 /1.1/3/5/
 -	Number 1.1 is wrong as we don’t expect projects to ever move within the repository. Projects are always incrementing by 1 as there is no need to change project hierarchy within ItemzApp. 
 
-// TODO START REVIEW FROM HERE
 **Next example**
 
 /1/1.1/5/
 -	Number 1 represents 1st Project
 -	Number 1.1 indicates ItemzType which is logically in between ItemzType 1 and ItemzType 1.2 or greater.
 -	Number 5 indicates 5th Itemz.
+
+Table representation for the given example
+
+| Hierarchy Node Name | Hierarchy Id as String |
+| ------------------- | ---------------------- |
+| Repository          | /                      |
+| Project1            | /1/                    |
+| Parking Lot         | /1/1/                  |
+| ItemzType1_1        | /1/1.1/                |
+| ItemzType1_1        | /1/1.1/                |
+| Itemz1              | /1/1.1/1               |
+| Itemz2              | /1/1.1/2               |
+| Itemz3              | /1/1.1/3               |
+| Itemz4              | /1/1.1/4               |
+| Itemz5              | **/1/1.1/5**           |
+| ItemzType1          | /1/2/                  |
 
 #### Why do we want to capture Repository as part of Hierarchy ID and why should it always be '/' (forward slash)?
 
