@@ -21,6 +21,8 @@ namespace ItemzApp.API.Services
 
         public void AddProject(Project project);
 
+        public Task AddNewProjectHierarchyAsync(Project project);
+
         public Task<bool> SaveAsync();
         
         public Task<bool> ProjectExistsAsync(Guid projectId);
@@ -34,5 +36,9 @@ namespace ItemzApp.API.Services
         Task<int> GetItemzCountByProjectAsync(Guid ProjectId);
 
         public Task<bool> HasProjectWithNameAsync(string projectName);
+        
+        public Task<bool> DeleteProjectItemzHierarchyAsync(Guid projectId);
+
+        public Task<string?> GetLastProjectHierarchyID();
     }
 }

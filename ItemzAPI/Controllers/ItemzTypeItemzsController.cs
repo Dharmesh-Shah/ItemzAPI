@@ -169,15 +169,15 @@ namespace ItemzApp.API.Controllers
             return countOfItemzs;
         }
 
-            /// <summary>
-            /// Check if specific ItemzType and Itemz association exists
-            /// </summary>
-            /// <param name="ItemzTypeId">Provide ItemzType Id</param>
-            /// <param name="itemzId">Provide Itemz Id</param>
-            /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
-            /// <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
-            /// <response code="404">No ItemzType and Itemzs association was found</response>
-            [HttpGet("CheckExists/", Name = "__GET_Check_ItemzType_Itemz_Association_Exists__")]
+        /// <summary>
+        /// Check if specific ItemzType and Itemz association exists
+        /// </summary>
+        /// <param name="ItemzTypeId">Provide ItemzType Id</param>
+        /// <param name="itemzId">Provide Itemz Id</param>
+        /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
+        /// <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
+        /// <response code="404">No ItemzType and Itemzs association was found</response>
+        [HttpGet("CheckExists/", Name = "__GET_Check_ItemzType_Itemz_Association_Exists__")]
         [HttpHead("CheckExists/", Name = "__HEAD_Check_ItemzType_Itemz_Association_Exists__")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -192,7 +192,7 @@ namespace ItemzApp.API.Controllers
             if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(tempItemzTypeItemzDTO)))  // Check if ItemzTypeItemz association exists or not
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     tempItemzTypeItemzDTO.ItemzTypeId,
                     tempItemzTypeItemzDTO.ItemzId);
                 return NotFound();
@@ -206,13 +206,71 @@ namespace ItemzApp.API.Controllers
         }
 
         /// <summary>
-        /// Used for creating new Itemz record in the database by ItemzType ID
+        /// Used for creating single new Itemz record in the repository by ItemzType ID
         /// </summary>
+        /// <param name="createItemzDTO">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
         /// <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
-        /// <param name="itemzCollection">Used for populating information in the newly created itemz in the database by ItemzType ID</param>
+        /// <param name="AtBottomOfChildNodes">New Itemz will be added at the bottom of existing child Itemz records under target ItemzType ID. 
+        /// By default new Itemz will be created at the bottom. To create new Itemz at the TOP of the existing child Itemz list then use 'false' </param>
         /// <returns>Newly created Itemzs property details</returns>
         /// <response code="201">Returns newly created itemzs property details</response>
-        [HttpPost("{ItemzTypeId:Guid}", Name = "__POST_Create_Itemz_Collecction_By_ItemzType__")]
+        /// <response code="400">Validation Issue OR Bad Request encountered while creating new Itemz under target ItemzType</response>
+        [HttpPost("CreateSingleItemz/{ItemzTypeId:Guid}", Name = "__POST_Create_Single_Itemz_By_ItemzType__")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<GetItemzDTO>> CreateItemzByItemzTypeAsync(
+                        [FromBody] CreateItemzDTO createItemzDTO
+                        , [FromRoute] Guid ItemzTypeId
+                        , [FromQuery] bool AtBottomOfChildNodes = true)
+        {
+            if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType with ID {ItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
+                return NotFound();
+            }
+
+            Itemz itemzEntity;
+
+            try
+            {
+                itemzEntity = _mapper.Map<Entities.Itemz>(createItemzDTO);
+            }
+            catch (AutoMapper.AutoMapperMappingException amm_ex)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Could not create new Itemz due to issue with value provided for {fieldname}",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                        amm_ex.MemberMap.DestinationName);
+                return ValidationProblem();
+            }
+
+            _itemzRepository.AddItemzByItemzType(itemzEntity, ItemzTypeId);
+            // await _itemzRepository.SaveAsync(); // MAY BE THIS WOULD BE NEEDED TO ADD NEXT HIERARCHY RECORD IN THE REPO.
+
+            //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _itemzRepository.SaveAsync();
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                itemzEntity.Id);
+            return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id },
+                _mapper.Map<GetItemzDTO>(itemzEntity) // Converting to DTO as this is going out to the consumer
+                );
+        }
+
+
+        /// <summary>
+        /// Used for creating new multiple Itemz record in the repository by ItemzType ID
+        /// </summary>
+        /// <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
+        /// <param name="itemzCollection">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
+        /// <returns>Newly created Itemzs property details</returns>
+        /// <response code="201">Returns newly created itemzs property details</response>
+        [HttpPost("{ItemzTypeId:Guid}", Name = "__POST_Create_Itemz_Collection_By_ItemzType__")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -233,7 +291,29 @@ namespace ItemzApp.API.Controllers
             {
                 _itemzRepository.AddItemzByItemzType(itemz, ItemzTypeId);
             }
-            await _itemzRepository.SaveAsync();
+
+            // EXPLANATION: WE SAVE ALL ITEMZ IN THE REPOSITORY FIRST BECAUSE WE ARE ADDING
+            // ONE HIERARCHY RECORD AT A TIME AND SAVING EACH RECORD INDIVIDUALLY. WE MAY 
+            // HAVE TO COME-UP WITH BETTER OPTION IN THE FUTURE BUT FOR NOW WE ARE FIRST SAVING
+            // ALL ITEMZ RECORDS BEFORE WE ADD CORRESPONDING ITEMZ HIERARCHY RECORD IN THE REPOSITORY
+
+             await _itemzRepository.SaveAsync(); 
+
+            foreach (var itemz in itemzEntities)
+            {
+                //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
+
+                await _itemzRepository.MoveItemzHierarchyAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
+
+                // EXPLAINATION: To be able to get next correct HierarchyId, we have to save previous
+                // record in the database. Then only we are able to find next available HierarchyID to be
+                // used for the next record in the collection. 
+                // TODO: Perhaps we can implement better logic here to do bulk import within HierarchyId 
+                // in the future. That said, we are not expecting people to keep importing large number
+                // of records in the DB. Few seconds to import 100 record is perhaps acceptable.
+
+                await _itemzRepository.SaveAsync();
+            }
 
             var itemzCollectionToReturn = _mapper.Map<IEnumerable<GetItemzDTO>>(itemzEntities);
             var idConvertedToString = string.Join(",", itemzCollectionToReturn.Select(a => a.Id));
@@ -244,13 +324,13 @@ namespace ItemzApp.API.Controllers
                 ItemzTypeId);
             return CreatedAtRoute("__GET_Itemz_Collection_By_GUID_IDS__",
                 new { Controller = "ItemzCollection", ids = idConvertedToString }, itemzCollectionToReturn);
-
         }
 
         /// <summary>
-        /// Used for Associating Itemz to ItemzType 
+        /// Used for Associating Orphaned Itemz to ItemzType either at the TOP or BOTTOM of the existing child Itemz nodes
         /// </summary>
         /// <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
+        /// <param name="AtBottomOfChildNodes">Used to indicate if Itemz should be added at Bottom or Top of existing Child Itemz list</param>
         /// <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
         /// <response code="200">Itemz to ItemzType association was either found or added successfully</response>
         /// <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
@@ -260,7 +340,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync(ItemzTypeItemzDTO ItemzTypeItemzDTO)
+        public async Task<ActionResult<GetItemzDTO>> AssociateItemzToItemzTypeAsync([FromBody] ItemzTypeItemzDTO ItemzTypeItemzDTO, [FromQuery] bool AtBottomOfChildNodes = true)
         {
             if (!(await _itemzRepository.ItemzTypeExistsAsync(ItemzTypeItemzDTO.ItemzTypeId)))
             {
@@ -294,7 +374,10 @@ namespace ItemzApp.API.Controllers
                 return BadRequest();
             }
 
-            _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO);
+            // _itemzRepository.AssociateItemzToItemzType(ItemzTypeItemzDTO, AtBottomOfChildNodes);
+            await _itemzRepository.MoveItemzHierarchyAsync(ItemzTypeItemzDTO.ItemzId
+                ,ItemzTypeItemzDTO.ItemzTypeId
+                , AtBottomOfChildNodes);
             await _itemzRepository.SaveAsync();
             _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType Itemz Association was either created or found for ItemzType ID {ItemzTypeID}" +
                 " and Itemz Id {itemzId}",
@@ -304,60 +387,61 @@ namespace ItemzApp.API.Controllers
             return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = ItemzTypeItemzDTO.ItemzId });
         }
 
-        /// <summary>
-        /// Move Itemz from one ItemzType to another
-        /// </summary>
-        /// <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
-        /// <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
-        /// <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
-        /// <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
-        /// <response code="404">Either Itemz or ItemzType was not found</response>
-        [HttpPut("{ItemzTypeId}", Name = "__PUT_Move_Itemz_Between_ItemzTypes__")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzBetweenItemzTypesAsync(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
-        {
-            if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
+        ///// <summary>
+        ///// Move Itemz from one ItemzType to another
+        ///// </summary>
+        ///// <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
+        ///// <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
+        ///// <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
+        ///// <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
+        ///// <response code="404">Either Itemz or ItemzType was not found</response>
+        //[HttpPut("{ItemzTypeId}", Name = "__PUT_Move_Itemz_Between_ItemzTypes__")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public async Task<ActionResult> MoveItemzBetweenItemzTypesAsync(Guid ItemzTypeId, ItemzTypeItemzDTO targetItemzTypeItemzDTO)
+        //{
+        //    if (!(await _itemzRepository.ItemzExistsAsync(targetItemzTypeItemzDTO.ItemzId)))// Check if Itemz exists
 
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                    targetItemzTypeItemzDTO.ItemzId);
-                return NotFound();
-            }
-            if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Target ItemzType for ID {ItemzTypeId} could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                    targetItemzTypeItemzDTO.ItemzTypeId);
-                return NotFound();
-            }
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Itemz for ID {ItemzId} could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //            targetItemzTypeItemzDTO.ItemzId);
+        //        return NotFound();
+        //    }
+        //    if (!(await _itemzRepository.ItemzTypeExistsAsync(targetItemzTypeItemzDTO.ItemzTypeId)))  // Check if Target ItemzType Exists
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Target ItemzType for ID {ItemzTypeId} could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //            targetItemzTypeItemzDTO.ItemzTypeId);
+        //        return NotFound();
+        //    }
 
-            var sourceItemzTypeItemzDTO = new ItemzTypeItemzDTO();
-            sourceItemzTypeItemzDTO.ItemzId = targetItemzTypeItemzDTO.ItemzId;
-            sourceItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
+        //    var sourceItemzTypeItemzDTO = new ItemzTypeItemzDTO();
+        //    sourceItemzTypeItemzDTO.ItemzId = targetItemzTypeItemzDTO.ItemzId;
+        //    sourceItemzTypeItemzDTO.ItemzTypeId = ItemzTypeId;
 
-            if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    sourceItemzTypeItemzDTO.ItemzTypeId,
-                    sourceItemzTypeItemzDTO.ItemzId);
+        //    if (!(await _itemzRepository.ItemzTypeItemzExistsAsync(sourceItemzTypeItemzDTO)))  // Check if Source ItemzTypeItemz association exists or not
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Source ItemzType ID {ItemzTypeId} and Itemz ID {ItemzId} association could not be found",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+        //            sourceItemzTypeItemzDTO.ItemzTypeId,
+        //            sourceItemzTypeItemzDTO.ItemzId);
 
-            }
-            _itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO);
-            await _itemzRepository.SaveAsync();
+        //    }
+        //    //_itemzRepository.MoveItemzFromOneItemzTypeToAnother(sourceItemzTypeItemzDTO, targetItemzTypeItemzDTO, atBottomOfChildNodes: true);
+        //    await _itemzRepository.MoveItemzHierarchyAsync(targetItemzTypeItemzDTO.ItemzId, targetItemzTypeItemzDTO.ItemzTypeId, atBottomOfChildNodes: true);
+        //                await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
-                "to Target ItemzType ID {targetItemzTypeID} was successfully completed",
-                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                sourceItemzTypeItemzDTO.ItemzId,
-                sourceItemzTypeItemzDTO.ItemzTypeId,
-                targetItemzTypeItemzDTO.ItemzTypeId);
-            return NoContent(); // This indicates that update was successfully saved in the DB.
+        //    _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {ItemzId} move from Source ItemzType ID {sourceItemzTypeID} " +
+        //        "to Target ItemzType ID {targetItemzTypeID} was successfully completed",
+        //        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
+        //        sourceItemzTypeItemzDTO.ItemzId,
+        //        sourceItemzTypeItemzDTO.ItemzTypeId,
+        //        targetItemzTypeItemzDTO.ItemzTypeId);
+        //    return NoContent(); // This indicates that update was successfully saved in the DB.
 
-        }
+        //}
 
         public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
         {

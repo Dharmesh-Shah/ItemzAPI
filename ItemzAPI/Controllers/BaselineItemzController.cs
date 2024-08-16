@@ -183,11 +183,14 @@ namespace ItemzApp.API.Controllers
         /// <param name="baselineItemzsToBeUpdated">required instructions of inclusion or exclusion of BaselineItemzs from Baseline. </param>
         /// <returns>No contents are returned but only Status 204 indicating that BaselineItemzs were updated successfully </returns>
         /// <response code="204">No content are returned but status of 204 indicated that BaselineItemzs were successfully updated</response>
+        /// <response code="400">Issue encounted to include BaselineItemz. Please check log messages for more details</response>
         /// <response code="404">Either Baseline not found OR BaselineItemzs were not found.</response>
 
         [HttpPut( Name = "__PUT_Update_BaselineItemzs_By_GUID_IDs__ ")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+
         [ProducesDefaultResponseType]
         public async Task<ActionResult> UpdateBaselineItemzsPutAsync(UpdateBaselineItemzDTO baselineItemzsToBeUpdated)
         {
@@ -226,7 +229,20 @@ namespace ItemzApp.API.Controllers
 
                     //////  // TODO: STOP DB TRANSACTION
 
+
                     var detailsOfUpdateBaselineItemz = _mapper.Map<Entities.UpdateBaselineItemz>(baselineItemzsToBeUpdated);
+
+                    // EXPLAINATION : First check if the immediate parent Itemz is included in the baseline and 
+                    // also verify that BaselineID and BaselineItemzIDs belongs to a single Breakdown Structure within a single target Baseline. 
+
+                    //if (detailsOfUpdateBaselineItemz.ShouldBeIncluded == true)
+                    //{
+                    //    if (await _baselineItemzRepository.NOT_IN_USE_CheckBaselineitemzForInclusionBeforeImplementingAsync(detailsOfUpdateBaselineItemz) == false)
+                    //    {
+                    //        return BadRequest("Unable to include BaselineItemz in the baseline due to validation and check errors encounted.");
+                    //    }
+                    //}
+
 
                     try
                     {
@@ -241,6 +257,13 @@ namespace ItemzApp.API.Controllers
                             ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                             );
                         return Conflict($"Could not update BaselineItemzs for BaselineID'{baselineItemzsToBeUpdated.BaselineId}'. DB Error reported, check the log file.");
+                    }
+                    catch (Microsoft.Data.SqlClient.SqlException sqlException)
+                    {
+                        _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update BaselineItemzs for inclusion or exclusion :" + sqlException.Message,
+                            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                            );
+                        return BadRequest($"Could not update BaselineItemzs for BaselineID '{baselineItemzsToBeUpdated.BaselineId}'. DB Error reported, check the log file.");
                     }
                     _logger.LogDebug("{FormattedControllerAndActionNames}Request to update BaselineItemzs for BaselineID {BaselineId} was successful",
                         ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),

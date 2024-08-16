@@ -25,7 +25,11 @@ namespace ItemzApp.API.DbContexts
         {
             var optionsBuilder = new DbContextOptionsBuilder<ItemzContext>();
             var connectionString = @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;";
-            optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure().CommandTimeout(100));
+            optionsBuilder.UseSqlServer(connectionString, 
+                                            options => options.EnableRetryOnFailure()
+                                                .CommandTimeout(100)
+                                                .UseHierarchyId() 
+                );
             Console.WriteLine(connectionString);
             return new ItemzContext(optionsBuilder.Options);
         }

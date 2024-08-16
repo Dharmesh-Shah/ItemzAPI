@@ -97,6 +97,41 @@ ItemzAPI shall make sure that entire request for updating BaselineItemz(s) is ca
 We expect BaselineItemzs to be included / excluded as per user needs. This shall allow users to perform some adjustments to the Baseline before finalizing the same. In many cases, users shall update the project data and then take yet another baseline and remove the first one which is obsolete. That said, sometimes it’s necessary to just remove few selective BaselineItemzs from the Baseline and generate output from the same on the fly. 
 So support for Including and Excluding BaselineItemz(s) shall allow users to make necessary adjustments in a single baseline for now.
 
+# Child BaselineItemz can not be marked for inclusion if its immediate parent is marked for exclusion.
+
+Within ItemzApp, we should always consider possibility to obtain complete Baseline Itemz Breakdown Strcuture from Baseline Node all the way to any given leaf Baseline Itemz node. This means there in between root Baseline Node and all included child nodes within the breakdown structure has to be marked as Included. To satisfy this requirement, ItemzApp should not allow including a child node with it's breakdown structure BaselineItemz while it's immediate parent is already marked for exlcusion. 
+
+To explain this concept, let us look at a simple example.
+
+Lets say we have following Breakdown structure in our repository
+
+- BaselineItemz 1
+  - BaselineItemz 1.1
+    - BaselineItemz 1.1.1
+
+By default all are marked as Included at the time of creation of the baseline.
+
+Now if we exclude 'BaselineItemz 1.1' then it should mark all it's child nodes as excluded. This means it will mark 'BaselineItemz 1.1.1' for exclusion as well.
+
+If we now try to mark 'BaselineItemz 1.1.1' as included while it's immediate parent of 'BaselineItemz 1.1' is marked as excluded then ItemzApp shall not support it. if it did then it would leave 'BaselineItemz 1.1.1' included without it's parent being included. Which means it will not have proper hierarchy support to identify it's true parent within BaselineItemz Breakdown Structure for that given Baseline.
+
+### Conclusion
+
+ItemzApp shall support flexibility to include and exclude Baseline Itemz but when it comes to including Baseline Itemz scenario, it has to check inclusion status of the immediate parent node of the actual BaselineItemz which is getting included. This is important to make sure that we maintain a valid inclusion nodes within BaselineItemz Breakdown Structure. 
+
+# Provide option to include single BaselineItemz Node OR BaselineItemz with all it's children
+
+In real life, users of ItemzApp would like to a single node without including all it's child nodes. This would be useful for individual BaselineItemz to be included or excluded from BaselineItemz Breakdown Structure. 
+On the other hand, in different scenario, users will be intending to include all child nodes along with BaselineItemz in a single command. 
+
+### Conclusion
+
+Both these following scenarios has to be supported by ItemzApp to allow BaselineItemz Node management for inclusion within BaselineItemz Breakdown Structure.
+
+- inclusion of single node without child nodes 
+- and inclusion of single node along with all it's child nodes, 
+
+
 # Difference between Orphaned BaselineItemz V/s Excluded BaselineItemz
 
 Exclusion of BaselineItemz from a Baseline is like a soft delete. This can be recovered back by setting inclusion flag back to true on BaselineItemz(s) itself.
@@ -112,6 +147,18 @@ Exclusion and Inclusion of BaselineItemz(s) are performed on active Project + Ba
 Excluded BaselineItemzs are like soft deleted (soft removed) BaselineItemzs from it’s parent BaselineItemzTypes where as Orphaned BaselineItemzs are those which are supposed to be removed (like hard delete) as their parent BaselineType / Baseline / Project has been removed.
 
 You can Include BaselineItemzs that are in exclusion state where as you can’t bring back Orphaned Baseline Itemzs as their parent has been hard deleted already. 
+
+# Endpoint to retrieve OrphandBaselineItemz will not be implemented
+
+Baselines taken are used as Snapshot of requirements at a given point in time. When Baseline is deleted then all it’s contained BaselineItemz are also deleted. That means we do not expect any Orphaned BaselineItemz be left in the repository. This is the reason why ItemzApp do not provide endpoint for accessing Orphaned BaselineItemz. 
+
+### Conclusion
+
+Any leftover Orphaned BaselineItemz will be deleted from the system without any further confirmation. 
+
+# No support for excluding BaselineItemzType
+
+ItemzApp do not support excluding BaselineItemzType. Users can exclude all Baseline Itemz within a given BaselineItemzType but ItemzApp is not designed to completely remove BaselineItemzType itself from the Baseline in the repository. 
 
 # Copy value for IsIncluded when creating new Baseline based on existing Baseline
 

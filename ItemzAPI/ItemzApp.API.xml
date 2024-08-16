@@ -59,6 +59,25 @@
             <param name="sourceProjectName">Old project name. No need to pass this for checking rule against creating project action</param>
             <returns>true if project with same name exist in the repository otherwise false</returns>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.GetBaselineHierarchyRecordDetailsAsync(System.Guid)">
+            <summary>
+            Gets BaselineHierarchy Record details based on Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a BaselineHierarchy record</param>
+            <returns>BaselineHierarchy record details containing various information about given Record Id</returns>
+            <response code="200">BaselineHierarchy record details containing various information about given Record Id</response>
+            <response code="404">BaselineHierarchy record not found in the repository for the given GUID ID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.VerifyParentChildBreakdownStructureAsync(System.Guid,System.Guid)">
+            <summary>
+            Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
+            </summary>
+            <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
+            <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
+            <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
+            <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
+            <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzAsync(System.Guid)">
             <summary>
             Get a BaselineItemz by ID (represented by a GUID)
@@ -105,6 +124,7 @@
             <param name="baselineItemzsToBeUpdated">required instructions of inclusion or exclusion of BaselineItemzs from Baseline. </param>
             <returns>No contents are returned but only Status 204 indicating that BaselineItemzs were updated successfully </returns>
             <response code="204">No content are returned but status of 204 indicated that BaselineItemzs were successfully updated</response>
+            <response code="400">Issue encounted to include BaselineItemz. Please check log messages for more details</response>
             <response code="404">Either Baseline not found OR BaselineItemzs were not found.</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzsOptions">
@@ -376,6 +396,15 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.HierarchyController.GetHierarchyRecordDetailsAsync(System.Guid)">
+            <summary>
+            Gets Hierarchy Record details based on Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+            <returns>Hierarchy record details containing various information about given Record Id</returns>
+            <response code="200">Hierarchy record details containing various information about given Record Id</response>
+            <response code="404">Hierarchy record not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.DeleteItemzChangeHistoryByItemzTypeAsync(ItemzApp.API.Models.DeleteChangeHistoryDTO)">
             <summary>
             Deleting ItemzChangeHistory for all the Itemz that are associated with given ItemzType ID upto provided Date and Time.
@@ -548,13 +577,38 @@
             <returns>Number of Orphaned itemzs found in the repository</returns>
             <response code="200">Returns collection of orphaned Itemzs based on pagination</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Boolean)">
             <summary>
             Used for creating new Itemz record in the database
             </summary>
             <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            <param name="parentId">Used as parent for adding new Itemz as children</param>
+            <param name="AtBottomOfChildNodes">Indicates if we should add new Itemz at TOP or BOTTOM of child Itemz nodes list</param>
             <returns>Newly created Itemz property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
+            <response code="404">Expected Parent Itemz not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.CreateItemzBetweenExistingItemzAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Guid)">
+            <summary>
+            Used for creating new Itemz record in the database
+            </summary>
+            <param name="createItemzDTO">Used for populating information in the newly created itemz in the database</param>
+            <param name="firstItemzId">Used as first Itemz for adding new Itemz between existing two Itemz</param>
+            <param name="secondItemzId">Used as second Itemz for adding new Itemz between existing two Itemz</param>
+            <returns>Newly created Itemz property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+            <response code="404">Expected first or second from between Itemz not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.MoveItemzBetweenExistingItemzAsync(System.Guid,System.Guid,System.Guid)">
+            <summary>
+            Used for moving Itemz record between two existing Itemz records
+            </summary>
+            <param name="movingItemzId">Source moving Itemz ID that will be moved to new location</param>
+            <param name="firstItemzId">Used as first Itemz for moving Itemz between existing two Itemz</param>
+            <param name="secondItemzId">Used as second Itemz for moving Itemz between existing two Itemz</param>
+            <returns>No Content</returns>
+            <response code="204">No Content</response>
+            <response code="404">Expected moveing OR target between Itemz could not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.UpdateItemzPutAsync(System.Guid,ItemzApp.API.Models.UpdateItemzDTO)">
             <summary>
@@ -589,6 +643,18 @@
                     }   
                 ]
             </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.MoveItemzAsync(System.Guid,System.Guid,System.Boolean)">
+            <summary>
+            Move Itemz and it's sub-Itemz to a new location in the repository
+            </summary>
+            <param name="MovingItemzId">GUID representing an unique ID of the moving Itemz</param>
+            <param name="TargetId">Details about target ID under which Itemz will be moving</param>
+            <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+            <returns>No contents are returned when Itemz gets moved to its new desired location</returns>
+            <response code="200">Itemz to Parent Itemz association was either found or added successfully</response>
+            <response code="204">No content are returned but status of 204 indicating that Itemz has successfully moved to its desired location</response>
+            <response code="404">Either Itemz or ItemzType was not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteItemzAsync(System.Guid)">
             <summary>
@@ -780,6 +846,28 @@
                 ]
             </remarks>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.MoveItemzTypeAsync(System.Guid,System.Guid,System.Boolean)">
+            <summary>
+            Move ItemzType to a new project in the repository including all its sub-Itemz
+            </summary>
+            <param name="MovingItemzTypeId">GUID representing an unique ID of the moving ItemzType</param>
+            <param name="TargetProjectId">Details about target Project ID under which ItemzType will be moving</param>
+            <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+            <returns>No contents are returned when ItemzType gets moved to its new desired location</returns>
+            <response code="204">No content are returned but status of 204 indicating that ItemzType has successfully moved to its desired location</response>
+            <response code="404">Either moving ItemzType or target Project was not found</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypesController.MoveItemzTypeBetweenItemzTypesAsync(System.Guid,System.Guid,System.Guid)">
+            <summary>
+            Used for moving ItemzType record between two existing ItemzType records
+            </summary>
+            <param name="movingItemzTypeId">Source moving ItemzType ID that will be moved to new location</param>
+            <param name="firstItemzTypeId">Used as first ItemzType for moving ItemzType between existing two ItemzTypes</param>
+            <param name="secondItemzTypeId">Used as second ItemzType for moving ItemzType between existing two ItemzTypes</param>
+            <returns>No Content</returns>
+            <response code="204">No Content</response>
+            <response code="404">Expected moveing OR target between ItemzTypes could not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypesController.DeleteItemzTypeAsync(System.Guid)">
             <summary>
             Deleting a specific ItemzType
@@ -825,34 +913,37 @@
             <response code="200">Returns GetItemzDTO for the Itemz that has specified ItemzType association</response>
             <response code="404">No ItemzType and Itemzs association was found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzByItemzTypeAsync(ItemzApp.API.Models.CreateItemzDTO,System.Guid,System.Boolean)">
+            <summary>
+            Used for creating single new Itemz record in the repository by ItemzType ID
+            </summary>
+            <param name="createItemzDTO">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
+            <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
+            <param name="AtBottomOfChildNodes">New Itemz will be added at the bottom of existing child Itemz records under target ItemzType ID. 
+            By default new Itemz will be created at the bottom. To create new Itemz at the TOP of the existing child Itemz list then use 'false' </param>
+            <returns>Newly created Itemzs property details</returns>
+            <response code="201">Returns newly created itemzs property details</response>
+            <response code="400">Validation Issue OR Bad Request encountered while creating new Itemz under target ItemzType</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.CreateItemzCollectionByItemzTypeAsync(System.Guid,System.Collections.Generic.IEnumerable{ItemzApp.API.Models.CreateItemzDTO})">
             <summary>
-            Used for creating new Itemz record in the database by ItemzType ID
+            Used for creating new multiple Itemz record in the repository by ItemzType ID
             </summary>
             <param name="ItemzTypeId">ItemzType ID in Guid Form. New Itemzs will be associated with provided ItemzType Id</param>
-            <param name="itemzCollection">Used for populating information in the newly created itemz in the database by ItemzType ID</param>
+            <param name="itemzCollection">Used for populating information in the newly created itemz in the repository by ItemzType ID</param>
             <returns>Newly created Itemzs property details</returns>
             <response code="201">Returns newly created itemzs property details</response>
         </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.AssociateItemzToItemzTypeAsync(ItemzApp.API.Models.ItemzTypeItemzDTO)">
+        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.AssociateItemzToItemzTypeAsync(ItemzApp.API.Models.ItemzTypeItemzDTO,System.Boolean)">
             <summary>
-            Used for Associating Itemz to ItemzType 
+            Used for Associating Orphaned Itemz to ItemzType either at the TOP or BOTTOM of the existing child Itemz nodes
             </summary>
             <param name="ItemzTypeItemzDTO">Used for Associating Itemz to ItemzType through ItemzId and ItemzTypeId Respectively</param>
+            <param name="AtBottomOfChildNodes">Used to indicate if Itemz should be added at Bottom or Top of existing Child Itemz list</param>
             <returns>GetItemzDTO for the Itemz that has specified ItemzType association</returns>
             <response code="200">Itemz to ItemzType association was either found or added successfully</response>
             <response code="400">Itemz is already associated with another ItemzType and it's not an Orphaned</response>
             <response code="404">Either Itemz or ItemzType was not found </response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.MoveItemzBetweenItemzTypesAsync(System.Guid,ItemzApp.API.Models.ItemzTypeItemzDTO)">
-            <summary>
-            Move Itemz from one ItemzType to another
-            </summary>
-            <param name="ItemzTypeId">GUID representing an unique ID of the Source ItemzType from which Itemz has to be moved</param>
-            <param name="targetItemzTypeItemzDTO">Details about target ItemzType and Itemz association</param>
-            <returns>No contents are returned when expected ItemzType and Itemz association is established</returns>
-            <response code="204">No content are returned but status of 204 indicated that expected ItemzType and Itemz association is established</response>
-            <response code="404">Either Itemz or ItemzType was not found</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.DeleteItemzTypeAndItemzAssociationAsync(ItemzApp.API.Models.ItemzTypeItemzDTO)">
             <summary>
@@ -865,72 +956,6 @@
         <member name="M:ItemzApp.API.Controllers.ItemzTypeItemzsController.GetItemzTypeItemzOptions">
             <summary>
             Get list of supported HTTP Options for the Itemz controller.
-            </summary>
-            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingBaselinesController.DeleteBaselineAsync(System.Guid)">
-            <summary>
-            Deleting a specific Baseline leaving Orphaned BaselineItemz behind
-            </summary>
-            <param name="baselineId">GUID representing an unique ID of the Baseline that you want to get</param>
-            <returns>Status code 204 is returned without any content indicating that deletion of the specified Baseline was successful</returns>
-            <response code="404">Baseline based on baselineId was not found</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingBaselinesController.GetBaselinesOptions">
-            <summary>
-            Get list of supported HTTP Options for the Baselines controller.
-            </summary>
-            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.CreateItemzAsync(ItemzApp.API.Entities.Itemz)">
-            <summary>
-            This option is designed only to be used for adding a new record while testing ItemzApp API.
-            Used for creating new Itemz record in the database that also 
-            accepts Itemz ID as part of input parameter
-            </summary>
-            <param name="itemz">Parameter that contains necessary properties for creating new Itemz in the database</param>
-            <returns>Newly created Itemz property details</returns>
-            <response code="201">Returns newly created itemzs property details</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzController.GetItemzOptions">
-            <summary>
-            Get list of supported HTTP Options for the ONLYforTestingItemz controller.
-            </summary>
-            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.CreateItemzTypeAsync(ItemzApp.API.Entities.ItemzType)">
-            <summary>
-            This option is designed only to be used for adding a new record while testing ItemzApp API.
-            Used for creating new ItemzType record in the database that also 
-            accepts ItemzType ID as part of input parameter
-            </summary>
-            <param name="itemzType">Parameter that contains necessary properties for creating new itemzType in the database</param>
-            <returns>Newly created ItemzType property details</returns>
-            <response code="201">Returns newly created itemzType's property details</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingItemzTypesController.GetItemzTypesOptions">
-            <summary>
-            Get list of supported HTTP Options for the ONLYforTestingItemzTypes controller.
-            </summary>
-            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.CreateProjectAsync(ItemzApp.API.Entities.Project)">
-            <summary>
-            This option is designed only to be used for adding a new record while testing ItemzApp API.
-            Used for creating new Project record in the database that also 
-            accepts Project ID as part of input parameter
-            </summary>
-            <param name="project">Parameter that contains necessary properties for creating new project in the database</param>
-            <returns>Newly created Project property details</returns>
-            <response code="201">Returns newly created project's property details</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.ONLYforTestingProjectsController.GetProjectsOptions">
-            <summary>
-            Get list of supported HTTP Options for the ONLYforTestingProjects controller.
             </summary>
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
@@ -1022,6 +1047,15 @@
             <response code="200">Returns collection of ItemzTypes based on sorting order for the given ProjectID</response>
             <response code="404">No ItemzTypes were found for the given ProjectID</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ProjectsController.GetLastProjectHierarchyIDAsync">
+            <summary>
+            Gets last project hierarchy number
+            </summary>
+            <returns>string representing highest most last project hierarchy id</returns>
+            <response code="200">string representing highest most last project hierarchy id</response>
+            <response code="404">No project hierarchy records found in the system</response>
+            
+        </member>
         <member name="M:ItemzApp.API.Controllers.ProjectsController.GetProjectsOptions">
             <summary>
             Get list of supported HTTP Options for the Projects controller.
@@ -1078,9 +1112,347 @@
             True if action is to include BaselineItemzs otherwise False
             </summary>
         </member>
+        <member name="F:ItemzApp.API.Entities.UpdateBaselineItemz.SingleNodeInclusion">
+            <summary>
+            True if action is to only include single node without including it's child breakdown structure. Will be ignored when ShouldBeIncluded is false.
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Entities.UpdateBaselineItemz.BaselineItemzIds">
             <summary>
             Id of the BaselineItemz represented by a GUID.
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Migrations.Introducing_ItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Introducing_ItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByProjectId_202405241729">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.USERPROC_userProcDeleteSingleItemzByItemzID_202406081944.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.DROPUSERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DROPUSERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DROPUSERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DROPUSERPROC_userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByProjectID_202407072337">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByProjectID_202407072337.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByProjectID_202407072337.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByProjectID_202407072337.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByItemzTypeID_202407080224">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByItemzTypeID_202407080224.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByItemzTypeID_202407080224.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATEUSERPROC_userProcCreateBaselineByItemzTypeID_202407080224.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.INTRODUCING_BaselineItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.INTRODUCING_BaselineItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.INTRODUCING_BaselineItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.INTRODUCING_BaselineItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407112003">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407112003.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407112003.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407112003.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407150051">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407150051.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407150051.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407150051.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407161706">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407161706.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407161706.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407161706.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Adding_IsIncluded_into_BaselineItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.DefaultValueOfIsIncluded_in_BaselineItemzHierarchy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407200225">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407200225.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407200225.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407200225.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407200226.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407200227">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407200227.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407200227.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407200227.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202407212043">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202407212043.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202407212043.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202407212043.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcDeleteAllOrphanedBaselineItemz_202407251305">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcDeleteAllOrphanedBaselineItemz_202407251305.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcDeleteAllOrphanedBaselineItemz_202407251305.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcDeleteAllOrphanedBaselineItemz_202407251305.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407262355">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407262355.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407262355.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByProjectID_202407262355.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407262359">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407262359.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407262359.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByItemzTypeID_202407262359.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407271609">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407271609.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407271609.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcCreateBaselineByExistingBaselineID_202407271609.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202408060015">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202408060015.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202408060015.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATE_userProcUpdateBaselineItemz_202408060015.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.RemovingSampleData">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.RemovingSampleData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.RemovingSampleData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.RemovingSampleData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
+            <summary>
+            Parent Record ID representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.BaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.SourceHierarchyId">
+            <summary>
+            Source Itemz Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.Level">
+            <summary>
+            Baseline Hierarchy Level for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordType">
+            <summary>
+            Record Type within Baseline Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.TopChildBaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy Id for the TOP Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.BottomChildBaselineHierarchyId">
+            <summary>
+            Baseline Hierarchy Id for the BOTTOM Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.NumberOfChildNodes">
+            <summary>
+            Total Number of Child nodes under RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.IsIncluded">
+            <summary>
+            TRUE if included in the baseline and FALSE if excluded from the baseline. 
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
@@ -1461,6 +1833,41 @@
             Date and Time when Project was created
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.RecordId">
+            <summary>
+            Parent Record ID representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.HierarchyId">
+            <summary>
+            Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.Level">
+            <summary>
+            Hierarchy Level for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.RecordType">
+            <summary>
+            Record Type within Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.TopChildHierarchyId">
+            <summary>
+            Hierarchy Id for the TOP Hierarchy Record within a given Parent Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.BottomChildHierarchyId">
+            <summary>
+            Hierarchy Id for the BOTTOM Hierarchy Record within a given Parent Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.NumberOfChildNodes">
+            <summary>
+            Total Number of Child nodes under RecordId
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.ItemzTraceDTO.FromTraceItemzId">
             <summary>
             Id of the From Trace Itemz representated by a GUID.
@@ -1588,6 +1995,11 @@
         <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.ShouldBeIncluded">
             <summary>
             True if action is to include BaselineItemzs otherwise False
+            </summary>
+        </member>
+        <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.SingleNodeInclusion">
+            <summary>
+            True if action is to include only Single BaselineItemzs Node without its child breakdown structure nodes. This property will be ignored when ShouldBeIncluded is set to false.
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.BaselineItemzIds">

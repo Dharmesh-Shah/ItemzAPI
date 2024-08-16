@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.SqlServer.Types;
+
+#nullable disable
 
 namespace ItemzApp.API.Migrations
 {
@@ -15,9 +18,10 @@ namespace ItemzApp.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("ItemzApp.API.Entities.Baseline", b =>
                 {
@@ -104,6 +108,32 @@ namespace ItemzApp.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BaselineItemz");
+                });
+
+            modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzHierarchy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<SqlHierarchyId?>("BaselineItemzHierarchyId")
+                        .HasColumnType("hierarchyid");
+
+                    b.Property<string>("RecordType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<SqlHierarchyId?>("SourceItemzHierarchyId")
+                        .HasColumnType("hierarchyid");
+
+                    b.Property<bool>("isIncluded")
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BaselineItemzHierarchy");
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzJoinItemzTrace", b =>
@@ -225,71 +255,15 @@ namespace ItemzApp.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Itemzs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("9153a516-d69e-4364-b17e-03b87442e21c"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Requirements to be described here.",
-                            Name = "Item 1",
-                            Priority = "High",
-                            Severity = "Medium",
-                            Status = "New"
-                        },
-                        new
-                        {
-                            Id = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783"),
-                            CreatedBy = "User 2",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Requirements to be described here.",
-                            Name = "Item 2",
-                            Priority = "Medium",
-                            Severity = "Medium",
-                            Status = "New"
-                        },
-                        new
-                        {
-                            Id = new Guid("885b8e56-ffe6-4bc9-82e2-ce23230991db"),
-                            CreatedBy = "User 3",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Requirements to be described here.",
-                            Name = "Item 3",
-                            Priority = "Low",
-                            Severity = "Medium",
-                            Status = "New"
-                        },
-                        new
-                        {
-                            Id = new Guid("0850bc8a-84c4-4c52-8ab6-b06e7bc2195b"),
-                            CreatedBy = "User 4",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Requirements to be described here.",
-                            Name = "Item 4",
-                            Priority = "Low",
-                            Severity = "Medium",
-                            Status = "New"
-                        },
-                        new
-                        {
-                            Id = new Guid("4adde56d-8081-45ea-bd37-5c830b63873b"),
-                            CreatedBy = "User 5",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Requirements to be described here.",
-                            Name = "Item 5",
-                            Priority = "Low",
-                            Severity = "Medium",
-                            Status = "New"
-                        });
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzChangeHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ChangeEvent")
                         .IsRequired()
@@ -313,6 +287,25 @@ namespace ItemzApp.API.Migrations
                     b.HasIndex("ItemzId");
 
                     b.ToTable("ItemzChangeHistory");
+                });
+
+            modelBuilder.Entity("ItemzApp.API.Entities.ItemzHierarchy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<SqlHierarchyId?>("ItemzHierarchyId")
+                        .HasColumnType("hierarchyid");
+
+                    b.Property<string>("RecordType")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemzHierarchy");
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzJoinItemzTrace", b =>
@@ -370,63 +363,6 @@ namespace ItemzApp.API.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("ItemzTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("473fe535-1420-42cf-8a40-224388b8df24"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is Parking Lot system ItemzType",
-                            IsSystem = true,
-                            Name = "Parking Lot",
-                            ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("611639db-577a-48f6-9b08-f6aef477368f"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is ItemzType 1",
-                            IsSystem = false,
-                            Name = "ItemzType 1",
-                            ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("1a069648-6ad6-4c8a-be05-be747bdeb8da"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is Parking Lot system ItemzType",
-                            IsSystem = true,
-                            Name = "Parking Lot",
-                            ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("8414bf58-6331-4b3e-bbf0-f780950a337b"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is ItemzType 2",
-                            IsSystem = false,
-                            Name = "ItemzType 2",
-                            ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("52ca1dfc-b187-47fc-a379-57af33404b34"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "Used for testing that ItemzType Name remains unique within a given Project",
-                            IsSystem = false,
-                            Name = "TESTING - Unique ItemzType Name",
-                            ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-                            Status = "Active"
-                        });
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzTypeJoinItemz", b =>
@@ -442,18 +378,6 @@ namespace ItemzApp.API.Migrations
                     b.HasIndex("ItemzId");
 
                     b.ToTable("ItemzTypeJoinItemz");
-
-                    b.HasData(
-                        new
-                        {
-                            ItemzTypeId = new Guid("611639db-577a-48f6-9b08-f6aef477368f"),
-                            ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
-                        },
-                        new
-                        {
-                            ItemzTypeId = new Guid("8414bf58-6331-4b3e-bbf0-f780950a337b"),
-                            ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
-                        });
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.Project", b =>
@@ -491,26 +415,6 @@ namespace ItemzApp.API.Migrations
                         .IsUnique();
 
                     b.ToTable("Projects");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is Project 1",
-                            Name = "Project 1",
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            Id = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-                            CreatedBy = "User 1",
-                            CreatedDate = new DateTimeOffset(new DateTime(2019, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
-                            Description = "This is Project 2",
-                            Name = "Project 2",
-                            Status = "Active"
-                        });
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.Baseline", b =>

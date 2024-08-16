@@ -83,6 +83,54 @@ namespace ItemzApp.API.Services
                 .ToListAsync();
         }
 
+        public async Task<bool> NOT_IN_USE_CheckBaselineitemzForInclusionBeforeImplementingAsync(UpdateBaselineItemz updateBaselineItemz)
+        {
+            // TODO :: We should implement all the checks that we are doing in this method within the 
+            // Stored Procedure userProcUpdateBaselineItemz. 
+            // Reason to include this same logic in the Stored Procedure is to makes sure that even by mistake we
+            // do not get into situation where by we have child itemz included while it's parent itemz are not included. 
+
+            // TODO :: Figure out how to truely implement this method as async. Currently we do not have await statement within this method. 
+
+            var overallCheckPassedStatus = true;
+            foreach (var baselineItemId in updateBaselineItemz.BaselineItemzIds!)
+            {
+                var immediateParentBaselineItemz = _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                    .Where(bih => bih.BaselineItemzHierarchyId ==
+                                    _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                                    .Where(bih => bih.Id == baselineItemId)
+                                    .FirstOrDefault()!.BaselineItemzHierarchyId!.GetAncestor(1)
+                                  &&
+                                      bih.BaselineItemzHierarchyId!.IsDescendantOf(
+                                      _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                                        .Where(bih => bih.Id == updateBaselineItemz.BaselineId).FirstOrDefault()!.BaselineItemzHierarchyId
+                                  ) == true
+                                  &&
+                                  bih.BaselineItemzHierarchyId!.GetLevel() > 2  // Above Baseline to allow BaselineItemzType
+                    );
+                    //.Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf(
+                    //                  _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                    //                    .Where(bih => bih.Id == updateBaselineItemz.BaselineId).FirstOrDefault()!.BaselineItemzHierarchyId
+                    //              ) == true
+                    //);
+               
+                if (immediateParentBaselineItemz != null)
+                {
+                    if(immediateParentBaselineItemz.FirstOrDefault()!.isIncluded ==  false)
+                    {
+                        overallCheckPassedStatus = false;
+                        break;
+                    }
+                }
+                else
+                { 
+                    overallCheckPassedStatus = false;
+                    break;
+                }
+            }
+            return overallCheckPassedStatus;  
+        }
+
         public async Task<bool> UpdateBaselineItemzsAsync(UpdateBaselineItemz updateBaselineItemz)
         {
             if (updateBaselineItemz.BaselineId == Guid.Empty)
@@ -139,6 +187,12 @@ namespace ItemzApp.API.Services
                 },
                 new SqlParameter
                 {
+                    ParameterName = "SingleNodeInclusion",
+                    Value = updateBaselineItemz.SingleNodeInclusion,
+                    SqlDbType = System.Data.SqlDbType.Bit,
+                },
+                new SqlParameter
+                {
                     ParameterName = "BaselineItemzIds",
                     Value = csvBaselineItemzIds.ToString(),
                     SqlDbType = System.Data.SqlDbType.VarChar,
@@ -148,7 +202,7 @@ namespace ItemzApp.API.Services
 
             sqlParameters = sqlParameters.Append(OUTPUT_isSuccessful).ToArray();
 
-            var tempResultOfExecution = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcUpdateBaselineItemz @BaselineId, @ShouldBeIncluded, @BaselineItemzIds, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
+            var tempResultOfExecution = await _baselineContext.Database.ExecuteSqlRawAsync(sql: "EXEC userProcUpdateBaselineItemz @BaselineId, @ShouldBeIncluded, @SingleNodeInclusion, @BaselineItemzIds, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
 
             return ((bool)OUTPUT_isSuccessful.Value);
         }

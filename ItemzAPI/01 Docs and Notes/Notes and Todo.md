@@ -1066,8 +1066,32 @@ Valentin explains how we can store request and response to a file using   <span 
 
 POSTMAN by default do not allow writing to file using it's TEST scripts and so one has to use Newman as a workaround or as an alternative way to satisfy that advance needs.
 
+### [Using Multiple EF Core DbContexts in a Single Application](https://www.youtube.com/watch?v=-_AKTzDrYVc)
 
+Published on Sep 22, 2023
 
+By Author <span style="background-color: #99ff66">[Milan Jovanović](mailto:milan@milanjovanovic.tech) </span>
 
+Very nice explanation about how to use multiple context in EF Core single application. Based on this learning and understanding, it makes sense to go back to single DB Context instead of multiple ones in ItemzApp for now. This is becauase, we are not yet ready to fully implement Modular Monolith and so we will possibly go back to single DB Context which will take care of Transactions Management automatically. 
+
+Also, if one would like to learn about how to implement single transaction across multiple DB Context actions then it's possible to do so. Milan Jovanovic explains it really well in this short video. Perhaps there are other articles on the Web which explains little bit more in detail about transactions within EF Core. 
+
+### Manually create DBContext in a Standalone class
+
+Sometimes within application there is a requirement to create DBContext manually becauase DI Container is not able to inject the same in the Class Constructor. In such cases, one can create DBContext manully by following example as per below...
+
+``` C#
+var connectionstring = @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;";
+
+var optionsBuilder = new DbContextOptionsBuilder<ItemzContext>();
+optionsBuilder.UseSqlServer(connectionstring,
+                            builder => builder.UseHierarchyId());
+
+ItemzContext itemzContext = new ItemzContext(optionsBuilder.Options);
+```
+
+Above example worked for me while I was initially working with `public class InsertRepositoryEntryInDatabase` in ItemzApp.
+
+Now that we are going to remove above code from the application, it was important to make a note of the same so that we can use this technique in the future. 
 
 

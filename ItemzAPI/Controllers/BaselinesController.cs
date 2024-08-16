@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.Baseline;
 using ItemzApp.API.Helper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace ItemzApp.API.Controllers
 {
@@ -191,6 +193,18 @@ namespace ItemzApp.API.Controllers
                     );
                 return Conflict($"Baseline with name '{baselineEntity.Name}' already exists in the repository. DB Error reported, check the log file.");
             }
+            //catch (Microsoft.Data.SqlClient.SqlException sqlException)
+            //{
+            //}
+            catch (Exception ex)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + ex.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Exception Occured while trying to add new baseline: {ex.InnerException}");
+            }
+
+
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Baseline with ID {BaselineId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 baselineEntity.Id);
