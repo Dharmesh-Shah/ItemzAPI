@@ -11,8 +11,8 @@ For BaselineHierarchy data
 - every repostiory of ItemzApp will contain only one Repository node in the hierarchy data structure
 - a Repository can contain many Projects in it
 - a Project can contain many Baselines in it
-- a Baseline con contain many BaselineItemzType in it
-- a BaselineItemzType can contain BaselineItemz in it
+- a Baseline can contain many BaselineItemzType in it
+- a BaselineItemzType can contain many BaselineItemz in it
 - a BaselineItemz can contain further many BaselineItemz in it to form Breakdown Structure.
 
 
@@ -24,7 +24,7 @@ The scope of the baseline could range from either an entire Project or simply an
 
 Also, baselines will only copy those trace relationships which are in scope of the Itemz that are included in the baseline. For example, if you are taking baseline of a single project which contains Itemz that has traces to Itemz which are hosted in another project then Baseline shall not contain those specific external trace data
 
-In the following example, “Project1> Itemz1” contains trace relations to “Project 2>Itemz1”. Since this trace relation is not to a container within the same project, it will not be carried into the baseline. 
+In the following example, “Project1> Itemz1” contains trace relations to “Project 2>Itemz1”. Since this trace relation is not contained within the same project, it will not be carried into the baseline. 
 
 | Hierarchy Node Name | HierarchyId as String | Traces Relationship |
 | ------------------- | --------------------- | ------------------- |
@@ -158,7 +158,7 @@ Baseline Hierarchy Data
 | Itemz1              | /2/1/2/1/              |
 | Itemz2              | /2/1/2/2/              |
 
-Because Project2’s baseline was created first, it gets HierarchyID of “/1/”;Project1’s baseline was created after Project2’s baseline and so it gets HierarchyID of “/2/”. 
+Because Project2’s baseline was created first, it gets HierarchyID of “/1/”. Project1’s baseline was created after Project2’s baseline and so it gets HierarchyID of “/2/”. 
 
 # Design Decision – Inclusion and Exclusion of BaselineItemz
 
@@ -176,10 +176,10 @@ In the following scenario, you can see how BaselineItemz are excluded
 | ItemzType1          | /1/1/2/             | Yes       |
 | Itemz1              | /1/1/2/1/           | Yes       |
 | Itemz1_1            | /1/1/2/1/1/         | Yes       |
-| Itemz1_2            | /1/1/2/1/2/         | No        |
-| Itemz1_2_1          | /1/1/2/1/2/1/       | No        |
-| Itemz1_2_1_1        | /1/1/2/1/2/1/1/     | No        |
-| Itemz1_2_1_2        | /1/1/2/1/2/1/2/     | No        |
+| **Itemz1_2**        | **/1/1/2/1/2/**     | **No**    |
+| **Itemz1_2_1**      | **/1/1/2/1/2/1/**   | **No**    |
+| **Itemz1_2_1_1**    | **/1/1/2/1/2/1/1/** | **No**    |
+| **Itemz1_2_1_2**    | **/1/1/2/1/2/1/2/** | **No**    |
 | Itemz1_2_2          | /1/1/2/1/2/2/       | Yes       |
 | Itemz1_3            | /1/1/2/1/3/         | Yes       |
 | Itemz2              | /1/1/2/2/           | Yes       |
