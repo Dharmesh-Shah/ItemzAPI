@@ -4,10 +4,14 @@ using ItemzApp.API.DbContexts;
 using ItemzApp.API.DbContexts.Extensions;
 using ItemzApp.API.DbContexts.SQLHelper;
 using ItemzApp.API.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ItemzApp.API.Services
@@ -143,6 +147,64 @@ namespace ItemzApp.API.Services
             _context.Projects!.Add(project);
             }
 
+        public async Task AddNewProjectHierarchyAsync(Project project)
+        {
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
+
+            var rootItemz = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.ItemzHierarchyId == HierarchyId.Parse("/"));
+
+            if (rootItemz.Count() != 1)
+            {
+                throw new ApplicationException("Either no Root Repository Hierarchy record " +
+                    "found OR multiple Root Repository Hierarchy records found in the system. " +
+                    "Please contact your System Administrator.");
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+            // First find the ItemzHierarchy record where ID matches RootItemz ID. This is expected to be the
+            // repository ID itself which is the root. then we find all desendents of Repository which is nothing but Project(s). 
+
+            var projectHierarchyItemz = await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
+                    .OrderByDescending(ih => ih.ItemzHierarchyId!)
+                    .ToListAsync();
+
+            var tempProjectHierarchy = new Entities.ItemzHierarchy
+            {
+                Id = project.Id,
+                RecordType = "Project",
+                ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
+                                    .GetDescendant(projectHierarchyItemz.Count() > 0 
+                                                        ?  projectHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId 
+                                                        : null
+                                                   , null),
+                // ItemzHierarchyId = HierarchyId.Parse(newProjectInsertionId)
+            };
+
+            _context.ItemzHierarchy!.Add(tempProjectHierarchy);
+
+            // var newParkingLotItemzTypeInsertionId = tempProjectHierarchy.ItemzHierarchyId.ToString() + "1/";
+
+            if (project.ItemzTypes!.Count == 1)
+            {
+                var tempParkingLotItemzTypeHierarchy = new Entities.ItemzHierarchy
+                {
+                    Id = project.ItemzTypes[0].Id,
+                    RecordType = "ItemzType",
+                    ItemzHierarchyId = tempProjectHierarchy.ItemzHierarchyId.GetDescendant(null, null), 
+                    //ItemzHierarchyId = HierarchyId.Parse(newParkingLotItemzTypeInsertionId)
+                };
+                
+                _context.ItemzHierarchy!.Add(tempParkingLotItemzTypeHierarchy);
+            }
+        }
+
         public async Task DeleteOrphanedBaselineItemzAsync()
         {
             await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteAllOrphanedBaselineItemz");
@@ -184,6 +246,30 @@ namespace ItemzApp.API.Services
         public void DeleteProject(Project project)
         {
             _context.Projects!.Remove(project);
+
+            // EXPLANATION: We need to first get the BaselineItemzHierarchy record from the repository
+            // then we use it within IsDescendantOf to find all the child nodes including Baseline node itself
+            // and then we remove all those records using EF Core entity tracking feature.
+
+            var baselineItemzHierarchyRecordForProject = _context.BaselineItemzHierarchy!.AsNoTracking()
+                .Where(bih => bih.Id == project.Id).FirstOrDefault();
+
+            if (baselineItemzHierarchyRecordForProject != null)
+            {
+                _context.BaselineItemzHierarchy!.RemoveRange
+                    (
+                        _context.BaselineItemzHierarchy.Where
+                        (
+                            bih => bih.BaselineItemzHierarchyId!.IsDescendantOf
+                            (
+                                baselineItemzHierarchyRecordForProject!.BaselineItemzHierarchyId
+                            )
+                        ).AsEnumerable()
+                    );
+            }
+            // TODO: If we can't automatically remove Trace data using this method then it's better to remove all data using
+            // stored procedure for deleting Baseline. This will be similar approach when it comes to removing Single Itemz like
+            // userProcDeleteSingleItemzByItemzID STORED PROCEDURE.
         }
 
         public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
@@ -192,13 +278,33 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ProjectId__", ProjectId.ToString()),
-            };
-            var foundItemzByProject = await _context.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ProjectId__", ProjectId.ToString()),
+            //};
+            //var foundItemzByProject = await _context.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
 
-            return foundItemzByProject;
+            //return foundItemzByProject;
+
+            var rootProject = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == ProjectId).FirstOrDefault();
+
+            //var deletemeList = (await _context.ItemzHierarchy!
+            //       .AsNoTracking()
+            //       .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+            //       .ToListAsync());
+
+            var sumOfItemzTypeInTargetProject = (await _context.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+                   .CountAsync());
+
+            return (await _context.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
+                   .CountAsync())
+                   - 1 - sumOfItemzTypeInTargetProject  ; // Minus ONE for Project itself and it's sub ItemzType Hierarchy records
+
         }
         public void Dispose()
         {
@@ -217,6 +323,60 @@ namespace ItemzApp.API.Services
         public async Task<bool> HasProjectWithNameAsync(string projectName)
         {
             return await _context.Projects.AsNoTracking().AnyAsync(p => p.Name!.ToLower() == projectName.ToLower());
+        }
+
+        public async Task<bool> DeleteProjectItemzHierarchyAsync(Guid projectId)
+        {
+            bool returnValue;
+            var OUTPUT_Success = new SqlParameter
+            {
+                ParameterName = "OUTPUT_Success",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Bit,
+            };
+
+            var sqlParameters = new[]
+            {
+                new SqlParameter
+                {
+                    ParameterName = "ProjectId",
+                    Value = projectId,
+                    SqlDbType = System.Data.SqlDbType.UniqueIdentifier,
+                }
+            };
+
+            sqlParameters = sqlParameters.Append(OUTPUT_Success).ToArray();
+
+            var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteItemzHierarchyRecordsByProjectId  @ProjectId, @OUTPUT_Success  = @OUTPUT_Success OUT", parameters: sqlParameters);
+            returnValue = (bool)OUTPUT_Success.Value;
+            return returnValue;
+        }
+
+        public async Task<string?> GetLastProjectHierarchyID()
+        {
+            var rootItemz =  _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.ItemzHierarchyId == HierarchyId.Parse("/"));
+
+            if (rootItemz.Count() != 1)
+            {
+                throw new ApplicationException("Either no Root Repository Hierarchy record " +
+                    "found OR multiple Root Repository Hierarchy records found in the system. " +
+                    "Please contact your System Administrator.");
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. We are actually finding all Decendents by saying
+            // First find the ItemzHierarchy record where ID matches RootItemz ID. This is expected to be the
+            // repository ID itself which is the root. then we find all desendents of Repository which is nothing but Project(s). 
+
+            var projectHierarchyItemz = await _context.ItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootItemz.FirstOrDefault()!.ItemzHierarchyId!)
+                    .OrderByDescending(ih => ih.ItemzHierarchyId!)
+                    .ToListAsync();
+
+            // return projectHierarchyItemz.Count > 0 ? projectHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId.ToString() : null;
+            return projectHierarchyItemz.Count > 0 ? projectHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString() : null;
         }
     }
 }

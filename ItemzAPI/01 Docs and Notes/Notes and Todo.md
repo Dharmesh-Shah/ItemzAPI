@@ -1040,6 +1040,58 @@ FROM [Blogs] AS [b]
 WHERE [b].[Name] IN (N'Blog1', N'Blog2')
 ```
 
+### [Advanced API testing: Best Practices and Automation Techniques](https://www.youtube.com/watch?v=Ix6z1kBweuk)
 
+Published on 2nd June 2023
+
+By Author <span style="background-color: #99ff66">[Arlemi Turpault](https://twitter.com/arlemi) and [Joyce Lin](https://twitter.com/petuniaGray) </span>
+
+`At 15:26`, we can see that a call is being made to Get book but in the URL it uses “:id” at the end. I didn’t knew how it would pick-up variable value with syntex “:id”. Then I see there is some notion called as Path Variables in Postman and we should understand why it should be used and what advantage does it brings.
+
+`At 17:57`, presenter talks about Schema validation testing which looks very interesting. Author defines JSON Schema in the test and then validates that response data conforms to the schema. This is something we should also consider utilizing in ItemzAPI.
+
+`At 31:51`, presenter shows about how to create new workspace and then use template in Postman to get all bunch of collections and tests brought into your workspace. It will be nice to check it out to understand some of the test scripts and best practices introduced by POSTMAN in the templates they provide.
+
+`At 56:10`, Presenter shows some useful links to learn more about postman. Check those resources out which is going to be useful to enhance POSTMAN skills.
+
+### [How to programmatically save the response to file in Postman](https://www.youtube.com/watch?v=cCRmry10874)
+
+Published on 8th Jan 2021
+
+By Author <span style="background-color: #99ff66">[Valentin Despa](https://twitter.com/vdespa)  </span>
+
+This is a very nice advanced video by user valentin@vdespa.com (https://www.youtube.com/@vdespa)
+
+Valentin explains how we can store request and response to a file using   <span style="color:red">`Newman as Library`</span>. This concept is very good one and it could be useful as an important way one could use POSTMAN in an advance scenario. 
+
+POSTMAN by default do not allow writing to file using it's TEST scripts and so one has to use Newman as a workaround or as an alternative way to satisfy that advance needs.
+
+### [Using Multiple EF Core DbContexts in a Single Application](https://www.youtube.com/watch?v=-_AKTzDrYVc)
+
+Published on Sep 22, 2023
+
+By Author <span style="background-color: #99ff66">[Milan Jovanović](mailto:milan@milanjovanovic.tech) </span>
+
+Very nice explanation about how to use multiple context in EF Core single application. Based on this learning and understanding, it makes sense to go back to single DB Context instead of multiple ones in ItemzApp for now. This is becauase, we are not yet ready to fully implement Modular Monolith and so we will possibly go back to single DB Context which will take care of Transactions Management automatically. 
+
+Also, if one would like to learn about how to implement single transaction across multiple DB Context actions then it's possible to do so. Milan Jovanovic explains it really well in this short video. Perhaps there are other articles on the Web which explains little bit more in detail about transactions within EF Core. 
+
+### Manually create DBContext in a Standalone class
+
+Sometimes within application there is a requirement to create DBContext manually becauase DI Container is not able to inject the same in the Class Constructor. In such cases, one can create DBContext manully by following example as per below...
+
+``` C#
+var connectionstring = @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;";
+
+var optionsBuilder = new DbContextOptionsBuilder<ItemzContext>();
+optionsBuilder.UseSqlServer(connectionstring,
+                            builder => builder.UseHierarchyId());
+
+ItemzContext itemzContext = new ItemzContext(optionsBuilder.Options);
+```
+
+Above example worked for me while I was initially working with `public class InsertRepositoryEntryInDatabase` in ItemzApp.
+
+Now that we are going to remove above code from the application, it was important to make a note of the same so that we can use this technique in the future. 
 
 

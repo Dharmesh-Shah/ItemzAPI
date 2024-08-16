@@ -21,6 +21,10 @@ namespace ItemzApp.API.Models
         /// </summary>
         public bool ShouldBeIncluded;
         /// <summary>
+        /// True if action is to include only Single BaselineItemzs Node without its child breakdown structure nodes. This property will be ignored when ShouldBeIncluded is set to false.
+        /// </summary>
+        public bool SingleNodeInclusion = false;
+        /// <summary>
         /// Id of the BaselineItemz represented by a GUID.
         /// </summary>
         public IEnumerable<Guid>? BaselineItemzIds { get; set; }

@@ -15,6 +15,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ItemzApp.API.ResourceParameters;
+using ItemzApp.API.Entities;
+using Newtonsoft.Json;
 
 namespace ItemzApp.API.Controllers
 {
@@ -28,16 +31,20 @@ namespace ItemzApp.API.Controllers
     {
         private readonly IBaselineItemzTypeRepository _baselineItemzTypeRepository;
         private readonly IMapper _mapper;
+        private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<BaselineItemzTypesController> _logger;
 
         public BaselineItemzTypesController(IBaselineItemzTypeRepository baselineItemzTypeRepository,
                                     IMapper mapper,
+                                    IPropertyMappingService propertyMappingService,
                                      ILogger<BaselineItemzTypesController> logger
                                     )
         {
             _baselineItemzTypeRepository = baselineItemzTypeRepository ?? throw new ArgumentNullException(nameof(baselineItemzTypeRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
+            _propertyMappingService = propertyMappingService ??
+               throw new ArgumentNullException(nameof(propertyMappingService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -133,6 +140,128 @@ namespace ItemzApp.API.Controllers
             return foundBaselineItemzCountByBaselineItemzTypeId;
         }
 
+        /// <summary>
+        /// Gets collection of BaselineItemzs by BaselineItemzType ID
+        /// </summary>
+        /// <param name="BaselineItemzTypeId">BaselineItemzType ID for which BaselineItemz are queried</param>
+        /// <param name="itemzResourceParameter">Pass in information related to Pagination and Sorting Order via this parameter</param>
+        /// <returns>Collection of BaselineItemz based on expectated pagination and sorting order.</returns>
+        /// <response code="200">Returns collection of BaselineItemzs based on pagination</response>
+        /// <response code="404">Either BaselineItemzType or BaselineItemzs were not found</response>
+        [HttpGet("GetBaselineItemzByBaselineItemzType/{BaselineItemzTypeId:Guid}", Name = "__GET_BaselineItemzs_By_BaselineItemzType__")]
+        [HttpHead("GetBaselineItemzByBaselineItemzType/{BaselineItemzTypeId:Guid}", Name = "__HEAD_BaselineItemzs_By_BaselineItemzType__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+
+        public async Task<ActionResult<IEnumerable<GetBaselineItemzDTO>>> GetBaselineItemzsByBaselineItemzTypeAsync(Guid BaselineItemzTypeId,
+            [FromQuery] ItemzResourceParameter itemzResourceParameter)
+        {
+            if (!_propertyMappingService.ValidMappingExistsFor<GetBaselineItemzDTO, BaselineItemz>
+                (itemzResourceParameter.OrderBy))
+            {
+                _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    itemzResourceParameter.OrderBy);
+                return BadRequest();
+            }
+
+            if (!(await _baselineItemzTypeRepository.BaselineItemzTypeExistsAsync(BaselineItemzTypeId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}BaselineItemzType with ID {BaselineItemzTypeID} was not found in the repository",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    BaselineItemzTypeId);
+                return NotFound();
+            }
+
+            var baselineItemzsFromRepo = _baselineItemzTypeRepository.GetBaselineItemzsByBaselineItemzType(BaselineItemzTypeId, itemzResourceParameter);
+            // EXPLANATION : Check if list is IsNullOrEmpty
+            // By default we don't have option baked in the .NET to check
+            // for null or empty for List type. In the following code we are first checking
+            // for nullable BaselineItemzsFromRepo? and then for count great then zero via Any()
+            // If any of above is true then we return true. This way we log that no BaselineItemz were
+            // found in the database.
+            // Ref: https://stackoverflow.com/a/54549818
+            if (!baselineItemzsFromRepo?.Any() ?? true)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}No BaselineItemzs found in BaselineItemzType with ID {BaselineItemzTypeID}",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    BaselineItemzTypeId);
+                // TODO: If no BaselineItemz are found in a BaselineItemzType then shall we return an error back to the calling client?
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}In total {BaselineItemzNumbers} BaselineItemz found in BaselineItemzType with ID {BaselineItemzTypeId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                baselineItemzsFromRepo?.TotalCount, BaselineItemzTypeId);
+            var previousPageLink = baselineItemzsFromRepo!.HasPrevious ?
+                CreateBaselineItemzTypeBaselineItemzResourceUri(itemzResourceParameter,
+                ResourceUriType.PreviousPage) : null;
+
+            var nextPageLink = baselineItemzsFromRepo.HasNext ?
+                CreateBaselineItemzTypeBaselineItemzResourceUri(itemzResourceParameter,
+                ResourceUriType.NextPage) : null;
+
+            var paginationMetadata = new
+            {
+                totalCount = baselineItemzsFromRepo.TotalCount,
+                pageSize = baselineItemzsFromRepo.PageSize,
+                currentPage = baselineItemzsFromRepo.CurrentPage,
+                totalPages = baselineItemzsFromRepo.TotalPages,
+                previousPageLink,
+                nextPageLink
+            };
+
+            // EXPLANATION : it's possible to send customer headers in the response.
+            // So, before we hit 'return Ok...' statement, we can build our
+            // own response header as you can see in following example.
+
+            // TODO: Check if just passsing the header is good enough. How can we
+            // document it so that consumers can use it effectively. Also, 
+            // how to implement versioning of headers so that we don't break
+            // existing applications using the headers after performing upgrade
+            // in the future.
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(paginationMetadata));
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {BaselineItemzNumbers} BaselineItemzs to the caller",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                baselineItemzsFromRepo.TotalCount);
+            return Ok(_mapper.Map<IEnumerable<GetBaselineItemzDTO>>(baselineItemzsFromRepo));
+        }
+
+        private string CreateBaselineItemzTypeBaselineItemzResourceUri(
+            ItemzResourceParameter itemzResourceParameter,
+            ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return Url.Link("__GET_BaselineItemzs_By_BaselineItemzType__",
+                        new
+                        {
+                            orderBy = itemzResourceParameter.OrderBy,
+                            pageNumber = itemzResourceParameter.PageNumber - 1,
+                            pageSize = itemzResourceParameter.PageSize
+                        })!;
+                case ResourceUriType.NextPage:
+                    return Url.Link("__GET_BaselineItemzs_By_BaselineItemzType__", 
+                        new
+                        {
+                            orderBy = itemzResourceParameter.OrderBy,
+                            pageNumber = itemzResourceParameter.PageNumber + 1,
+                            pageSize = itemzResourceParameter.PageSize
+                        })!;
+                default:
+                    return Url.Link("__GET_BaselineItemzs_By_BaselineItemzType__",
+                        new
+                        {
+                            orderBy = itemzResourceParameter.OrderBy,
+                            pageNumber = itemzResourceParameter.PageNumber,
+                            pageSize = itemzResourceParameter.PageSize
+                        })!;
+            }
+        }
 
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase

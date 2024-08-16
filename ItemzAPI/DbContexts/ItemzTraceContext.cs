@@ -24,5 +24,22 @@ namespace ItemzApp.API.DbContexts
 
         public DbSet<ItemzJoinItemzTrace>? ItemzJoinItemzTrace { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ItemzJoinItemzTrace>()
+                .HasKey(t => new { t.FromItemzId, t.ToItemzId });
+
+            modelBuilder.Entity<ItemzTypeJoinItemz>()
+                .HasKey(t => new { t.ItemzTypeId, t.ItemzId });
+
+            modelBuilder.Entity<BaselineItemzTypeJoinBaselineItemz>()
+                .HasKey(bitjbi => new { bitjbi.BaselineItemzTypeId, bitjbi.BaselineItemzId });
+        }
+
+
+
+
+
+
     }
 }

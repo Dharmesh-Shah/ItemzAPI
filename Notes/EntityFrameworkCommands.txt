@@ -1,9 +1,9 @@
 remove-migration -force
 Add-Migration -name ItemzMigration
 
-Add-Migration -name ItemzMigration -Context 'ItemzContext'
+Add-Migration -name USERPROC_userProcCreateBaselineByProjectID_202404180044 -Context 'ItemzContext'
 
-remove-migration -Context 'ItemzContext'
+remove-migration -name USERPROC_userProcCreateBaselineByProjectID_202404180044 -Context 'ItemzContext'
 
 Update-Database -Context 'ItemzContext'
 

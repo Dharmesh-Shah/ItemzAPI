@@ -97,6 +97,41 @@ ItemzAPI shall make sure that entire request for updating BaselineItemz(s) is ca
 We expect BaselineItemzs to be included / excluded as per user needs. This shall allow users to perform some adjustments to the Baseline before finalizing the same. In many cases, users shall update the project data and then take yet another baseline and remove the first one which is obsolete. That said, sometimes it’s necessary to just remove few selective BaselineItemzs from the Baseline and generate output from the same on the fly. 
 So support for Including and Excluding BaselineItemz(s) shall allow users to make necessary adjustments in a single baseline for now.
 
+# Child BaselineItemz can not be marked for inclusion if its immediate parent is marked for exclusion.
+
+Within ItemzApp, we should always consider possibility to obtain complete Baseline Itemz Breakdown Strcuture from Baseline Node all the way to any given leaf Baseline Itemz node. This means there in between root Baseline Node and all included child nodes within the breakdown structure has to be marked as Included. To satisfy this requirement, ItemzApp should not allow including a child node with it's breakdown structure BaselineItemz while it's immediate parent is already marked for exlcusion. 
+
+To explain this concept, let us look at a simple example.
+
+Lets say we have following Breakdown structure in our repository
+
+- BaselineItemz 1
+  - BaselineItemz 1.1
+    - BaselineItemz 1.1.1
+
+By default all are marked as Included at the time of creation of the baseline.
+
+Now if we exclude 'BaselineItemz 1.1' then it should mark all it's child nodes as excluded. This means it will mark 'BaselineItemz 1.1.1' for exclusion as well.
+
+If we now try to mark 'BaselineItemz 1.1.1' as included while it's immediate parent of 'BaselineItemz 1.1' is marked as excluded then ItemzApp shall not support it. if it did then it would leave 'BaselineItemz 1.1.1' included without it's parent being included. Which means it will not have proper hierarchy support to identify it's true parent within BaselineItemz Breakdown Structure for that given Baseline.
+
+### Conclusion
+
+ItemzApp shall support flexibility to include and exclude Baseline Itemz but when it comes to including Baseline Itemz scenario, it has to check inclusion status of the immediate parent node of the actual BaselineItemz which is getting included. This is important to make sure that we maintain a valid inclusion nodes within BaselineItemz Breakdown Structure. 
+
+# Provide option to include single BaselineItemz Node OR BaselineItemz with all it's children
+
+In real life, users of ItemzApp would like to a single node without including all it's child nodes. This would be useful for individual BaselineItemz to be included or excluded from BaselineItemz Breakdown Structure. 
+On the other hand, in different scenario, users will be intending to include all child nodes along with BaselineItemz in a single command. 
+
+### Conclusion
+
+Both these following scenarios has to be supported by ItemzApp to allow BaselineItemz Node management for inclusion within BaselineItemz Breakdown Structure.
+
+- inclusion of single node without child nodes 
+- and inclusion of single node along with all it's child nodes, 
+
+
 # Difference between Orphaned BaselineItemz V/s Excluded BaselineItemz
 
 Exclusion of BaselineItemz from a Baseline is like a soft delete. This can be recovered back by setting inclusion flag back to true on BaselineItemz(s) itself.
@@ -113,6 +148,18 @@ Excluded BaselineItemzs are like soft deleted (soft removed) BaselineItemzs from
 
 You can Include BaselineItemzs that are in exclusion state where as you can’t bring back Orphaned Baseline Itemzs as their parent has been hard deleted already. 
 
+# Endpoint to retrieve OrphandBaselineItemz will not be implemented
+
+Baselines taken are used as Snapshot of requirements at a given point in time. When Baseline is deleted then all it’s contained BaselineItemz are also deleted. That means we do not expect any Orphaned BaselineItemz be left in the repository. This is the reason why ItemzApp do not provide endpoint for accessing Orphaned BaselineItemz. 
+
+### Conclusion
+
+Any leftover Orphaned BaselineItemz will be deleted from the system without any further confirmation. 
+
+# No support for excluding BaselineItemzType
+
+ItemzApp do not support excluding BaselineItemzType. Users can exclude all Baseline Itemz within a given BaselineItemzType but ItemzApp is not designed to completely remove BaselineItemzType itself from the Baseline in the repository. 
+
 # Copy value for IsIncluded when creating new Baseline based on existing Baseline
 
 In most cases, users may would like to create new baseline based on existing baseline for making further changes. This is the reason to copy value for IsIncluded as part of Create Baseline based on existing Baseline feature. 
@@ -122,5 +169,47 @@ We shall also look into supporting feature to re-set existing baseline to includ
 ### Conclusion
 
 Instead of including all by default we copy value of IsIncluded when creating new Baseline based on existing one. 
+
+# Keeping association of ItemzID with BaselineItemzID
+
+At the time when new Baseline Snapshot gets created, all the BaselineItemz that gets created under the Baseline are having reference to ItemzID. BaselineItemz are snapshot of Itemz at the time of creation of the Baseline. 
+
+ItemzApp allows creating Baseline snapshot based on Project or ItemzType. All the Itemz data within the scope of the baseline gets copied to BaselineItemz. 
+
+It's possible to take multiple Baseline snapshots of a given project and so in effect a single Itemz gets copied multiple times into different BaselineItemz. Having a cross reference stored for the source ItemzID into BaselineItemz is a design decision that mainly gets used for indication purposes. Just to know from which source Itemz were BaseilneItemz created.
+
+ItemzApp also supports creating baseline from an existing baseline as well. In this scenario, target BaselineItemz is a copy of a source BaselineItemz. Well, source BaselineItemz will still have reference for the ItemzID stored along with it and so the same ItemzId gets copied over to target BaselineItemz too. 
+
+It’s also possible that Itemz gets deleted from the repository but then all the BaselineItemz that are created based on the Itemz will still be there in the repository. In such cases, our design decision was to have a soft reference stored for the ItemzID into BaselineItemz. i.e. they are not linked via foreign key referential integrity. They are just stored as GUID objects logically referencing back to ItemzID. 
+
+So it’s possible that users might end-up with BaselineItemz that has reference to ItemzID which are actually removed from the project. 
+
+Because ItemzApp supports creation of new Baselines from existing Baseline, the design decision taken here was to simply just copy ItemzID from the source BaselineItemz over to target BaselineItemz without checking if actual Itemz is present in the repository for the given ItemzID. 
+
+This way, even though when Itemz actually gets deleted from the repository, any Baseline that is still present and refers to that ItemzID via contained BaselineItemz can be used further to create new Baselines and therefor new BaselineItemz. 
+
+### Conclusion
+
+Purpose of this design decision was to make sure that users are allowed to freely remove Itemz from the project / repository without having impact on existing baseline snapshots. Also they could create further more snapshots of the Baseline to fulfil their business needs without getting blocked due to removal of Itemz itself. 
+
+---
+
+# Baselines are always associated with a Project
+
+When we take a Baseline snapshot then it shall always be associated with Project itself. This way, we can easily identify project details about a given baseline and we can also find all the baselines that belongs to a specific project. 
+
+In ItemzApp, we can take Baseline snapshot 
+
+1. by Project
+2. by ItemzType 
+3. by existing Baseline.
+
+in all this cases, Baseline always contains BaselineItemz which are in scope of a given project only. Because ItemzType are also contained within a single project, when we take Baseline which is based on the ItemzType then all the BaselineItemz that are created are also in scope of that given Project only. 
+
+So when project gets deleted, all it's Baselines are also deleted. At the time when user is deleting project via UI then that user should be provided warning information indicating that along with Project, the delete operation will also delete all the Baselines which are part of that project. This design decision was taken to make sure that we do not end-up with large about of left over data under Baselines when Project gets deleted. Someone would only decide to delete a Project when it has been concluded and no more work will be taking place on the given project. This means any Baselines that were taken as Snapshot for the given Project will also not be needed and so we shall design ItemzApp such that deleting Project will delete all it's Baseilnes along with data contained within the Baseline. 
+
+### Conclusion
+
+Baselines are always associated with Project and they gets removed when Project gets deleted. It's possible to get information about all the baselines that are associated with a given Project in ItemzApp
 
 

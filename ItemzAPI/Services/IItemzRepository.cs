@@ -31,6 +31,8 @@ namespace ItemzApp.API.Services
 
         void AddItemz(Itemz itemz);
 
+        public Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId);
+
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
         Task<bool> SaveAsync();
@@ -39,18 +41,31 @@ namespace ItemzApp.API.Services
 
         public Task<bool> ItemzTypeExistsAsync(Guid itemzTypeId);
 
+        public Task<bool> IsOrphanedItemzAsync(Guid ItemzId);
+
         public void UpdateItemz(Itemz itemz);
 
         public Task<bool> ItemzTypeItemzExistsAsync(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
         public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
 
-        void DeleteItemz(Itemz itemz);
+        public Task DeleteItemzAsync(Guid itemzId);
 
-        public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO);
+        public Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true);
 
-        public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO,
-                                                       ItemzTypeItemzDTO targetItemzTypeItemzDTO);
+        #region NOT USED ANYMORE CODE 
+
+        //public Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true);
+
+        //public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId, bool atBottomOfChildNodes = true);
+
+        //public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes);
+
+        //public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO
+        //                                               , ItemzTypeItemzDTO targetItemzTypeItemzDTO
+        //                                               , bool atBottomOfChildNodes = true);
+
+        #endregion NOT USED ANYMORE CODE 
 
     }
 }

@@ -23,6 +23,8 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using Serilog;
+using Serilog.Events;
 
 namespace ItemzApp.API
 {
@@ -152,6 +154,10 @@ namespace ItemzApp.API
             services.AddScoped<IItemzChangeHistoryByItemzTypeRepository, ItemzChangeHistoryByItemzTypeRepository>();
             services.AddScoped<IItemzChangeHistoryByProjectRepository, ItemzChangeHistoryByProjectRepository>();
             services.AddScoped<IItemzChangeHistoryByRepositoryRepository, ItemzChangeHistoryByRepositoryRepository>();
+            services.AddScoped<IItemzTraceRepository, ItemzTraceRepository>();
+            services.AddScoped<IBaselineItemzTraceRepository, BaselineItemzTraceRepository>();
+            services.AddScoped<IHierarchyRepository, HierarchyRepository>();
+            services.AddScoped<IBaselineHierarchyRepository, BaselineHierarchyRepository>();
 
             // EXPLANATION: As described in the Blog Article, https://purple.telstra.com/blog/a-better-way-of-resolving-ef-core-interceptors-with-dependency-injection
             // we are now registering ItemzContextInterceptor in the DI Container as Singleton service 
@@ -164,28 +170,39 @@ namespace ItemzApp.API
             services.AddDbContext<ItemzContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;")
+                    @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId())
                     .AddInterceptors(serviceProvider.GetRequiredService<ItemzContexInterceptor>()); 
             });
 
             services.AddDbContext<ItemzChangeHistoryContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
             services.AddDbContext<BaselineContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
             services.AddDbContext<ItemzTraceContext>((serviceProvider, options) =>
             {
                 options.UseSqlServer(
-                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;");
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
             });
 
+            services.AddDbContext<BaselineItemzTraceContext>((serviceProvider, options) =>
+            {
+                options.UseSqlServer(
+                @"Server=(localdb)\mssqllocaldb;Database=ItemzAppDB;Trusted_Connection=True;",
+                                        builder => builder.UseHierarchyId());
+            });
+          
             services.AddSwaggerGen(setupAction =>
             {
                 setupAction.SwaggerDoc("ItemzApp.OpenAPI.Specification",
@@ -221,11 +238,31 @@ namespace ItemzApp.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, ItemzContext itemzContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSerilogRequestLogging(options =>
+                {
+                    // options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms; User: {@User}";
+                    // options.IncludeQueryInRequestPath = true;
+                    options.GetLevel = (ctx, _, ex) =>
+                    {
+                        if (ex != null || ctx.Response.StatusCode > 499)
+                        {
+                            return LogEventLevel.Error;
+                        }
+
+                        // ignore health check endpoints
+                        if (ctx.Request.Path.StartsWithSegments("/health"))
+                        {
+                            return LogEventLevel.Debug;
+                        }
+
+                        return LogEventLevel.Information;
+                    };
+                });
                 logger.LogInformation("Current Process ID : {0}", Process.GetCurrentProcess().Id);
             }
             else
@@ -265,6 +302,14 @@ namespace ItemzApp.API
                 setupAction.EnableDeepLinking(); // Allows URL to contain path to Tags and Operations
                 setupAction.DisplayOperationId(); // Shows Opeartion ID against each Operation.
             });
+
+            // EXPLANATION :: At the starting point of the application, we are going to check if
+            // Repository entry is there in the DB for ItemzHierarchy table. If it's not there
+            // then we will insert a new entry. This is important to uniquely identify repository. 
+
+            var insertRepositoryEntryInDatabase = new InsertRepositoryEntryInDatabase(itemzContext);
+            insertRepositoryEntryInDatabase.EnsureRepositoryEntryInDatabaseExists();
+            insertRepositoryEntryInDatabase = null;
         }
     }
 }

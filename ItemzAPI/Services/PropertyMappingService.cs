@@ -27,11 +27,29 @@ namespace ItemzApp.API.Services
                 {"CreatedBy", new PropertyMappingValue(new List<string>(){ "CreatedBy" } )},
                 {"CreatedDate", new PropertyMappingValue(new List<string>(){ "CreatedDate" } )}
             };
+
+        private Dictionary<string, PropertyMappingValue> _baselineItemzPropertyMapping =
+            new Dictionary<string, PropertyMappingValue>(StringComparer.OrdinalIgnoreCase)
+            {
+                // TODO: We are manually entering this information in the code to map
+                // different properties between source and target objects. We should also 
+                // consider implementing this via some sort of Dynamic method. This information
+                // should either come from Database Table or from some sort of configuration file.
+
+                {"Id", new PropertyMappingValue(new List<string>() {"Id" } )},
+                {"Name", new PropertyMappingValue(new List<string>(){"Name"} )},
+                {"Status", new PropertyMappingValue(new List<string>(){ "Status" } )},
+                {"Priority", new PropertyMappingValue(new List<string>(){ "Priority" } )},
+                {"Description", new PropertyMappingValue(new List<string>(){ "Description" } )},
+                {"CreatedBy", new PropertyMappingValue(new List<string>(){ "CreatedBy" } )},
+                {"CreatedDate", new PropertyMappingValue(new List<string>(){ "CreatedDate" } )}
+            };
         private IList<IPropertyMapping> _propertyMappings = new List<IPropertyMapping>();
 
         public PropertyMappingService()
         {
             _propertyMappings.Add(new PropertyMapping<GetItemzDTO, Itemz>(_itemzPropertyMapping));
+            _propertyMappings.Add(new PropertyMapping<GetBaselineItemzDTO, BaselineItemz>(_baselineItemzPropertyMapping));
         }
 
         public bool ValidMappingExistsFor<TSource,TDestination>(string fields)

@@ -55,33 +55,36 @@ Following are the key areas that we are working on for now...
 
 ## Feature we recently delivered
 
-Recently in April and May 2021 we implemented 
+Recently in May 2024 we implemented 
 
- - Individual Itemz SQUASH feature. 
- - Itemz SQUASH feature by ItemzType.
- - Itemz SQUASH feature by Project.
- - Managing Itemz change history for Orphan and Non-Orphan itemz as per ... [Concept of Versioning - Orphand Itemz and ItemzType](https://github.com/Dharmesh-Shah/ItemzAPI/blob/master/ItemzAPI/01%20Docs%20and%20Notes/Concept-Of-Versioning-Itemz/Concept-Of-Versioning-Itemz.md#what-about-attaching-orphand-itemz-to-itemztype)
- - Nullable Reference Types
- - Upgraded all the Nuget Packages in May 2021
- - Concept of Baselining
+ - Developed support for getting data for Project >>> Baseline >>> BaselineItemzType >>> BaselineItemz >>> BaselineItemzTraces
+ - Documented and Implemented relation between BaselineItemz and original Itemz 
+ - Implemented concept that all Baselines are associated with a given Project
+ - Started Researching on support for HierarchyID in SQL Server
+ - Started documenting Concept of Itemz Hierarchy
+ - [FIXED] RollingInterval in Logging Configuration
 
-In  June and July 2021 we implemented
+In  April 2024 we implemented
 
- - Designed table Schema for supporting Baselining Feature
- - First time implemented Stored Procedure as part of EF Core migrations
- - Implemented Baselining Feature
- - Handling of Orphaned BaselineItemz as per design decision
- - Added POSTMAN scripts for testing various scenarios around Baselining Feature
- - Upgrade to latest version of dependent Nuget packages
+ - Documented Concept of Traceability
+ - Implemented ItemzTrace capabilies to support Parent and Child Traces
+ - Documented Design Decision of Baselining and Traceability
+ - Implemented support for Scoped Traces for BaselineItemz Snapshots
+ - Supporting Excluding and Including Baseline Itemz
+ - Enhanced Test Scripts to cover Itemz Traces
+ - Enhanced Test Scripts to cover Baseline Itemz and it's Traces
+ - Ability to Create Baseline Copies including Traces
 
 ## Project's Next Challenges are 
 
- - Design and implement Shrinking Baselines capabilities
+ - Implementing support for Itemz Hierarchy
+ - Decide upon UI technology to be used for ItemzApp
+ - Document Conecpt of Change History for Itemz Traces
+ - Upgrading to latest Nuget Packages
  - Research and Prototype for HTML / MarkDown editor
- - Concept of Traceability
  - Upgrade to latest version of dependent Nuget packages
  - Setup Build Automation via Continuous Integration for Master Branch
  - Improve Postman Tests to cover more scenarios
- - Take decision about separating out Itemz and Orphaned Itemz
+ - Write T-SQL for performing HealthCheck of the System
 
 **Your contributions as well as direction / support from community is much appreciated.**

@@ -17,10 +17,12 @@ namespace ItemzApp.API.Services
     public class BaselineRepository : IBaselineRepository, IDisposable
     {
         private readonly BaselineContext _baselineContext;
+        private readonly ItemzContext _itemzContext;
 
-        public BaselineRepository(BaselineContext baselineContext)
+        public BaselineRepository(BaselineContext baselineContext, ItemzContext itemzContext)
         {
             _baselineContext = baselineContext ?? throw new ArgumentNullException(nameof(baselineContext));
+            _itemzContext = itemzContext ?? throw new ArgumentNullException(nameof(itemzContext));
         }
         public async Task<Baseline?> GetBaselineAsync(Guid BaselineId)
         {
@@ -293,6 +295,31 @@ namespace ItemzApp.API.Services
         public void DeleteBaseline(Baseline baseline)
         {
             _baselineContext.Baseline!.Remove(baseline);
+  
+            // EXPLANATION: We need to first get the BaselineItemzHierarchy record from the repository
+            // then we use it within IsDescendantOf to find all the child nodes including Baseline node itself
+            // and then we remove all those records using EF Core entity tracking feature.
+
+            var baselineHierarchyRecord = _baselineContext.BaselineItemzHierarchy!.AsNoTracking()
+                .Where(bih => bih.Id == baseline.Id).FirstOrDefault();
+
+            if (baselineHierarchyRecord != null)
+            {
+                _baselineContext.BaselineItemzHierarchy!.RemoveRange
+                    (
+                        _baselineContext.BaselineItemzHierarchy.Where
+                        (
+                            bi => bi.BaselineItemzHierarchyId!.IsDescendantOf
+                            (
+                                baselineHierarchyRecord!.BaselineItemzHierarchyId
+                            )
+                        ).AsEnumerable()
+                    );
+            }
+            // TODO: If we can't automatically remove Trace data using this method then it's better to remove all data using
+            // stored procedure for deleting Baseline. This will be similar approach when it comes to removing Single Itemz like
+            // userProcDeleteSingleItemzByItemzID STORED PROCEDURE.
+
         }
 
         public async Task<int> GetBaselineItemzCountByBaselineAsync(Guid BaselineId)
@@ -308,6 +335,22 @@ namespace ItemzApp.API.Services
             var foundItemzByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzCountByBaseline, sqlArgs);
 
             return foundItemzByBaseline;
+        }
+
+        public async Task<int> GetBaselineItemzTraceCountByBaselineAsync(Guid BaselineId)
+        {
+            if (BaselineId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(BaselineId));
+            }
+            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            {
+                new KeyValuePair<string, object>("@__BaselineId__", BaselineId.ToString()),
+                new KeyValuePair<string, object>("@__IsIncluded_IsTrue__", 1),
+            };
+            var foundBaselineItemzTraceByBaseline = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetBaselineItemzTraceCountByBaseline, sqlArgs);
+
+            return foundBaselineItemzTraceByBaseline;
         }
 
         public async Task<int> GetIncludedBaselineItemzCountByBaselineAsync(Guid BaselineId)
@@ -354,13 +397,22 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ItemzTypeId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
-            };
-            var foundItemzByItemzType = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByItemzType, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ItemzTypeId__", ItemzTypeId.ToString()),
+            //};
+            //var foundItemzByItemzType = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByItemzType, sqlArgs);
 
-            return foundItemzByItemzType;
+            //return foundItemzByItemzType;
+
+            var rootItemzType = _itemzContext.ItemzHierarchy!.AsNoTracking()
+                .Where(ih => ih.Id == ItemzTypeId).FirstOrDefault();
+
+            return (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootItemzType!.ItemzHierarchyId))
+                   .CountAsync())
+                   - 1; // Minus One becaues Count includes ItemzType itself along with it's SubItemz
         }
 
         public async Task<int> GetItemzCountByProjectAsync(Guid ProjectId)
@@ -369,13 +421,27 @@ namespace ItemzApp.API.Services
             {
                 throw new ArgumentNullException(nameof(ProjectId));
             }
-            KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
-            {
-                new KeyValuePair<string, object>("@__ProjectID__", ProjectId.ToString()),
-            };
-            var foundItemzByProject = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
+            //KeyValuePair<string, object>[] sqlArgs = new KeyValuePair<string, object>[]
+            //{
+            //    new KeyValuePair<string, object>("@__ProjectID__", ProjectId.ToString()),
+            //};
+            //var foundItemzByProject = await _baselineContext.CountByRawSqlAsync(SQLStatements.SQLStatementFor_GetItemzCountByProject, sqlArgs);
 
-            return foundItemzByProject;
+            // return foundItemzByProject;
+
+            var rootProject = _itemzContext.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == ProjectId).FirstOrDefault();
+
+            var sumOfProjectAndSubItemzType = (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+                   .CountAsync());
+
+            return (await _itemzContext.ItemzHierarchy!
+                   .AsNoTracking()
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
+                   .CountAsync())
+                   - sumOfProjectAndSubItemzType; // Minus sum of Project itself and it's sub ItemzType Hierarchy records
         }
 
         public async Task<int> GetTotalBaselineItemzCountAsync()
@@ -385,6 +451,35 @@ namespace ItemzApp.API.Services
             return foundTotalBaselineItemzInRepository;
         }
 
+        public async Task<int> GetBaselineCountByProjectIdAsync(Guid projectID)
+        {
+            var foundBaselineCount = -1;
+            foundBaselineCount = await _baselineContext.Baseline!
+                .Where(b => b!.ProjectId == projectID)
+                .TagWith("BaselineCountByProjectID")
+                .AsNoTracking()
+                .CountAsync();
+            return foundBaselineCount > 0 ? foundBaselineCount : -1;
+        }
+
+        public async Task<IEnumerable<Baseline>?> GetBaselinesByProjectIdAsync(Guid ProjectId)
+        {
+            if (ProjectId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(ProjectId));
+            }
+
+            if (await _baselineContext.Baseline!.Where(b => b!.ProjectId == ProjectId).AnyAsync())
+            {
+                return await _baselineContext.Baseline
+                    .AsNoTracking()
+                    .Where(b => b!.ProjectId == ProjectId)
+                    .AsQueryable<Baseline>()
+                    .OrderBy(b => b.CreatedDate)
+                    .ToListAsync();
+            }
+            return null;
+        }
 
         public async Task<bool> ProjectExistsAsync(Guid projectId)
         {

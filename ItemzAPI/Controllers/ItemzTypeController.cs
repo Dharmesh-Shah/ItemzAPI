@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ItemzApp.API.BusinessRules.ItemzType;
+using Microsoft.CodeAnalysis;
 
 namespace ItemzApp.API.Controllers
 {
@@ -85,8 +86,6 @@ namespace ItemzApp.API.Controllers
                 ItemzTypeId);
             return Ok(_mapper.Map<GetItemzTypeDTO>(ItemzTypeFromRepo));
         }
-
-
 
         /// <summary>
         /// Gets collection of ItemzTypes
@@ -208,6 +207,28 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new ItemzType with ID {ItemzTypeId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 ItemzTypeEntity.Id);
+
+            // TODO: Try and Catch logic here is not clear and it might add ItemzType
+            // in the DB even if adding hierarchy record fails. In such cases 
+            // we need both this steps to be included in one single transaction. 
+            // If there is an issue to add ItemzType into hierarchy table then we will not be
+            // able to work with it's Itemz which are expected to be childrens.
+
+            try
+            {
+                await _ItemzTypeRepository.AddNewItemzTypeHierarchyAsync(ItemzTypeEntity);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new ItemzType Hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add Hierarchy for newly created ItemzType '{ItemzTypeEntity.Name}' ");
+            }
+
+
+
             return CreatedAtRoute("__Single_ItemzType_By_GUID_ID__", new { ItemzTypeId = ItemzTypeEntity.Id },
                 _mapper.Map<GetItemzTypeDTO>(ItemzTypeEntity) // Converting to DTO as this is going out to the consumer
                 );
@@ -401,6 +422,181 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Move ItemzType to a new project in the repository including all its sub-Itemz
+        /// </summary>
+        /// <param name="MovingItemzTypeId">GUID representing an unique ID of the moving ItemzType</param>
+        /// <param name="TargetProjectId">Details about target Project ID under which ItemzType will be moving</param>
+        /// <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
+        /// <returns>No contents are returned when ItemzType gets moved to its new desired location</returns>
+        /// <response code="204">No content are returned but status of 204 indicating that ItemzType has successfully moved to its desired location</response>
+        /// <response code="404">Either moving ItemzType or target Project was not found</response>
+        [HttpPost("{MovingItemzTypeId}", Name = "__POST_Move_ItemzType__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveItemzTypeAsync([FromRoute] Guid MovingItemzTypeId, [FromQuery] Guid TargetProjectId, [FromQuery] bool AtBottomOfChildNodes = true)
+        {
+            if (!(await _ItemzTypeRepository.ItemzTypeExistsAsync(MovingItemzTypeId)))  
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType for ID {MovingItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    MovingItemzTypeId);
+                return NotFound();
+            }
+
+            // TODO :: WE HAVE TO ALSO CHECK IN THE HIERARCHY TABLE IF TARGET EXISTITS OTHERWISE THERE IS NO
+            // POINT IN MOVING ITEMZTYPE.
+
+            if (!(await _projectRepository.ProjectExistsAsync(TargetProjectId)))
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Target Project for ID {TargetProjectId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    TargetProjectId);
+                return NotFound();
+            }
+
+            // TODO :: ADD NECESSARY EXCEPTION HANDLING CODE FOR MOVING ITEMZTYPE TO ANOTHER PROJECT
+            try
+            {
+                await _ItemzTypeRepository.MoveItemzTypeToAnotherProjectAsync(MovingItemzTypeId, TargetProjectId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to move ItemzType :" + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not move Itemz Type with ID '{MovingItemzTypeId}' " +
+                    $":: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+
+            _logger.LogDebug("{FormattedControllerAndActionNames}ItemzType ID {MovingItemzTypeId} successfully moved under Target Project ID {TargetProjectId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                MovingItemzTypeId,
+                TargetProjectId);
+            return NoContent(); // This indicates that update was successfully saved in the DB.
+        }
+
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// Used for moving ItemzType record between two existing ItemzType records
+        /// </summary>
+        /// <param name="movingItemzTypeId">Source moving ItemzType ID that will be moved to new location</param>
+        /// <param name="firstItemzTypeId">Used as first ItemzType for moving ItemzType between existing two ItemzTypes</param>
+        /// <param name="secondItemzTypeId">Used as second ItemzType for moving ItemzType between existing two ItemzTypes</param>
+        /// <returns>No Content</returns>
+        /// <response code="204">No Content</response>
+        /// <response code="404">Expected moveing OR target between ItemzTypes could not found</response>
+        [HttpPost("MoveItemzTypeBetweenItemzTypes/", Name = "__POST_Move_ItemzType_Between_ItemzTypes__")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveItemzTypeBetweenItemzTypesAsync([FromQuery] Guid movingItemzTypeId, [FromQuery] Guid firstItemzTypeId, [FromQuery] Guid secondItemzTypeId)
+        {
+            if (movingItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Source moving ItemzTypeID is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            if (firstItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}First ItemzTypeID from between two ItemzTypes is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            if (secondItemzTypeId == Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Second ItemzTypeID from between two ItemzTypes is an empty ID.",
+                        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+
+            var movingItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(movingItemzTypeId);
+
+            if (movingItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected moving ItemzType with ID {movingItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    movingItemzTypeId);
+                return NotFound();
+            }
+
+            var firstItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(firstItemzTypeId);
+
+            if (firstItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected first ItemzType with ID {firstItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    firstItemzTypeId);
+                return NotFound();
+            }
+
+            var secondItemzType = await _ItemzTypeRepository.GetItemzTypeAsync(secondItemzTypeId);
+
+            if (secondItemzType == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Expected second ItemzType with ID {secondItemzTypeId} could not be found",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    secondItemzTypeId);
+                return NotFound();
+            }
+
+            try
+            {
+                await _ItemzTypeRepository.MoveItemzTypeBetweenTwoHierarchyRecordsAsync(firstItemzTypeId, secondItemzTypeId, movingItemzTypeId);
+                await _ItemzTypeRepository.SaveAsync();
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to move ItemzType between two existing ItemzTypes :" + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not move ItemzType with Id {movingItemzTypeId} between ItemzType '{firstItemzTypeId}' " +
+                    $"and '{secondItemzTypeId}'. " +
+                    $":: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}DBUpdateException Occured while trying to move ItemzType between two existing ItemzTypes :" + dbUpdateException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"DBUpdateException : Could not move ItemzType with Id {movingItemzTypeId} between ItemzTypes " +
+                    $"'{firstItemzTypeId}' and '{secondItemzTypeId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{dbUpdateException.Message}' ");
+            }
+            catch (Microsoft.SqlServer.Types.HierarchyIdException hierarchyIDException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}HierarchyIdException Occured while trying to add Itemz between two existing Itemz :" + hierarchyIDException.Message,
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"HierarchyIdException : Could not move ItemzType with Id {movingItemzTypeId} between ItemzTypes " +
+                    $"'{firstItemzTypeId}' and '{secondItemzTypeId}'. DB Error reported, check the log file. " +
+                    $":: InnerException :: '{hierarchyIDException.Message}' ");
+            }
+
+            return NoContent();
+            //_logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
+            //    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+            //    itemzEntity.Id);
+            //return CreatedAtRoute("__Single_Itemz_By_GUID_ID__", new { ItemzId = itemzEntity.Id },
+            //    _mapper.Map<GetItemzDTO>(itemzEntity) // Converting to DTO as this is going out to the consumer
+            //    );
+        }
+
+
+
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 
@@ -412,7 +608,6 @@ namespace ItemzApp.API.Controllers
 
             return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
-
 
         /// <summary>
         /// Deleting a specific ItemzType
@@ -462,9 +657,85 @@ namespace ItemzApp.API.Controllers
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for ItemzType with ID {ItemzTypeId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                ItemzTypeId);
+            ItemzTypeId);
+
+            var itemzTypeYtemzHierarchyDeletionSuccessStatus = await 
+                    _ItemzTypeRepository.DeleteItemzTypeItemzHierarchyAsync(ItemzTypeId);
+
+            if (!itemzTypeYtemzHierarchyDeletionSuccessStatus)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for ItemzType with ID {ItemzTypeId} process failed",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    ItemzTypeId);
+            }
+
             return NoContent();
         }
+
+        ///// <summary>
+        ///// Gets expected Top Itemz hierarchy number by ItemzTypeId
+        ///// </summary>
+        ///// <returns>string representing highest most last Itemz hierarchy id</returns>
+        ///// <response code="200">string representing highest most last Itemz hierarchy id</response>
+        ///// <response code="404">No Itemz hierarchy records found under ItemzTypeID</response>
+        ///// 
+        //[HttpGet("GetTopItemzHierarchyID/{ItemzTypeId}", Name = "__GET_Top_Itemz_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastItemzHierarchyID/
+        //[HttpHead("GetTopItemzHierarchyID/{ItemzTypeId}", Name = "__HEAD_Top_Itemz_HierarchyID__")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public async Task<ActionResult<string>> GetTopItemzHierarchyIDAsync(Guid ItemzTypeId)
+        //{
+        //    var topItemzHierarchyID = await _ItemzTypeRepository.GetTopItemzHierarchyID(ItemzTypeId);
+        //    if (topItemzHierarchyID == null)
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for Itemz " +
+        //            "under ItemzType ID {ItemzTypeId}. " +
+        //            "If there are Itemzs in the repository but you are not able to find top Itemz hierarchyid " +
+        //            "then please contact your system administrator.",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+        //            , ItemzTypeId);
+        //        return NotFound();
+        //    }
+        //    _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {topItemzHierarchyID} as expected top Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
+        //        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+        //        topItemzHierarchyID,
+        //        ItemzTypeId);
+        //    return Ok(topItemzHierarchyID);
+        //}
+
+        ///// <summary>
+        ///// Gets expected Bottom Itemz hierarchy number by ItemzTypeId
+        ///// </summary>
+        ///// <returns>string representing highest most last Itemz hierarchy id</returns>
+        ///// <response code="200">string representing highest most last Itemz hierarchy id</response>
+        ///// <response code="404">No Itemz hierarchy records found under ItemzTypeID</response>
+        ///// 
+        //[HttpGet("GetLastItemzHierarchyID/{ItemzTypeId}", Name = "__GET_Last_Itemz_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastItemzHierarchyID/
+        //[HttpHead("GetLastItemzHierarchyID/{ItemzTypeId}", Name = "__HEAD_Last_Itemz_HierarchyID__")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesDefaultResponseType]
+        //public async Task<ActionResult<string>> GetLastItemzHierarchyIDAsync(Guid ItemzTypeId)
+        //{
+
+        //    var lastItemzHierarchyID = await _ItemzTypeRepository.GetLastItemzHierarchyID(ItemzTypeId);
+        //    if (lastItemzHierarchyID == null)
+        //    {
+        //        _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for Itemz " +
+        //            "under ItemzType ID {ItemzTypeId}. " +
+        //            "If there are Itemzs in the repository but you are not able to find last Itemz hierarchyid " +
+        //            "then please contact your system administrator.",
+        //            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+        //            , ItemzTypeId);
+        //        return NotFound();
+        //    }
+        //    _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {lastItemzHierarchyID} as expected last OR bottom Itemz hierarchy id under ItemzTypeID {ItemzTypeID}",
+        //        ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+        //        lastItemzHierarchyID,
+        //        ItemzTypeId);
+        //    return Ok(lastItemzHierarchyID);
+        //}
 
         /// <summary>
         /// Get list of supported HTTP Options for the ItemzTypes controller.

@@ -200,6 +200,27 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Project with ID {ProjectId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectEntity.Id);
+
+            // TODO: Try and Catch logic here is not clear and it might add project
+            // in the DB even if adding hierarchy record fails. In such cases 
+            // we need both this steps to be included in one single transaction. 
+            // If there is an issue to add Project into hierarchy table then we will not be
+            // able to work with it's ItemzType and Itemz which are expected to be childrens.
+
+            try
+            {
+                await _projectRepository.AddNewProjectHierarchyAsync(projectEntity);
+                await _projectRepository.SaveAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project hierarchy:" + dbUpdateException.InnerException,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                return Conflict($"Could not add hierarchy for newly created project '{projectEntity.Name}' ");
+            }
+
+
             return CreatedAtRoute("__Single_Project_By_GUID_ID__", new { ProjectId = projectEntity.Id },
                 _mapper.Map<GetProjectDTO>(projectEntity) // Converting to DTO as this is going out to the consumer
                 );
@@ -406,11 +427,21 @@ namespace ItemzApp.API.Controllers
             _projectRepository.DeleteProject(projectFromRepo);
             await _projectRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Projeect with ID {ProjectId} processed successfully",
+            _logger.LogDebug("{FormattedControllerAndActionNames}Delete request for Project with ID {ProjectId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectId);
 
+            var projectItemzHierarchyDeletionSuccessStatus = await _projectRepository.DeleteProjectItemzHierarchyAsync(projectId);
+
+            if (!projectItemzHierarchyDeletionSuccessStatus)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Delete ItemzHierarchy records for Project with ID {ProjectId} process failed",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    projectId);
+            }
+
             await _projectRepository.DeleteOrphanedBaselineItemzAsync();
+
             return NoContent();
         }
 
@@ -476,9 +507,35 @@ namespace ItemzApp.API.Controllers
             return Ok(_mapper.Map<IEnumerable<GetItemzTypeDTO>>(projectItemzTypesFromRepo));
         }
 
-
-
-
+        /// <summary>
+        /// Gets last project hierarchy number
+        /// </summary>
+        /// <returns>string representing highest most last project hierarchy id</returns>
+        /// <response code="200">string representing highest most last project hierarchy id</response>
+        /// <response code="404">No project hierarchy records found in the system</response>
+        /// 
+        [HttpGet("GetLastProjectHierarchyID/", Name = "__GET_Last_Project_HierarchyID__")] // e.g. http://HOST:PORT/api/Projects/GetLastProjectHierarchyID/
+        [HttpHead("GetLastProjectHierarchyID/", Name = "__HEAD_Last_Project_HierarchyID__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<string>> GetLastProjectHierarchyIDAsync()
+        {
+            var lastProjectHierarchyID = await _projectRepository.GetLastProjectHierarchyID();
+            if (lastProjectHierarchyID == null)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Seems like there are no hierarchy record found for projects " +
+                    "in this repository. " +
+                    "If there are projects in the repository but you are not able to find last project hierarchyid " +
+                    "then please contact your system administrator.",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+                return NotFound();
+            }
+            _logger.LogDebug("{FormattedControllerAndActionNames}Returning results of {LastProjectHierarchyID} as highest most and last project hierarchy id in the repository",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                lastProjectHierarchyID);
+            return Ok(lastProjectHierarchyID);
+        }
 
         /// <summary>
         /// Get list of supported HTTP Options for the Projects controller.
