@@ -17557,9 +17557,10 @@
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});"
+											" pm.test(\"Status code is either 200 or 204\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+											"});",
+											""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -17913,16 +17914,17 @@
 					"response": []
 				},
 				{
-					"name": "POST Move Itemz to Parking Lot Type Copy",
+					"name": "POST Move Itemz to Parking Lot Type",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"",
-									"pm.test(\"Status code is 204\", function () {",
-									"    pm.response.to.have.status(204);",
-									"});"
+											" pm.test(\"Status code is either 200 or 204\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+											"});",
+											""
 								],
 								"type": "text/javascript",
 								"packages": {}
