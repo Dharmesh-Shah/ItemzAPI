@@ -709,9 +709,11 @@ namespace ItemzApp.API.Controllers
         /// <param name="TargetId">Details about target ID under which Itemz will be moving</param>
         /// <param name="AtBottomOfChildNodes">Boolean value where by true means at the bottom of the existing nodes and false means at the top</param>
         /// <returns>No contents are returned when Itemz gets moved to its new desired location</returns>
+        /// <response code="200">Itemz to Parent Itemz association was either found or added successfully</response>
         /// <response code="204">No content are returned but status of 204 indicating that Itemz has successfully moved to its desired location</response>
         /// <response code="404">Either Itemz or ItemzType was not found</response>
         [HttpPost("{MovingItemzId}", Name = "__POST_Move_Itemz__")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -744,7 +746,9 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 MovingItemzId,
                 TargetId);
-            return NoContent(); // This indicates that update was successfully saved in the DB.
+
+            return RedirectToRoute("__Single_Itemz_By_GUID_ID__", new { Controller = "Itemzs", ItemzId = MovingItemzId });
+            // return NoContent(); // This indicates that update was successfully saved in the DB.
         }
 
         /// <summary>
