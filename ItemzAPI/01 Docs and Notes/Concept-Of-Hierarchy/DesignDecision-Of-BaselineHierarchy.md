@@ -37,7 +37,7 @@ In the following example, “Project1> Itemz1” contains trace relations to “
 | Project2            | /2/                   |                     |
 | Parking Lot         | /2/1/                 |                     |
 | ItemzType1          | /2/2/                 |                     |
-| Itemz1              | /2/2/1/               | /1/2/1/             |
+|**Itemz1**           | **/2/2/1/**           | **/1/2/1/**         |
 
 Baseline Snapshot for Project1 will look like as follows: …
 
@@ -48,8 +48,8 @@ Baseline Snapshot for Project1 will look like as follows: …
 | Baseline1           | /1/1/                 |                     |
 | Parking Lot         | /1/1/1/               |                     |
 | ItemzType1          | /1/1/1/2/             |                     |
-| Itemz1              | /1/1/1/2/1/           | /1/1/1/2/2/         |
-| Itemz2              | /1/1/1/2/2/           | /1/1/1/2/1/         |
+| **Itemz1**          | **/1/1/1/2/1/**       | **/1/1/1/2/2/**     |
+| **Itemz2**          | **/1/1/1/2/2/**       | **/1/1/1/2/1/**     |
 
 In the following example, “ItemzType1> Itemz1” is having a trace relationship to “ItemzType2>Itemz3”. Now if the Baseline Snapshot is taken with scope of ItemzType1, then it will not include trace data between Itemz1 and Itemz3 because Itemz3 is out of the scope of the baseline. 
 
@@ -62,7 +62,7 @@ In the following example, “ItemzType1> Itemz1” is having a trace relationshi
 | Itemz1              | /1/2/1/                | /1/2/2/, /1/3/1     |
 | Itemz2              | /1/2/2/                | /1/2/1/             |
 | ItemzType2          | /1/3/                  |                     |
-| Itemz3              | /1/3/1/                | /1/2/1/             |
+| **Itemz3**          | **/1/3/1/**            | **/1/2/1/**         |
 | Itemz4              | /1/3/2/                |                     |
 
 Baseline Snapshot for ItemzType1 will look like as follows: 
@@ -74,8 +74,8 @@ Baseline Snapshot for ItemzType1 will look like as follows:
 | Baseline1           | /1/1/                 |                     |
 | Parking Lot         | /1/1/1/               |                     |
 | ItemzType1          | /1/1/1/2/             |                     |
-| Itemz1              | /1/1/1/2/1/           | /1/1/1/2/2/         |
-| Itemz2              | /1/1/1/2/2/           | /1/1/1/2/1/         |
+| **Itemz1**          | **/1/1/1/2/1/**       | **/1/1/1/2/2/**     |
+| **Itemz2**          | **/1/1/1/2/2/**       | **/1/1/1/2/1/**     |
 
 # Design Decision – Multiple Baselines
 
