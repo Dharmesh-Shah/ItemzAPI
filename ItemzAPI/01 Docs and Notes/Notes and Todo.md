@@ -1094,4 +1094,9 @@ Above example worked for me while I was initially working with `public class Ins
 
 Now that we are going to remove above code from the application, it was important to make a note of the same so that we can use this technique in the future. 
 
+### [Learn about .NET Code and find source code](https://source.dot.net/)
+
+Very nice site to learn about internal Microsoft Source Code for Microsoft .NET.
+
+We should use this site to find information about how Microsoft has written .NET Core related code and also to debug code.
 
