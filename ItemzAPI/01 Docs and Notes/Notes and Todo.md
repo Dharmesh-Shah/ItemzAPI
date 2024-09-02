@@ -1100,3 +1100,11 @@ Very nice site to learn about internal Microsoft Source Code for Microsoft .NET.
 
 We should use this site to find information about how Microsoft has written .NET Core related code and also to debug code.
 
+
+### [Validating Blazor Forms](https://www.learnblazor.com/form-validation)
+
+This blog post shows how `EditContext` can be used to add custom validation logic and messages within Blazor. This I believe will be very useful in the future when we get to advance validation within Blazor Forms.
+
+Author has explains so nicely about callback event `HandleSubmit`
+
+Custom validation rules will be required in the future for ItemzApp. 
