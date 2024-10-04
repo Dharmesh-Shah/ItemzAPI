@@ -1,0 +1,112 @@
+﻿@page "/CreateItemz/{ItemzTypeId:guid}/{ParentId:guid}"
+@using ItemzApp.WebUI.Client.Services.Itemz
+@using ItemzApp.WebUI.Client.SharedModels
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavManager
+
+<h1>Create Itemz</h1>
+
+<MudGrid>
+	<MudItem hidden="@hideValidationError" xs="12" sm="8">
+		<MudPaper Class="pa-4 mud-height-full">
+			<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+			@foreach (var error in errors)
+			{
+				<MudText Color="@Color.Error">@error</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+    <MudItem xs="12" sm="8">
+        <MudPaper Class="pa-4">
+			<MudForm Model="@singleItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+				<MudCardContent>
+				<MudTextField T="string" Label="Name" Required="true" RequiredError="Itemz name is required!"
+								  @bind-Value="singleItemz.Name"
+								  For="@(() => singleItemz.Name)" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
+								  @bind-Value="singleItemz.Status"
+								  For="@(() => singleItemz.Status)" />
+					<MudTextField T="string" Label="Priority" Required="true" RequiredError="Priority is required!"
+								  @bind-Value="singleItemz.Priority"
+								  For="@(() => singleItemz.Priority)" />
+					<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+								  @bind-Value="singleItemz.Description"
+								  For="@(() => singleItemz.Description)" />
+					<MudTextField T="string" Label="Severity" Required="true" RequiredError="Severity is required!"
+								  @bind-Value="singleItemz.Severity"
+								  For="@(() => singleItemz.Severity)" />
+				</MudCardContent>
+				<MudCardActions>
+					<MudButton Variant="Variant.Filled" Color="Color.Primary"
+							   Size="Size.Large" 
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => HandleCreateItemzPostSubmission())">
+						<MudText>Create</MudText>
+					</MudButton>
+					@* <MudSpacer /> *@
+					<MudButton Variant="Variant.Filled" Color="Color.Warning"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px" 
+							   OnClick="(() => goBackToItemzTypeSetting())">
+						<MudText>Cancel</MudText>
+					</MudButton>
+				</MudCardActions>
+			</MudForm>
+		</MudPaper>
+	</MudItem>
+</MudGrid>
+
+<MudOverlay Visible="@createItemzButtonClicked" DarkBackground="true" Absolute="true">
+	<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Creating ... </MudText>
+	<br />
+	<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+</MudOverlay>
+
+@code {
+	[Parameter]
+	public Guid ItemzTypeId { get; set; }
+	[Parameter]
+	public Guid ParentId { get; set; }
+
+	[Inject]
+	public IItemzService ItemzService { get; set; }
+
+
+	public CreateItemzDTO singleItemz { get; set; } = new();
+	public bool IsProcessing { get; set; } = false;
+
+	//MudForm related fields
+	bool success = true;
+	string[] errors = { };
+	MudForm form;
+	private bool createItemzButtonClicked = false;
+	bool hideValidationError = true;
+
+	public async Task HandleCreateItemzPostSubmission()
+	{
+		if (form != null)
+		{
+			await form.Validate();
+			if (form.IsValid)  
+			{
+				hideValidationError = true;	
+				createItemzButtonClicked = true;
+				// singleItemz.ItemzTypeId = ItemzTypeId;
+				var updatedResult = await ItemzService.__POST_Create_Itemz__Async(ItemzTypeId, true, singleItemz); 
+				Thread.Sleep(1500);
+
+				// TODO:: HANDLE NAVIGATE BACK
+				NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
+			}
+			else
+			{
+				hideValidationError = false;
+			}
+		}
+	}
+
+	public void goBackToItemzTypeSetting()
+	{
+		NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
+	}
+}

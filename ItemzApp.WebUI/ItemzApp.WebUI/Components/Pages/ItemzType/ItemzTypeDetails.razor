@@ -1,0 +1,245 @@
+﻿@page "/itemzTypeDetails/{ItemzTypeId:guid}/{ProjectId:guid}"
+@using ItemzApp.WebUI.Client.Services.ItemzType
+@using ItemzApp.WebUI.Client.SharedModels
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+
+<h1>ItemzType Details</h1>
+<br />
+
+<MudGrid>
+	@if (initializingPage)
+	{
+		<MudPaper Height="calc(100vh - 100px);" Width="100%">
+			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
+				<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<br />
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+			</MudOverlay>
+		</MudPaper>
+	}
+	else
+	{
+		<MudItem hidden="@hideValidationError" xs="12" sm="8">
+			<MudPaper Class="pa-4 mud-height-full">
+				<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+				@foreach (var error in errors)
+				{
+					<MudText Color="@Color.Error">@error</MudText>
+				}
+			</MudPaper>
+		</MudItem>
+		<MudItem xs="12" sm="8">
+			<MudPaper Class="pa-4">
+				<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
+			<MudCardContent>
+				<MudText>Project GUID Id: @ProjectId.ToString()</MudText>
+				<br />
+				<MudText>ItemzType GUID Id: @ItemzTypeId.ToString()</MudText>
+				<br />
+				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
+								@bind-Value="singleItemzType.Name"
+								For="@(() => singleItemzType.Name)" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
+					@bind-Value="singleItemzType.Status"
+					For="@(() => singleItemzType.Status)" />
+				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+					@bind-Value="singleItemzType.Description"
+					For="@(() => singleItemzType.Description)" />
+					</MudCardContent>
+			<MudCardActions>
+					<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(disableUpdateItemzTypeDetailsButton)"
+								   Size="Size.Large"
+								   style="gap: 10px; margin : 10px"
+								OnClick="(() => HandleItemzTypeDetailsPatchSubmission())">
+					<MudText>Save</MudText>
+					</MudButton>
+					<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+						OnClick="(() => goBackToItemzType())">
+						<MudText>Cancel</MudText>
+					</MudButton>
+			</MudCardActions>
+				<MudItem xs="12" sm="12" md="12" lg="9">
+					<br />
+						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
+							<MudExpansionPanel style="background-color : #FABBBB; color : red;"
+											   Text="DANGER ZONE!" MaxHeight="150" Expanded="false">
+							<TitleContent>
+								<div class="d-flex">
+									<MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" Size="Size.Medium" class="mr-3"></MudIcon>
+									<MudText Color="Color.Error"><strong>DANGER ZONE!</strong></MudText>
+								</div>
+							</TitleContent>
+							<ChildContent>
+									<MudText Typo="Typo.body1" Color="Color.Error">Deleting itemzType means loosing all it's data. This is <STRONG>IRREVERSIBLE</STRONG> operation.</MudText>
+									<MudButton @onclick="OpenDeleteConfirmationDialogAsync" Variant="Variant.Filled"
+										Disabled="@(disableUpdateItemzTypeDetailsButton)"
+										Color="Color.Error" Size="Size.Large" style="align-items: center; margin-top : 10px">
+									Delete ItemzType
+								</MudButton>
+							</ChildContent>
+						</MudExpansionPanel>
+					</MudExpansionPanels>
+				</MudItem>
+		</MudForm>
+
+	</MudPaper>
+	</MudItem>
+	<MudItem xs="12" sm="8">
+		<MudOverlay Visible="@updateItemzTypeButtonClicked" DarkBackground="true" Absolute="true">
+			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
+			<br />
+			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+		</MudOverlay>
+	</MudItem>
+	<MudItem xs="12" sm="8">
+		<MudOverlay Visible="@deletingItemzType" DarkBackground="true" Absolute="true">
+			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Deleting ...</MudText>
+			<br />
+			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+		</MudOverlay>
+	</MudItem>
+	}
+</MudGrid>
+@code {
+	[Parameter]
+	public Guid ItemzTypeId { get; set; }
+	[Parameter]
+	public Guid ProjectId { get; set; }
+
+	[Inject]
+	public IItemzTypeService ItemzTypeService { get; set; }
+
+	private bool updateItemzTypeButtonClicked = false;
+
+	public GetItemzTypeDTO singleItemzType { get; set; } = new();
+	public bool initializingPage { get; set; } = false;
+	private bool deletingItemzType { get; set; } = false;
+	private bool hasFormFieldChanged { get; set; } = false;
+
+	//MudForm related fields
+	bool success = true;
+	bool disableUpdateItemzTypeDetailsButton = false;
+	string[] errors = { };
+	MudForm form;
+
+	bool hideValidationError = true;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			initializingPage = true;
+			StateHasChanged();
+			//Thread.Sleep(300);
+			singleItemzType = await ItemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
+			if (form != null)
+			{
+				await form.Validate();
+				if (form.IsValid)
+				{
+					disableUpdateItemzTypeDetailsButton = false;
+				}
+				else
+				{
+					disableUpdateItemzTypeDetailsButton = true;
+				}
+				initializingPage = false;
+				StateHasChanged();
+				if (singleItemzType != null)
+				{
+					if (singleItemzType.IsSystem)
+					{
+						await OpenExceptionDialogAsync("System ItemzType can not be edited!");
+						disableUpdateItemzTypeDetailsButton = true;
+						form.Disabled = true;
+						StateHasChanged();
+					}
+				}
+			}
+		}
+	}
+	public async Task HandleItemzTypeDetailsPatchSubmission()
+	{
+		updateItemzTypeButtonClicked = true;
+		try
+		{
+			if (hasFormFieldChanged)
+			{
+				var updateItemzTypeDTO = new UpdateItemzTypeDTO();
+				updateItemzTypeDTO.Name = singleItemzType.Name;
+				updateItemzTypeDTO.Status = singleItemzType.Status;
+				updateItemzTypeDTO.Description = singleItemzType.Description;
+				var updatedResult = await ItemzTypeService.__PUT_Update_ItemzType_By_GUID_ID__Async(ItemzTypeId, updateItemzTypeDTO);
+				Thread.Sleep(800);
+			}
+		}
+		catch (Exception ex)
+		{
+			updateItemzTypeButtonClicked = false;
+			await OpenExceptionDialogAsync("Problem Updating ItemzType Details : " + ex.Message);
+			return;
+		}
+		goBackToItemzType();
+	}
+
+	private async Task formFieldChanged()
+	{
+		hasFormFieldChanged = true;
+		if (form != null)
+		{
+			await form.Validate();
+			if (form.IsValid)
+			{
+				disableUpdateItemzTypeDetailsButton = false;
+				if (singleItemzType != null)
+				{
+					if (singleItemzType.IsSystem)
+					{
+						disableUpdateItemzTypeDetailsButton = true;
+						StateHasChanged();
+					}
+				}
+			}
+			else
+			{
+				disableUpdateItemzTypeDetailsButton = true;
+			}
+		}
+	}
+
+	public async Task deleteItemzType()
+	{
+		await ItemzTypeService.__DELETE_ItemzType_By_GUID_ID__Async(ItemzTypeId);
+		goBackToItemzType();
+	}
+	private async Task OpenDeleteConfirmationDialogAsync()
+	{
+		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+		var dialogref = await DialogService.ShowAsync<ItemzTypeDeletionConfirmDialog>("CONFIRM", options);
+		var dialogresult = await dialogref.Result;
+		if (!(dialogresult!.Canceled))
+		{
+			deletingItemzType = true;
+			StateHasChanged();
+			await deleteItemzType();
+			Thread.Sleep(200);
+		}
+	}
+
+	private async Task OpenExceptionDialogAsync(string exceptionMessage)
+	{
+		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+		var dialogPara = new DialogParameters();
+		dialogPara.Add("exceptionMessage", exceptionMessage);
+		var dialogref = await DialogService.ShowAsync<ItemzTypeExceptionDialog>("CONFIRM", dialogPara, options);
+		// var dialogresult = await dialogref.Result;
+	}
+
+	public void goBackToItemzType()
+	{
+		NavManager.NavigateTo($"/itemztype/{ItemzTypeId.ToString()}/{ProjectId.ToString()}");
+	}
+
+}

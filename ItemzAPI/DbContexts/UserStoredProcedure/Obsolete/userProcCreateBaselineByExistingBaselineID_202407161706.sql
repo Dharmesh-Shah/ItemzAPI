@@ -92,7 +92,7 @@ DECLARE @SourceBaselineItemzHierarchyId hierarchyid
 
 
 			-- Insert records into BaselineItemzTypeJoinBaselineItemz
-			-- EXPLAINATION: Because we have just added records in 
+			-- EXPLANATION: Because we have just added records in 
 			-- BaselineItemz table that included details about BaselineItemzType as
 			-- part of [dbo].[BaselineItemz].IgnoreMeBaselineItemzTypeId column, we are
 			-- now able to run a simple Select Querty as part of INSERT INTO command

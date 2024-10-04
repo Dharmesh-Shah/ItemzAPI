@@ -183,7 +183,8 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
 
-        public async Task<ActionResult<GetItemzDTO>> CheckItemzTypeItemzAssociationExistsAsync([FromQuery] Guid ItemzTypeId, Guid itemzId) // TODO: Try from Query.
+        public async Task<ActionResult<GetItemzDTO>> CheckItemzTypeItemzAssociationExistsAsync([FromQuery, BindRequired] Guid ItemzTypeId
+            , [FromQuery, BindRequired] Guid itemzId) // TODO: Try from Query.
         {
             var tempItemzTypeItemzDTO = new ItemzTypeItemzDTO();
 
@@ -305,7 +306,7 @@ namespace ItemzApp.API.Controllers
 
                 await _itemzRepository.MoveItemzHierarchyAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
 
-                // EXPLAINATION: To be able to get next correct HierarchyId, we have to save previous
+                // EXPLANATION: To be able to get next correct HierarchyId, we have to save previous
                 // record in the database. Then only we are able to find next available HierarchyID to be
                 // used for the next record in the collection. 
                 // TODO: Perhaps we can implement better logic here to do bulk import within HierarchyId 

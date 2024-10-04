@@ -232,7 +232,7 @@ namespace ItemzApp.API.Controllers
 
                     var detailsOfUpdateBaselineItemz = _mapper.Map<Entities.UpdateBaselineItemz>(baselineItemzsToBeUpdated);
 
-                    // EXPLAINATION : First check if the immediate parent Itemz is included in the baseline and 
+                    // EXPLANATION : First check if the immediate parent Itemz is included in the baseline and 
                     // also verify that BaselineID and BaselineItemzIDs belongs to a single Breakdown Structure within a single target Baseline. 
 
                     //if (detailsOfUpdateBaselineItemz.ShouldBeIncluded == true)

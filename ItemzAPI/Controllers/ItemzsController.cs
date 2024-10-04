@@ -441,7 +441,9 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzBetweenExistingItemzAsync([FromQuery] Guid movingItemzId, [FromQuery] Guid firstItemzId, [FromQuery] Guid secondItemzId)
+        public async Task<ActionResult> MoveItemzBetweenExistingItemzAsync( [FromQuery, BindRequired] Guid movingItemzId
+            , [FromQuery, BindRequired] Guid firstItemzId
+            , [FromQuery, BindRequired] Guid secondItemzId)
         {
             if (movingItemzId == Guid.Empty)
             {
@@ -717,7 +719,9 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzAsync([FromRoute] Guid MovingItemzId, [FromQuery] Guid TargetId, [FromQuery] bool AtBottomOfChildNodes = true)
+        public async Task<ActionResult> MoveItemzAsync([FromRoute] Guid MovingItemzId
+            , [FromQuery, BindRequired] Guid TargetId
+            , [FromQuery] bool AtBottomOfChildNodes = true)
         {
             if (!(await _itemzRepository.ItemzExistsAsync(MovingItemzId)))// Check if Itemz exists
 

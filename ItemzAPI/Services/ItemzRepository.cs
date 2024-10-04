@@ -45,7 +45,7 @@ namespace ItemzApp.API.Services
             return await _context.Itemzs!
                 .Where(c => c.Id == ItemzId).AsNoTracking().FirstOrDefaultAsync();
             
-            // EXPLAINATION: It is possible to return Itemz data with details
+            // EXPLANATION: It is possible to return Itemz data with details
             // about FromItemzJoinItemzTrace + ToItemzJoinItemzTrace + ItemzTypeJoinItemz together 
             // as per below option.
             

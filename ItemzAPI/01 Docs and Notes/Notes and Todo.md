@@ -493,7 +493,7 @@ By <span style="background-color: #99ff66">Steve Collins [@stevetalkscode](https
 
 OVERALL EXCELLENT demo about Dependency Injection in .Net Core.
 
-Detailed explaination of how dependency injection works in .NET Core and what is supported out of the box by Microsoft DI Container. Steve also shows nice tips and tricks including Factory / Decorator patter to extend existing registered services. Very Very nice presentation by Steve.
+Detailed explanation of how dependency injection works in .NET Core and what is supported out of the box by Microsoft DI Container. Steve also shows nice tips and tricks including Factory / Decorator patter to extend existing registered services. Very Very nice presentation by Steve.
 
 Ref:- [Steve's Blog Site](http://Stevetalkscode.co.uk)
 

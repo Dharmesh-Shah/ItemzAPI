@@ -1,0 +1,105 @@
+﻿@page "/CreateItemzType/{ProjectId:guid}"
+@using ItemzApp.WebUI.Client.Services.ItemzType
+@using ItemzApp.WebUI.Client.SharedModels
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavManager
+
+<h1>Create ItemzType</h1>
+
+<MudGrid>
+	<MudItem hidden="@hideValidationError" xs="12" sm="8">
+		<MudPaper Class="pa-4 mud-height-full">
+			<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+			@foreach (var error in errors)
+			{
+				<MudText Color="@Color.Error">@error</MudText>
+			}
+		</MudPaper>
+	</MudItem>
+    <MudItem xs="12" sm="8">
+        <MudPaper Class="pa-4">
+			<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+				<MudCardContent>
+				<MudTextField T="string" Label="Name" Required="true" RequiredError="ItemzType name is required!"
+								  @bind-Value="singleItemzType.Name"
+								  For="@(() => singleItemzType.Name)" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
+								  @bind-Value="singleItemzType.Status"
+								  For="@(() => singleItemzType.Status)" />
+				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+								  @bind-Value="singleItemzType.Description"
+								  For="@(() => singleItemzType.Description)" />
+				</MudCardContent>
+				<MudCardActions>
+					<MudButton Variant="Variant.Filled" Color="Color.Primary"
+							   Size="Size.Large" 
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => HandleCreateItemzTypePostSubmission())">
+						<MudText>Create</MudText>
+					</MudButton>
+					@* <MudSpacer /> *@
+					<MudButton Variant="Variant.Filled" Color="Color.Warning"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px" 
+							   OnClick="(() => goBackToProjectSetting())">
+						<MudText>Cancel</MudText>
+					</MudButton>
+				</MudCardActions>
+			</MudForm>
+		</MudPaper>
+	</MudItem>
+</MudGrid>
+
+<MudOverlay Visible="@createItemzTypeButtonClicked" DarkBackground="true" Absolute="true">
+	<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Creating ... </MudText>
+	<br />
+	<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+</MudOverlay>
+
+@code {
+	[Parameter]
+	public Guid ProjectId { get; set; }
+
+	[Inject]
+	public IItemzTypeService ItemzTypeService { get; set; }
+
+
+	public CreateItemzTypeDTO singleItemzType { get; set; } = new();
+	public bool IsProcessing { get; set; } = false;
+
+	//MudForm related fields
+	bool success = true;
+	string[] errors = { };
+	MudForm form;
+	private bool createItemzTypeButtonClicked = false;
+	bool hideValidationError = true;
+
+
+	public async Task HandleCreateItemzTypePostSubmission()
+	{
+		if (form != null)
+		{
+			await form.Validate();
+			if (form.IsValid)  
+			{
+				hideValidationError = true;	
+				createItemzTypeButtonClicked = true;
+				singleItemzType.ProjectId = ProjectId;
+				var updatedResult = await ItemzTypeService.__POST_Create_ItemzType__Async(singleItemzType);
+				Thread.Sleep(1500);
+				goBackToProjectSetting();
+				//NavManager.NavigateTo($"/project/{ProjectId.ToString()}");
+			}
+			else
+			{
+				hideValidationError = false;
+			}
+
+		}
+	}
+
+	public void goBackToProjectSetting()
+	{
+		NavManager.NavigateTo($"/project/{ProjectId.ToString()}");
+	}
+}
