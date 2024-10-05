@@ -53,9 +53,7 @@ namespace ItemzApp.API.Services
                     $"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
                     "Please contact your System Administrator.");
             }
-            
-            
-            var hierarchyIdRecordDetails = new HierarchyIdRecordDetailsDTO();
+			var hierarchyIdRecordDetails = new HierarchyIdRecordDetailsDTO();
             hierarchyIdRecordDetails.RecordId = recordId;
             hierarchyIdRecordDetails.HierarchyId = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.ToString();
             hierarchyIdRecordDetails.RecordType = foundHierarchyRecord.FirstOrDefault()!.RecordType;
@@ -72,7 +70,6 @@ namespace ItemzApp.API.Services
                     .OrderBy(ih => ih.ItemzHierarchyId!)
                     .ToListAsync();
 
-
             if (itemzTypeHierarchyItemz.Count != 0)
             {
                 hierarchyIdRecordDetails.TopChildHierarchyId = itemzTypeHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId!.ToString();
@@ -80,8 +77,24 @@ namespace ItemzApp.API.Services
                 hierarchyIdRecordDetails.NumberOfChildNodes = itemzTypeHierarchyItemz.Count;
 
             }
-            return hierarchyIdRecordDetails;
+
+			// EXPLANATION : Here we are getting record where Hierarchy ID is equal to the Hierarchy Id of immediate parent. 
+            // We find immediate parent by using GetAncestor(1) method on found hierarchy record.
+
+			var parentHierarchyRecord = _context.ItemzHierarchy!
+				.AsNoTracking()
+				.Where(ih => ih.ItemzHierarchyId == foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1))
+				.FirstOrDefault();
+
+            if (parentHierarchyRecord != null)
+            {
+				hierarchyIdRecordDetails.ParentRecordId = parentHierarchyRecord.Id;
+				hierarchyIdRecordDetails.ParentRecordType = parentHierarchyRecord.RecordType;
+				hierarchyIdRecordDetails.ParentHierarchyId = parentHierarchyRecord.ItemzHierarchyId!.ToString();
+                hierarchyIdRecordDetails.ParentLevel = parentHierarchyRecord.ItemzHierarchyId!.GetLevel();
+			}
+			return hierarchyIdRecordDetails;
            
         }
-    }
+	}
 }

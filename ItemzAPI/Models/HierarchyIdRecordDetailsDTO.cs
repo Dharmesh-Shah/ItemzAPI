@@ -7,7 +7,7 @@ namespace ItemzApp.API.Models
     public class HierarchyIdRecordDetailsDTO
     {
         /// <summary>
-        /// Parent Record ID representated by a GUID.
+        /// Record ID representated by a GUID.
         /// </summary>
         public Guid RecordId { get; set; }
 
@@ -42,6 +42,24 @@ namespace ItemzApp.API.Models
         /// </summary>
         public int? NumberOfChildNodes { get; set; } = 0;
 
+		/// <summary>
+		/// Parent Record ID representated by a GUID.
+		/// </summary>
+		public Guid ParentRecordId { get; set; }
 
-    }
+        /// <summary>
+        /// Hierarchy ID in string format for ParentRecordId e.g. "/3/2/1"
+        /// </summary>
+        public string? ParentHierarchyId { get; set; } = "";
+
+        /// <summary>
+        /// Hierarchy Level for ParentRecordId
+        /// </summary>
+        public int? ParentLevel { get; set; } = 0;
+
+        /// <summary>
+        /// Record Type within Hierarchy for ParentRecordId
+        /// </summary>
+        public string? ParentRecordType { get; set; } = "";
+	}
 }
