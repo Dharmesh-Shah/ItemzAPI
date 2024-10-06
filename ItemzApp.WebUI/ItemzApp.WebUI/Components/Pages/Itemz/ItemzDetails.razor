@@ -1,10 +1,10 @@
 ﻿@page "/itemzDetails/{ItemzId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
-@inject IJSRuntime JSRuntime // JUST SO THAT WE CAN GO BACK IN THE BROWSER.
 
 <h1>Itemz Details</h1>
 <br />
@@ -62,7 +62,7 @@
 				</MudButton>
 				<MudButton Variant="Variant.Filled" Color="Color.Warning" 
 					Size="Size.Large" style="gap: 10px; margin-left : 10px"
-					OnClick="(async () => await goBack())">
+					OnClick="(async () => await goBackToItemzType())">
 
 					<MudText>Cancel</MudText>
 				</MudButton>
@@ -112,14 +112,15 @@
 @code {
 	[Parameter]
 	public Guid ItemzId { get; set; }
-	// [Parameter]
-	// public Guid ProjectId { get; set; }
 
 	[Inject]
 	public IItemzService ItemzService { get; set; }
+	[Inject]
+	public IHierarchyService hierarchyService { get; set; }
+
+	public Guid ParentId { get; set; }
 
 	private bool updateItemzButtonClicked = false;
-
 	public GetItemzDTO singleItemz { get; set; } = new();
 	public bool initializingPage { get; set; } = false;
 	private bool deletingItemz { get; set; } = false;
@@ -155,6 +156,12 @@
 				initializingPage = false;
 				StateHasChanged();
 			}
+
+			// EXPLANATION : At the start of initialization process we capture parent record ID. 
+			// Now even if user decides to Delete this Itemz Record then also we can go back to it's 
+			// Parent ItemzType post completing deletion operation. 
+			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzId);
+			ParentId = httpResponse.ParentRecordId;
 		}
 	}
 	public async Task HandleItemzDetailsPatchSubmission()
@@ -170,9 +177,9 @@
 				updateItemzDTO.Description = singleItemz.Description;
 				updateItemzDTO.Priority = String.IsNullOrEmpty(singleItemz.Priority) ? "" : singleItemz.Priority;
 				updateItemzDTO.Severity = String.IsNullOrEmpty(singleItemz.Severity) ? "" : singleItemz.Severity;
-
 				await ItemzService.__PUT_Update_Itemz_By_GUID_ID__Async(ItemzId, updateItemzDTO);
 				Thread.Sleep(800);
+				await goBackToItemzType();
 			}
 		}
 		catch (Exception ex)
@@ -181,7 +188,7 @@
 			await OpenExceptionDialogAsync("Problem Updating Itemz Details : " + ex.Message);
 			return;
 		}
-		await goBack();
+		await goBackToItemzType();
 	}
 
 	private async Task formFieldChanged()
@@ -204,7 +211,7 @@
 	public async Task deleteItemz()
 	{
 		await ItemzService.__DELETE_Itemz_By_GUID_ID__Async(ItemzId);
-		await goBack();
+		await goBackToItemzType();
 	}
 	private async Task OpenDeleteConfirmationDialogAsync()
 	{
@@ -229,8 +236,8 @@
 		// var dialogresult = await dialogref.Result;
 	}
 
-	public async Task goBack()
+	public async Task goBackToItemzType()
 	{
-		await JSRuntime.InvokeVoidAsync("history.back");
+		NavManager.NavigateTo($"/itemztype/{ParentId.ToString()}");
 	}
 }

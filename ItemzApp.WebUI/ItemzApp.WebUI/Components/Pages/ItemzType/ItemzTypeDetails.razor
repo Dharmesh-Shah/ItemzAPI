@@ -1,4 +1,5 @@
-﻿@page "/itemzTypeDetails/{ItemzTypeId:guid}/{ProjectId:guid}"
+﻿@page "/itemzTypeDetails/{ItemzTypeId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
@@ -34,7 +35,7 @@
 			<MudPaper Class="pa-4">
 				<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
-				<MudText>Project GUID Id: @ProjectId.ToString()</MudText>
+						<MudText>Project GUID Id: @ParentId.ToString()</MudText>
 				<br />
 				<MudText>ItemzType GUID Id: @ItemzTypeId.ToString()</MudText>
 				<br />
@@ -105,12 +106,14 @@
 @code {
 	[Parameter]
 	public Guid ItemzTypeId { get; set; }
-	[Parameter]
-	public Guid ProjectId { get; set; }
+
 
 	[Inject]
 	public IItemzTypeService ItemzTypeService { get; set; }
+	[Inject]
+	public IHierarchyService hierarchyService { get; set; }
 
+	public Guid ParentId { get; set; }
 	private bool updateItemzTypeButtonClicked = false;
 
 	public GetItemzTypeDTO singleItemzType { get; set; } = new();
@@ -154,10 +157,16 @@
 						await OpenExceptionDialogAsync("System ItemzType can not be edited!");
 						disableUpdateItemzTypeDetailsButton = true;
 						form.Disabled = true;
-						StateHasChanged();
 					}
 				}
 			}
+
+			// EXPLANATION : At the start of initialization process we capture parent record ID.
+			// Now even if user decides to Delete this Itemz Record then also we can go back to it's
+			// Parent ItemzType post completing deletion operation.
+			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
+			ParentId = httpResponse.ParentRecordId;
+			StateHasChanged();
 		}
 	}
 	public async Task HandleItemzTypeDetailsPatchSubmission()
@@ -212,7 +221,7 @@
 	public async Task deleteItemzType()
 	{
 		await ItemzTypeService.__DELETE_ItemzType_By_GUID_ID__Async(ItemzTypeId);
-		goBackToItemzType();
+		NavManager.NavigateTo($"/project/{ParentId.ToString()}");
 	}
 	private async Task OpenDeleteConfirmationDialogAsync()
 	{
@@ -239,7 +248,7 @@
 
 	public void goBackToItemzType()
 	{
-		NavManager.NavigateTo($"/itemztype/{ItemzTypeId.ToString()}/{ProjectId.ToString()}");
+		NavManager.NavigateTo($"/itemztype/{ItemzTypeId.ToString()}");
 	}
 
 }

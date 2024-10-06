@@ -17,6 +17,7 @@
     <Folder Include="Services\ItemzType\" />
     <Folder Include="Services\Itemz\" />
     <Folder Include="Services\ItemzTypeItemzs\" />
+    <Folder Include="Services\Hierarchy\" />
   </ItemGroup>
 
 </Project>

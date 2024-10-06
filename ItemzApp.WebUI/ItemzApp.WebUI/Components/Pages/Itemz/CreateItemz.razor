@@ -1,4 +1,4 @@
-﻿@page "/CreateItemz/{ItemzTypeId:guid}/{ParentId:guid}"
+﻿@page "/CreateItemz/{ItemzTypeId:guid}"
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
@@ -96,7 +96,7 @@
 				Thread.Sleep(1500);
 
 				// TODO:: HANDLE NAVIGATE BACK
-				NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
+				goBackToItemzTypeSetting();
 			}
 			else
 			{
@@ -107,6 +107,7 @@
 
 	public void goBackToItemzTypeSetting()
 	{
-		NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
+		// NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
+		NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}");
 	}
 }

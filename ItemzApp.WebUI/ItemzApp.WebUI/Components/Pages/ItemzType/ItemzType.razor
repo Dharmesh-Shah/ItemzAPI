@@ -1,4 +1,5 @@
-﻿@page "/itemztype/{ItemzTypeId:guid}/{ParentId:guid}"
+﻿@page "/itemztype/{ItemzTypeId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.Services.ItemzTypeItemzsService
 @using ItemzApp.WebUI.Client.SharedModels
@@ -80,6 +81,7 @@
 	[Inject]
 	public IItemzTypeItemzsService itemzTypeItemzsService { get; set; }
 
+
 	public GetItemzTypeDTO singleItemzType { get; set; } = new();
 	private List<GetItemzDTO> AllItemzForItemzType { get; set; } = new List<GetItemzDTO>();
 	public bool initializingPage { get; set; } = false;
@@ -109,19 +111,14 @@
 		NavManager.NavigateTo($"/itemzDetails/{Id}");
 	}
 
-	// public void goBackToProject()
-	// {
-	// 	NavManager.NavigateTo($"/project/{ParentId.ToString()}");
-	// }
-
 	public async Task createNewItemz(string itemzTypeId)
 	{
-		NavManager.NavigateTo($"/CreateItemz/{itemzTypeId}/{ParentId.ToString()}");
+		NavManager.NavigateTo($"/CreateItemz/{itemzTypeId}");
 	}
 
 	public async Task editItemzTypeDetails(string id)
 	{
-		NavManager.NavigateTo($"/itemzTypeDetails/{id}/{ParentId.ToString()}");
+		NavManager.NavigateTo($"/itemzTypeDetails/{id}");
 	}
 
 }
