@@ -134,7 +134,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		#endregion
 
-		#region
+		#region __GET_Orphan_Itemzs_Count__Async
 
 		public async Task<int> __GET_Orphan_Itemzs_Count__Async()
 		{
