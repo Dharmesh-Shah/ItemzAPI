@@ -29,7 +29,8 @@
 						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleProject.Name </strong></MudText>
 						<MudSpacer />
 						<MudButton OnClick="async _ => await editProjectDetails(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Project </MudButton>
-					</MudItem>
+						<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+						</MudItem>
 					<br />
 					<MudDivider Style="color : black"   />
 					<br />

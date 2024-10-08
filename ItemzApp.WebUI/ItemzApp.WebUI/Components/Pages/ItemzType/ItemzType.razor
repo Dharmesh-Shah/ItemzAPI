@@ -31,7 +31,8 @@
 						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemzType.Name </strong></MudText>
 						<MudSpacer />
 						<MudButton OnClick="async _ => await editItemzTypeDetails(ItemzTypeId.ToString())" Variant="Variant.Filled" Disabled="singleItemzType.IsSystem" Size="Size.Medium" Color="Color.Success"> Edit ItemzType </MudButton>
-					</MudItem>
+							<MudButton OnClick="goBackToProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+						</MudItem>
 					<br />
 					<MudDivider Style="color : black"   />
 					<br />
@@ -80,6 +81,8 @@
 	public IItemzTypeService itemzTypeService { get; set; }
 	[Inject]
 	public IItemzTypeItemzsService itemzTypeItemzsService { get; set; }
+	[Inject]
+	public IHierarchyService hierarchyService { get; set; }
 
 
 	public GetItemzTypeDTO singleItemzType { get; set; } = new();
@@ -102,6 +105,13 @@
 			}
 
 			initializingPage = false;
+
+			// EXPLANATION : At the start of initialization process we capture parent record ID.
+			// Now even if user decides to Delete this Itemz Record then also we can go back to it's
+			// Parent ItemzType post completing deletion operation.
+			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
+			ParentId = httpResponse.ParentRecordId;
+			StateHasChanged();
 			StateHasChanged();
 		}
 	}
@@ -121,4 +131,9 @@
 		NavManager.NavigateTo($"/itemzTypeDetails/{id}");
 	}
 
+
+	public void goBackToProject()
+	{
+		NavManager.NavigateTo($"/project/{ParentId.ToString()}");
+	}
 }
