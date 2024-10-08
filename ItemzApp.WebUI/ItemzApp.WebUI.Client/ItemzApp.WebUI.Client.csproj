@@ -19,6 +19,7 @@
     <Folder Include="Services\ItemzTypeItemzs\" />
     <Folder Include="Services\Hierarchy\" />
     <Folder Include="Services\ItemzTrace\" />
+    <Folder Include="Services\ItemzCollection\" />
   </ItemGroup>
 
 </Project>
