@@ -22,6 +22,7 @@
     <Folder Include="Services\ItemzCollection\" />
     <Folder Include="Services\ItemzChangeHistory\" />
     <Folder Include="Services\ItemzChangeHistoryByItemzType\" />
+    <Folder Include="Services\ItemzChangeHistoryByProject\" />
   </ItemGroup>
 
 </Project>
