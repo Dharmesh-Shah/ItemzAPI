@@ -21,6 +21,7 @@
     <Folder Include="Services\ItemzTrace\" />
     <Folder Include="Services\ItemzCollection\" />
     <Folder Include="Services\ItemzChangeHistory\" />
+    <Folder Include="Services\ItemzChangeHistoryByItemzType\" />
   </ItemGroup>
 
 </Project>
