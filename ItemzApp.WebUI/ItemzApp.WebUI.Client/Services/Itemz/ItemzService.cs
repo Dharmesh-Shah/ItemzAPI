@@ -316,6 +316,11 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 		{
 			try
 			{
+				if (itemzId == Guid.Empty)
+				{
+					throw new ArgumentNullException(nameof(itemzId) + "is required for which value is not provided");
+				}
+
 				// TODO::Utilize urlBuilder which is commented below.
 
 				//var urlBuilder_ = new System.Text.StringBuilder();
