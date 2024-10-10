@@ -25,6 +25,7 @@
     <Folder Include="Services\ItemzChangeHistoryByProject\" />
     <Folder Include="Services\ItemzChangeHistoryByRepository\" />
     <Folder Include="Services\Baselines\" />
+    <Folder Include="Services\BaselineItemzTypes\" />
   </ItemGroup>
 
 </Project>
