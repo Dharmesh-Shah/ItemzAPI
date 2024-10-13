@@ -50,8 +50,27 @@ namespace ItemzApp.API.Models
         /// <summary>
         /// TRUE if included in the baseline and FALSE if excluded from the baseline. 
         /// </summary>
-        public bool IsIncluded { get; set; } 
+        public bool IsIncluded { get; set; }
 
 
-    }
+		/// <summary>
+		/// Parent Baseline Itemz Record ID representated by a GUID.
+		/// </summary>
+		public Guid ParentRecordId { get; set; }
+
+		/// <summary>
+		/// Hierarchy ID in string format for ParentRecordId e.g. "/3/2/1"
+		/// </summary>
+		public string? ParentBaselineHierarchyId { get; set; } = "";
+
+		/// <summary>
+		/// Hierarchy Level for Parent Baseline Itemz RecordId
+		/// </summary>
+		public int? ParentLevel { get; set; } = 0;
+
+		/// <summary>
+		/// Record Type within Hierarchy for Parent Baseline Itemz RecordId
+		/// </summary>
+		public string? ParentRecordType { get; set; } = "";
+	}
 }

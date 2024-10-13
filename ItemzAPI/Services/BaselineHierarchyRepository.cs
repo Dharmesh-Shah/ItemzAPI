@@ -82,7 +82,23 @@ namespace ItemzApp.API.Services
                 baselineHierarchyIdRecordDetails.NumberOfChildNodes = parentBaselineItemzHierarchyRecord.Count;
 
             }
-            return baselineHierarchyIdRecordDetails;
+
+			// EXPLANATION : Here we are getting record where Baseline Hierarchy ID is equal to the Baseline Hierarchy Id of immediate parent. 
+			// We find immediate parent by using GetAncestor(1) method on found Baseline hierarchy record.
+
+			var parentBaselineHierarchyRecord = _context.BaselineItemzHierarchy!
+				.AsNoTracking()
+				.Where(bih => bih.BaselineItemzHierarchyId == foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetAncestor(1))
+				.FirstOrDefault();
+
+			if (parentBaselineHierarchyRecord != null)
+			{
+				baselineHierarchyIdRecordDetails.ParentRecordId = parentBaselineHierarchyRecord.Id;
+				baselineHierarchyIdRecordDetails.ParentRecordType = parentBaselineHierarchyRecord.RecordType;
+				baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.ToString();
+				baselineHierarchyIdRecordDetails.ParentLevel = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.GetLevel();
+			}
+			return baselineHierarchyIdRecordDetails;
         }
 
         public async Task<bool> CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(Guid parentId, Guid childId) 

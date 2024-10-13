@@ -28,6 +28,7 @@
     <Folder Include="Services\BaselineItemzTypes\" />
     <Folder Include="Services\BaselineItemzTrace\" />
     <Folder Include="Services\BaselineItemz\" />
+    <Folder Include="Services\BaselineHierarchy\" />
   </ItemGroup>
 
 </Project>
