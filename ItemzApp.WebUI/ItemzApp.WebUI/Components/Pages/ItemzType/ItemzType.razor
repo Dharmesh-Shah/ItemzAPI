@@ -95,7 +95,7 @@
 		{
 			initializingPage = true;
 			StateHasChanged();
-			Thread.Sleep(300);
+			//Thread.Sleep(300);
 			singleItemzType = await itemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
 
 			var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");

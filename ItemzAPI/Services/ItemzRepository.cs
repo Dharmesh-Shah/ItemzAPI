@@ -225,8 +225,6 @@ namespace ItemzApp.API.Services
             }
             try
             {
-                if (_context.Itemzs!.Count<Itemz>() > 0)
-                {
                     // TODO: This only returns Itemz which are associated with ItemzType via ItemzTypeJoinItemz
                     // NOW THAT WE HAVE IMPLEMENTED HIERARCHY, WE NEED TO MAKE SURE THAT WE RETURN ITEMZ
                     // FOR ENTIRE ITEMZ TYPE. OTHERWISE WE CAN ALSO JUST RETURN ITEMZ WHICH ARE ASSOCIATED WITH
@@ -237,7 +235,10 @@ namespace ItemzApp.API.Services
                         .Include(i => i.ItemzTypeJoinItemz)
                         //                        .ThenInclude(PjI => PjI.ItemzType)
                         .Where(i => i.ItemzTypeJoinItemz!.Any(itji => itji.ItemzTypeId == itemzTypeId));
-
+                    if (!(itemzCollection.Any()))
+                    {
+						return null;
+					}
                     //     .Where(i => i.  . AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
                     if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
@@ -257,8 +258,7 @@ namespace ItemzApp.API.Services
                     return PagedList<Itemz>.Create(itemzCollection,
                         itemzResourceParameter.PageNumber,
                         itemzResourceParameter.PageSize);
-                }
-                return null;
+
             }
             catch (Exception ex)
             {
