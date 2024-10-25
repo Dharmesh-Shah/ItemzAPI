@@ -141,7 +141,17 @@ namespace ItemzApp.API.DbContexts
                                     EntityPropertyDefaultValues.ItemzSeverityDefaultValue,
                                     true));
 
-            modelBuilder.Entity<Itemz>()
+			modelBuilder.Entity<Itemz>()
+				 .Property(i => i.Priority)
+			  .HasMaxLength(64)
+			  .HasConversion(new EnumToStringConverter<ItemzPriority>())
+			  .HasDefaultValue((ItemzPriority)Enum.Parse(
+									typeof(ItemzPriority),
+									EntityPropertyDefaultValues.ItemzPriorityDefaultValue,
+									true))
+			  ;
+
+			modelBuilder.Entity<Itemz>()
                 .HasMany(i => i.FromItemzJoinItemzTrace)
                 .WithMany(i => i.ToItemzJoinItemzTrace)
                 .UsingEntity<ItemzJoinItemzTrace>(

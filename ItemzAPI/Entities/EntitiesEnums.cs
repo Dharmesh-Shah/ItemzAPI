@@ -15,9 +15,33 @@ namespace ItemzApp.API.Entities
     // [JsonConverter(typeof(StringEnumConverter))]
     public enum ItemzSeverity
     {
-		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided for Severity
+		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided.
 		// This is called sentinel value as far as .NET compilation warning is concerned.
         // See comment by use David Liang at ... https://stackoverflow.com/a/77978854
 		Medium = 0, High = 1 , Low = 2  
     }
+
+	/// <summary>
+	/// Itemz Priority list values as ENUM
+	/// </summary>
+	// [JsonConverter(typeof(StringEnumConverter))]
+	public enum ItemzPriority
+	{
+		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided.
+		// This is called sentinel value as far as .NET compilation warning is concerned.
+		// See comment by use David Liang at ... https://stackoverflow.com/a/77978854
+		Medium = 0, High = 1, Low = 2
+	}
+
+	/// <summary>
+	/// Itemz Status list values as ENUM
+	/// </summary>
+	// [JsonConverter(typeof(StringEnumConverter))]
+	public enum ItemzStatus
+	{
+		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided.
+		// This is called sentinel value as far as .NET compilation warning is concerned.
+		// See comment by use David Liang at ... https://stackoverflow.com/a/77978854
+		New = 0, Approved = 1, Active = 2, OnHold = 3, Completed = 4, Closed = 5
+	}
 }

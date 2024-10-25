@@ -1068,6 +1068,16 @@
             Itemz Severity list values as ENUM
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Entities.ItemzPriority">
+            <summary>
+            Itemz Priority list values as ENUM
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Entities.ItemzStatus">
+            <summary>
+            Itemz Status list values as ENUM
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Entities.NonEntity_CloneBaseline">
             <summary>
             NonEntity_CloneBaseline is used to pass in necessary properties to custom User Stored Procedure
@@ -1408,6 +1418,18 @@
             <inheritdoc />
         </member>
         <member name="M:ItemzApp.API.Migrations.RemovingSampleData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.ConvertingPriorityToEnum">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingPriorityToEnum.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingPriorityToEnum.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingPriorityToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
