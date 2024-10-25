@@ -51,7 +51,13 @@
 				<MudButton @onclick="async _ => await createNewItemz(ItemzTypeId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Create Itemz </MudButton>
 			</MudPaper>
 			<MudText>Total number of Itemz in the ItemzType : @AllItemzForItemzType.Count() </MudText>
-			<MudDataGrid Items="@AllItemzForItemzType" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
+			<MudDataGrid Items="@AllItemzForItemzType" 
+						Filterable="true" 
+						SortMode="@SortMode.None" 
+						Groupable="false" 
+						Striped="true" 
+						FixedHeader="true" 
+						HeaderClass="background-color: red;">
 				<Columns>
 					<PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<PropertyColumn Property="x => x.Name" />
@@ -59,7 +65,7 @@
 					<PropertyColumn Property="x => x.Priority" />
 					<PropertyColumn Property="x => x.Severity" />
 					<PropertyColumn Property="x => x.CreatedDate.LocalDateTime.ToString()" />
- 					<TemplateColumn CellClass="d-flex justify-left">
+ 					<TemplateColumn CellClass="d-flex justify-left" >
 						<CellTemplate>
 							<MudButton Size="@Size.Large"
 								Variant="@Variant.Filled" Color="@Color.Success" 

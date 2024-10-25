@@ -48,13 +48,20 @@
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 								@bind-Value="singleProject.Name"
 								For="@(() => singleProject.Name)" />
-				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
-					@bind-Value="singleProject.Status"
-					For="@(() => singleProject.Status)" />
+				<MudSelect @bind-Value="singleProject.Status"
+							For="@(() => singleProject.Status)"
+							Required ="true"
+							RequiredError="Status is required!"
+							Label="Status">
+					@foreach (var _stringProjectStatusValue in _stringProjectStatusValues)
+					{
+						<MudSelectItem T="string" Value="_stringProjectStatusValue">@_stringProjectStatusValue</MudSelectItem>
+					}
+				</MudSelect>
 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 					@bind-Value="singleProject.Description"
 					For="@(() => singleProject.Description)" />
-					</MudCardContent>
+			</MudCardContent>
 			<MudCardActions>
 					<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(disableUpdateProjectDetailsButton)"
 								   Size="Size.Large"
@@ -108,7 +115,9 @@
 	</MudItem>
 	}
 </MudGrid>
-@code {
+@code 
+{
+
 	[Parameter]
 	public Guid ProjectId { get; set; }
 
@@ -133,6 +142,7 @@
 	// TODO START HERE BY CREATING INSTANCE OF ProjectExceptionDialog AND SHOWING IT WHEN ERROR GETS ENCOUNTERED. 
 
 	bool hideValidationError = true;
+	string[] _stringProjectStatusValues = { };
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -155,6 +165,17 @@
 				}
 			}
 			initializingPage = false;
+
+			// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
+			List<string> tempList = new List<string>();
+			foreach (var _projectStatusValue in Enum.GetValues<ProjectStatus>())
+			{
+				tempList.Add(_projectStatusValue.ToString().Trim());
+			}
+			_stringProjectStatusValues = tempList.ToArray();
+
+
+
 			StateHasChanged();
 		}
 	}

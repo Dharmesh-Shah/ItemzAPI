@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SharedEntities\" />
     <Folder Include="Services\ItemzType\" />
     <Folder Include="Services\Itemz\" />
     <Folder Include="Services\ItemzTypeItemzs\" />
