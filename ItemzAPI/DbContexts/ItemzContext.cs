@@ -152,6 +152,16 @@ namespace ItemzApp.API.DbContexts
 			  ;
 
 			modelBuilder.Entity<Itemz>()
+				 .Property(i => i.Status)
+			  .HasMaxLength(64)
+			  .HasConversion(new EnumToStringConverter<ItemzStatus>())
+			  .HasDefaultValue((ItemzStatus)Enum.Parse(
+									typeof(ItemzStatus),
+									EntityPropertyDefaultValues.ItemzStatusDefaultValue,
+									true))
+			  ;
+
+			modelBuilder.Entity<Itemz>()
                 .HasMany(i => i.FromItemzJoinItemzTrace)
                 .WithMany(i => i.ToItemzJoinItemzTrace)
                 .UsingEntity<ItemzJoinItemzTrace>(

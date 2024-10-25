@@ -1432,6 +1432,18 @@
         <member name="M:ItemzApp.API.Migrations.ConvertingPriorityToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.ConvertingStatusToEnum">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingStatusToEnum.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingStatusToEnum.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ConvertingStatusToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
