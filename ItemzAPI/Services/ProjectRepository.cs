@@ -119,7 +119,10 @@ namespace ItemzApp.API.Services
             var parkingLotItemzType = new ItemzType
             {
                 Name = "Parking Lot",
-                Status = "Active",
+                Status = ((ItemzTypeStatus)Enum.Parse(
+									typeof(ItemzTypeStatus),
+									EntityPropertyDefaultValues.ItemzTypeStatusDefaultValue,
+									true)),
                 Description = "Parking Lot System ItemzType",
                 IsSystem = true
             };

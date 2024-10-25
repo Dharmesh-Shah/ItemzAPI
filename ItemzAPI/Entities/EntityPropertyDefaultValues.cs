@@ -9,10 +9,14 @@ namespace ItemzApp.API.Entities
 {
     public static class EntityPropertyDefaultValues
     {
-        public const string ItemzSeverityDefaultValue = "Medium";
-
-		public const string ItemzPriorityDefaultValue = "Medium";
+		public const string ProjectStatusDefaultValue = "New";
+		
+		public const string ItemzTypeStatusDefaultValue = "New";
 
 		public const string ItemzStatusDefaultValue = "New";
+
+		public const string ItemzSeverityDefaultValue = "Medium";
+
+		public const string ItemzPriorityDefaultValue = "Medium";
 	}
 }

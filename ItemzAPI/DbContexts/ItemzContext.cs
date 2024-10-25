@@ -189,86 +189,108 @@ namespace ItemzApp.API.DbContexts
                 .HasIndex(p => p.Name)
                 .IsUnique();
 
-            //// EXPLANATION: Here we are defining a composite key for a join table.
-            //// it will use ProjectID + Itemz ID as it's composite key.
+			modelBuilder.Entity<Project>()
+				 .Property(i => i.Status)
+			  .HasMaxLength(64)
+			  .HasConversion(new EnumToStringConverter<ProjectStatus>())
+			  .HasDefaultValue((ProjectStatus)Enum.Parse(
+									typeof(ProjectStatus),
+									EntityPropertyDefaultValues.ProjectStatusDefaultValue,
+									true))
+			  ;
 
-            //modelBuilder.Entity<ProjectJoinItemz>()
-            //    .HasKey(t => new { t.ProjectId, t.ItemzId });
+			//// EXPLANATION: Here we are defining a composite key for a join table.
+			//// it will use ProjectID + Itemz ID as it's composite key.
 
-            //// EXPLANATION: Here we are defining Many to Many relationship between
-            //// Project and Itemz
+			//modelBuilder.Entity<ProjectJoinItemz>()
+			//    .HasKey(t => new { t.ProjectId, t.ItemzId });
 
-            //modelBuilder.Entity<ProjectJoinItemz>()
-            //    .HasOne(p => p.Project)
-            //    .WithMany(itemz => itemz.ProjectJoinItemz)
-            //    .HasForeignKey(p => p.ProjectId);
-            //modelBuilder.Entity<ProjectJoinItemz>()
-            //    .HasOne(itemz => itemz.Itemz)
-            //    .WithMany(p => p.ProjectJoinItemz)
-            //    .HasForeignKey(itemz => itemz.ItemzId);
+			//// EXPLANATION: Here we are defining Many to Many relationship between
+			//// Project and Itemz
 
-            
-            
-            
-            
-            //////////modelBuilder.Entity<Project>().HasData(
-            //////////    new Project()
-            //////////    {
-            //////////        Id = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-            //////////        Name = "Project 1",
-            //////////        Status = "Active",
-            //////////        Description = "This is Project 1",
-            //////////        CreatedBy = "User 1",
-            //////////        CreatedDate = new DateTime(2019, 7, 01),
-            //////////    },
-            //////////    new Project()
-            //////////    {
-            //////////        Id = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-            //////////        Name = "Project 2",
-            //////////        Status = "Active",
-            //////////        Description = "This is Project 2",
-            //////////        CreatedBy = "User 1",
-            //////////        CreatedDate = new DateTime(2019, 7, 01),
-            //////////    }
-            //////////    );
-
-
-
-
-            //modelBuilder.Entity<ProjectJoinItemz>().HasData(
-            //     new ProjectJoinItemz()
-            //     {
-            //         ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
-            //         ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
-            //     },
-            //    new ProjectJoinItemz()
-            //    {
-            //        ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
-            //        ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
-            //    }
-            //     );
+			//modelBuilder.Entity<ProjectJoinItemz>()
+			//    .HasOne(p => p.Project)
+			//    .WithMany(itemz => itemz.ProjectJoinItemz)
+			//    .HasForeignKey(p => p.ProjectId);
+			//modelBuilder.Entity<ProjectJoinItemz>()
+			//    .HasOne(itemz => itemz.Itemz)
+			//    .WithMany(p => p.ProjectJoinItemz)
+			//    .HasForeignKey(itemz => itemz.ItemzId);
 
 
 
 
 
+			//////////modelBuilder.Entity<Project>().HasData(
+			//////////    new Project()
+			//////////    {
+			//////////        Id = Guid.Parse("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
+			//////////        Name = "Project 1",
+			//////////        Status = "Active",
+			//////////        Description = "This is Project 1",
+			//////////        CreatedBy = "User 1",
+			//////////        CreatedDate = new DateTime(2019, 7, 01),
+			//////////    },
+			//////////    new Project()
+			//////////    {
+			//////////        Id = Guid.Parse("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
+			//////////        Name = "Project 2",
+			//////////        Status = "Active",
+			//////////        Description = "This is Project 2",
+			//////////        CreatedBy = "User 1",
+			//////////        CreatedDate = new DateTime(2019, 7, 01),
+			//////////    }
+			//////////    );
 
 
 
-            // EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
-            // SQL Server Database as well.
 
-            modelBuilder.Entity<ItemzType>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
+			//modelBuilder.Entity<ProjectJoinItemz>().HasData(
+			//     new ProjectJoinItemz()
+			//     {
+			//         ProjectId = new Guid("42f62a6c-fcda-4dac-a06c-406ac1c17770"),
+			//         ItemzId = new Guid("9153a516-d69e-4364-b17e-03b87442e21c")
+			//     },
+			//    new ProjectJoinItemz()
+			//    {
+			//        ProjectId = new Guid("b69cf0d7-70ad-4f73-aa4a-8daad5181e1e"),
+			//        ItemzId = new Guid("5e76f8e8-d3e7-41db-b084-f64c107c6783")
+			//    }
+			//     );
+
+
+
+
+
+
+
+
+			// EXPLANATION: This will make sure that GUID property is set to autogenerate in the 
+			// SQL Server Database as well.
+
+			modelBuilder.Entity<ItemzType>().Property(x => x.Id).HasDefaultValueSql("NEWID()");
             modelBuilder.Entity<ItemzType>(entity =>
             {
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd();
             });
 
-            // EXPLANATION: Here we are defining a composite key for a join table.
-            // it will use ItemzTypeID + Itemz ID as it's composite key.
 
-            modelBuilder.Entity<ItemzTypeJoinItemz>()
+			modelBuilder.Entity<ItemzType>()
+				 .Property(i => i.Status)
+			  .HasMaxLength(64)
+			  .HasConversion(new EnumToStringConverter<ItemzTypeStatus>())
+			  .HasDefaultValue((ItemzTypeStatus)Enum.Parse(
+									typeof(ItemzTypeStatus),
+									EntityPropertyDefaultValues.ItemzTypeStatusDefaultValue,
+									true))
+			  ;
+
+
+			// EXPLANATION: Here we are defining a composite key for a join table.
+			// it will use ItemzTypeID + Itemz ID as it's composite key.
+
+			modelBuilder.Entity<ItemzTypeJoinItemz>()
                 .HasKey(t => new { t.ItemzTypeId, t.ItemzId });
 
             // EXPLANATION: Here we are defining Many to Many relationship between

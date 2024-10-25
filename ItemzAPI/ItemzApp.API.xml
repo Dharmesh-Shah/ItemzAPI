@@ -1063,6 +1063,16 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="T:ItemzApp.API.Entities.ProjectStatus">
+            <summary>
+            Project Status list values as ENUM
+            </summary>
+        </member>
+        <member name="T:ItemzApp.API.Entities.ItemzTypeStatus">
+            <summary>
+            ItemzType Status list values as ENUM
+            </summary>
+        </member>
         <member name="T:ItemzApp.API.Entities.ItemzSeverity">
             <summary>
             Itemz Severity list values as ENUM
@@ -1442,6 +1452,18 @@
             <inheritdoc />
         </member>
         <member name="M:ItemzApp.API.Migrations.ConvertingStatusToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ItemzApp.API.Migrations.ProjectAndItemztypeConvertingStatusToEnum">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ProjectAndItemztypeConvertingStatusToEnum.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ProjectAndItemztypeConvertingStatusToEnum.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ProjectAndItemztypeConvertingStatusToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">

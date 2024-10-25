@@ -18,11 +18,49 @@ namespace ItemzApp.API.Entities
         [MaxLength(128)]
         public string? Name { get; set; }
 
-        [Required]
-        [MaxLength(64)]
-        public string Status { get; set; } = "Active";
+        //[Required]
+        //[MaxLength(64)]
+        //public string Status { get; set; } = "Active";
 
-        [MaxLength(1028)]
+
+		// EXPLANATION: First we have introduced internal _projectStatus field
+		// which is internal private backing field for public Status Field.
+		// Using Enum.Parse, we initialize default value for _projectStatus.
+		// Ref : https://www.csharp-examples.net/string-to-enum/
+
+		private ProjectStatus _projectStatus = (ProjectStatus)Enum.Parse(
+			typeof(ProjectStatus),
+			EntityPropertyDefaultValues.ProjectStatusDefaultValue,
+			true);
+
+		//[JsonConverter(typeof(StringEnumConverter))]
+		[EnumDataType(typeof(ProjectStatus))]
+		[Required]
+		[MaxLength(64)]
+		public ProjectStatus Status
+		{
+			get
+			{
+				return _projectStatus;
+			}
+			// EXPLANATION: Status field is desgined to check if the passed in value is
+			// present in the target ProjectStatus enum or not. If it's not then
+			// it will throw ArgumentOutOfRangeException that is caught by 
+			// automapper. It's being implemented based on following answer.
+			// https://stackoverflow.com/a/35480269
+			set
+			{
+				if (Enum.IsDefined(typeof(ProjectStatus), value))
+					_projectStatus = value;
+				else
+					// TODO: Below error that is thrown manually is not captured globally
+					// by exception handling code. In the future, we have to take care of
+					// making sure that we capture the error at global level.
+					throw new ArgumentOutOfRangeException($"{value} not supported for field Status");
+			}
+		}
+
+		[MaxLength(1028)]
         public string? Description { get; set; }
 
         [Required]
