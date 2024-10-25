@@ -47,7 +47,7 @@ namespace ItemzApp.API.Entities
             true);
 
         //[JsonConverter(typeof(StringEnumConverter))]
-        //[EnumDataType(typeof(ItemzSeverity))]
+        [EnumDataType(typeof(ItemzSeverity))]
         public ItemzSeverity Severity
         {
             get

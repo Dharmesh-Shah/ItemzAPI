@@ -57,7 +57,7 @@ namespace ItemzApp.API.Migrations
                     b.HasIndex("ProjectId", "Name")
                         .IsUnique();
 
-                    b.ToTable("Baseline");
+                    b.ToTable("Baseline", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemz", b =>
@@ -107,7 +107,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaselineItemz");
+                    b.ToTable("BaselineItemz", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzHierarchy", b =>
@@ -133,7 +133,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BaselineItemzHierarchy");
+                    b.ToTable("BaselineItemzHierarchy", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzJoinItemzTrace", b =>
@@ -151,7 +151,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("BaselineToItemzId");
 
-                    b.ToTable("BaselineItemzJoinItemzTrace");
+                    b.ToTable("BaselineItemzJoinItemzTrace", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzType", b =>
@@ -194,7 +194,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("BaselineId");
 
-                    b.ToTable("BaselineItemzType");
+                    b.ToTable("BaselineItemzType", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.BaselineItemzTypeJoinBaselineItemz", b =>
@@ -209,7 +209,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("BaselineItemzId");
 
-                    b.ToTable("BaselineItemzTypeJoinBaselineItemz");
+                    b.ToTable("BaselineItemzTypeJoinBaselineItemz", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.Itemz", b =>
@@ -254,7 +254,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Itemzs");
+                    b.ToTable("Itemzs", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzChangeHistory", b =>
@@ -286,7 +286,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("ItemzId");
 
-                    b.ToTable("ItemzChangeHistory");
+                    b.ToTable("ItemzChangeHistory", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzHierarchy", b =>
@@ -305,7 +305,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemzHierarchy");
+                    b.ToTable("ItemzHierarchy", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzJoinItemzTrace", b =>
@@ -320,7 +320,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("ToItemzId");
 
-                    b.ToTable("ItemzJoinItemzTrace");
+                    b.ToTable("ItemzJoinItemzTrace", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzType", b =>
@@ -362,7 +362,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ItemzTypes");
+                    b.ToTable("ItemzTypes", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.ItemzTypeJoinItemz", b =>
@@ -377,7 +377,7 @@ namespace ItemzApp.API.Migrations
 
                     b.HasIndex("ItemzId");
 
-                    b.ToTable("ItemzTypeJoinItemz");
+                    b.ToTable("ItemzTypeJoinItemz", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.Project", b =>
@@ -414,7 +414,7 @@ namespace ItemzApp.API.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("ItemzApp.API.Entities.Baseline", b =>
