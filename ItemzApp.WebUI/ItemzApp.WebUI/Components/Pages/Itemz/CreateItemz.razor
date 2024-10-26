@@ -23,18 +23,39 @@
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Itemz name is required!"
 								  @bind-Value="singleItemz.Name"
 								  For="@(() => singleItemz.Name)" />
-				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
-								  @bind-Value="singleItemz.Status"
-								  For="@(() => singleItemz.Status)" />
-					<MudTextField T="string" Label="Priority" Required="true" RequiredError="Priority is required!"
-								  @bind-Value="singleItemz.Priority"
-								  For="@(() => singleItemz.Priority)" />
+					<MudSelect @bind-Value="singleItemz.Status"
+							   For="@(() => singleItemz.Status)"
+							   Required="true"
+							   RequiredError="Status is required!"
+							   Label="Status">
+						@foreach (var _stringItemzStatusValue in _stringItemzStatusValues)
+						{
+							<MudSelectItem T="string" Value="_stringItemzStatusValue">@_stringItemzStatusValue</MudSelectItem>
+						}
+					</MudSelect>
+					<MudSelect @bind-Value="singleItemz.Priority"
+							   For="@(() => singleItemz.Priority)"
+							   Required="true"
+							   RequiredError="Priority is required!"
+							   Label="Priority">
+						@foreach (var _stringItemzPriorityValue in _stringItemzPriorityValues)
+						{
+							<MudSelectItem T="string" Value="_stringItemzPriorityValue">@_stringItemzPriorityValue</MudSelectItem>
+						}
+					</MudSelect>
 					<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 								  @bind-Value="singleItemz.Description"
 								  For="@(() => singleItemz.Description)" />
-					<MudTextField T="string" Label="Severity" Required="true" RequiredError="Severity is required!"
-								  @bind-Value="singleItemz.Severity"
-								  For="@(() => singleItemz.Severity)" />
+					<MudSelect @bind-Value="singleItemz.Severity"
+							   For="@(() => singleItemz.Severity)"
+							   Required="true"
+							   RequiredError="Severity is required!"
+							   Label="Severity">
+						@foreach (var _stringItemzSeverityValue in _stringItemzSeverityValues)
+						{
+							<MudSelectItem T="string" Value="_stringItemzSeverityValue">@_stringItemzSeverityValue</MudSelectItem>
+						}
+					</MudSelect>
 				</MudCardContent>
 				<MudCardActions>
 					<MudButton Variant="Variant.Filled" Color="Color.Primary"
@@ -82,6 +103,39 @@
 	private bool createItemzButtonClicked = false;
 	bool hideValidationError = true;
 
+	string[] _stringItemzStatusValues = { };
+	string[] _stringItemzPriorityValues = { };
+	string[] _stringItemzSeverityValues = { };
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
+			List<string> tempStatusList = new List<string>();
+			foreach (var _itemzStatusValue in Enum.GetValues<ItemzStatus>())
+			{
+				tempStatusList.Add(_itemzStatusValue.ToString().Trim());
+			}
+			_stringItemzStatusValues = tempStatusList.ToArray();
+
+			// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
+			List<string> tempPriorityList = new List<string>();
+			foreach (var _itemzPriorityValue in Enum.GetValues<ItemzPriority>())
+			{
+				tempPriorityList.Add(_itemzPriorityValue.ToString().Trim());
+			}
+			_stringItemzPriorityValues = tempPriorityList.ToArray();
+
+			// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
+			List<string> tempSeverityList = new List<string>();
+			foreach (var _itemzSeverityValue in Enum.GetValues<ItemzSeverity>())
+			{
+				tempSeverityList.Add(_itemzSeverityValue.ToString().Trim());
+			}
+			_stringItemzSeverityValues = tempSeverityList.ToArray();
+		}
+	}
 	public async Task HandleCreateItemzPostSubmission()
 	{
 		if (form != null)

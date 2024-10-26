@@ -43,7 +43,7 @@ namespace ItemzApp.API.Entities
 		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided.
 		// This is called sentinel value as far as .NET compilation warning is concerned.
         // See comment by use David Liang at ... https://stackoverflow.com/a/77978854
-		Medium = 0, High = 1 , Low = 2  
+		Low = 0, Medium = 1, High = 2  
     }
 
 	/// <summary>
@@ -55,7 +55,7 @@ namespace ItemzApp.API.Entities
 		// EXPLANATION - We have added Medium as 0 (ZERO) becauase that's the default value to be used by EF Core if no value is provided.
 		// This is called sentinel value as far as .NET compilation warning is concerned.
 		// See comment by use David Liang at ... https://stackoverflow.com/a/77978854
-		Medium = 0, High = 1, Low = 2
+		Low = 0, Medium = 1, High = 2
 	}
 
 	/// <summary>

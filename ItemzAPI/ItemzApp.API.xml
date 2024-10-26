@@ -1466,6 +1466,18 @@
         <member name="M:ItemzApp.API.Migrations.ProjectAndItemztypeConvertingStatusToEnum.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.Itemz_ChangedDefaultENUMValues">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Itemz_ChangedDefaultENUMValues.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Itemz_ChangedDefaultENUMValues.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Itemz_ChangedDefaultENUMValues.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
