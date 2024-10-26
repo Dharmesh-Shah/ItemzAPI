@@ -23,9 +23,16 @@
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="ItemzType name is required!"
 								  @bind-Value="singleItemzType.Name"
 								  For="@(() => singleItemzType.Name)" />
-				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
-								  @bind-Value="singleItemzType.Status"
-								  For="@(() => singleItemzType.Status)" />
+				<MudSelect @bind-Value="singleItemzType.Status"
+							For="@(() => singleItemzType.Status)"
+							Required ="true"
+							RequiredError="Status is required!"
+							Label="Status">
+					@foreach (var _stringItemzTypeStatusValue in _stringItemzTypeStatusValues)
+					{
+						<MudSelectItem T="string" Value="_stringItemzTypeStatusValue">@_stringItemzTypeStatusValue</MudSelectItem>
+					}
+				</MudSelect>
 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 								  @bind-Value="singleItemzType.Description"
 								  For="@(() => singleItemzType.Description)" />
@@ -74,6 +81,22 @@
 	private bool createItemzTypeButtonClicked = false;
 	bool hideValidationError = true;
 
+	string[] _stringItemzTypeStatusValues = { };
+
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
+			List<string> tempList = new List<string>();
+			foreach (var _itemzTypeStatusValue in Enum.GetValues<ItemzTypeStatus>())
+			{
+				tempList.Add(_itemzTypeStatusValue.ToString().Trim());
+			}
+			_stringItemzTypeStatusValues = tempList.ToArray();
+		}
+	}
 
 	public async Task HandleCreateItemzTypePostSubmission()
 	{
