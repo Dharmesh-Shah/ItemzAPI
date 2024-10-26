@@ -103,6 +103,7 @@
 	
   <ItemGroup>
     <Folder Include="01 Docs and Notes\Concept-Of-Baselining\" />
+    <Folder Include="01 Docs and Notes\Concept-Of-Configuration\" />
   </ItemGroup>
 
 
