@@ -1514,6 +1514,18 @@
         <member name="M:ItemzApp.API.Migrations.UPDATED_userProcCreateBaselineByItemzTypeID_202410300238.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATED_userProcCreateBaselineByExistingBaselineID_202410300246">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcCreateBaselineByExistingBaselineID_202410300246.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcCreateBaselineByExistingBaselineID_202410300246.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcCreateBaselineByExistingBaselineID_202410300246.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
