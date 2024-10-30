@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByProjectID_202407262355.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202404271604.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202407161706.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202407200227.sql" />
@@ -38,6 +39,7 @@
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407112003.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407200225.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407262355.sql" />
+      <None Remove="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202410300219.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202404210107.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202407251305.sql" />
       <None Remove="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.sql" />
@@ -70,7 +72,8 @@
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcDeleteItemzHierarchyRecordsByItemzId_202406021752.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByExistingBaselineID_202407271609.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByItemzTypeID_202407262359.sql" />
-		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202407262355.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\Obsolete\userProcCreateBaselineByProjectID_202407262355.sql" />
+		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcCreateBaselineByProjectID_202410300219.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteAllOrphanedBaselineItemz_202407251305.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByItemzTypeId_202405261142.sql" />
 		<EmbeddedResource Include="DbContexts\UserStoredProcedure\userProcDeleteItemzHierarchyRecordsByProjectId_202405241729.sql" />
