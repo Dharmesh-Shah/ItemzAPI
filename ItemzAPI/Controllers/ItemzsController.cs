@@ -37,17 +37,20 @@ namespace ItemzApp.API.Controllers
     public class ItemzsController : ControllerBase
     {
         private readonly IItemzRepository _itemzRepository;
-        private readonly IMapper _mapper;
+		private readonly IHierarchyRepository _hierarchyRepository;
+		private readonly IMapper _mapper;
         private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ItemzsController> _logger;
 
         public ItemzsController(IItemzRepository itemzRepository,
-            IMapper mapper,
+			IHierarchyRepository hierarchyRepository,
+			IMapper mapper,
             IPropertyMappingService propertyMappingService,
             ILogger<ItemzsController> logger)
         {
             _itemzRepository = itemzRepository ?? throw new ArgumentNullException(nameof(itemzRepository));
-            _mapper = mapper ??
+			_hierarchyRepository = hierarchyRepository ?? throw new ArgumentNullException(nameof(hierarchyRepository));
+			_mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             _propertyMappingService = propertyMappingService ??
                 throw new ArgumentNullException(nameof(propertyMappingService));
@@ -312,7 +315,9 @@ namespace ItemzApp.API.Controllers
                 }
 
                 //await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
-                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentId
+                    , atBottomOfChildNodes: AtBottomOfChildNodes
+                    , movingItemzName: itemzEntity.Name);
             }
             await _itemzRepository.SaveAsync();
 
@@ -388,7 +393,7 @@ namespace ItemzApp.API.Controllers
             }
 
             try { 
-            await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id);
+            await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id, itemzEntity.Name!);
             await _itemzRepository.SaveAsync();
             }
             catch (ApplicationException appException)
@@ -512,7 +517,7 @@ namespace ItemzApp.API.Controllers
 
             try
             {
-                await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, movingItemzId);
+                await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, movingItemzId, movingItemz.Name!);
                 await _itemzRepository.SaveAsync();
             }
             catch (ApplicationException appException)
@@ -600,7 +605,27 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+
+
+			// EXPLANATION :: as part of updating Itemz record, we are making sure that Itemz name is updated in two places.
+			// First in the Itemz record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated Itemz name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update Itemz and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(itemzFromRepo.Id, itemzFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Itemz name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Itemz with ID {itemzFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -686,7 +711,25 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+			// EXPLANATION :: as part of updating Itemz record, we are making sure that Itemz name is updated in two places.
+			// First in the Itemz record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated Itemz name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update Itemz and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(itemzFromRepo.Id, itemzFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Itemz name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Itemz with ID {itemzFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzId);
             return NoContent();

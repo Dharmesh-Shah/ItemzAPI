@@ -18,6 +18,8 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.Win32.SafeHandles;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ItemzApp.API.Services
 {
@@ -293,7 +295,7 @@ namespace ItemzApp.API.Services
             _context.Itemzs!.Add(itemz);
         }
 
-        public async Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId)
+        public async Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId, string? itemzName)
         {
             if (between1stItemzId == Guid.Empty)
             {
@@ -451,6 +453,7 @@ namespace ItemzApp.API.Services
                 {
                     Id = addingOrMovingItemzId,
                     RecordType = "Itemz",
+                    Name = itemzName ?? "",
                     ItemzHierarchyId = tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId!.GetAncestor(1)!
                             .GetDescendant(tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId
                             , tempSecondItemz.FirstOrDefault()!.ItemzHierarchyId == tempFirstItemz.FirstOrDefault()!.ItemzHierarchyId
@@ -514,7 +517,7 @@ namespace ItemzApp.API.Services
 
         }
 
-        public async Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true)
+        public async Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true, string? movingItemzName = null)
         {
             if (movingItemzId == Guid.Empty)
             {
@@ -575,13 +578,32 @@ namespace ItemzApp.API.Services
             }
             else
             {
-                movingItemzHierarchyRecord = new Entities.ItemzHierarchy
+                if (!(movingItemzName.IsNullOrEmpty()))
                 {
-                    Id = movingItemzId,
-                    RecordType = "Itemz",
-                    ItemzHierarchyId = null,
-                };
+                    movingItemzHierarchyRecord = new Entities.ItemzHierarchy
+                    {
+                        Id = movingItemzId,
+                        RecordType = "Itemz",
+                        ItemzHierarchyId = null,
+                        Name = movingItemzName
+                    };
+                }
+                else
+                {
+                    movingItemzHierarchyRecord = new Entities.ItemzHierarchy
+                    {
+                        Id = movingItemzId,
+                        RecordType = "Itemz",
+                        ItemzHierarchyId = null
+                    };
+                    var _tempItemz = await _context.Itemzs!
+                    .Where(c => c.Id == movingItemzId).AsNoTracking().FirstOrDefaultAsync();
 
+                    if (_tempItemz != null)
+                    {
+                        movingItemzHierarchyRecord.Name = _tempItemz.Name;
+                    }
+                }
             }
 
             var newRootHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()

@@ -32,21 +32,24 @@ namespace ItemzApp.API.Controllers
     {
         private readonly IItemzTypeRepository _ItemzTypeRepository;
         private readonly IProjectRepository _projectRepository;
-        private readonly IMapper _mapper;
+		private readonly IHierarchyRepository _hierarchyRepository;
+		private readonly IMapper _mapper;
         // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ItemzTypesController> _logger;
         private readonly IItemzTypeRules _itemzTypeRules;
 
         public ItemzTypesController(IItemzTypeRepository itemzTypeRepository,
                                     IProjectRepository projectRepository,
-                                    IMapper mapper,
+								    IHierarchyRepository hierarchyRepository,
+									IMapper mapper,
                                     //IPropertyMappingService propertyMappingService,
                                     ILogger<ItemzTypesController> logger,
                                     IItemzTypeRules itemzTypeRules)
         {
             _ItemzTypeRepository = itemzTypeRepository ?? throw new ArgumentNullException(nameof(itemzTypeRepository));
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
-            _mapper = mapper ??
+			_hierarchyRepository = hierarchyRepository ?? throw new ArgumentNullException(nameof(hierarchyRepository));
+			_mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             //_propertyMappingService = propertyMappingService ??
             //    throw new ArgumentNullException(nameof(propertyMappingService));
@@ -307,7 +310,27 @@ namespace ItemzApp.API.Controllers
                 return Conflict($"ItemzType with name '{ItemzTypeToBeUpdated.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
+
+			// EXPLANATION :: as part of updating ItemzType record, we are making sure that ItemzType name is updated in two places.
+			// First in the ItemzType record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated ItemzType name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update ItemzType and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(ItemzTypeFromRepo.Id, ItemzTypeFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update ItemzType name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for ItemzType with ID {ItemzTypeFromRepo.Id} could not be updated.");
+			}
+
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 ItemzTypeId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -416,7 +439,26 @@ namespace ItemzApp.API.Controllers
                 return Conflict($"ItemzType with name '{ItemzTypeToPatch.Name}' already exists in the project with Id '{ItemzTypeFromRepo.ProjectId}'");
             }
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
+			// EXPLANATION :: as part of updating ItemzType record, we are making sure that ItemzType name is updated in two places.
+			// First in the ItemzType record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated ItemzType name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update ItemzType and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(ItemzTypeFromRepo.Id, ItemzTypeFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update ItemzType name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for ItemzType with ID {ItemzTypeFromRepo.Id} could not be updated.");
+			}
+
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for ItemzType for ID {ItemzTypeId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 ItemzTypeId);
             return NoContent();

@@ -31,7 +31,7 @@ namespace ItemzApp.API.Services
 
         void AddItemz(Itemz itemz);
 
-        public Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId);
+        public Task AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(Guid between1stItemzId, Guid between2ndItemzId, Guid addingOrMovingItemzId, string itemzName);
 
         public void AddItemzByItemzType(Itemz itemz, Guid itemzTypeId);
 
@@ -51,7 +51,7 @@ namespace ItemzApp.API.Services
 
         public Task DeleteItemzAsync(Guid itemzId);
 
-        public Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true);
+        public Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true,  string? movingItemzName = null );
 
         #region NOT USED ANYMORE CODE 
 

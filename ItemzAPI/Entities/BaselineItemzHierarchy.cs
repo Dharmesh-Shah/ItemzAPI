@@ -18,7 +18,9 @@ namespace ItemzApp.API.Entities
         [MaxLength(128)]
         public string? RecordType { get; set; }  // TODO: Make it possible to use predefined enum list instead of passing in text. 
 
-        public HierarchyId? BaselineItemzHierarchyId { get; set; }
+		[MaxLength(128)]
+		public string? Name { get; set; }
+		public HierarchyId? BaselineItemzHierarchyId { get; set; }
 
         public HierarchyId? SourceItemzHierarchyId { get; set; }
 

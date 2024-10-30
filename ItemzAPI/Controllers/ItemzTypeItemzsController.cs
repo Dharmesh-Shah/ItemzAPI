@@ -252,7 +252,9 @@ namespace ItemzApp.API.Controllers
             // await _itemzRepository.SaveAsync(); // MAY BE THIS WOULD BE NEEDED TO ADD NEXT HIERARCHY RECORD IN THE REPO.
 
             //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
-            await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, ItemzTypeId, atBottomOfChildNodes: AtBottomOfChildNodes);
+            await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, ItemzTypeId
+                , atBottomOfChildNodes: AtBottomOfChildNodes
+                , movingItemzName: itemzEntity.Name);
             await _itemzRepository.SaveAsync();
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Created new Itemz with ID {ItemzId}",
@@ -304,7 +306,9 @@ namespace ItemzApp.API.Controllers
             {
                 //await _itemzRepository.AddNewItemzHierarchyByItemzTypeIdAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
 
-                await _itemzRepository.MoveItemzHierarchyAsync(itemz.Id, ItemzTypeId, atBottomOfChildNodes: true);
+                await _itemzRepository.MoveItemzHierarchyAsync(itemz.Id, ItemzTypeId
+                    , atBottomOfChildNodes: true
+                    , movingItemzName: itemz.Name);
 
                 // EXPLANATION: To be able to get next correct HierarchyId, we have to save previous
                 // record in the database. Then only we are able to find next available HierarchyID to be

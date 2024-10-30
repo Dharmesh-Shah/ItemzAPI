@@ -26,11 +26,15 @@ namespace ItemzApp.API.Models
         /// </summary>
         public string? RecordType { get; set; }
 
+		/// <summary>
+		/// Name of the Hierarchy Record
+		/// </summary>
+		public string? Name { get; set; }
 
-        /// <summary>
-        /// Hierarchy Id for the TOP Hierarchy Record within a given Parent Hierarchy Record
-        /// </summary>
-        public string? TopChildHierarchyId { get; set; } = "";
+		/// <summary>
+		/// Hierarchy Id for the TOP Hierarchy Record within a given Parent Hierarchy Record
+		/// </summary>
+		public string? TopChildHierarchyId { get; set; } = "";
 
         /// <summary>
         /// Hierarchy Id for the BOTTOM Hierarchy Record within a given Parent Hierarchy Record
@@ -61,5 +65,10 @@ namespace ItemzApp.API.Models
         /// Record Type within Hierarchy for ParentRecordId
         /// </summary>
         public string? ParentRecordType { get; set; } = "";
+
+		/// <summary>
+		/// Parent Name of the Hierarchy Record
+		/// </summary>
+		public string? ParentName { get; set; }
 	}
 }

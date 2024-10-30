@@ -1478,6 +1478,18 @@
         <member name="M:ItemzApp.API.Migrations.Itemz_ChangedDefaultENUMValues.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.Hierarchy_AddingNameField">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Hierarchy_AddingNameField.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Hierarchy_AddingNameField.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.Hierarchy_AddingNameField.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
@@ -1501,6 +1513,11 @@
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordType">
             <summary>
             Record Type within Baseline Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.Name">
+            <summary>
+            Name of the Baseline Hierarchy Record
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.TopChildBaselineHierarchyId">
@@ -1541,6 +1558,11 @@
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.ParentRecordType">
             <summary>
             Record Type within Hierarchy for Parent Baseline Itemz RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.ParentName">
+            <summary>
+            Parent Name of the Baseline Hierarchy Record
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
@@ -1941,6 +1963,11 @@
             Record Type within Hierarchy for RecordId
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.Name">
+            <summary>
+            Name of the Hierarchy Record
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.TopChildHierarchyId">
             <summary>
             Hierarchy Id for the TOP Hierarchy Record within a given Parent Hierarchy Record
@@ -1974,6 +2001,11 @@
         <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.ParentRecordType">
             <summary>
             Record Type within Hierarchy for ParentRecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.HierarchyIdRecordDetailsDTO.ParentName">
+            <summary>
+            Parent Name of the Hierarchy Record
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.ItemzTraceDTO.FromTraceItemzId">

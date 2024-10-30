@@ -30,18 +30,21 @@ namespace ItemzApp.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectRepository _projectRepository;
-        private readonly IMapper _mapper;
+		private readonly IHierarchyRepository _hierarchyRepository;
+		private readonly IMapper _mapper;
         // private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ProjectsController> _logger;
         private readonly IProjectRules _projectRules;
         public ProjectsController(IProjectRepository projectRepository,
+                                 IHierarchyRepository hierarchyRepository,
                                  IMapper mapper,
                                  //IPropertyMappingService propertyMappingService,
                                  ILogger<ProjectsController> logger,
                                  IProjectRules projectRules)
         {
             _projectRepository = projectRepository ?? throw new ArgumentNullException(nameof(projectRepository));
-            _mapper = mapper ??
+            _hierarchyRepository = hierarchyRepository ?? throw new ArgumentNullException(nameof(hierarchyRepository));
+			_mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             //_propertyMappingService = propertyMappingService ??
             //    throw new ArgumentNullException(nameof(propertyMappingService));
@@ -274,19 +277,38 @@ namespace ItemzApp.API.Controllers
             { 
             _projectRepository.UpdateProject(projectFromRepo);
             await _projectRepository.SaveAsync();
-
             }
             catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
             {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project:" + dbUpdateException.InnerException,
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
-                    );
-                return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new project:" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Project with name '{projectToBeUpdated.Name}' already exists in the repository");
             }
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
-                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
-                projectId);
-            return NoContent(); // This indicates that update was successfully saved in the DB.
+
+            // EXPLANATION :: as part of updating Project record, we are making sure that project name is updated in two places.
+            // First in the project record itself and secondly within ItemzHierarchy record as well. We are not going to update
+            // BaselineItemzHierarchy record with updated project name as it's a snapshot of data from a given point in time.
+            
+            // TODO :: We should update Project and ItemzHierarchy together rather then two separate transactions
+
+            try
+            {
+               var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(projectFromRepo.Id, projectFromRepo.Name ?? "");
+			}
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update project name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Project with ID {projectFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				projectId);
+
+			return NoContent(); // This indicates that update was successfully saved in the DB.
         }
 
         /// <summary>
@@ -375,7 +397,25 @@ namespace ItemzApp.API.Controllers
                 return Conflict($"Project with name '{projectToPatch.Name}' already exists in the repository");
             }
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
+			// EXPLANATION :: as part of updating Project record, we are making sure that project name is updated in two places.
+			// First in the project record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated project name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update Project and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(projectFromRepo.Id, projectFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update project name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Project with ID {projectFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Project for ID {ProjectId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 projectId);
             return NoContent();

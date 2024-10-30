@@ -31,11 +31,15 @@ namespace ItemzApp.API.Models
         /// </summary>
         public string? RecordType { get; set; }
 
+		/// <summary>
+		/// Name of the Baseline Hierarchy Record
+		/// </summary>
+		public string? Name { get; set; }
 
-        /// <summary>
-        /// Baseline Hierarchy Id for the TOP Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
-        /// </summary>
-        public string? TopChildBaselineHierarchyId { get; set; } = "";
+		/// <summary>
+		/// Baseline Hierarchy Id for the TOP Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
+		/// </summary>
+		public string? TopChildBaselineHierarchyId { get; set; } = "";
 
         /// <summary>
         /// Baseline Hierarchy Id for the BOTTOM Baseline Hierarchy Record within a given Parent Baseline Hierarchy Record
@@ -72,5 +76,10 @@ namespace ItemzApp.API.Models
 		/// Record Type within Hierarchy for Parent Baseline Itemz RecordId
 		/// </summary>
 		public string? ParentRecordType { get; set; } = "";
+
+		/// <summary>
+		/// Parent Name of the Baseline Hierarchy Record
+		/// </summary>
+		public string? ParentName { get; set; }
 	}
 }

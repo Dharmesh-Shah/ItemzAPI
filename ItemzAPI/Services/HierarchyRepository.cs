@@ -55,7 +55,8 @@ namespace ItemzApp.API.Services
             }
 			var hierarchyIdRecordDetails = new HierarchyIdRecordDetailsDTO();
             hierarchyIdRecordDetails.RecordId = recordId;
-            hierarchyIdRecordDetails.HierarchyId = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.ToString();
+            hierarchyIdRecordDetails.Name = foundHierarchyRecord.FirstOrDefault()!.Name ?? "";
+			hierarchyIdRecordDetails.HierarchyId = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.ToString();
             hierarchyIdRecordDetails.RecordType = foundHierarchyRecord.FirstOrDefault()!.RecordType;
             hierarchyIdRecordDetails.Level = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
 
@@ -92,9 +93,41 @@ namespace ItemzApp.API.Services
 				hierarchyIdRecordDetails.ParentRecordType = parentHierarchyRecord.RecordType;
 				hierarchyIdRecordDetails.ParentHierarchyId = parentHierarchyRecord.ItemzHierarchyId!.ToString();
                 hierarchyIdRecordDetails.ParentLevel = parentHierarchyRecord.ItemzHierarchyId!.GetLevel();
+                hierarchyIdRecordDetails.ParentName = parentHierarchyRecord.Name ?? "";
 			}
 			return hierarchyIdRecordDetails;
            
         }
+
+		public async Task<bool> UpdateHierarchyRecordNameByID(Guid recordId, string name)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundHierarchyRecord = _context.ItemzHierarchy!
+							.Where(ih => ih.Id == recordId);
+
+			if (foundHierarchyRecord.Count() != 1)
+			{
+				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
+					"Please contact your System Administrator.");
+			}
+
+			if (foundHierarchyRecord.FirstOrDefault()!.RecordType.ToLower() == "repository") // TODO :: Use Constants instead of Text
+			{
+				throw new ApplicationException($"Can not update name of the Repository Root Hierarchy Record with ID {recordId}");
+			}
+			if (foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel() == 0) // TODO :: Use Constants instead of Text
+			{
+				throw new ApplicationException($"Can not update name of the Repository Root Hierarchy Record with ID {recordId}");
+			}
+
+			foundHierarchyRecord.FirstOrDefault()!.Name = name; // TODO :: Remove special characters from name variable before saving it to DB. Security Reason.
+
+			return (await _context.SaveChangesAsync() >= 0);
+		}
 	}
 }

@@ -125,6 +125,7 @@ namespace ItemzApp.API.Services
             {
                 Id = itemzTypeEntity.Id,
                 RecordType = "ItemzType",
+                Name = itemzTypeEntity.Name,
                 ItemzHierarchyId = rootProjectItemz.FirstOrDefault()!.ItemzHierarchyId!
                                     .GetDescendant(itemzTypeHierarchyRecords.Count() > 0
                                                         ? itemzTypeHierarchyRecords.FirstOrDefault()!.ItemzHierarchyId

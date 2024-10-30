@@ -12,5 +12,7 @@ namespace ItemzApp.API.Services
     {
         public Task<HierarchyIdRecordDetailsDTO?> GetHierarchyRecordDetailsByID(Guid recordId);
 
-    }
+        public Task<bool> UpdateHierarchyRecordNameByID(Guid recordId, string name);
+
+	}
 }

@@ -61,6 +61,7 @@ namespace ItemzApp.API.Services
                                                                     ? foundBaselineHierarchyRecord.FirstOrDefault()!.SourceItemzHierarchyId!.ToString() 
                                                                     : "";
             baselineHierarchyIdRecordDetails.RecordType = foundBaselineHierarchyRecord.FirstOrDefault()!.RecordType;
+            baselineHierarchyIdRecordDetails.Name = foundBaselineHierarchyRecord.FirstOrDefault()!.Name ?? "";
             baselineHierarchyIdRecordDetails.Level = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
             baselineHierarchyIdRecordDetails.IsIncluded = foundBaselineHierarchyRecord.FirstOrDefault()!.isIncluded;
 
@@ -97,6 +98,7 @@ namespace ItemzApp.API.Services
 				baselineHierarchyIdRecordDetails.ParentRecordType = parentBaselineHierarchyRecord.RecordType;
 				baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.ToString();
 				baselineHierarchyIdRecordDetails.ParentLevel = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.GetLevel();
+                baselineHierarchyIdRecordDetails.ParentName = parentBaselineHierarchyRecord.Name ?? "";
 			}
 			return baselineHierarchyIdRecordDetails;
         }

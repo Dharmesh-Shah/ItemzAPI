@@ -182,6 +182,7 @@ namespace ItemzApp.API.Services
             {
                 Id = project.Id,
                 RecordType = "Project",
+                Name = project.Name,
                 ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
                                     .GetDescendant(projectHierarchyItemz.Count() > 0 
                                                         ?  projectHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId 
@@ -200,6 +201,7 @@ namespace ItemzApp.API.Services
                 {
                     Id = project.ItemzTypes[0].Id,
                     RecordType = "ItemzType",
+                    Name = project.ItemzTypes[0].Name,
                     ItemzHierarchyId = tempProjectHierarchy.ItemzHierarchyId.GetDescendant(null, null), 
                     //ItemzHierarchyId = HierarchyId.Parse(newParkingLotItemzTypeInsertionId)
                 };
