@@ -7,5 +7,7 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
     public interface IHierarchyService
 	{
 		public Task<HierarchyIdRecordDetailsDTO> __Get_Hierarchy_Record_Details_By_GUID__Async(Guid recordId);
+
+		public Task<ICollection<HierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Hierarchy_By_GUID__Async(Guid recordId);
 	}
 }

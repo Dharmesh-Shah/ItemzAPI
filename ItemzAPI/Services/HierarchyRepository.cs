@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using ItemzApp.API.Models;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ItemzApp.API.Services
 {
@@ -98,6 +100,120 @@ namespace ItemzApp.API.Services
 			return hierarchyIdRecordDetails;
            
         }
+
+
+		public async Task<IEnumerable<HierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfItemzHierarchy(Guid recordId)
+        {
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundHierarchyRecord =  _context.ItemzHierarchy!.AsNoTracking()
+							.Where(ih => ih.Id == recordId);
+
+			if (foundHierarchyRecord.Count() != 1)
+			{
+				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
+					"Please contact your System Administrator.");
+			}
+
+            var foundHierarchyRecordLevel = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId.GetLevel();
+
+			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+			// methods to query for all Decendents as per below. By adding clause to check for GetLevel which is less then
+			// CurrentHierarchyRecordLevel + three, we get Hierarchy record itself plus two more deeper level of hierarchy records.
+			// The 1st Level data of the record itself is ignored and then 2nd level data is the actual child records.
+			// While third level data are used for calculating number of children for child records.
+
+			var itemzTypeHierarchyItemzs = await _context.ItemzHierarchy!
+					.AsNoTracking()
+					.Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!) 
+						&& ih.ItemzHierarchyId.GetLevel() < (foundHierarchyRecordLevel+3))
+					.OrderBy(ih => ih.ItemzHierarchyId!)
+					.ToListAsync();
+
+			List<HierarchyIdRecordDetailsDTO> returningRecords = [];
+			HierarchyIdRecordDetailsDTO hierarchyIdRecordDetails = new();
+			string? _localTopChildHierarchyId = null ;
+			int _localNumerOfChildNodes = 0; 
+
+			
+			for(var i = 0; i< itemzTypeHierarchyItemzs.Count(); i++ )
+			{ 
+				if (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() == (foundHierarchyRecordLevel + 1))
+				{
+					if (i == 1) // Because i = 0 is the hierarchy record for passed in recordId parameter itself. So we check for i == 1 as first child record.
+					{
+						hierarchyIdRecordDetails.RecordId = itemzTypeHierarchyItemzs[i].Id;
+						hierarchyIdRecordDetails.Name = itemzTypeHierarchyItemzs[i].Name ?? "";
+						hierarchyIdRecordDetails.HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString();
+						hierarchyIdRecordDetails.RecordType = itemzTypeHierarchyItemzs[i].RecordType;
+						hierarchyIdRecordDetails.Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel();
+
+						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
+						hierarchyIdRecordDetails.ParentRecordId = foundHierarchyRecord.FirstOrDefault()!.Id;
+						hierarchyIdRecordDetails.ParentRecordType = foundHierarchyRecord.FirstOrDefault()!.RecordType;
+						hierarchyIdRecordDetails.ParentHierarchyId = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.ToString();
+						hierarchyIdRecordDetails.ParentLevel = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+						hierarchyIdRecordDetails.ParentName = foundHierarchyRecord.FirstOrDefault()!.Name ?? "";
+					}
+					else
+					{
+						// WE HAVE TO FINISH WORKING ON PREVIOUS RECORD AND START PROCESSING NEXT ONE
+						// IF NUMBER OF CHILD RECORDS ARE GREATER THEN ZERO i.e. ANY CHILD RECORDS FOUND THEN 
+						// We have to capture BottomChildHierarchyId and NumberOfChildNodes values.
+						if (_localNumerOfChildNodes > 0)
+						{
+							// hierarchyIdRecordDetails.TopChildHierarchyId = _localTopChildHierarchyId;
+							hierarchyIdRecordDetails.BottomChildHierarchyId = itemzTypeHierarchyItemzs[i - 1].ItemzHierarchyId!.ToString();
+							hierarchyIdRecordDetails.NumberOfChildNodes = _localNumerOfChildNodes;
+							_localNumerOfChildNodes = 0; // RESET 
+						}
+
+						returningRecords.Add(hierarchyIdRecordDetails);
+
+						// RESET hierarchyIdRecordDetails AND START CAPTURING DETAILS OF THE NEXT CHILD RECORD
+
+						hierarchyIdRecordDetails = new();
+						hierarchyIdRecordDetails.RecordId = itemzTypeHierarchyItemzs[i].Id;
+						hierarchyIdRecordDetails.Name = itemzTypeHierarchyItemzs[i].Name ?? "";
+						hierarchyIdRecordDetails.HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString();
+						hierarchyIdRecordDetails.RecordType = itemzTypeHierarchyItemzs[i].RecordType;
+						hierarchyIdRecordDetails.Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel();
+
+						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
+						hierarchyIdRecordDetails.ParentRecordId = foundHierarchyRecord.FirstOrDefault()!.Id;
+						hierarchyIdRecordDetails.ParentRecordType = foundHierarchyRecord.FirstOrDefault()!.RecordType;
+						hierarchyIdRecordDetails.ParentHierarchyId = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.ToString();
+						hierarchyIdRecordDetails.ParentLevel = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+						hierarchyIdRecordDetails.ParentName = foundHierarchyRecord.FirstOrDefault()!.Name ?? "";
+					}
+
+				}
+				else if (itemzTypeHierarchyItemzs[i].ItemzHierarchyId.GetLevel() == (foundHierarchyRecordLevel + 2))
+				{
+					if (_localNumerOfChildNodes == 0)
+					{
+						hierarchyIdRecordDetails.TopChildHierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString();
+					}
+					_localNumerOfChildNodes = _localNumerOfChildNodes + 1;
+				}
+			}
+
+			// ADD FINAL hierarchyIdRecordDetails TO THE COLLECTION.
+			if (_localNumerOfChildNodes > 0)
+			{
+				hierarchyIdRecordDetails.BottomChildHierarchyId = itemzTypeHierarchyItemzs[(itemzTypeHierarchyItemzs.Count()-1)].ItemzHierarchyId!.ToString();
+				hierarchyIdRecordDetails.NumberOfChildNodes = _localNumerOfChildNodes;
+			}
+			returningRecords.Add(hierarchyIdRecordDetails);
+
+			return returningRecords;
+		}
+		
+
 
 		public async Task<bool> UpdateHierarchyRecordNameByID(Guid recordId, string name)
 		{

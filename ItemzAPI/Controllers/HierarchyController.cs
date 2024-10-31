@@ -85,11 +85,62 @@ namespace ItemzApp.API.Controllers
             return Ok(hierarchyIdRecordDetailsDTO);
         }
 
-        // We have configured in startup class our own custom implementation of 
-        // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
-        // class to make sure that we use that custom problem details builder. 
-        // Instead of passing 400 it will pass back 422 code with more details.
-        public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
+		/// <summary>
+		/// Gets Hierarchy Records of immediate children under Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+		/// <returns>Collection of Immediate children Hierarchy record details </returns>
+		/// <response code="200">Immediate children Hierarchy record details </response>
+		/// <response code="400">Bad Request</response>
+		/// <response code="404">Immediate children Hierarchy record(s) not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetImmediateChildren/{RecordId:Guid}"
+            , Name = "__Get_Immediate_Children_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/Hierarchy/GetImmediateChildren/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetImmediateChildren/{RecordId:Guid}", Name = "__HEAD_Immediate_Children_Hierarchy_By_GUID__")]
+		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<IEnumerable<HierarchyIdRecordDetailsDTO>>> GetImmediateChildrenOfItemzHierarchy(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Immediate Children Hierarchy records for ID {ParentRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
+
+			IEnumerable<HierarchyIdRecordDetailsDTO?> immediateChildrenhierarchyRecords = [];
+			try
+			{
+				immediateChildrenhierarchyRecords = await _hierarchyRepository.GetImmediateChildrenOfItemzHierarchy(RecordId);
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get Immediate Children Hierarchy records : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce get immediate children hierarchy records for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			if (immediateChildrenhierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {hirarchyChildRecordCount} Immediate Children Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					immediateChildrenhierarchyRecords.Count(),
+					RecordId );
+			}
+            else
+            {
+                return Ok();
+            }
+			return Ok(immediateChildrenhierarchyRecords);
+
+		}
+
+
+		// We have configured in startup class our own custom implementation of 
+		// problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
+		// class to make sure that we use that custom problem details builder. 
+		// Instead of passing 400 it will pass back 422 code with more details.
+		public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
         {
             var options = HttpContext.RequestServices
                 .GetRequiredService<IOptions<ApiBehaviorOptions>>();

@@ -46,5 +46,29 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
 		#endregion
 
 
+		#region __Get_Immediate_Children_Hierarchy_By_GUID__Async
+		public async Task<ICollection<HierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Hierarchy_By_GUID__Async(Guid recordId)
+		{
+			return await __Get_Immediate_Children_Hierarchy_By_GUID__Async(recordId, CancellationToken.None);
+		}
+
+		public async Task<ICollection<HierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Hierarchy_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
+		{
+
+			try
+			{
+				var response = await _httpClient.GetFromJsonAsync<ICollection<HierarchyIdRecordDetailsDTO>>($"/api/Hierarchy/GetImmediateChildren/{recordId}", cancellationToken);
+
+				return response!;
+			}
+			catch (Exception)
+			{
+
+			}
+			return default;
+
+		}
+
+		#endregion
 	}
 }
