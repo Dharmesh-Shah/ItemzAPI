@@ -1,0 +1,177 @@
+﻿@page "/ProjectTreeView/{ProjectId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
+@using ItemzApp.WebUI.Client.Services.Project
+@using ItemzApp.WebUI.Client.SharedModels
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Collections.ObjectModel
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+
+<MudButton OnClick="AddItems" Variant="Variant.Filled">Add items</MudButton>
+<MudButton OnClick="DeleteItems" Variant="Variant.Filled">Delete items</MudButton>
+
+<MudPaper Width="500px" Elevation="0">
+    <MudTreeView ServerData="@LoadServerDataFromItemzApi" Items="@InitialTreeItems"
+                 Color="Color.Secondary" 
+                 Hover="true"
+                 ExpandOnDoubleClick="true"
+                 Width=" 100%">
+        <ItemTemplate>
+            @{
+                // Casting context from TreeItemData<string> to our own derived class TreeItemPresenter
+                // for convenient usage in the template
+                var presenter = context as TreeItemPresenter;
+            }
+            <MudTreeViewItem 
+                Text="@context.Text" 
+                Value="@context.Value" 
+                Icon="@context.Icon" 
+                LoadingIconColor="Color.Info" 
+                CanExpand="@context.Expandable"
+                EndText="@presenter?.childNumber" />
+        </ItemTemplate>
+    </MudTreeView>
+</MudPaper>
+
+
+@code {
+
+    [Parameter]
+    public Guid ProjectId { get; set; }
+
+    [Inject]
+    public IProjectService ProjectService { get; set; }
+
+    [Inject]
+    public IHierarchyService HierarchyService { get; set; }
+
+    private List<TreeItemData<Guid>> InitialTreeItems { get; set; } = new();
+    private List<TreeItemData<Guid>> ItemzTypeTreeItems { get; set; } = new();
+    private List<TreeItemData<Guid>> ServerTreeItems { get; set; } = new();
+
+    public HierarchyIdRecordDetailsDTO singleProject { get; set; } = new();
+    private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
+    public bool initializingPage { get; set; } = false;
+
+
+    public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
+    {
+        public string? childNumber { get; set; }
+
+        public TreeItemPresenter(Guid value, string text, string icon, bool expandable, int? number = 0) : base(value)
+        {
+            Value = value;
+            Text = text;
+            Icon = icon;
+            Expandable = expandable;
+            childNumber = number > 0 ? "[" + number.ToString() + "]": "";
+        }
+    }
+
+    protected async override void OnInitialized()
+    {
+        // ProjectId = Guid.Parse("5d6f9cb7-c434-4e05-a981-23d9aca6e351");
+
+        singleProject = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ProjectId);
+
+        if (singleProject != null)
+        {
+            TreeItemPresenter _tempTreeView = new TreeItemPresenter
+                (
+                    value : singleProject.RecordId
+                ,
+                    text : singleProject.Name
+                ,
+                    icon: @Icons.Material.Filled.LocalFlorist
+                ,
+                    expandable : singleProject.NumberOfChildNodes > 0 ? true : false
+                    ,
+                    number: singleProject.NumberOfChildNodes
+                // ,
+                //     Children = new()
+                );
+            InitialTreeItems.Add(_tempTreeView);
+        }
+        StateHasChanged();
+    }
+
+    private int i = 0;
+
+    public void AddItems()
+    {
+        InitialTreeItems.Add(new TreeItemData<Guid>
+            {
+                Value = Guid.Parse("F159B4B9-5B30-435B-BCCF-005D3AE78847"),
+                Text = "Added Item  " + (i++),
+                Icon = Icons.Material.Filled.Coronavirus
+            });
+    }
+
+    public void DeleteItems()
+    {
+        var item = InitialTreeItems.FirstOrDefault(x => x.Value.Equals(Guid.Parse("F159B4B9-5B30-435B-BCCF-005D3AE78847")));
+        InitialTreeItems.Remove(item);
+    }
+
+
+    public async Task<IReadOnlyCollection<TreeItemData<Guid>>> LoadServerDataFromItemzApi(Guid parentValue)
+    {
+
+        List<TreeItemData<Guid>> _children = new();
+
+        var returnedItemzTypeList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(parentValue);
+
+        if (returnedItemzTypeList!.Count() > 0)
+        {
+            foreach (var _itemzType in returnedItemzTypeList!)
+            {
+                _children.Add(new TreeItemPresenter
+                    (
+                        value: _itemzType.RecordId
+                        , text: _itemzType.Name
+                        , icon: _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
+                                            _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                    _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
+                        , expandable: _itemzType.NumberOfChildNodes > 0 ? true : false
+                        , number: _itemzType.NumberOfChildNodes
+                    ));
+            }
+            return _children;
+        }
+        return null;
+    }
+
+
+    public async Task<IReadOnlyCollection<TreeItemData<Guid>>> LoadServerData(Guid parentValue)
+    {
+        // wait 500ms to simulate a server load, then recursively search through our tree to find the child items for the given value
+        await Task.Delay(500);
+        foreach (var item in ServerTreeItems)
+        {
+            if (item.Value == parentValue)
+                return item.Children;
+            if (!item.HasChildren)
+                continue;
+            var descendentItem = FindTreeItemData(parentValue, item);
+            if (descendentItem != null)
+                return descendentItem.Children;
+        }
+        return null;
+    }
+
+    private TreeItemData<Guid> FindTreeItemData(Guid value, TreeItemData<Guid> parent)
+    {
+        foreach (var child in parent.Children)
+        {
+            if (child.Value == value)
+                return child;
+            if (!child.HasChildren)
+                continue;
+            var descendentItem = FindTreeItemData(value, child);
+            if (descendentItem != null)
+                return descendentItem;
+        }
+        return null;
+    }
+
+}
