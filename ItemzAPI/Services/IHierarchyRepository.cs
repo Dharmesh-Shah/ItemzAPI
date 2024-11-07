@@ -14,6 +14,8 @@ namespace ItemzApp.API.Services
 
 		public Task<IEnumerable<HierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfItemzHierarchy(Guid recordId);
 
+		public Task<IEnumerable<NestedHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfItemzHierarchy(Guid recordId);
+
 		public Task<bool> UpdateHierarchyRecordNameByID(Guid recordId, string name);
 
 	}

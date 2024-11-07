@@ -212,8 +212,150 @@ namespace ItemzApp.API.Services
 
 			return returningRecords;
 		}
-		
 
+
+
+
+		public async Task<IEnumerable<NestedHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfItemzHierarchy(Guid recordId)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+							.Where(ih => ih.Id == recordId);
+
+			if (foundHierarchyRecord.Count() != 1)
+			{
+				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
+					"Please contact your System Administrator.");
+			}
+
+			var foundHierarchyRecordLevel = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+
+			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+			// methods to query for all Decendents as per below. By adding clause to check for GetLevel which is less then
+			// CurrentHierarchyRecordLevel + three, we get Hierarchy record itself plus two more deeper level of hierarchy records.
+			// The 1st Level data of the record itself is ignored and then 2nd level data is the actual child records.
+			// While third level data are used for calculating number of children for child records.
+
+			var itemzTypeHierarchyItemzs = await _context.ItemzHierarchy!
+					.AsNoTracking()
+					.Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!))
+						// && ih.ItemzHierarchyId.GetLevel() < (foundHierarchyRecordLevel + 3))
+					.OrderBy(ih => ih.ItemzHierarchyId!)
+					.ToListAsync();
+
+			List<NestedHierarchyIdRecordDetailsDTO> returningRecords = [];
+			//NestedHierarchyIdRecordDetailsDTO hierarchyIdRecordDetails = new();
+			//bool hasParent = false;
+			//int previousRecordHierarchyLevel = 0;
+
+
+
+
+			for (var i = 0; i < itemzTypeHierarchyItemzs.Count(); i++)
+			{
+				if (i == 0) continue; // Skip first record as it's for the supplied recordId
+				if (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() == (foundHierarchyRecordLevel + 1))
+				{
+					//hierarchyIdRecordDetails.RecordId = itemzTypeHierarchyItemzs[i].Id;
+					//hierarchyIdRecordDetails.Name = itemzTypeHierarchyItemzs[i].Name ?? "";
+					//hierarchyIdRecordDetails.HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString();
+					//hierarchyIdRecordDetails.RecordType = itemzTypeHierarchyItemzs[i].RecordType;
+					//hierarchyIdRecordDetails.Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel();
+					returningRecords.Add(new NestedHierarchyIdRecordDetailsDTO
+					{
+						RecordId = itemzTypeHierarchyItemzs[i].Id,
+						HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString(),
+						Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel(),
+						RecordType = itemzTypeHierarchyItemzs[i].RecordType,
+						Name = itemzTypeHierarchyItemzs[i].Name ?? "",
+						Children = new List<NestedHierarchyIdRecordDetailsDTO>()
+					});
+				}
+				else if (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() > (foundHierarchyRecordLevel + 1))
+				{
+					// Console.WriteLine($"Now Processing {itemzTypeHierarchyItemzs[i].Name ?? ""}");
+
+					// Find the last record at a specified level directly within returningRecords
+					var targetLevel = (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() - 1);
+					var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+
+					if (lastRecordAtLevel != null)
+					{
+						// Add a child to the last record at the specified level
+						lastRecordAtLevel.Children.Add(new NestedHierarchyIdRecordDetailsDTO
+						{
+							RecordId = itemzTypeHierarchyItemzs[i].Id,
+							HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString(),
+							Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel(),
+							RecordType = itemzTypeHierarchyItemzs[i].RecordType,
+							Name = itemzTypeHierarchyItemzs[i].Name ?? "",
+							Children = new List<NestedHierarchyIdRecordDetailsDTO>()
+						});
+
+						// Console.WriteLine("Child added to the last record at Level " + targetLevel);
+					}
+					else
+					{
+						throw new ApplicationException($"Parent record could not be found for  " +
+											$"RecordID {itemzTypeHierarchyItemzs[i].Id} with " +
+											$"HierarchyID  {itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString()} and " +
+											$"Level as {itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel().ToString()} " +
+											"Please contact your System Administrator.");
+						// Console.WriteLine("No records found at Level " + targetLevel);
+					}
+
+					//returningRecords.Where<NestedHierarchyIdRecordDetailsDTO>(hierarchyIdRecordDetails => 
+					//hierarchyIdRecordDetails.Level == (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() - 1 ))
+					//	.OrderBy(hierarchyIdRecordDetails => hierarchyIdRecordDetails.HierarchyId)
+					//	.Last()
+					//	.Children.Add(new NestedHierarchyIdRecordDetailsDTO
+					//	{
+					//		RecordId = itemzTypeHierarchyItemzs[i].Id,
+					//		HierarchyId = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.ToString(),
+					//		Level = itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel(),
+					//		RecordType = itemzTypeHierarchyItemzs[i].RecordType,
+					//		Name = itemzTypeHierarchyItemzs[i].Name ?? "",
+					//		Children = new()
+					//	});
+				}
+			}
+
+
+			return returningRecords;
+		}
+
+
+		public static NestedHierarchyIdRecordDetailsDTO? FindLastRecordAtLevel(List<NestedHierarchyIdRecordDetailsDTO> records, int targetLevel)
+		{
+			NestedHierarchyIdRecordDetailsDTO? lastRecord = null;
+
+			foreach (var record in records)
+			{
+				if (record.Level == targetLevel)
+				{
+					if (lastRecord == null || string.Compare(record.HierarchyId, lastRecord.HierarchyId, StringComparison.Ordinal) > 0)
+					{
+						lastRecord = record;
+					}
+				}
+
+				var childRecord = FindLastRecordAtLevel(record.Children, targetLevel);
+				if (childRecord != null)
+				{
+					if (lastRecord == null || string.Compare(childRecord.HierarchyId, lastRecord.HierarchyId, StringComparison.Ordinal) > 0)
+					{
+						lastRecord = childRecord;
+					}
+				}
+			}
+
+			return lastRecord;
+		}
 
 		public async Task<bool> UpdateHierarchyRecordNameByID(Guid recordId, string name)
 		{
