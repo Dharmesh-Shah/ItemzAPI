@@ -7,31 +7,43 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<MudButton OnClick="AddItems" Variant="Variant.Filled">Add items</MudButton>
-<MudButton OnClick="DeleteItems" Variant="Variant.Filled">Delete items</MudButton>
-
-<MudPaper Width="500px" Elevation="0">
-    <MudTreeView ServerData="@LoadServerDataFromItemzApi" Items="@InitialTreeItems"
-                 Color="Color.Secondary" 
-                 Hover="true"
-                 ExpandOnDoubleClick="true"
-                 Width=" 100%">
-        <ItemTemplate>
-            @{
-                // Casting context from TreeItemData<string> to our own derived class TreeItemPresenter
-                // for convenient usage in the template
-                var presenter = context as TreeItemPresenter;
+<MudGrid Spacing="6" Justify="Justify.FlexStart">
+    <MudItem xs="6">
+        <MudPaper Width="500px" Elevation="0">
+            @if (showLoadingMessage)
+            {
+                @* <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center"> Loading in Background ... </MudText> *@
+                <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center"> Loading in Background ... </MudText>
+                <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
             }
-            <MudTreeViewItem 
-                Text="@context.Text" 
-                Value="@context.Value" 
-                Icon="@context.Icon" 
-                LoadingIconColor="Color.Info" 
-                CanExpand="@context.Expandable"
-                EndText="@presenter?.childNumber" />
-        </ItemTemplate>
-    </MudTreeView>
-</MudPaper>
+            else
+            {
+                <MudButton OnClick="@(()=>_TWO_TreeView.ExpandAllAsync())" Variant="Variant.Filled">Expand All</MudButton>
+            }
+            <MudTreeView @ref="_TWO_TreeView" Items="@_TWO_InitialTreeItems"
+                         Color="Color.Secondary"
+                         Hover="true"
+                         ExpandOnDoubleClick="true"
+                         Width=" 100%">
+                <ItemTemplate>
+                    @{
+                        // Casting context from TreeItemData<string> to our own derived class _TWO_TreeItemPresenter
+                        // for convenient usage in the template
+                        var presenter = context as TreeItemData<Guid>;
+                    }
+                    <MudTreeViewItem Text="@context.Text"
+                                     Value="@context.Value"
+                                     Icon="@context.Icon"
+                                     LoadingIconColor="Color.Info"
+                                     Items="@context.Children"
+                                     CanExpand="@( @context.Children.Count()>0 ? true : false )"
+                                     EndText="@( @context.Children.Count() > 0 ? ("[" + @context.Children.Count().ToString() + "]") : ""   )" />
+                                     @* EndText="@presenter?.childNumber" /> *@
+                </ItemTemplate>
+            </MudTreeView>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 
 
 @code {
@@ -45,133 +57,330 @@
     [Inject]
     public IHierarchyService HierarchyService { get; set; }
 
-    private List<TreeItemData<Guid>> InitialTreeItems { get; set; } = new();
-    private List<TreeItemData<Guid>> ItemzTypeTreeItems { get; set; } = new();
-    private List<TreeItemData<Guid>> ServerTreeItems { get; set; } = new();
+    public MudTreeView<Guid> _TWO_TreeView;
+
+    private bool showLoadingMessage = true;
+
+    // private List<TreeItemData<Guid>> InitialTreeItems { get; set; } = new();
+    // private List<TreeItemData<Guid>> ServerTreeItems { get; set; } = new();
+
+    private List<TreeItemData<Guid>> _TWO_InitialTreeItems { get; set; } = new();
+    // private List<TreeItemData<Guid>> _TWO_ServerTreeItems { get; set; } = new();
+
+
 
     public HierarchyIdRecordDetailsDTO singleProject { get; set; } = new();
     private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
     public bool initializingPage { get; set; } = false;
 
 
-    public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
+    public class _TWO_TreeItemPresenter<T> : MudBlazor.TreeItemData<T>
     {
-        public string? childNumber { get; set; }
-
-        public TreeItemPresenter(Guid value, string text, string icon, bool expandable, int? number = 0) : base(value)
+        public _TWO_TreeItemPresenter(T value, string text, string icon, bool expandable) : base(value)
         {
             Value = value;
             Text = text;
             Icon = icon;
             Expandable = expandable;
-            childNumber = number > 0 ? "[" + number.ToString() + "]": "";
         }
     }
 
-    protected async override void OnInitialized()
+    public void _TWO_AddChildrens(TreeItemData<Guid> _TWO_parentTempTreeViewNode, List<NestedHierarchyIdRecordDetailsDTO> Children )
     {
-        // ProjectId = Guid.Parse("5d6f9cb7-c434-4e05-a981-23d9aca6e351");
+        foreach (var child in Children)
+        {
+
+            TreeItemData<Guid> _TWO_childTempTreeViewNode = new TreeItemData<Guid>
+            {
+                Value = child.RecordId
+                , Text= child.Name
+                , Icon= (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                , Expandable= (child.Children.Count() > 0 ? true : false)
+                    ,
+                    Children = new List<TreeItemData<Guid>>()
+            };
+
+            // _TWO_childTempTreeViewNode.Children = new();
+
+            if (child.Children.Count() > 0)
+            {
+                _TWO_AddChildrens(_TWO_childTempTreeViewNode, child.Children);
+            }
+
+            _TWO_parentTempTreeViewNode.Children.Add(_TWO_childTempTreeViewNode);
+        }
+    }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+
+
+    // // Fetch remaining data in the background
+    // _ = LoadRemainingData(ProjectId);
+
+    // singleProject = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ProjectId);
+
+    // if (singleProject == null)
+    // {
+    //     throw new ApplicationException($"No project record found for GUID {ProjectId}");
+    // }
+
+    // _TWO_TreeItemPresenter _TWO_tempTreeView = new _TWO_TreeItemPresenter
+    //     (
+    //         value: singleProject.RecordId
+    //         , text: ("DADADADA " + singleProject.Name)
+    //         , icon: @Icons.Material.Filled.LocalFlorist
+    //         , expandable: true
+    //     );
+    // _TWO_tempTreeView.Children = new();
+
+    // _TWO_InitialTreeItems.Add(_TWO_tempTreeView);
+
+    // }
+
+
+    private async Task<List<TreeItemData<Guid>>> LoadInitialData(Guid ProjectId)
+    {
+        // Load initial set of tree nodes
 
         singleProject = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ProjectId);
 
-        if (singleProject != null)
+        if (singleProject == null)
         {
-            TreeItemPresenter _tempTreeView = new TreeItemPresenter
-                (
-                    value : singleProject.RecordId
-                ,
-                    text : singleProject.Name
-                ,
-                    icon: @Icons.Material.Filled.LocalFlorist
-                ,
-                    expandable : singleProject.NumberOfChildNodes > 0 ? true : false
-                    ,
-                    number: singleProject.NumberOfChildNodes
-                // ,
-                //     Children = new()
-                );
-            InitialTreeItems.Add(_tempTreeView);
+            throw new ApplicationException($"No project record found for GUID {ProjectId}");
         }
-        StateHasChanged();
-    }
 
-    private int i = 0;
+        // TreeItemData<Guid> _TWO_tempTreeView = new TreeItemData<Guid>
+        //     (
+        //         value: singleProject.RecordId
+        //         , text: ("DADADADA " + singleProject.Name)
+        //         , icon: @Icons.Material.Filled.LocalFlorist
+        //         , expandable: true
+        //     );
 
-    public void AddItems()
-    {
-        InitialTreeItems.Add(new TreeItemData<Guid>
+        var _TWO_tempTreeView = new TreeItemData<Guid>
             {
-                Value = Guid.Parse("F159B4B9-5B30-435B-BCCF-005D3AE78847"),
-                Text = "Added Item  " + (i++),
-                Icon = Icons.Material.Filled.Coronavirus
-            });
-    }
+                Value =  singleProject.RecordId
+                , Text = singleProject.Name
+                , Icon = @Icons.Material.Filled.LocalFlorist
+                , Expandable = true
+                    ,
+                Children = new List<TreeItemData<Guid>>()
+        };
 
-    public void DeleteItems()
-    {
-        var item = InitialTreeItems.FirstOrDefault(x => x.Value.Equals(Guid.Parse("F159B4B9-5B30-435B-BCCF-005D3AE78847")));
-        InitialTreeItems.Remove(item);
-    }
+        // _TWO_tempTreeView.Children = new();
 
-
-    public async Task<IReadOnlyCollection<TreeItemData<Guid>>> LoadServerDataFromItemzApi(Guid parentValue)
-    {
 
         List<TreeItemData<Guid>> _children = new();
 
-        var returnedItemzTypeList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(parentValue);
+        var returnedItemzTypeList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ProjectId);
 
         if (returnedItemzTypeList!.Count() > 0)
         {
             foreach (var _itemzType in returnedItemzTypeList!)
             {
-                _children.Add(new TreeItemPresenter
-                    (
-                        value: _itemzType.RecordId
-                        , text: _itemzType.Name
-                        , icon: _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
-                                            _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
-                                                    _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
-                        , expandable: _itemzType.NumberOfChildNodes > 0 ? true : false
-                        , number: _itemzType.NumberOfChildNodes
-                    ));
+                _children.Add(new TreeItemData<Guid>
+                    {
+                        Value = _itemzType.RecordId
+                                ,
+                        Text = _itemzType.Name
+                                ,
+                        Icon = _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
+                                                _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                        _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
+                                ,
+                        Expandable = true
+                                ,
+                        Children = new List<TreeItemData<Guid>>()
+                    });
             }
-            return _children;
+
+            // Update the tree items with additional data
+            foreach (var node in _children)
+            {
+                _TWO_tempTreeView.Children.Add(node);
+            }
         }
-        return null;
+
+        List<TreeItemData<Guid>> tempList = new();
+
+        tempList.Add(_TWO_tempTreeView);
+
+        return tempList;
     }
 
-
-    public async Task<IReadOnlyCollection<TreeItemData<Guid>>> LoadServerData(Guid parentValue)
+    private async Task<List<TreeItemData<Guid>>> LoadAllProjectHierarchyData(Guid ProjectId)
     {
-        // wait 500ms to simulate a server load, then recursively search through our tree to find the child items for the given value
-        await Task.Delay(500);
-        foreach (var item in ServerTreeItems)
-        {
-            if (item.Value == parentValue)
-                return item.Children;
-            if (!item.HasChildren)
-                continue;
-            var descendentItem = FindTreeItemData(parentValue, item);
-            if (descendentItem != null)
-                return descendentItem.Children;
-        }
-        return null;
-    }
+        List<TreeItemData<Guid>> _projectHierarchyTreeNodes = new();
 
-    private TreeItemData<Guid> FindTreeItemData(Guid value, TreeItemData<Guid> parent)
+
+        // Load initial set of tree nodes
+
+        singleProject = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ProjectId);
+
+        if (singleProject == null)
+        {
+            throw new ApplicationException($"No project record found for GUID {ProjectId}");
+        }
+
+        var _tempTreeViewProjectNode = new TreeItemData<Guid>
+            {
+                Value = singleProject.RecordId
+                    ,
+                Text = singleProject.Name
+                    ,
+                Icon = @Icons.Material.Filled.LocalFlorist
+                    ,
+                Expandable = true
+                        ,
+                Children = new List<TreeItemData<Guid>>()
+            };
+
+        _projectHierarchyTreeNodes.Add(_tempTreeViewProjectNode);
+
+        var allHierarchyDataFromAPI = await HierarchyService.__Get_All_Children_Hierarchy_By_GUID__Async(ProjectId);
+
+        if (allHierarchyDataFromAPI != null)
+        {
+
+            foreach (var singleHierarchyDataFromAPI in allHierarchyDataFromAPI)
+            {
+
+                TreeItemData<Guid> _TWO_childTempTreeViewNode = new TreeItemData<Guid>{
+                        Value= singleHierarchyDataFromAPI.RecordId
+                        , Text= singleHierarchyDataFromAPI.Name
+                        , Icon= (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                        singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                        , Expandable= (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
+                            ,
+                        Children = new List<TreeItemData<Guid>>()
+                };
+
+                if (singleHierarchyDataFromAPI.Children.Count() > 0)
+                {
+                    _TWO_AddChildrens(_TWO_childTempTreeViewNode, singleHierarchyDataFromAPI.Children);
+                }
+
+                _projectHierarchyTreeNodes.FirstOrDefault()!.Children!.Add(_TWO_childTempTreeViewNode);
+                //_projectHierarchyTreeNodes.Add(_TWO_childTempTreeViewNode);
+            }
+
+        }
+        return _projectHierarchyTreeNodes;
+        // _TWO_InitialTreeItems.Add(_TWO_tempTreeView);
+    }
+    protected async override void OnInitialized()
     {
-        foreach (var child in parent.Children)
-        {
-            if (child.Value == value)
-                return child;
-            if (!child.HasChildren)
-                continue;
-            var descendentItem = FindTreeItemData(value, child);
-            if (descendentItem != null)
-                return descendentItem;
-        }
-        return null;
+        // Load initial data
+        _TWO_InitialTreeItems = await LoadInitialData(ProjectId);
+        StateHasChanged();
+
     }
 
-}
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Load initial data
+            Thread.Sleep(1000);
+            _TWO_InitialTreeItems = await LoadAllProjectHierarchyData(ProjectId);
+
+            // Fetch ItemzType Data
+            // _ = LoadItemzTypesData(ProjectId);
+
+            // await _TWO_TreeView.ExpandAllAsync();
+            showLoadingMessage = false; 
+            StateHasChanged();
+        }
+    }
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+
+    //         singleProject = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ProjectId);
+
+          
+    //         if (singleProject == null)
+    //         {
+    //             throw new ApplicationException($"No project record found for GUID {ProjectId}");
+    //         }
+
+    //         _TWO_TreeItemPresenter _TWO_tempTreeView = new _TWO_TreeItemPresenter
+    //             (
+    //                 value: singleProject.RecordId
+    //                 , text: ("DADADADA" + singleProject.Name)
+    //                 , icon: @Icons.Material.Filled.LocalFlorist
+    //                 , expandable: true
+    //             );
+    //         _TWO_tempTreeView.Children = new();
+
+
+    //         var allHierarchyDataFromAPI = await HierarchyService.__Get_All_Children_Hierarchy_By_GUID__Async(ProjectId);
+
+    //         if (allHierarchyDataFromAPI != null)
+    //         {
+    //             foreach (var singleHierarchyDataFromAPI in allHierarchyDataFromAPI)
+    //             {
+
+    //                 _TWO_TreeItemPresenter _TWO_childTempTreeViewNode = new _TWO_TreeItemPresenter(
+    //                     value: singleHierarchyDataFromAPI.RecordId
+    //                     , text: singleHierarchyDataFromAPI.Name
+    //                     , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+    //                                                     singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+    //                     , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
+    //                 );
+    //                 _TWO_childTempTreeViewNode.Children = new();
+
+    //                 if (singleHierarchyDataFromAPI.Children.Count() > 0)
+    //                 {
+    //                     _TWO_AddChildrens(_TWO_childTempTreeViewNode, singleHierarchyDataFromAPI.Children);
+    //                 }
+
+    //                 _TWO_tempTreeView.Children.Add(_TWO_childTempTreeViewNode);
+    //             }
+
+    //         }
+
+    //         _TWO_InitialTreeItems.Add(_TWO_tempTreeView);
+
+    //         StateHasChanged();
+    //     }
+    // }
+
+
+    // // public async Task<IReadOnlyCollection<TreeItemData<Guid>>> _TWO_LoadServerDataFromItemzApi(Guid parentValue)
+    // // {
+
+    // //     foreach (var item in _TWO_InitialTreeItems)
+    // //     {
+    // //         if (item.Value == parentValue)
+    // //             return item.Children;
+    // //         if (!item.HasChildren)
+    // //             continue;
+    // //         var descendentItem = FindTreeItemData(parentValue, item);
+    // //         if (descendentItem != null)
+    // //             return descendentItem.Children;
+    // //     }
+    // //     return null;
+    // // }
+
+    // // private TreeItemData<Guid> FindTreeItemData(Guid value, TreeItemData<Guid> parent)
+    // // {
+    // //     foreach (var child in parent.Children)
+    // //     {
+    // //         if (child.Value == value)
+    // //             return child;
+    // //         if (!child.HasChildren)
+    // //             continue;
+    // //         var descendentItem = FindTreeItemData(value, child);
+    // //         if (descendentItem != null)
+    // //             return descendentItem;
+    // //     }
+    // //     return null;
+    // // }
+
+ }
