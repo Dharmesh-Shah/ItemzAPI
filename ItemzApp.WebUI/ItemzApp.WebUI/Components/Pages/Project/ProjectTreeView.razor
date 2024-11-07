@@ -37,7 +37,11 @@
                                      Expandable="@( @context.Children.Count()>0 ? true : false )" 
                                      LoadingIconColor="Color.Info"
                                      Items="@context.Children"
-                                     EndText="@( @presenter.Children.Count() > 0 ? ("[" + @presenter.Children.Count().ToString() + "]") : ""   )" />
+                                     EndText="@( 
+                                        (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") + 
+                                        (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "")
+                                        )" 
+                    />
                                      @* CanExpand="@( @context.Children.Count()>0 ? true : false )" 
                                      EndText="@presenter?.childNumber" /> *@
                 </ItemTemplate>
@@ -75,11 +79,16 @@
 
     public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
     {
-        public TreeItemPresenter(Guid value, string text, string icon, bool expandable) : base(value)
+        public string RecordType { get; set; }
+        public int? Level { get; set; }
+
+        public TreeItemPresenter(Guid value, string text, string icon, string recordType, int? level, bool expandable) : base(value)
         {
             Value = value;
             Text = text;
             Icon = icon;
+            RecordType = recordType;
+            Level = level ?? 0 ;
             Expandable = expandable;
             Children = new List<TreeItemData<Guid>>();
         }
@@ -96,6 +105,8 @@
                     , text: child.Name
                     , icon: (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
                                                    child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                    , recordType: child.RecordType
+                    , level: child.Level
                     , expandable: (child.Children.Count() > 0 ? true : false)
                 );
 
@@ -163,6 +174,8 @@
                 value: singleProject.RecordId
                 , text: ("DADADADA " + singleProject.Name)
                 , icon: @Icons.Material.Filled.LocalFlorist
+                , recordType: singleProject.RecordType
+                , level: singleProject.Level
                 , expandable: true
             );
 
@@ -196,6 +209,8 @@
                 , icon: _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
                                                      _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
                                                              _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
+                , recordType: _itemzType.RecordType
+                , level: _itemzType.Level
                 , expandable: true
                 ));
 
@@ -248,6 +263,8 @@
                 value: singleProject.RecordId
                 , text: singleProject.Name
                 , icon: @Icons.Material.Filled.LocalFlorist
+                , recordType: singleProject.RecordType
+                , level: singleProject.Level
                 , expandable: true
             );
  
@@ -279,6 +296,8 @@
                         , text: singleHierarchyDataFromAPI.Name
                         , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
                                             singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                        , recordType: singleHierarchyDataFromAPI.RecordType
+                        , level: singleHierarchyDataFromAPI.Level
                         , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
                     );
                 
