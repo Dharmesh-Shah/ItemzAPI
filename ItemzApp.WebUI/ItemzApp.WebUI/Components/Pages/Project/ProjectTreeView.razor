@@ -29,16 +29,17 @@
                     @{
                         // Casting context from TreeItemData<string> to our own derived class TreeItemPresenter
                         // for convenient usage in the template
-                        var presenter = context as TreeItemData<Guid>;
+                        var presenter = context as TreeItemPresenter;
                     }
-                    <MudTreeViewItem Text="@context.Text"
-                                     Value="@context.Value"
+                    <MudTreeViewItem Value="@context.Value"
+                                     Text="@context.Text"
                                      Icon="@context.Icon"
+                                     Expandable="@( @context.Children.Count()>0 ? true : false )" 
                                      LoadingIconColor="Color.Info"
                                      Items="@context.Children"
-                                     CanExpand="@( @context.Children.Count()>0 ? true : false )"
-                                     EndText="@( @context.Children.Count() > 0 ? ("[" + @context.Children.Count().ToString() + "]") : ""   )" />
-                                     @* EndText="@presenter?.childNumber" /> *@
+                                     EndText="@( @presenter.Children.Count() > 0 ? ("[" + @presenter.Children.Count().ToString() + "]") : ""   )" />
+                                     @* CanExpand="@( @context.Children.Count()>0 ? true : false )" 
+                                     EndText="@presenter?.childNumber" /> *@
                 </ItemTemplate>
             </MudTreeView>
         </MudPaper>
@@ -72,14 +73,15 @@
     public bool initializingPage { get; set; } = false;
 
 
-    public class TreeItemPresenter<T> : MudBlazor.TreeItemData<T>
+    public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
     {
-        public TreeItemPresenter(T value, string text, string icon, bool expandable) : base(value)
+        public TreeItemPresenter(Guid value, string text, string icon, bool expandable) : base(value)
         {
             Value = value;
             Text = text;
             Icon = icon;
             Expandable = expandable;
+            Children = new List<TreeItemData<Guid>>();
         }
     }
 
@@ -88,16 +90,23 @@
         foreach (var child in Children)
         {
 
-            TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>
-            {
-                Value = child.RecordId
-                , Text= child.Name
-                , Icon= (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
-                                                child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
-                , Expandable= (child.Children.Count() > 0 ? true : false)
-                    ,
-                    Children = new List<TreeItemData<Guid>>()
-            };
+            var childTempTreeViewNode = new TreeItemPresenter
+                (
+                    value: child.RecordId
+                    , text: child.Name
+                    , icon: (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                   child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                    , expandable: (child.Children.Count() > 0 ? true : false)
+                );
+
+            // TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>
+            // {
+            //     Value = child.RecordId
+            //     , Text= child.Name
+            //     , Icon= (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+            //                                     child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+            //     , Expandable= (child.Children.Count() > 0 ? true : false)
+            // };
 
             // childTempTreeViewNode.Children = new();
 
@@ -149,23 +158,25 @@
             throw new ApplicationException($"No project record found for GUID {ProjectId}");
         }
 
-        // TreeItemData<Guid> tempTreeView = new TreeItemData<Guid>
-        //     (
-        //         value: singleProject.RecordId
-        //         , text: ("DADADADA " + singleProject.Name)
-        //         , icon: @Icons.Material.Filled.LocalFlorist
-        //         , expandable: true
-        //     );
+       var tempTreeView = new TreeItemPresenter
+            (
+                value: singleProject.RecordId
+                , text: ("DADADADA " + singleProject.Name)
+                , icon: @Icons.Material.Filled.LocalFlorist
+                , expandable: true
+            );
 
-        var tempTreeView = new TreeItemData<Guid>
-            {
-                Value =  singleProject.RecordId
-                , Text = singleProject.Name
-                , Icon = @Icons.Material.Filled.LocalFlorist
-                , Expandable = true
-                    ,
-                Children = new List<TreeItemData<Guid>>()
-        };
+        //tempTreeView.Children = new();
+
+        // var tempTreeView = new TreeItemData<Guid>
+        //     {
+        //         Value =  singleProject.RecordId
+        //         , Text = singleProject.Name
+        //         , Icon = @Icons.Material.Filled.LocalFlorist
+        //         , Expandable = true
+        //             ,
+        //         Children = new List<TreeItemData<Guid>>()
+        // };
 
         // tempTreeView.Children = new();
 
@@ -178,20 +189,30 @@
         {
             foreach (var _itemzType in returnedItemzTypeList!)
             {
-                _children.Add(new TreeItemData<Guid>
-                    {
-                        Value = _itemzType.RecordId
-                                ,
-                        Text = _itemzType.Name
-                                ,
-                        Icon = _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
-                                                _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
-                                                        _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
-                                ,
-                        Expandable = true
-                                ,
-                        Children = new List<TreeItemData<Guid>>()
-                    });
+                _children.Add(new TreeItemPresenter
+                                (
+                value: _itemzType.RecordId
+                , text: _itemzType.Name
+                , icon: _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
+                                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                             _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
+                , expandable: true
+                ));
+
+                // _children.Add(new TreeItemData<Guid>
+                //     {
+                //         Value = _itemzType.RecordId
+                //                     ,
+                //         Text = _itemzType.Name
+                //                     ,
+                //         Icon = _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
+                //                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                //                                             _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
+                //                     ,
+                //         Expandable = true
+                //                     ,
+                //         Children = new List<TreeItemData<Guid>>()
+                //     });
             }
 
             // Update the tree items with additional data
@@ -222,18 +243,26 @@
             throw new ApplicationException($"No project record found for GUID {ProjectId}");
         }
 
-        var _tempTreeViewProjectNode = new TreeItemData<Guid>
-            {
-                Value = singleProject.RecordId
-                    ,
-                Text = singleProject.Name
-                    ,
-                Icon = @Icons.Material.Filled.LocalFlorist
-                    ,
-                Expandable = true
-                        ,
-                Children = new List<TreeItemData<Guid>>()
-            };
+        var _tempTreeViewProjectNode = new TreeItemPresenter
+            (
+                value: singleProject.RecordId
+                , text: singleProject.Name
+                , icon: @Icons.Material.Filled.LocalFlorist
+                , expandable: true
+            );
+ 
+        // var _tempTreeViewProjectNode = new TreeItemData<Guid>
+        //     {
+        //         Value = singleProject.RecordId
+        //             ,
+        //         Text = singleProject.Name
+        //             ,
+        //         Icon = @Icons.Material.Filled.LocalFlorist
+        //             ,
+        //         Expandable = true
+        //                 ,
+        //         Children = new List<TreeItemData<Guid>>()
+        //     };
 
         _projectHierarchyTreeNodes.Add(_tempTreeViewProjectNode);
 
@@ -244,16 +273,24 @@
 
             foreach (var singleHierarchyDataFromAPI in allHierarchyDataFromAPI)
             {
-
-                TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>{
-                        Value= singleHierarchyDataFromAPI.RecordId
-                        , Text= singleHierarchyDataFromAPI.Name
-                        , Icon= (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
-                                                        singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
-                        , Expandable= (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
-                            ,
-                        Children = new List<TreeItemData<Guid>>()
-                };
+                TreeItemData<Guid> childTempTreeViewNode = new TreeItemPresenter
+                    (
+                        value: singleHierarchyDataFromAPI.RecordId
+                        , text: singleHierarchyDataFromAPI.Name
+                        , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                            singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                        , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
+                    );
+                
+                // TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>{
+                //         Value= singleHierarchyDataFromAPI.RecordId
+                //         , Text= singleHierarchyDataFromAPI.Name
+                //         , Icon= (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                //                                         singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
+                //         , Expandable= (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
+                //             ,
+                //         Children = new List<TreeItemData<Guid>>()
+                // };
 
                 if (singleHierarchyDataFromAPI.Children.Count() > 0)
                 {
@@ -261,7 +298,7 @@
                 }
 
                 _projectHierarchyTreeNodes.FirstOrDefault()!.Children!.Add(childTempTreeViewNode);
-                //_projectHierarchyTreeNodes.Add(childTempTreeViewNode);
+
             }
 
         }
