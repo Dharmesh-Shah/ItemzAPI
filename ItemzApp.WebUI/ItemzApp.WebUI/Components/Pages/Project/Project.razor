@@ -1,4 +1,5 @@
 ﻿@page "/project/{ProjectId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
@@ -51,14 +52,10 @@
 			<MudText>Total number of ItemzType in the project : @AllItemzTypesForProject.Count() </MudText>
 			<MudDataGrid Items="@AllItemzTypesForProject" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
 				<Columns>
-					<PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<PropertyColumn Property="x => x.Name" />
-					<PropertyColumn Property="x => x.Status" />
-					<PropertyColumn Property="x => x.Description" />
-					<PropertyColumn Property="x => x.CreatedBy" />
-					<PropertyColumn Property="x => x.CreatedDate.LocalDateTime.ToString()" />
-					<PropertyColumn Property="x => x.IsSystem.ToString()" />
- 					<TemplateColumn CellClass="d-flex justify-left">
+					<PropertyColumn Property="x => x.NumberOfChildNodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<TemplateColumn CellClass="d-flex justify-left">
 						<CellTemplate>
 @* 							<MudButton Size="@Size.Large"
 								Variant="@Variant.Filled" Color="@Color.Success" 
@@ -66,7 +63,7 @@
 								OnClick="_ => editItemzTypeDetails(context.Item.Id.ToString())"> Open </MudButton> *@
 							<MudButton Size="@Size.Large"
 								Variant="@Variant.Filled" Color="@Color.Success" 
-								OnClick="_ => editItemzTypeDetails(context.Item.Id.ToString())"> Open </MudButton>
+								OnClick="_ => editItemzTypeDetails(context.Item.RecordId.ToString())"> Open </MudButton>
 						</CellTemplate>
 					</TemplateColumn>
 				</Columns>
@@ -80,10 +77,13 @@
 
 	[Inject]
 	public IProjectService ProjectService { get; set; }
+	
+	[Inject]
+	public IHierarchyService HierarchyService { get; set; }
 
 	public GetProjectDTO singleProject { get; set; } = new();
-	private List<GetItemzTypeDTO> AllItemzTypesForProject { get; set; } = new List<GetItemzTypeDTO>();
-	public bool initializingPage { get; set; } = false;
+	private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
+	public bool initializingPage { get; set; } = true;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -92,9 +92,13 @@
 			initializingPage = true;
 			StateHasChanged();
 			Thread.Sleep(300);
+
 			singleProject = await ProjectService.__Single_Project_By_GUID_ID__Async(ProjectId);
 
-			var returnedItemzTypeList = await ProjectService.__GET_ItemzTypes_By_Project__Async(ProjectId);
+			//var returnedItemzTypeList = await ProjectService.__GET_ItemzTypes_By_Project__Async(ProjectId);
+			var returnedItemzTypeList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ProjectId);
+
+
 			if (returnedItemzTypeList != null)
 			{
 				AllItemzTypesForProject = returnedItemzTypeList.ToList();

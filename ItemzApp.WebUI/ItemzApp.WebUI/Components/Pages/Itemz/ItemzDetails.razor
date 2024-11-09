@@ -83,7 +83,7 @@
 				</MudButton>
 				<MudButton Variant="Variant.Filled" Color="Color.Warning" 
 					Size="Size.Large" style="gap: 10px; margin-left : 10px"
-					OnClick="(async () => await goBackToItemzType())">
+					OnClick="(async () => await goBackToItemz())">
 
 					<MudText>Cancel</MudText>
 				</MudButton>
@@ -139,7 +139,8 @@
 	[Inject]
 	public IHierarchyService hierarchyService { get; set; }
 
-	public Guid ParentId { get; set; }
+	private Guid ParentId { get; set; }
+	private string ParentRecordType { get; set; }
 
 	private bool updateItemzButtonClicked = false;
 	public GetItemzDTO singleItemz { get; set; } = new();
@@ -178,7 +179,6 @@
 				{
 					disableUpdateItemzDetailsButton = true;
 				}
-				initializingPage = false;
 
 				// EXPLANATION :: First we create string list and then just call ToArray() for producing required string array
 				List<string> tempStatusList = new List<string>();
@@ -204,6 +204,7 @@
 				}
 				_stringItemzSeverityValues = tempSeverityList.ToArray();
 
+				initializingPage = false;
 				StateHasChanged();
 			}
 
@@ -212,6 +213,7 @@
 			// Parent ItemzType post completing deletion operation. 
 			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzId);
 			ParentId = httpResponse.ParentRecordId;
+			ParentRecordType = httpResponse.ParentRecordType;
 		}
 	}
 	public async Task HandleItemzDetailsPatchSubmission()
@@ -229,7 +231,7 @@
 				updateItemzDTO.Severity = String.IsNullOrEmpty(singleItemz.Severity) ? "" : singleItemz.Severity;
 				await ItemzService.__PUT_Update_Itemz_By_GUID_ID__Async(ItemzId, updateItemzDTO);
 				Thread.Sleep(800);
-				await goBackToItemzType();
+				await goBackToItemz();
 			}
 		}
 		catch (Exception ex)
@@ -238,7 +240,7 @@
 			await OpenExceptionDialogAsync("Problem Updating Itemz Details : " + ex.Message);
 			return;
 		}
-		await goBackToItemzType();
+		await goBackToItemz();
 	}
 
 	private async Task formFieldChanged()
@@ -261,7 +263,7 @@
 	public async Task deleteItemz()
 	{
 		await ItemzService.__DELETE_Itemz_By_GUID_ID__Async(ItemzId);
-		await goBackToItemzType();
+		await goBackToParent();
 	}
 	private async Task OpenDeleteConfirmationDialogAsync()
 	{
@@ -286,8 +288,23 @@
 		// var dialogresult = await dialogref.Result;
 	}
 
-	public async Task goBackToItemzType()
+	public async Task goBackToItemz()
 	{
-		NavManager.NavigateTo($"/itemztype/{ParentId.ToString()}");
+
+		NavManager.NavigateTo($"/itemz/{ItemzId.ToString()}");
 	}
+	public async Task goBackToParent()
+	{
+
+		if (ParentRecordType.ToLower() == "itemztype")
+		{
+			NavManager.NavigateTo($"/itemztype/{ParentId.ToString()}");
+		}
+		else if (ParentRecordType.ToLower() == "itemz")
+		{
+			NavManager.NavigateTo($"/itemz/{ParentId.ToString()}");
+		}
+	}
+
+
 }

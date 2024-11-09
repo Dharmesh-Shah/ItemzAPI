@@ -59,17 +59,14 @@
 						FixedHeader="true" 
 						HeaderClass="background-color: red;">
 				<Columns>
-					<PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<PropertyColumn Property="x => x.Name" />
-					<PropertyColumn Property="x => x.Status" />
-					<PropertyColumn Property="x => x.Priority" />
-					<PropertyColumn Property="x => x.Severity" />
-					<PropertyColumn Property="x => x.CreatedDate.LocalDateTime.ToString()" />
+					<PropertyColumn Property="x => x.NumberOfChildNodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
  					<TemplateColumn CellClass="d-flex justify-left" >
 						<CellTemplate>
 							<MudButton Size="@Size.Large"
 								Variant="@Variant.Filled" Color="@Color.Success" 
-								OnClick="_ => editItemzDetails(context.Item.Id.ToString())"> Open </MudButton>
+								OnClick="_ => openItemz(context.Item.RecordId.ToString())"> Open </MudButton>
 						</CellTemplate>
 					</TemplateColumn>
 				</Columns>
@@ -88,12 +85,12 @@
 	[Inject]
 	public IItemzTypeItemzsService itemzTypeItemzsService { get; set; }
 	[Inject]
-	public IHierarchyService hierarchyService { get; set; }
+	public IHierarchyService HierarchyService { get; set; }
 
 
 	public GetItemzTypeDTO singleItemzType { get; set; } = new();
-	private List<GetItemzDTO> AllItemzForItemzType { get; set; } = new List<GetItemzDTO>();
-	public bool initializingPage { get; set; } = false;
+	private List<HierarchyIdRecordDetailsDTO> AllItemzForItemzType { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
+	public bool initializingPage { get; set; } = true;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -104,7 +101,9 @@
 			//Thread.Sleep(300);
 			singleItemzType = await itemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
 
-			var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
+			//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
+			var returnedItemzList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ItemzTypeId);
+
 			if (returnedItemzList != null)
 			{
 				AllItemzForItemzType = returnedItemzList.ToList();
@@ -115,16 +114,16 @@
 			// EXPLANATION : At the start of initialization process we capture parent record ID.
 			// Now even if user decides to Delete this Itemz Record then also we can go back to it's
 			// Parent ItemzType post completing deletion operation.
-			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
+			var httpResponse = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
 			ParentId = httpResponse.ParentRecordId;
 			StateHasChanged();
 			//StateHasChanged();
 		}
 	}
 
-	public async Task editItemzDetails(string Id)
+	public async Task openItemz(string Id)
 	{
-		NavManager.NavigateTo($"/itemzDetails/{Id}");
+		NavManager.NavigateTo($"/itemz/{Id}");
 	}
 
 	public async Task createNewItemz(string itemzTypeId)

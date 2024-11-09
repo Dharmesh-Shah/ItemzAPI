@@ -1,4 +1,5 @@
-﻿@page "/CreateItemz/{ItemzTypeId:guid}"
+﻿@page "/CreateItemz/{ParentId:guid}"
+@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
@@ -68,7 +69,7 @@
 					<MudButton Variant="Variant.Filled" Color="Color.Warning"
 							   Size="Size.Large"
 							   style="gap: 10px; margin : 10px" 
-							   OnClick="(() => goBackToItemzTypeSetting())">
+							   OnClick="(() => goBackToParent())">
 						<MudText>Cancel</MudText>
 					</MudButton>
 				</MudCardActions>
@@ -85,12 +86,13 @@
 
 @code {
 	[Parameter]
-	public Guid ItemzTypeId { get; set; }
-	[Parameter]
 	public Guid ParentId { get; set; }
+
 
 	[Inject]
 	public IItemzService ItemzService { get; set; }
+	[Inject]
+	public IHierarchyService HierarchyService { get; set; }
 
 
 	public CreateItemzDTO singleItemz { get; set; } = new();
@@ -145,12 +147,9 @@
 			{
 				hideValidationError = true;	
 				createItemzButtonClicked = true;
-				// singleItemz.ItemzTypeId = ItemzTypeId;
-				var updatedResult = await ItemzService.__POST_Create_Itemz__Async(ItemzTypeId, true, singleItemz); 
-				Thread.Sleep(1500);
-
-				// TODO:: HANDLE NAVIGATE BACK
-				goBackToItemzTypeSetting();
+				// singleItemz.ParentId = ParentId;
+				var updatedResult = await ItemzService.__POST_Create_Itemz__Async(ParentId, true, singleItemz); 
+				goBackToParent();
 			}
 			else
 			{
@@ -159,9 +158,16 @@
 		}
 	}
 
-	public void goBackToItemzTypeSetting()
+	public async Task goBackToParent()
 	{
-		// NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}/{ParentId.ToString()}");
-		NavManager.NavigateTo($"/ItemzType/{ItemzTypeId.ToString()}");
+		// NavManager.NavigateTo($"/ItemzType/{ParentId.ToString()}/{ParentId.ToString()}");
+
+		// TODO:: We can't assume that parent record will be ItemzType only. It can be Itemz as well. 
+		// Better if we call for Hierarchy Record to return back Parent Itemz Type and Parent ID and then decide 
+		// where to go back to?
+		var httpResponse = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ParentId);
+
+
+		NavManager.NavigateTo($"/{httpResponse.RecordType.ToLower()}/{httpResponse.RecordId.ToString()}",true);
 	}
 }
