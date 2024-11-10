@@ -145,11 +145,13 @@ namespace ItemzApp.WebUI.Client.Services.ItemzTrace
 				// we are manually creating request to send JSON body. We found this information at ... 
 				// https://stackoverflow.com/questions/28054515/how-to-send-delete-with-json-to-the-rest-api-using-httpclient
 
+				string jsonString = JsonSerializer.Serialize(itemzTraceDTO);
+
 				var request = new HttpRequestMessage
 				{
-					Content = new StringContent($"{itemzTraceDTO}", Encoding.UTF8, "application/json"),
+					Content = new StringContent(jsonString, Encoding.UTF8, "application/json"),
 					Method = HttpMethod.Delete,
-					RequestUri = new Uri("/api/ItemzTrace")
+					RequestUri = new Uri("/api/ItemzTrace", UriKind.Relative)
 				};
 				var httpResponseMessage = await _httpClient.SendAsync(request);
 
@@ -159,8 +161,9 @@ namespace ItemzApp.WebUI.Client.Services.ItemzTrace
 				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				Console.WriteLine(ex.ToString());
 			}
 		}
 
