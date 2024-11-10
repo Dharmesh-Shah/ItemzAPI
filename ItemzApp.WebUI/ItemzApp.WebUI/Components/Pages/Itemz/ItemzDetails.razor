@@ -2,6 +2,7 @@
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.Pages.Traceability
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
@@ -22,24 +23,29 @@
 	}
 	else
 	{
-		<MudItem hidden="@hideValidationError" xs="12" sm="8">
-			<MudPaper Class="pa-4 mud-height-full">
-				<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
-				@foreach (var error in errors)
+		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true"
+				 ApplyEffectsToContainer="true" PanelClass="pa-12" MinimumTabWidth="300px" >
+			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
+				@if (errors.Length > 0)
 				{
-					<MudText Color="@Color.Error">@error</MudText>
+					<MudPaper Class="pa-4 mud-height-full mud-width-full">
+						<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+						@foreach (var error in errors)
+						{
+							<MudText Color="@Color.Error">@error</MudText>
+						}
+					</MudPaper>
 				}
-			</MudPaper>
-		</MudItem>
-		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4">
+				@* <MudItem xs="12" sm="12" md="12" lg="12"> *@
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
 				<MudForm Model="@singleItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
 				<MudText>Itemz GUID Id: @ItemzId.ToString()</MudText>
 				<br />
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 					@bind-Value="singleItemz.Name"
-					For="@(() => singleItemz.Name)" />
+					For="@(() => singleItemz.Name)" FullWidth="true" />
 				<MudSelect @bind-Value="singleItemz.Status"
 							For="@(() => singleItemz.Status)"
 							Required="true"
@@ -88,6 +94,7 @@
 					<MudText>Cancel</MudText>
 				</MudButton>
 			</MudCardActions>
+
 				<MudItem xs="12" sm="12" md="12" lg="9">
 					<br />
 						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
@@ -113,7 +120,17 @@
 				</MudItem>
 		</MudForm>
 	</MudPaper>
-	</MudItem>
+	@* </MudItem> *@
+			</MudTabPanel>
+			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
+				<MudItem xs="12" sm="12" md="12" lg="12">
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+						<TraceabilityComponent ItemzId="@ItemzId" />
+					</MudPaper>
+				</MudItem>
+			</MudTabPanel>
+		</MudTabs>
+		</MudContainer>
 	<MudItem xs="12" sm="8">
 		<MudOverlay Visible="@updateItemzButtonClicked" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
@@ -128,6 +145,7 @@
 			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 		</MudOverlay>
 	</MudItem>
+
 	}
 </MudGrid>
 @code {

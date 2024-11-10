@@ -1,0 +1,106 @@
+﻿@using ItemzApp.WebUI.Client.Services.ItemzTrace
+@using ItemzApp.WebUI.Client.SharedModels
+@inject NavigationManager NavManager
+
+<h3>Traceability Component</h3>
+<h5> All Parent Traces </h5>
+<MudDataGrid Items="@AllParentItemzTraces"
+			 Filterable="true"
+			 SortMode="@SortMode.None"
+			 Groupable="false"
+			 Striped="true"
+			 FixedHeader="true"
+			 HeaderClass="background-color: red;">
+	<Columns>
+		<PropertyColumn Property="x => x.ItemzID" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+		<TemplateColumn CellClass="d-flex justify-left">
+			<CellTemplate>
+				<MudButton Size="@Size.Large"
+						   Variant="@Variant.Filled" Color="@Color.Success"
+						   OnClick="_ => openItemz(context.Item.ItemzID.ToString())"> Open </MudButton>
+			</CellTemplate>
+		</TemplateColumn>
+	</Columns>
+</MudDataGrid>
+<h5> All Child Traces </h5>
+<MudDataGrid Items="@AllChildItemzTraces"
+			 Filterable="true"
+			 SortMode="@SortMode.None"
+			 Groupable="false"
+			 Striped="true"
+			 FixedHeader="true"
+			 HeaderClass="background-color: red;">
+	<Columns>
+		<PropertyColumn Property="x => x.ItemzID" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+		<TemplateColumn CellClass="d-flex justify-left">
+			<CellTemplate>
+				<MudButton Size="@Size.Large"
+						   Variant="@Variant.Filled" Color="@Color.Success"
+						   OnClick="_ => openItemz(context.Item.ItemzID.ToString())"> Open </MudButton>
+			</CellTemplate>
+		</TemplateColumn>
+	</Columns>
+</MudDataGrid>
+
+@code {
+	[Parameter]
+	public Guid ItemzId { get; set; }
+
+	[Inject]
+	public IItemzTraceService ItemzTraceService { get; set; }
+
+	private ItemzParentAndChildTraceDTO SingleItemzTraces { get; set; } = new ItemzParentAndChildTraceDTO();
+	private List<ParentTraceItemz__DTO> AllParentItemzTraces { get; set; } = new List<ParentTraceItemz__DTO>();
+	private List<ChildTraceItemz__DTO> AllChildItemzTraces { get; set; } = new List<ChildTraceItemz__DTO>();
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		var SingleItemzTraces = await ItemzTraceService.__GET_All_Parent_and_Child_Itemz_Traces_By_ItemzID__Async(ItemzId);
+
+		if (SingleItemzTraces != null)
+		{
+			if (SingleItemzTraces.Itemz != null)
+			{
+				if (SingleItemzTraces.Itemz.ParentItemz != null)
+				{
+					AllParentItemzTraces = SingleItemzTraces.Itemz.ParentItemz;
+				}
+				if (SingleItemzTraces.Itemz.ChildItemz != null)
+				{
+					AllChildItemzTraces = SingleItemzTraces.Itemz.ChildItemz;
+				}
+			}
+		}
+		StateHasChanged();
+	}
+
+	// protected override async Task OnAfterRenderAsync(bool firstRender)
+	// {
+	// 	if (firstRender)
+	// 	{
+	// 		var SingleItemzTraces = await ItemzTraceService.__GET_All_Parent_and_Child_Itemz_Traces_By_ItemzID__Async(ItemzId);
+
+	// 		if (SingleItemzTraces != null)
+	// 		{
+	// 			if (SingleItemzTraces.Itemz != null)
+	// 			{
+	// 				if (SingleItemzTraces.Itemz.ParentItemz != null)
+	// 				{
+	// 					AllParentItemzTraces = SingleItemzTraces.Itemz.ParentItemz;
+	// 				}
+	// 				if (SingleItemzTraces.Itemz.ChildItemz != null)
+	// 				{
+	// 					AllChildItemzTraces = SingleItemzTraces.Itemz.ChildItemz;
+	// 				}
+	// 			}
+	// 		}
+
+	// 	}
+	// }
+	public async Task openItemz(string itemzId)
+	{
+		NavManager.NavigateTo($"/itemzDetails/{itemzId}", true);
+	}
+
+}

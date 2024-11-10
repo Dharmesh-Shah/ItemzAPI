@@ -7,6 +7,7 @@ using ItemzApp.WebUI.Client.Services.Hierarchy;
 using ItemzApp.WebUI.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
+using ItemzApp.WebUI.Client.Services.ItemzTrace;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,11 @@ builder.Services.AddHttpClient<IItemzService, ItemzService>(client =>
 });
 
 builder.Services.AddHttpClient<IHierarchyService, HierarchyService>(client =>
+{
+	client.BaseAddress = new Uri("http://localhost:51087");
+});
+
+builder.Services.AddHttpClient<IItemzTraceService, ItemzTraceService>(client =>
 {
 	client.BaseAddress = new Uri("http://localhost:51087");
 });
