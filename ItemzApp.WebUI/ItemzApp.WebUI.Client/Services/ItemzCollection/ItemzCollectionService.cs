@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 
-namespace ItemzApp.WebUI.Client.Services.ItemzCollectionService
+namespace ItemzApp.WebUI.Client.Services.ItemzCollection
 {
 	public class ItemzCollectionService : IItemzCollectionService
 	{
@@ -40,7 +40,7 @@ namespace ItemzApp.WebUI.Client.Services.ItemzCollectionService
 				}
 				var urlBuilder_ = new System.Text.StringBuilder();
 				urlBuilder_.Append("/api/itemzcollection/(");
-				urlBuilder_.Append('(');
+				//urlBuilder_.Append('(');
 				for (var i = 0; i < ids!.Count(); i++)
 				{
 					if (i > 0) urlBuilder_.Append(',');
