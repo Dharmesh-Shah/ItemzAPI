@@ -20,7 +20,7 @@
   <ItemGroup>
     <Folder Include="Components\Pages\Common\" />
     <Folder Include="Components\Pages\ItemzType\" />
-    <Folder Include="Components\Pages\Itemz\" />
+    <Folder Include="Components\Pages\ChangeLog\" />
   </ItemGroup>
 
 </Project>

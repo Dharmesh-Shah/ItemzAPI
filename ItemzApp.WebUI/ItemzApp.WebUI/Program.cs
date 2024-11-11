@@ -5,10 +5,12 @@ using ItemzApp.WebUI.Client.Services.ItemzTypeItemzsService;
 using ItemzApp.WebUI.Client.Services.Itemz;
 using ItemzApp.WebUI.Client.Services.Hierarchy;
 using ItemzApp.WebUI.Client.Services.ItemzCollection;
+using ItemzApp.WebUI.Client.Services.ItemzChangeHistory;
 using ItemzApp.WebUI.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using ItemzApp.WebUI.Client.Services.ItemzTrace;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,11 @@ builder.Services.AddHttpClient<IItemzTraceService, ItemzTraceService>(client =>
 builder.Services.AddHttpClient<IItemzCollectionService, ItemzCollectionService>(client =>
 {
 	client.BaseAddress = new Uri("http://localhost:51087");
+});
+
+builder.Services.AddHttpClient<IItemzChangeHistoryService, ItemzChangeHistoryService>(client =>
+{
+client.BaseAddress = new Uri("http://localhost:51087");
 });
 
 

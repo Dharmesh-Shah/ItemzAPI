@@ -1,6 +1,6 @@
 ﻿using ItemzApp.WebUI.Client.SharedModels;
 
-namespace ItemzApp.WebUI.Client.Services.ItemzChangeHistoryService
+namespace ItemzApp.WebUI.Client.Services.ItemzChangeHistory
 {
     public interface IItemzChangeHistoryService
 	{
