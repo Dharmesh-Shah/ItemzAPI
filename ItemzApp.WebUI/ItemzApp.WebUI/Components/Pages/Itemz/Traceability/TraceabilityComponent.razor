@@ -5,8 +5,8 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h5>Traceability Component</h5>
-<br />
+@* <h5>Traceability Component</h5>
+<br /> *@
 <MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left"> <MudIcon Icon="@Icons.Material.Filled.KeyboardDoubleArrowUp" /> Parent / From Traces </MudText>
 	<MudSpacer />
@@ -119,29 +119,6 @@
 		StateHasChanged();
 	}
 
-	// protected override async Task OnAfterRenderAsync(bool firstRender)
-	// {
-	// 	if (firstRender)
-	// 	{
-	// 		var SingleItemzTraces = await ItemzTraceService.__GET_All_Parent_and_Child_Itemz_Traces_By_ItemzID__Async(ItemzId);
-
-	// 		if (SingleItemzTraces != null)
-	// 		{
-	// 			if (SingleItemzTraces.Itemz != null)
-	// 			{
-	// 				if (SingleItemzTraces.Itemz.ParentItemz != null)
-	// 				{
-	// 					AllParentItemzTraces = SingleItemzTraces.Itemz.ParentItemz;
-	// 				}
-	// 				if (SingleItemzTraces.Itemz.ChildItemz != null)
-	// 				{
-	// 					AllChildItemzTraces = SingleItemzTraces.Itemz.ChildItemz;
-	// 				}
-	// 			}
-	// 		}
-
-	// 	}
-	// }
 	public async Task openItemz(string itemzId)
 	{
 		NavManager.NavigateTo($"/itemzDetails/{itemzId}", true);
