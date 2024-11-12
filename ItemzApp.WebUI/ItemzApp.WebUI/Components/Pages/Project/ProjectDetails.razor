@@ -1,6 +1,7 @@
 ﻿@page "/projectDetails/{ProjectId:guid}"
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.Pages.Baseline
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
@@ -31,74 +32,85 @@
 	}
 	else
 	{
-		<MudItem hidden="@hideValidationError" xs="12" sm="8">
-			<MudPaper Class="pa-4 mud-height-full">
-				<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
-				@foreach (var error in errors)
+		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
+					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
+					 ApplyEffectsToContainer="true" PanelClass="pa-12" MinimumTabWidth="200px" >
+			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
+				@if (errors.Length > 0)
 				{
-					<MudText Color="@Color.Error">@error</MudText>
+					<MudPaper Class="pa-4 mud-height-full mud-width-full">
+						<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+						@foreach (var error in errors)
+						{
+							<MudText Color="@Color.Error">@error</MudText>
+						}
+					</MudPaper>
 				}
-			</MudPaper>
-		</MudItem>
-		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4">
+				<MudPaper Class="pa-4 mud-height-full mud-width-full">
 				<MudForm Model="@singleProject" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
-			<MudCardContent>
-				<MudText>Project GUID Id: @singleProject.Id.ToString()</MudText>
-				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
-								@bind-Value="singleProject.Name"
-								For="@(() => singleProject.Name)" />
-				<MudSelect @bind-Value="singleProject.Status"
-							For="@(() => singleProject.Status)"
-							Required ="true"
-							RequiredError="Status is required!"
-							Label="Status">
-					@foreach (var _stringProjectStatusValue in _stringProjectStatusValues)
-					{
-						<MudSelectItem T="string" Value="_stringProjectStatusValue">@_stringProjectStatusValue</MudSelectItem>
-					}
-				</MudSelect>
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
-					@bind-Value="singleProject.Description"
-					For="@(() => singleProject.Description)" />
-			</MudCardContent>
-			<MudCardActions>
-					<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(disableUpdateProjectDetailsButton)"
-								   Size="Size.Large"
-								   style="gap: 10px; margin : 10px"
-								OnClick="(() => HandleProjectDetailsPatchSubmission())">
-					<MudText>Save</MudText>
-					</MudButton>
-					@* <MudSpacer /> *@
-					<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
-						OnClick="(() => goBackToProject())">
-						<MudText>Cancel</MudText>
-					</MudButton>
-			</MudCardActions>
-				<MudItem xs="12" sm="12" md="12" lg="9">
-					<br />
-						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
-							<MudExpansionPanel style="background-color : #FABBBB; color : red;"
-											   Text="DANGER ZONE!" MaxHeight="150" Expanded="false">
-							<TitleContent>
-								<div class="d-flex">
-									<MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" Size="Size.Medium" class="mr-3"></MudIcon>
-									<MudText Color="Color.Error"><strong>DANGER ZONE!</strong></MudText>
-								</div>
-							</TitleContent>
-							<ChildContent>
-									<MudText Typo="Typo.body1" Color="Color.Error">Deleting project means loosing all it's data. This is <STRONG>IRREVERSIBLE</STRONG> operation.</MudText>
-									<MudButton @onclick="OpenDeleteConfirmationDialogAsync" Variant="Variant.Filled" Color="Color.Error" Size="Size.Large" style="align-items: center; margin-top : 10px">
-									Delete Project
-								</MudButton>
-							</ChildContent>
-						</MudExpansionPanel>
-					</MudExpansionPanels>
-				</MudItem>
-		</MudForm>
-
-	</MudPaper>
-	</MudItem>
+					<MudCardContent>
+						<MudText>Project GUID Id: @singleProject.Id.ToString()</MudText>
+						<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
+										@bind-Value="singleProject.Name"
+										For="@(() => singleProject.Name)" />
+						<MudSelect @bind-Value="singleProject.Status"
+									For="@(() => singleProject.Status)"
+									Required ="true"
+									RequiredError="Status is required!"
+									Label="Status">
+							@foreach (var _stringProjectStatusValue in _stringProjectStatusValues)
+							{
+								<MudSelectItem T="string" Value="_stringProjectStatusValue">@_stringProjectStatusValue</MudSelectItem>
+							}
+						</MudSelect>
+						<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+							@bind-Value="singleProject.Description"
+							For="@(() => singleProject.Description)" />
+					</MudCardContent>
+					<MudCardActions>
+							<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(disableUpdateProjectDetailsButton)"
+										   Size="Size.Large"
+										   style="gap: 10px; margin : 10px"
+										OnClick="(() => HandleProjectDetailsPatchSubmission())">
+							<MudText>Save</MudText>
+							</MudButton>
+							@* <MudSpacer /> *@
+							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+								OnClick="(() => goBackToProject())">
+								<MudText>Cancel</MudText>
+							</MudButton>
+					</MudCardActions>
+					<MudItem xs="12" sm="12" md="12" lg="9">
+						<br />
+							<MudExpansionPanels Elevation="10" style="margin-left : 15px">
+								<MudExpansionPanel style="background-color : #FABBBB; color : red;"
+												   Text="DANGER ZONE!" MaxHeight="150" Expanded="false">
+								<TitleContent>
+									<div class="d-flex">
+										<MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" Size="Size.Medium" class="mr-3"></MudIcon>
+										<MudText Color="Color.Error"><strong>DANGER ZONE!</strong></MudText>
+									</div>
+								</TitleContent>
+								<ChildContent>
+										<MudText Typo="Typo.body1" Color="Color.Error">Deleting project means loosing all it's data. This is <STRONG>IRREVERSIBLE</STRONG> operation.</MudText>
+										<MudButton @onclick="OpenDeleteConfirmationDialogAsync" Variant="Variant.Filled" Color="Color.Error" Size="Size.Large" style="align-items: center; margin-top : 10px">
+										Delete Project
+									</MudButton>
+								</ChildContent>
+							</MudExpansionPanel>
+						</MudExpansionPanels>
+					</MudItem>
+				</MudForm>
+				</MudPaper>
+			</MudTabPanel>
+				<MudTabPanel Icon="@Icons.Material.Filled.ContentCopy" Text="Baselines">
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+						<ProjectBaselineComponent ProjectId="@ProjectId" />
+					</MudPaper>
+			</MudTabPanel>
+		</MudTabs>
+	</MudContainer>
 	<MudItem xs="12" sm="8">
 		<MudOverlay Visible="@updateProjectButtonClicked" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
