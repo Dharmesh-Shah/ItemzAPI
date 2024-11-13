@@ -108,16 +108,17 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 			{
 				var response = await _httpClient.GetFromJsonAsync<ICollection<BaselineHierarchyIdRecordDetailsDTO>>($"/api/BaselineHierarchy/GetImmediateChildren/{recordId}", cancellationToken);
 
-				if (response != null && response.Any())
-				{
-					return response;
-				}
-				else
-				{
-					// Handle the case where the response is null or empty 
-					// You could log this scenario or display an appropriate message to the user
-					throw new Exception("No data found.");
-				}
+				//if (response != null && response.Any())
+				//{
+				//	return response;
+				//}
+				//else
+				//{
+				//	// Handle the case where the response is null or empty 
+				//	// You could log this scenario or display an appropriate message to the user
+				//	throw new Exception("No data found.");
+				//}
+				return response;
 			}
 
 			catch (HttpRequestException httpEx)

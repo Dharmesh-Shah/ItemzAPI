@@ -12,6 +12,7 @@ using MudBlazor.Services;
 using ItemzApp.WebUI.Client.Services.ItemzTrace;
 using ItemzApp.WebUI.Client.Services.Baselines;
 using ItemzApp.WebUI.Client.Services.BaselineHierarchy;
+using ItemzApp.WebUI.Client.Services.BaselineItemzTypes;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +68,11 @@ builder.Services.AddHttpClient<IBaselinesService, BaselinesService>(client =>
 });
 
 builder.Services.AddHttpClient<IBaselineHierarchyService, BaselineHierarchyService>(client =>
+{
+	client.BaseAddress = new Uri("http://localhost:51087");
+});
+
+builder.Services.AddHttpClient<IBaselineItemzTypesService, BaselineItemzTypesService>(client =>
 {
 	client.BaseAddress = new Uri("http://localhost:51087");
 });
