@@ -92,7 +92,7 @@ else
 				<CellTemplate>
 					<MudButton Size="@Size.Large"
 							   Variant="@Variant.Filled" Color="@Color.Error"
-							   OnClick="_ => deleteBaseline(context.Item.RecordId)"> Delete </MudButton>
+							   OnClick="_ => deleteBaseline(context.Item.RecordId, context.Item.Name!)"> Delete </MudButton>
 				</CellTemplate>
 			</TemplateColumn>
 		</Columns>
@@ -221,10 +221,12 @@ else
 		}
 	}
 
-	public async Task deleteBaseline(Guid baselineId)
+	public async Task deleteBaseline(Guid baselineId, string? baselineName = "")
 	{
 		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
-		var dialogref = await DialogService.ShowAsync<BaselineDeletionConfirmDialog>("CONFIRM", options);
+		var dialogPara = new DialogParameters();
+		dialogPara.Add("deletingBaselineName", baselineName);
+		var dialogref = await DialogService.ShowAsync<BaselineDeletionConfirmDialog>("CONFIRM", parameters: dialogPara, options);
 		var dialogresult = await dialogref.Result;
 		if (!(dialogresult!.Canceled))
 		{

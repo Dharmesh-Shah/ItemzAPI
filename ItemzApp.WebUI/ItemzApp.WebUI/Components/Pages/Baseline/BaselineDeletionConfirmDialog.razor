@@ -5,7 +5,14 @@
     <DialogContent>
         <p style="color:red;">
         <MudIcon Icon="@Icons.Material.Filled.Dangerous" Size="Size.Large" Color="Color.Error" Title="Delete Baseline" />
-        Are you sure you want to delete the Baseline?</p>
+            THIS IS IRREVERSABLE OPERATION!
+        </p>
+        <p style="color:red; align-content:center">
+            Are you sure you want to delete following Baseline? 
+        </p>
+        <p style="color:red; align-content:center">
+            @deletingBaselineName.ToString()
+        </p>
     </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="Submit">Yes</MudButton>
@@ -16,6 +23,9 @@
 @code {
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string deletingBaselineName { get; set; }
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
 
