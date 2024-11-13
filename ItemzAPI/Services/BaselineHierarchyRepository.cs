@@ -103,7 +103,136 @@ namespace ItemzApp.API.Services
 			return baselineHierarchyIdRecordDetails;
         }
 
-        public async Task<bool> CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(Guid parentId, Guid childId) 
+
+		public async Task<IEnumerable<BaselineHierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfBaselineItemzHierarchy(Guid recordId)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundBaselineHierarchyRecord = _context.BaselineItemzHierarchy!.AsNoTracking()
+							.Where(ih => ih.Id == recordId);
+
+
+			if (foundBaselineHierarchyRecord.Count() != 1) 
+			{
+				//if (!foundBaselineHierarchyRecord.Any())
+				//{
+				//	return default;
+				//}
+				return default;
+				// EXPLANATION:: WE COMMENTED OUT FOLLOWING EXPECTION THROWING CODE 
+				//				 BECAUSE IT'S POSSIBLE THAT PROJECT MIGHT NOT HAVE ANY BASELINE IN IT. 
+
+				//throw new ApplicationException($"Expected 1 Baseline Hierarchy record to be found " +
+				//	$"but instead found {foundBaselineHierarchyRecord.Count()} records for ID {recordId} " +
+				//	"Please contact your System Administrator.");
+			}
+
+			var foundBaselineHierarchyRecordLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId.GetLevel();
+
+
+			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+			// methods to query for all Decendents as per below. By adding clause to check for GetLevel which is less then
+			// CurrentBaselineHierarchyRecordLevel + three, we get Baseline Hierarchy record itself
+			// plus two more deeper level of baseline hierarchy records.
+			// The 1st Level data of the record itself is ignored and then 2nd level data is the actual child records.
+			// While third level data are used for calculating number of children for child records.
+
+			var baselineItemzTypeHierarchyItemzs = await _context.BaselineItemzHierarchy!
+					.AsNoTracking()
+					.Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf(foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!)
+						&& bih.BaselineItemzHierarchyId.GetLevel() < (foundBaselineHierarchyRecordLevel + 3))
+					.OrderBy(bih => bih.BaselineItemzHierarchyId!)
+					.ToListAsync();
+
+			if (baselineItemzTypeHierarchyItemzs.Count() < 2) // Less then 2 because we may have project entry but no baseline below it.
+			{
+				return default;
+			}
+
+			List<BaselineHierarchyIdRecordDetailsDTO> returningRecords = [];
+			BaselineHierarchyIdRecordDetailsDTO baselineHierarchyIdRecordDetails = new();
+			string? _localTopChildBaselineHierarchyId = null;
+			int _localNumerOfChildNodes = 0;
+
+
+			for (var i = 0; i < baselineItemzTypeHierarchyItemzs.Count(); i++)
+			{
+				if (baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() == (foundBaselineHierarchyRecordLevel + 1))
+				{
+					if (i == 1) // Because i = 0 is the baseline hierarchy record for passed in recordId parameter itself. So we check for i == 1 as first child record.
+					{
+						baselineHierarchyIdRecordDetails.RecordId = baselineItemzTypeHierarchyItemzs[i].Id;
+						baselineHierarchyIdRecordDetails.Name = baselineItemzTypeHierarchyItemzs[i].Name ?? "";
+						baselineHierarchyIdRecordDetails.BaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString();
+						baselineHierarchyIdRecordDetails.RecordType = baselineItemzTypeHierarchyItemzs[i].RecordType;
+						baselineHierarchyIdRecordDetails.Level = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel();
+
+						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
+						baselineHierarchyIdRecordDetails.ParentRecordId = foundBaselineHierarchyRecord.FirstOrDefault()!.Id;
+						baselineHierarchyIdRecordDetails.ParentRecordType = foundBaselineHierarchyRecord.FirstOrDefault()!.RecordType;
+						baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.ToString();
+						baselineHierarchyIdRecordDetails.ParentLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
+						baselineHierarchyIdRecordDetails.ParentName = foundBaselineHierarchyRecord.FirstOrDefault()!.Name ?? "";
+					}
+					else
+					{
+						// WE HAVE TO FINISH WORKING ON PREVIOUS RECORD AND START PROCESSING NEXT ONE
+						// IF NUMBER OF CHILD RECORDS ARE GREATER THEN ZERO i.e. ANY CHILD RECORDS FOUND THEN 
+						// We have to capture BottomChildHierarchyId and NumberOfChildNodes values.
+						if (_localNumerOfChildNodes > 0)
+						{
+							// hierarchyIdRecordDetails.TopChildHierarchyId = _localTopChildHierarchyId;
+							baselineHierarchyIdRecordDetails.BottomChildBaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i - 1].BaselineItemzHierarchyId!.ToString();
+							baselineHierarchyIdRecordDetails.NumberOfChildNodes = _localNumerOfChildNodes;
+							_localNumerOfChildNodes = 0; // RESET 
+						}
+
+						returningRecords.Add(baselineHierarchyIdRecordDetails);
+
+						// RESET hierarchyIdRecordDetails AND START CAPTURING DETAILS OF THE NEXT CHILD RECORD
+
+						baselineHierarchyIdRecordDetails = new();
+						baselineHierarchyIdRecordDetails.RecordId = baselineItemzTypeHierarchyItemzs[i].Id;
+						baselineHierarchyIdRecordDetails.Name = baselineItemzTypeHierarchyItemzs[i].Name ?? "";
+						baselineHierarchyIdRecordDetails.BaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString();
+						baselineHierarchyIdRecordDetails.RecordType = baselineItemzTypeHierarchyItemzs[i].RecordType;
+						baselineHierarchyIdRecordDetails.Level = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel();
+
+						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
+						baselineHierarchyIdRecordDetails.ParentRecordId = foundBaselineHierarchyRecord.FirstOrDefault()!.Id;
+						baselineHierarchyIdRecordDetails.ParentRecordType = foundBaselineHierarchyRecord.FirstOrDefault()!.RecordType;
+						baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.ToString();
+						baselineHierarchyIdRecordDetails.ParentLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
+						baselineHierarchyIdRecordDetails.ParentName = foundBaselineHierarchyRecord.FirstOrDefault()!.Name ?? "";
+					}
+
+				}
+				else if (baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId.GetLevel() == (foundBaselineHierarchyRecordLevel + 2))
+				{
+					if (_localNumerOfChildNodes == 0)
+					{
+						baselineHierarchyIdRecordDetails.TopChildBaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString();
+					}
+					_localNumerOfChildNodes = _localNumerOfChildNodes + 1;
+				}
+			}
+
+			// ADD FINAL hierarchyIdRecordDetails TO THE COLLECTION.
+			if (_localNumerOfChildNodes > 0)
+			{
+				baselineHierarchyIdRecordDetails.BottomChildBaselineHierarchyId = baselineItemzTypeHierarchyItemzs[(baselineItemzTypeHierarchyItemzs.Count() - 1)].BaselineItemzHierarchyId!.ToString();
+				baselineHierarchyIdRecordDetails.NumberOfChildNodes = _localNumerOfChildNodes;
+			}
+			returningRecords.Add(baselineHierarchyIdRecordDetails);
+
+			return returningRecords;
+		}
+
+
+		public async Task<bool> CheckIfPartOfSingleBaselineHierarchyBreakdownStructureAsync(Guid parentId, Guid childId) 
         {
             var foundParentId = await _context.BaselineItemzHierarchy!.AsNoTracking()
                 .Where(bih => bih.Id == parentId)

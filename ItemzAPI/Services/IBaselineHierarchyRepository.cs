@@ -14,5 +14,7 @@ namespace ItemzApp.API.Services
 
         public Task<BaselineHierarchyIdRecordDetailsDTO?> GetBaselineHierarchyRecordDetailsByID(Guid recordId);
 
-    }
+        public Task<IEnumerable<BaselineHierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfBaselineItemzHierarchy(Guid recordId);
+
+	}
 }

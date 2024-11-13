@@ -95,5 +95,48 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchyService
 
 		}
 		#endregion
+
+		#region __Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async
+		public async Task<ICollection<BaselineHierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId)
+		{
+			return await __Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(recordId, CancellationToken.None);
+		}
+
+		public async Task<ICollection<BaselineHierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
+		{
+			try
+			{
+				var response = await _httpClient.GetFromJsonAsync<ICollection<BaselineHierarchyIdRecordDetailsDTO>>($"/api/BaselineHierarchy/GetImmediateChildren/{recordId}", cancellationToken);
+
+				if (response != null && response.Any())
+				{
+					return response;
+				}
+				else
+				{
+					// Handle the case where the response is null or empty 
+					// You could log this scenario or display an appropriate message to the user
+					throw new Exception("No data found.");
+				}
+			}
+
+			catch (HttpRequestException httpEx)
+			{ 
+				// Handle HTTP-specific exceptions (e.g., 404, 500) 
+				// You could log this exception or display an appropriate message to the user
+				throw new Exception($"HTTP error occurred: {httpEx.Message}"); 
+			} 
+			catch (Exception ex)
+			{
+				// Handle other exceptions
+				// You could log this exception or display an appropriate message to the user 
+				throw new Exception($"An error occurred: {ex.Message}");
+			
+			}
+			return default;
+
+		}
+		#endregion
+
 	}
 }

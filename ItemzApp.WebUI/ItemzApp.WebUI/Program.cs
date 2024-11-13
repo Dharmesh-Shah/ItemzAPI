@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using ItemzApp.WebUI.Client.Services.ItemzTrace;
 using ItemzApp.WebUI.Client.Services.BaselinesService;
+using ItemzApp.WebUI.Client.Services.BaselineHierarchyService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,9 +66,12 @@ builder.Services.AddHttpClient<IBaselinesService, BaselinesService>(client =>
 	client.BaseAddress = new Uri("http://localhost:51087");
 });
 
+builder.Services.AddHttpClient<IBaselineHierarchyService, BaselineHierarchyService>(client =>
+{
+	client.BaseAddress = new Uri("http://localhost:51087");
+});
 
 builder.Services.AddMudServices();
-
 
 var app = builder.Build();
 

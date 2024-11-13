@@ -85,16 +85,77 @@ namespace ItemzApp.API.Controllers
             return Ok(baselineHierarchyIdRecordDetailsDTO);
         }
 
+		/// <summary>
+		/// Gets Baseline Hierarchy Records of immediate children under Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a baseline hierarchy record</param>
+		/// <returns>Collection of Immediate children Baseline Hierarchy record details </returns>
+		/// <response code="200">Immediate children Baseline Hierarchy record details </response>
+		/// <response code="400">Bad Request</response>
+		/// <response code="404">Immediate children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaselineHierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetImmediateChildren/{RecordId:Guid}"
+			, Name = "__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetImmediateChildren/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetImmediateChildren/{RecordId:Guid}", Name = "__HEAD_Immediate_Children_Baseline_Hierarchy_By_GUID__")]
+		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<IEnumerable<BaselineHierarchyIdRecordDetailsDTO>>> GetImmediateChildrenOfBaselineItemzHierarchy(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Immediate Children Baseline Hierarchy records for ID {ParentRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
 
-        /// <summary>
-        /// Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
-        /// </summary>
-        /// <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
-        /// <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
-        /// <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
-        /// <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
-        /// <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+			// IEnumerable<BaselineHierarchyIdRecordDetailsDTO?> immediateChildrenBaselineHierarchyRecords = [];
+			IEnumerable<BaselineHierarchyIdRecordDetailsDTO?> immediateChildrenBaselineHierarchyRecords = new List<BaselineHierarchyIdRecordDetailsDTO?>();
+
+			try
+			{
+
+				var tempImmediateChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetImmediateChildrenOfBaselineItemzHierarchy(RecordId);
+                if (tempImmediateChildrenBaselineHierarchyRecords != null)
+                {
+                    immediateChildrenBaselineHierarchyRecords = tempImmediateChildrenBaselineHierarchyRecords;
+                }
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get Immediate Children Baseline Hierarchy records : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce get immediate children baseline hierarchy records for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			if (immediateChildrenBaselineHierarchyRecords.Count() == 0)
+            {
+				//return Ok();
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId);
+			}
+			else if (immediateChildrenBaselineHierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    immediateChildrenBaselineHierarchyRecords.Count(),
+                    RecordId);
+            }
+
+
+            return Ok(immediateChildrenBaselineHierarchyRecords);
+
+		}
+
+		/// <summary>
+		/// Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
+		/// </summary>
+		/// <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
+		/// <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
+		/// <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
+		/// <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
+		/// <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [HttpGet("VerifyParentChildBreakdownStructure/",

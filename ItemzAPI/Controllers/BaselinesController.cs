@@ -198,10 +198,10 @@ namespace ItemzApp.API.Controllers
             //}
             catch (Exception ex)
             {
-                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + ex.InnerException,
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to add new baseline:" + ex.Message,
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
                     );
-                return Conflict($"Exception Occured while trying to add new baseline: {ex.InnerException}");
+                return Conflict($"Exception Occured while trying to add new baseline: {ex.Message}");
             }
 
 
