@@ -27,12 +27,38 @@
 {
     <MudText>Total number of projects in repository : @AllProjects.Count() </MudText>
 
-
-    <MudDataGrid Items="@AllProjects" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true"  HeaderClass="background-color: red;">
+    <MudDataGrid Items="@GetFilteredProjects()" Filterable="true"
+        FilterMode="DataGridFilterMode.ColumnFilterRow"
+        FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive"
+        SortMode="@SortMode.None" 
+        Groupable="false" 
+        Striped="true" 
+        FixedHeader="true" 
+        HeaderClass="background-color: red;">
         <Columns>
-            <PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
-            <PropertyColumn Property="x => x.Name" />
-            <PropertyColumn Property="x => x.Status" />
+            <PropertyColumn Property="x => x.Id" >
+                <FilterTemplate>
+                    <MudButton Size="Size.Small" Style="align-content:end" Variant="Variant.Filled" OnClick="ClearFilters">Clear All Filters</MudButton>
+                </FilterTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.Name">
+                <FilterTemplate>
+                    <MudTextField @bind-Value="nameFilter" Placeholder="Type to search for Name..." 
+                        Adornment="Adornment.End" 
+                        AdornmentIcon="@Icons.Material.Filled.Clear" 
+                        OnAdornmentClick="@(() => nameFilter = string.Empty)"
+                        Immediate="true" />
+                </FilterTemplate>
+            </PropertyColumn>
+            <PropertyColumn Property="x => x.Status">
+                <FilterTemplate>
+                    <MudTextField @bind-Value="statusFilter" Placeholder="Type to search for Status..." 
+                    Adornment="Adornment.End" 
+                    AdornmentIcon="@Icons.Material.Filled.Clear" 
+                    OnAdornmentClick="@(() => statusFilter = string.Empty)"
+                    Immediate="true"  />
+                </FilterTemplate>
+            </PropertyColumn>
             <TemplateColumn CellClass="d-flex justify-left">
                 <CellTemplate>
                     <MudStack Row>
@@ -51,6 +77,7 @@
     private List<GetProjectDTO> AllProjects { get; set; } = new List<GetProjectDTO>();
     private bool initializingPage = true;
 
+
     [Inject]
     public IProjectService ProjectService { get; set; }
 
@@ -64,6 +91,38 @@
     //     }
     //     initializingPage = false;
     // }
+
+
+    #region DataGridFilter_Project
+
+    private string nameFilter;
+    private string statusFilter;
+
+
+    private List<GetProjectDTO> GetFilteredProjects()
+    {
+        var query = AllProjects.AsQueryable();
+
+        if (!string.IsNullOrEmpty(nameFilter))
+        {
+            query = query.Where(item => item.Name.Contains(nameFilter, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrEmpty(statusFilter))
+        {
+            query = query.Where(item => item.Status.Contains(statusFilter, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return query.ToList();
+    }
+
+    private void ClearFilters()
+    {
+        nameFilter = string.Empty;
+        statusFilter = string.Empty;
+    }
+
+    #endregion
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
