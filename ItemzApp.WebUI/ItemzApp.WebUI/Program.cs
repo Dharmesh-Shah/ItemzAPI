@@ -10,8 +10,8 @@ using ItemzApp.WebUI.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using ItemzApp.WebUI.Client.Services.ItemzTrace;
-using ItemzApp.WebUI.Client.Services.BaselinesService;
-using ItemzApp.WebUI.Client.Services.BaselineHierarchyService;
+using ItemzApp.WebUI.Client.Services.Baselines;
+using ItemzApp.WebUI.Client.Services.BaselineHierarchy;
 
 
 var builder = WebApplication.CreateBuilder(args);

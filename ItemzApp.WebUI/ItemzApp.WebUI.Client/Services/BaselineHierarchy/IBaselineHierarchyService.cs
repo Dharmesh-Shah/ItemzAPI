@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ItemzApp.WebUI.Client.SharedModels;
 
-namespace ItemzApp.WebUI.Client.Services.BaselineHierarchyService
+namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 {
     public interface IBaselineHierarchyService
 	{ 

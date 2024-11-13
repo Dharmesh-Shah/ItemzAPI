@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 
-namespace ItemzApp.WebUI.Client.Services.BaselinesService
+namespace ItemzApp.WebUI.Client.Services.Baselines
 {
 	public class BaselinesService : IBaselinesService
 	{

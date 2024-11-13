@@ -1,6 +1,6 @@
 ﻿using ItemzApp.WebUI.Client.SharedModels;
 
-namespace ItemzApp.WebUI.Client.Services.BaselineItemzTypesService
+namespace ItemzApp.WebUI.Client.Services.BaselineItemzTypes
 {
     public interface IBaselineItemzTypesService
 	{

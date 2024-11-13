@@ -1,6 +1,6 @@
 ﻿using ItemzApp.WebUI.Client.SharedModels;
 
-namespace ItemzApp.WebUI.Client.Services.BaselineItemzTraceService
+namespace ItemzApp.WebUI.Client.Services.BaselineItemzTrace
 {
     public interface IBaselineItemzTraceService
 	{
