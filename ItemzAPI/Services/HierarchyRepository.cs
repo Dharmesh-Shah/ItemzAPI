@@ -137,10 +137,14 @@ namespace ItemzApp.API.Services
 			List<HierarchyIdRecordDetailsDTO> returningRecords = [];
 			HierarchyIdRecordDetailsDTO hierarchyIdRecordDetails = new();
 			string? _localTopChildHierarchyId = null ;
-			int _localNumerOfChildNodes = 0; 
+			int _localNumerOfChildNodes = 0;
 
-			
-			for(var i = 0; i< itemzTypeHierarchyItemzs.Count(); i++ )
+			if (itemzTypeHierarchyItemzs.Count() < 2) // Less then 2 because we may have project entry but no ItemzType below it.
+			{
+				return default;
+			}
+
+			for (var i = 0; i< itemzTypeHierarchyItemzs.Count(); i++ )
 			{ 
 				if (itemzTypeHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() == (foundHierarchyRecordLevel + 1))
 				{
