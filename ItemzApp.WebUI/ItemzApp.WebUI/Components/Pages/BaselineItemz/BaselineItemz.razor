@@ -30,6 +30,7 @@
 					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
 						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleBaselineItemz.Name </strong></MudText>
 						<MudSpacer />
+						<MudButton OnClick="async _ => await openBaselineItemzDetails(BaselineItemzId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Open </MudButton>
 						<MudButton OnClick="goBackToParent" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
 						</MudItem>
 					<br />
@@ -126,6 +127,11 @@
 			StateHasChanged();
 			//StateHasChanged();
 		}
+	}
+
+	public async Task openBaselineItemzDetails(string Id)
+	{
+		NavManager.NavigateTo($"/baselineitemzdetails/{Id}", true);
 	}
 
 	public async Task openBaselineItemz(string Id)

@@ -88,6 +88,27 @@
             <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
             <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzCollectionController.GetBaselineItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
+            <summary>
+            Gets collection of BaselineItemzs
+            </summary>
+            <param name="baselineItemzids">Array of BaselineItemz Id (in GUID form) for which details has to be returned to the caller</param>
+            <returns>Collection of BaselineItemz that are requested via Array of BaselineItemz Id</returns>
+            <response code="200">Collection of BaselineItemzs property details based on BaselineItemz Ids that were passed in as parameter</response>
+            <response code="500">Bad Request - BaselineItemz Ids should be passed in as parameter</response>
+            <response code="404">No BaselineItemzs were found based on provided list of BaselineItemz Ids</response>
+            <remarks>
+            Sample request (this request will get BaselineItemz by Ids) \
+            GET api/BaselineItemz/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
+            </remarks>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineItemzCollectionController.GetBaselineItemzCollectionOptions">
+            <summary>
+            Get list of supported HTTP Options for the BaselineItemz controller.
+            </summary>
+            <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+            <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzAsync(System.Guid)">
             <summary>
             Get a BaselineItemz by ID (represented by a GUID)
@@ -112,20 +133,6 @@
             <param name="itemzId">Provide ItemzId representated in GUID form</param>
             <returns>Number of BaselineItemz found for the given ItemzId. Zero if none found.</returns>
             <response code="200">Returns number of BaselineItemz count that were associated with a given ItemzId</response>
-        </member>
-        <member name="M:ItemzApp.API.Controllers.BaselineItemzController.GetBaselineItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
-            <summary>
-            Gets collection of BaselineItemzs
-            </summary>
-            <param name="baselineItemzids">Array of BaselineItemz Id (in GUID form) for which details has to be returned to the caller</param>
-            <returns>Collection of BaselineItemz that are requested via Array of BaselineItemz Id</returns>
-            <response code="200">Collection of BaselineItemzs property details based on BaselineItemz Ids that were passed in as parameter</response>
-            <response code="500">Bad Request - BaselineItemz Ids should be passed in as parameter</response>
-            <response code="404">No BaselineItemzs were found based on provided list of BaselineItemz Ids</response>
-            <remarks>
-            Sample request (this request will get BaselineItemz by Ids) \
-            GET api/BaselineItemz/(9153a516-d69e-4364-b17e-03b87442e21c,5e76f8e8-d3e7-41db-b084-f64c107c6783) 
-            </remarks>
         </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzController.UpdateBaselineItemzsPutAsync(ItemzApp.API.Models.UpdateBaselineItemzDTO)">
             <summary>

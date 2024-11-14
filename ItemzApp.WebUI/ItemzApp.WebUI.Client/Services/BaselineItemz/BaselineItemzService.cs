@@ -123,44 +123,44 @@ namespace ItemzApp.WebUI.Client.Services.BaselineItemz
 		}
 		#endregion
 
-		#region __GET_BaselineItemz_Collection_By_GUID_IDS__Async
-		public async Task<ICollection<GetBaselineItemzDTO>> __GET_BaselineItemz_Collection_By_GUID_IDS__Async(IEnumerable<Guid> baselineItemzids)
-		{
-			return await __GET_BaselineItemz_Collection_By_GUID_IDS__Async(baselineItemzids, CancellationToken.None);
-		}
-		public async Task<ICollection<GetBaselineItemzDTO>> __GET_BaselineItemz_Collection_By_GUID_IDS__Async(IEnumerable<Guid> baselineItemzids, CancellationToken cancellationToken)
-		{
-			try
-			{
-				// TODO :: Utilize urlBuilder which is commented below.
+		//#region __GET_BaselineItemz_Collection_By_GUID_IDS__Async
+		//public async Task<ICollection<GetBaselineItemzDTO>> __GET_BaselineItemz_Collection_By_GUID_IDS__Async(IEnumerable<Guid> baselineItemzids)
+		//{
+		//	return await __GET_BaselineItemz_Collection_By_GUID_IDS__Async(baselineItemzids, CancellationToken.None);
+		//}
+		//public async Task<ICollection<GetBaselineItemzDTO>> __GET_BaselineItemz_Collection_By_GUID_IDS__Async(IEnumerable<Guid> baselineItemzids, CancellationToken cancellationToken)
+		//{
+		//	try
+		//	{
+		//		// TODO :: Utilize urlBuilder which is commented below.
 
-				if (!baselineItemzids?.Any() ?? true)
-				{
-					throw new ArgumentNullException(nameof(baselineItemzids) + "is required for which value is not provided");
-				}
-				var urlBuilder_ = new System.Text.StringBuilder();
-				urlBuilder_.Append("/api/BaselineItemz/(");
-				urlBuilder_.Append('(');
-				for (var i = 0; i < baselineItemzids!.Count(); i++)
-				{
-					if (i > 0) urlBuilder_.Append(',');
-					urlBuilder_.Append((baselineItemzids!.ElementAt(i).ToString()));
-				}
-				urlBuilder_.Append(')');
+		//		if (!baselineItemzids?.Any() ?? true)
+		//		{
+		//			throw new ArgumentNullException(nameof(baselineItemzids) + "is required for which value is not provided");
+		//		}
+		//		var urlBuilder_ = new System.Text.StringBuilder();
+		//		urlBuilder_.Append("/api/BaselineItemzCollection/(");
+		//		// urlBuilder_.Append('(');
+		//		for (var i = 0; i < baselineItemzids!.Count(); i++)
+		//		{
+		//			if (i > 0) urlBuilder_.Append(',');
+		//			urlBuilder_.Append((baselineItemzids!.ElementAt(i).ToString()));
+		//		}
+		//		urlBuilder_.Append(')');
 
 
-				var response = await _httpClient.GetFromJsonAsync<IEnumerable<GetBaselineItemzDTO>>($"{urlBuilder_}", cancellationToken);
+		//		var response = await _httpClient.GetFromJsonAsync<IEnumerable<GetBaselineItemzDTO>>($"{urlBuilder_}", cancellationToken);
 
-				return response!.ToList();
-			}
-			catch (Exception)
-			{
-			}
-			return default;
+		//		return response!.ToList();
+		//	}
+		//	catch (Exception)
+		//	{
+		//	}
+		//	return default;
 
-		}
+		//}
 
-		#endregion
+		//#endregion
 
 		#region __PUT_Update_BaselineItemzs_By_GUID_IDs__Async
 		public async Task __PUT_Update_BaselineItemzs_By_GUID_IDs__Async(UpdateBaselineItemzDTO updateBaselineItemzDTO)

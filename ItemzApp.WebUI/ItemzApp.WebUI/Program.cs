@@ -14,6 +14,8 @@ using ItemzApp.WebUI.Client.Services.Baselines;
 using ItemzApp.WebUI.Client.Services.BaselineHierarchy;
 using ItemzApp.WebUI.Client.Services.BaselineItemzTypes;
 using ItemzApp.WebUI.Client.Services.BaselineItemz;
+using ItemzApp.WebUI.Client.Services.BaselineItemzCollection;
+using ItemzApp.WebUI.Client.Services.BaselineItemzTrace;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,6 +81,16 @@ builder.Services.AddHttpClient<IBaselineItemzTypesService, BaselineItemzTypesSer
 });
 
 builder.Services.AddHttpClient<IBaselineItemzService, BaselineItemzService>(client =>
+{
+client.BaseAddress = new Uri("http://localhost:51087");
+});
+
+builder.Services.AddHttpClient<IBaselineItemzTraceService, BaselineItemzTraceService>(client =>
+{
+	client.BaseAddress = new Uri("http://localhost:51087");
+});
+
+builder.Services.AddHttpClient<IBaselineItemzCollectionService, BaselineItemzCollectionService>(client =>
 {
 client.BaseAddress = new Uri("http://localhost:51087");
 });

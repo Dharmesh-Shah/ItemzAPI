@@ -1,0 +1,156 @@
+﻿@page "/baselineItemzDetails/{BaselineItemzId:guid}"
+@using ItemzApp.WebUI.Client.Services.BaselineHierarchy
+@using ItemzApp.WebUI.Client.Services.BaselineItemz
+@using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
+@using ItemzApp.WebUI.Client.SharedModels
+@using Microsoft.AspNetCore.Components.Forms
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+
+<h1>Baseline Itemz Details</h1>
+<br />
+
+<MudGrid>
+	@if (initializingPage)
+	{
+		<MudPaper Height="calc(100vh - 100px);" Width="100%">
+			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
+				<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<br />
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+			</MudOverlay>
+		</MudPaper>
+	}
+	else
+	{
+		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
+					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
+					 ApplyEffectsToContainer="true" PanelClass="pa-12" MinimumTabWidth="200px" >
+			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
+				@if (errors.Length > 0)
+				{
+					<MudPaper Class="pa-4 mud-height-full mud-width-full">
+						<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
+						@foreach (var error in errors)
+						{
+							<MudText Color="@Color.Error">@error</MudText>
+						}
+					</MudPaper>
+				}
+				@* <MudItem xs="12" sm="12" md="12" lg="12"> *@
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+		<MudForm Model="@singleBaselineItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+			<MudCardContent>
+				<MudText>Baseline Itemz GUID Id: @BaselineItemzId.ToString()</MudText>
+				<br />
+				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
+					@bind-Value="singleBaselineItemz.Name"
+					For="@(() => singleBaselineItemz.Name)" FullWidth="true" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
+					@bind-Value="singleBaselineItemz.Status"
+					For="@(() => singleBaselineItemz.Status)" FullWidth="true" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Priority is required!"
+					@bind-Value="singleBaselineItemz.Priority"
+					For="@(() => singleBaselineItemz.Priority)" FullWidth="true" />
+				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+					@bind-Value="singleBaselineItemz.Description"
+					For="@(() => singleBaselineItemz.Description)" />
+				<MudTextField T="string" Label="Status" Required="true" RequiredError="Severity is required!"
+					@bind-Value="singleBaselineItemz.Severity"
+					For="@(() => singleBaselineItemz.Severity)" FullWidth="true" />
+			</MudCardContent>
+			<MudCardActions>
+				<MudButton Variant="Variant.Filled" Color="Color.Warning" 
+					Size="Size.Large" style="gap: 10px; margin-left : 10px"
+					OnClick="(async () => await goBackToBaselineItemz())">
+					<MudText>Close</MudText>
+				</MudButton>
+				<MudSpacer />
+				<MudAlert Severity="Severity.Error"
+							Variant="Variant.Filled"
+							style="gap: 10px; margin-left : 10px">
+					NOTE: Baseline Itemz are designed to be READ ONLY records!
+				</MudAlert>
+			</MudCardActions>
+		</MudForm>
+	</MudPaper>
+	@* </MudItem> *@
+			</MudTabPanel>
+			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
+				<MudItem xs="12" sm="12" md="12" lg="12">
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+						<BaselineTraceabilityComponent BaselineItemzId="@BaselineItemzId" />
+					</MudPaper>
+				</MudItem>
+			</MudTabPanel>
+		</MudTabs>
+		</MudContainer>
+	}
+</MudGrid>
+@code {
+	[Parameter]
+	public Guid BaselineItemzId { get; set; }
+
+	[Inject]
+	public IBaselineItemzService BaselineItemzService { get; set; }
+	[Inject]
+	public IBaselineHierarchyService BaselineHierarchyService { get; set; }
+
+	private Guid ParentId { get; set; }
+	private string ParentRecordType { get; set; }
+
+	
+	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
+	public bool initializingPage { get; set; } = false;
+	
+	//MudForm related fields
+	bool success = true;
+	string[] errors = { };
+	MudForm form;
+
+	bool hideValidationError = true;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			initializingPage = true;
+			StateHasChanged();
+			// TODO :: IMPLEMENT TRY AND CATCH WHILE WE CALL BASELINE ITEMZ SERVICE
+			singleBaselineItemz = await BaselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
+			if (form != null)
+			{
+				initializingPage = false;
+				StateHasChanged();
+			}
+
+			// EXPLANATION : At the start of initialization process we capture parent record ID. 
+			// Now even if user decides to Delete this Itemz Record then also we can go back to it's 
+			// Parent ItemzType post completing deletion operation. 
+			var httpResponse = await BaselineHierarchyService.__Get_BaselineHierarchy_Record_Details_By_GUID__Async(BaselineItemzId);
+			ParentId = httpResponse.ParentRecordId;
+			ParentRecordType = httpResponse.ParentRecordType;
+		}
+	}
+
+	public async Task goBackToBaselineItemz()
+	{
+
+		NavManager.NavigateTo($"/baselineitemz/{BaselineItemzId.ToString()}");
+	}
+	public async Task goBackToParent()
+	{
+
+		if (ParentRecordType.ToLower() == "baselineitemztype")
+		{
+			NavManager.NavigateTo($"/baselineitemztype/{ParentId.ToString()}");
+		}
+		else if (ParentRecordType.ToLower() == "baselineitemz")
+		{
+			NavManager.NavigateTo($"/baselineitemz/{ParentId.ToString()}");
+		}
+	}
+
+
+}
