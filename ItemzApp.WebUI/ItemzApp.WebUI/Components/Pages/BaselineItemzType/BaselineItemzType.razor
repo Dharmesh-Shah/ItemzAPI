@@ -38,7 +38,7 @@
 					<br />
 					<MudText><strong>ID           : </strong> @singleIBaselineItemzType.Id.ToString()</MudText>
 					<MudText><strong>Status       : </strong> @singleIBaselineItemzType.Status</MudText>
-						<MudText><strong>Is System?   : </strong> @(singleIBaselineItemzType.IsSystem ? "Yes" : "No") </MudText>
+					<MudText><strong>Is System?   : </strong> @(singleIBaselineItemzType.IsSystem ? "Yes" : "No") </MudText>
 					<MudText><strong>Created Date : </strong> @singleIBaselineItemzType.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
 					<MudText><strong>Description  : </strong> @singleIBaselineItemzType.Description</MudText>
 				</MudCardContent>
@@ -48,7 +48,7 @@
 		<br />
  		<MudItem xs="12" sm="8">
 			<MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h4" Align="Align.Left">Baseline Itemz(s)</MudText>
+				<MudText Typo="Typo.h4" Align="Align.Left">Baseline Itemz</MudText>
 			</MudPaper>
 			<MudText>Total number of Baseline Itemz in the Baseline ItemzType : @AllBaselineItemzForBaselineItemzType.Count() </MudText>
 			<MudDataGrid Items="@AllBaselineItemzForBaselineItemzType" 
@@ -60,6 +60,20 @@
 						HeaderClass="background-color: red;">
 				<Columns>
 					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					@* 					<PropertyColumn Property="x => x.IsIncluded" /> *@
+					<PropertyColumn Property="x => x.IsIncluded">
+						<CellTemplate>
+							@if (context.Item.IsIncluded == true) // I don't know why true is actually false when it comes to MudIcon logic below.
+							{
+								<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Medium"></MudIcon>
+							}
+							else
+							{
+								<MudIcon Icon="@Icons.Material.Filled.Cancel" Color="Color.Error" Size="Size.Medium"></MudIcon>
+							}
+						</CellTemplate>
+					</PropertyColumn>
+
 					<PropertyColumn Property="x => x.Name" />
 					<PropertyColumn Property="x => x.NumberOfChildNodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
  					<TemplateColumn CellClass="d-flex justify-left" >

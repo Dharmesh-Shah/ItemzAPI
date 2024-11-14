@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Components\Pages\BaselineItemz\BaselineTraceability\" />
     <Folder Include="Components\Pages\Baseline\" />
     <Folder Include="Components\Pages\Common\" />
     <Folder Include="Components\Pages\ItemzType\" />

@@ -169,6 +169,10 @@ namespace ItemzApp.API.Services
 						baselineHierarchyIdRecordDetails.BaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString();
 						baselineHierarchyIdRecordDetails.RecordType = baselineItemzTypeHierarchyItemzs[i].RecordType;
 						baselineHierarchyIdRecordDetails.Level = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel();
+						baselineHierarchyIdRecordDetails.SourceHierarchyId = (baselineItemzTypeHierarchyItemzs[i].SourceItemzHierarchyId != null)
+																							? baselineItemzTypeHierarchyItemzs[i].SourceItemzHierarchyId!.ToString()
+																							: "";
+						baselineHierarchyIdRecordDetails.IsIncluded = baselineItemzTypeHierarchyItemzs[i].isIncluded;
 
 						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
 						baselineHierarchyIdRecordDetails.ParentRecordId = foundBaselineHierarchyRecord.FirstOrDefault()!.Id;
@@ -200,6 +204,13 @@ namespace ItemzApp.API.Services
 						baselineHierarchyIdRecordDetails.BaselineHierarchyId = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString();
 						baselineHierarchyIdRecordDetails.RecordType = baselineItemzTypeHierarchyItemzs[i].RecordType;
 						baselineHierarchyIdRecordDetails.Level = baselineItemzTypeHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel();
+						baselineHierarchyIdRecordDetails.SourceHierarchyId = (baselineItemzTypeHierarchyItemzs[i].SourceItemzHierarchyId != null)
+																							? baselineItemzTypeHierarchyItemzs[i].SourceItemzHierarchyId!.ToString()
+																							: "";
+
+
+						baselineHierarchyIdRecordDetails.IsIncluded = baselineItemzTypeHierarchyItemzs[i].isIncluded;
+
 
 						// EXPLANATION :: Now add Parent Details which is nothing but foundHierarchyRecord
 						baselineHierarchyIdRecordDetails.ParentRecordId = foundBaselineHierarchyRecord.FirstOrDefault()!.Id;

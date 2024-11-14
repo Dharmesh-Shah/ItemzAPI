@@ -13,6 +13,7 @@ using ItemzApp.WebUI.Client.Services.ItemzTrace;
 using ItemzApp.WebUI.Client.Services.Baselines;
 using ItemzApp.WebUI.Client.Services.BaselineHierarchy;
 using ItemzApp.WebUI.Client.Services.BaselineItemzTypes;
+using ItemzApp.WebUI.Client.Services.BaselineItemz;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,6 +77,12 @@ builder.Services.AddHttpClient<IBaselineItemzTypesService, BaselineItemzTypesSer
 {
 	client.BaseAddress = new Uri("http://localhost:51087");
 });
+
+builder.Services.AddHttpClient<IBaselineItemzService, BaselineItemzService>(client =>
+{
+client.BaseAddress = new Uri("http://localhost:51087");
+});
+
 
 builder.Services.AddMudServices();
 
