@@ -240,6 +240,59 @@ namespace ItemzApp.API.Controllers
 
         }
 
+
+        /// <summary>
+        /// Gets Baseline Hierarchy Records of all children under Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
+        /// <returns>Collection of All children Baseline Hierarchy record details </returns>
+        /// <response code="200">All children Baseline Hierarchy record details </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">All children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NestedBaselineHierarchyIdRecordDetailsDTO))]
+        [HttpGet("GetAllChildren/{RecordId:Guid}"
+            , Name = "__Get_All_Children_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllChildren/42f62a6c-fcda-4dac-a06c-406ac1c17770
+        [HttpHead("GetAllChildren/{RecordId:Guid}", Name = "__HEAD_All_Children_Baseline_Hierarchy_By_GUID__")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>>> GetAllChildrenOfBaselineItemzHierarchy(Guid RecordId)
+        {
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Children Baseline Hierarchy records for ID {ParentRecordId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                RecordId);
+
+            IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allChildrenBaselineHierarchyRecords = [];
+            try
+            {
+                allChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Children Baseline Hierarchy records : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce All Children Baseline Hierarchy records for given Record Id {RecordId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+
+            if (allChildrenBaselineHierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    allChildrenBaselineHierarchyRecords.Count(),
+                    RecordId);
+            }
+            else
+            {
+                return Ok();
+            }
+            return Ok(allChildrenBaselineHierarchyRecords);
+
+        }
+
+
+
         // We have configured in startup class our own custom implementation of 
         // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
         // class to make sure that we use that custom problem details builder. 

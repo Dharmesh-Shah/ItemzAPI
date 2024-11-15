@@ -88,6 +88,16 @@
             <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
             <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.GetAllChildrenOfBaselineItemzHierarchy(System.Guid)">
+            <summary>
+            Gets Baseline Hierarchy Records of all children under Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
+            <returns>Collection of All children Baseline Hierarchy record details </returns>
+            <response code="200">All children Baseline Hierarchy record details </response>
+            <response code="400">Bad Request</response>
+            <response code="404">All children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineItemzCollectionController.GetBaselineItemzCollectionAsync(System.Collections.Generic.IEnumerable{System.Guid})">
             <summary>
             Gets collection of BaselineItemzs
@@ -2184,6 +2194,31 @@
         <member name="P:ItemzApp.API.Models.ManipulateProjectDTO.Description">
             <summary>
             Description of the Project
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.RecordId">
+            <summary>
+            Record ID representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.BaselineHierarchyId">
+            <summary>
+            Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.Level">
+            <summary>
+            Hierarchy Level for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.RecordType">
+            <summary>
+            Record Type within Hierarchy for RecordId
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.Name">
+            <summary>
+            Name of the Hierarchy Record
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedHierarchyIdRecordDetailsDTO.RecordId">

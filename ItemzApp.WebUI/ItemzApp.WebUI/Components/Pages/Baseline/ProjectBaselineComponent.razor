@@ -96,6 +96,9 @@ else
 									   Variant="@Variant.Filled" Color="@Color.Success"
 									   OnClick="_ => openBaseline(context.Item.RecordId)"> Open </MudButton>
 							<MudButton Size="@Size.Large"
+									   Variant="@Variant.Filled" Color="@Color.Success"
+									   OnClick="_ => openBaselineTreeView(context.Item.RecordId)"> Open TreeView </MudButton>
+							<MudButton Size="@Size.Large"
 							   Variant="@Variant.Filled" Color="@Color.Error"
 							   OnClick="_ => deleteBaseline(context.Item.RecordId, context.Item.Name!)"> Delete </MudButton>
 					</MudStack>
@@ -230,6 +233,11 @@ else
 	public async Task openBaseline(Guid baselineId)
 	{
 		NavManager.NavigateTo($"/baseline/{baselineId}");
+	}
+
+	public async Task openBaselineTreeView(Guid baselineId)
+	{
+		NavManager.NavigateTo($"/baselinetreeview/{baselineId}");
 	}
 
 	public async Task deleteBaseline(Guid baselineId, string? baselineName = "")

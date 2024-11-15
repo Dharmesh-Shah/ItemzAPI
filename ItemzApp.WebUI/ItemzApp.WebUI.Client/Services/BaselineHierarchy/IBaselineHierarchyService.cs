@@ -12,5 +12,7 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 
 		public Task<bool> __Get_VerifyParentChild_BreakdownStructure__Async(Guid? parentId, Guid? childId);
 
-	}
+		public Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId);
+
+    }
 }

@@ -272,7 +272,127 @@ namespace ItemzApp.API.Services
             }
         }
 
-		public async Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name)
+
+
+
+
+        // TODO :: Baseline Itemz Hierarchy Record should include additional information which is related to Baseline Itemz only. 
+        // For example, "IsIncluded" is a property found in BaselineHierarchyRecord but not in HierarchyRecord. So we need to
+        // Make sure that we pass back those information as well.
+        public async Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId)
+        {
+            if (recordId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(recordId));
+            }
+
+            var foundBaselineHierarchyRecord = _context.BaselineItemzHierarchy!.AsNoTracking()
+                            .Where(bih => bih.Id == recordId);
+
+            if (foundBaselineHierarchyRecord.Count() != 1)
+            {
+                throw new ApplicationException($"Expected 1 Baseline Hierarchy record to be found " +
+                    $"but instead found {foundBaselineHierarchyRecord.Count()} records for ID {recordId}" +
+                    "Please contact your System Administrator.");
+            }
+
+            var foundBaselineHierarchyRecordLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. 
+            
+            var baselineAllHierarchyItemzs = await _context.BaselineItemzHierarchy!
+                    .AsNoTracking()
+                    .Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf(foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!))
+                    .OrderBy(bih => bih.BaselineItemzHierarchyId!)
+                    .ToListAsync();
+
+            List<NestedBaselineHierarchyIdRecordDetailsDTO> returningRecords = [];
+
+
+            for (var i = 0; i < baselineAllHierarchyItemzs.Count(); i++)
+            {
+                if (i == 0) continue; // Skip first record as it's for the supplied recordId
+                if (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() == (foundBaselineHierarchyRecordLevel + 1))
+                {
+                    returningRecords.Add(new NestedBaselineHierarchyIdRecordDetailsDTO
+                    {
+                        RecordId = baselineAllHierarchyItemzs[i].Id,
+                        BaselineHierarchyId = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString(),
+                        Level = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel(),
+                        RecordType = baselineAllHierarchyItemzs[i].RecordType,
+                        Name = baselineAllHierarchyItemzs[i].Name ?? "",
+                        Children = new List<NestedBaselineHierarchyIdRecordDetailsDTO>()
+                    });
+                }
+                else if (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() > (foundBaselineHierarchyRecordLevel + 1))
+                {
+
+
+                    // Find the last record at a specified level directly within returningRecords
+                    var targetLevel = (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() - 1);
+                    var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+
+                    if (lastRecordAtLevel != null)
+                    {
+                        lastRecordAtLevel.Children.Add(new NestedBaselineHierarchyIdRecordDetailsDTO
+                        {
+                            RecordId = baselineAllHierarchyItemzs[i].Id,
+                            BaselineHierarchyId = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString(),
+                            Level = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel(),
+                            RecordType = baselineAllHierarchyItemzs[i].RecordType,
+                            Name = baselineAllHierarchyItemzs[i].Name ?? "",
+                            Children = new List<NestedBaselineHierarchyIdRecordDetailsDTO>()
+                        });
+                    }
+                    else
+                    {
+                        throw new ApplicationException($"Parent record could not be found for  " +
+                                            $"RecordID {baselineAllHierarchyItemzs[i].Id} with " +
+                                            $"BaselineHierarchyID  {baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString()} and " +
+                                            $"Level as {baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel().ToString()} " +
+                                            "Please contact your System Administrator.");
+                    }
+                }
+            }
+            return returningRecords;
+        }
+
+
+        public static NestedBaselineHierarchyIdRecordDetailsDTO? FindLastRecordAtLevel(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, int targetLevel)
+        {
+            NestedBaselineHierarchyIdRecordDetailsDTO? lastRecord = null;
+
+            foreach (var record in records)
+            {
+                if (record.Level == targetLevel)
+                {
+                    if (lastRecord == null || string.Compare(record.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+                    {
+                        lastRecord = record;
+                    }
+                }
+
+                var childRecord = FindLastRecordAtLevel(record.Children, targetLevel);
+                if (childRecord != null)
+                {
+                    if (lastRecord == null || string.Compare(childRecord.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+                    {
+                        lastRecord = childRecord;
+                    }
+                }
+            }
+
+            return lastRecord;
+        }
+
+
+
+
+
+
+
+        public async Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name)
 		{
 			if (recordId == Guid.Empty)
 			{

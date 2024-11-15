@@ -137,7 +137,31 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 			return default;
 
 		}
-		#endregion
+        #endregion
 
-	}
+
+        #region __Get_All_Children_Baseline_Hierarchy_By_GUID__Async
+        public async Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId)
+        {
+            return await __Get_All_Children_Baseline_Hierarchy_By_GUID__Async(recordId, CancellationToken.None);
+        }
+
+        public async Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
+        {
+
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>>($"/api/BaselineHierarchy/GetAllChildren/{recordId}", cancellationToken);
+
+                return response!;
+            }
+            catch (Exception)
+            {
+
+            }
+            return default;
+
+        }
+        #endregion
+    }
 }
