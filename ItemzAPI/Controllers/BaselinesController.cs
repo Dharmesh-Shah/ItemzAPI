@@ -31,17 +31,21 @@ namespace ItemzApp.API.Controllers
     public class BaselinesController : ControllerBase
     {
         private readonly IBaselineRepository _baselineRepository;
-        private readonly IMapper _mapper;
+        private readonly IBaselineHierarchyRepository _baselineHierarchyRepository;
+		private readonly IMapper _mapper;
         private readonly ILogger<BaselinesController> _logger;
         private readonly IBaselineRules _baselineRules;
         public BaselinesController( IBaselineRepository baselineRepository,
+                                 IBaselineHierarchyRepository baselineHierarchyRepository,
                                  IMapper mapper,
                                  ILogger<BaselinesController> logger,
                                  IBaselineRules baselineRules
             )
         {
             _baselineRepository = baselineRepository ?? throw new ArgumentNullException(nameof(baselineRepository));
-            _mapper = mapper ??
+			_baselineHierarchyRepository = baselineHierarchyRepository ?? throw new ArgumentNullException(nameof(baselineHierarchyRepository));
+
+			_mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
    
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -350,7 +354,26 @@ namespace ItemzApp.API.Controllers
                     );
                 return Conflict($"Baseline with name '{baselineToBeUpdated.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'. DB Error reported, check the log file.");
             }
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",
+
+
+			// EXPLANATION :: as part of updating Baseline record, we are making sure that baseline name is updated in two places.
+			// First in the Baseline record itself and secondly within BaselineItemzHierarchy record as well. 
+
+			// TODO :: We should update Baseline and BaselineItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _baselineHierarchyRepository.UpdateBaselineHierarchyRecordNameByID(baselineFromRepo.Id, baselineFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Baseline name in BaselineItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of BaselineItemzHierarchy record for Baseline with ID {baselineFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 baselineId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -443,7 +466,25 @@ namespace ItemzApp.API.Controllers
                 return Conflict($"Baseline with name '{baselineToPatch.Name}' already exists in the project with Id '{baselineFromRepo.ProjectId}'. DB Error reported, check the log file.");
             }
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",
+
+			// EXPLANATION :: as part of updating Baseline record, we are making sure that baseline name is updated in two places.
+			// First in the Baseline record itself and secondly within BaselineItemzHierarchy record as well. 
+
+			// TODO :: We should update Baseline and BaselineItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _baselineHierarchyRepository.UpdateBaselineHierarchyRecordNameByID(baselineFromRepo.Id, baselineFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Baseline name in BaselineItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of BaselineItemzHierarchy record for Baseline with ID {baselineFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Baseline for ID {BaselineId} processed successfully",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext), 
                 baselineId);
             return NoContent();

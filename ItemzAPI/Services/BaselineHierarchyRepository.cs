@@ -271,5 +271,38 @@ namespace ItemzApp.API.Services
                 return false;
             }
         }
-    }
+
+		public async Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundHierarchyRecord = _context.BaselineItemzHierarchy!
+							.Where(bih => bih.Id == recordId);
+
+			if (foundHierarchyRecord.Count() != 1)
+			{
+				throw new ApplicationException($"Expected 1 Baseline Hierarchy record to be found " +
+					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
+					"Please contact your System Administrator.");
+			}
+
+			if (foundHierarchyRecord.FirstOrDefault()!.RecordType.ToLower() == "repository") // TODO :: Use Constants instead of Text
+			{
+				throw new ApplicationException($"Can not update name of the Repository Root Baseline Hierarchy Record with ID {recordId}");
+			}
+			if (foundHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel() == 0) // TODO :: Use Constants instead of Text
+			{
+				throw new ApplicationException($"Can not update name of the Repository Root Baseline Hierarchy Record with ID {recordId}");
+			}
+
+			foundHierarchyRecord.FirstOrDefault()!.Name = name; // TODO :: Remove special characters from name variable before saving it to DB. Security Reason.
+
+			return (await _context.SaveChangesAsync() >= 0);
+		}
+
+
+	}
 }
