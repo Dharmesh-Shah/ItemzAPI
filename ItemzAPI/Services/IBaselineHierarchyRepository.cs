@@ -18,7 +18,10 @@ namespace ItemzApp.API.Services
 
         public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId);
 
-        public Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name);
+        public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId);
+
+
+		public Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name);
 
 	}
 }
