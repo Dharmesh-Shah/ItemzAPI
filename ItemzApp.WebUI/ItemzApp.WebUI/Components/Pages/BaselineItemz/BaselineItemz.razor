@@ -36,11 +36,19 @@
 					<br />
 					<MudDivider Style="color : black"   />
 					<br />
-					<MudText><strong>ID           : </strong> @singleBaselineItemz.Id.ToString()</MudText>
-					<MudText><strong>Status       : </strong> @singleBaselineItemz.Status</MudText>
-					<MudText><strong>Priority     : </strong> @singleBaselineItemz.Priority</MudText>
-					<MudText><strong>Severity     : </strong> @singleBaselineItemz.Severity</MudText>
-					<MudText><strong>Created Date : </strong> @singleBaselineItemz.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
+
+					@if (_foundProjectRecord is not null && _foundBaselineRecord is not null)
+					{
+					<MudText><strong>Project ID           : </strong> @_foundProjectRecord.RecordId.ToString()</MudText>
+					<MudText><strong>Project Name         : </strong> @_foundProjectRecord.Name</MudText>
+					<MudText><strong>Baseline ID          : </strong> @_foundBaselineRecord.RecordId.ToString()</MudText>
+					<MudText><strong>Baseline Name        : </strong> @_foundBaselineRecord.Name</MudText>
+					}
+					<MudText><strong>ID                   : </strong> @singleBaselineItemz.Id.ToString()</MudText>
+					<MudText><strong>Status               : </strong> @singleBaselineItemz.Status</MudText>
+					<MudText><strong>Priority             : </strong> @singleBaselineItemz.Priority</MudText>
+					<MudText><strong>Severity             : </strong> @singleBaselineItemz.Severity</MudText>
+					<MudText><strong>Created Date         : </strong> @singleBaselineItemz.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
 					<MudGrid >
 						<MudItem xs="3">
 					<MudSwitch T="bool" 
@@ -137,8 +145,13 @@
 
 	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
 	private List<BaselineHierarchyIdRecordDetailsDTO> AllChildBaselineItemz { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
+	private List<NestedBaselineHierarchyIdRecordDetailsDTO> AllParentBaselineHierarchy { get; set; } = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
 	public bool initializingPage { get; set; } = true;
 	public bool anyChildBaselineItemzExcluded { get; set; } = false;
+
+	private NestedBaselineHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
+	private NestedBaselineHierarchyIdRecordDetailsDTO _foundBaselineRecord { get; set; }
+
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -149,7 +162,6 @@
 			//Thread.Sleep(300);
 			singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
 
-			//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
 			var returnedItemzList = await baselineHierarchyService.__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
 
 			if (returnedItemzList != null)
@@ -168,6 +180,28 @@
 			initializingPage = false;
 
 			StateHasChanged();
+
+			var returnedParentHierarchyList = await baselineHierarchyService.__Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
+
+			if (returnedParentHierarchyList != null)
+			{
+				AllParentBaselineHierarchy = returnedParentHierarchyList.ToList();
+			}
+
+			var matchingProjectRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Project", level: 1);
+
+			if (matchingProjectRecord != null)
+			{
+				_foundProjectRecord = matchingProjectRecord;
+			}
+
+			var matchingBaselineRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Baseline", level: 2);
+
+			if (matchingBaselineRecord != null)
+			{
+				_foundBaselineRecord = matchingBaselineRecord;
+			}
+
 			//StateHasChanged();
 		}
 	}
@@ -206,7 +240,8 @@
 
 		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 		// TODO :: Get Baseline ID from the server.
-		tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
+		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
 		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
 		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
 		tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
@@ -223,7 +258,8 @@
 	{
 		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 		// TODO :: Get Baseline ID from the server.
-		tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
 		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
 		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
 		tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
@@ -235,5 +271,27 @@
 		NavManager.NavigateTo($"/baselineitemz/{BaselineItemzId.ToString()}", true);
 		//		singleBaselineItemz.isIncluded = newValue; // Update the previous value on success
 	}
+
+	#region Finding_Record_In_Parent_Hierarchy_Nodes
+
+	public NestedBaselineHierarchyIdRecordDetailsDTO? FindRecordUsingLambda(List<NestedBaselineHierarchyIdRecordDetailsDTO> hierarchy, string recordType, int level)
+	{
+		return hierarchy
+			.SelectMany(parent => GetAllRecords(parent))
+			.FirstOrDefault(record => record.RecordType == recordType && record.Level == level);
+	}
+
+	private IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> GetAllRecords(NestedBaselineHierarchyIdRecordDetailsDTO parent)
+	{
+		yield return parent;
+		if (parent.Children != null)
+		{
+			foreach (var child in parent.Children.SelectMany(GetAllRecords))
+			{
+				yield return child;
+			}
+		}
+	}
+	#endregion
 
 }

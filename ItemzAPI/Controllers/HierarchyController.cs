@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ItemzApp.API.Controllers
 {
@@ -120,7 +121,7 @@ namespace ItemzApp.API.Controllers
 				return BadRequest(tempMessage);
 			}
 
-			if (immediateChildrenhierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
+			if (!(immediateChildrenhierarchyRecords.IsNullOrEmpty()))
 			{
 				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {hirarchyChildRecordCount} Immediate Children Hierarchy Records for ID {RecordId} ",
 					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -129,7 +130,10 @@ namespace ItemzApp.API.Controllers
 			}
             else
             {
-                return Ok();
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) Immediate Children Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId);
+				return Ok();
             }
 			return Ok(immediateChildrenhierarchyRecords);
 
@@ -170,7 +174,7 @@ namespace ItemzApp.API.Controllers
 				return BadRequest(tempMessage);
 			}
 
-			if (allChildrenhierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
+			if (!(allChildrenhierarchyRecords.IsNullOrEmpty()))
 			{
 				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {hirarchyChildRecordCount} All Children Hierarchy Records for ID {RecordId} ",
 					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -179,6 +183,9 @@ namespace ItemzApp.API.Controllers
 			}
 			else
 			{
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) All Children Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId);
 				return Ok();
 			}
 			return Ok(allChildrenhierarchyRecords);

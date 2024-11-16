@@ -14,5 +14,7 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 
 		public Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Children_Baseline_Hierarchy_By_GUID__Async(Guid recordId);
 
-    }
+		public Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(Guid recordId);
+
+	}
 }

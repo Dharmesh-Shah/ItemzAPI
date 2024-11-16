@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ItemzApp.API.Controllers
 {
@@ -128,21 +129,19 @@ namespace ItemzApp.API.Controllers
 				return BadRequest(tempMessage);
 			}
 
-			if (immediateChildrenBaselineHierarchyRecords.Count() == 0)
-            {
-				//return Ok();
+			if (!(immediateChildrenBaselineHierarchyRecords.IsNullOrEmpty()))
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					immediateChildrenBaselineHierarchyRecords.Count(),
+					RecordId);
+			}
+			else
+			{
 				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
 					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
 					RecordId);
 			}
-			else if (immediateChildrenBaselineHierarchyRecords.FirstOrDefault()!.RecordId != Guid.Empty)
-            {
-                _logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
-                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-                    immediateChildrenBaselineHierarchyRecords.Count(),
-                    RecordId);
-            }
-
 
             return Ok(immediateChildrenBaselineHierarchyRecords);
 
@@ -277,14 +276,22 @@ namespace ItemzApp.API.Controllers
                 return BadRequest(tempMessage);
             }
 
-			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
-				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-				allChildrenBaselineHierarchyRecords.Count(),
-				RecordId);
 
-			if (allChildrenBaselineHierarchyRecords.IsNullOrEmpty())
-			{
-				return Ok();
+            if (!(allChildrenBaselineHierarchyRecords.IsNullOrEmpty()))
+            {
+
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					allChildrenBaselineHierarchyRecords.Count(),
+					RecordId);
+			}
+            else 
+            {
+
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) All Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId); 
+                return Ok();
 			}
 
             return Ok(allChildrenBaselineHierarchyRecords);
@@ -341,8 +348,6 @@ namespace ItemzApp.API.Controllers
 			return Ok(allParentsBaselineHierarchyRecords);
 
 		}
-
-
 
 
 		// We have configured in startup class our own custom implementation of 
