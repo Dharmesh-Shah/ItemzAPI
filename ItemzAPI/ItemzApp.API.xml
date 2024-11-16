@@ -2275,12 +2275,12 @@
             Id of the Baseline represented by a GUID
             </summary>
         </member>
-        <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.ShouldBeIncluded">
+        <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.ShouldBeIncluded">
             <summary>
             True if action is to include BaselineItemzs otherwise False
             </summary>
         </member>
-        <member name="F:ItemzApp.API.Models.UpdateBaselineItemzDTO.SingleNodeInclusion">
+        <member name="P:ItemzApp.API.Models.UpdateBaselineItemzDTO.SingleNodeInclusion">
             <summary>
             True if action is to include only Single BaselineItemzs Node without its child breakdown structure nodes. This property will be ignored when ShouldBeIncluded is set to false.
             </summary>

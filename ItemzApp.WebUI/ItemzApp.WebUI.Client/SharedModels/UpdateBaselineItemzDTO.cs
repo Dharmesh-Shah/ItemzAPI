@@ -19,11 +19,11 @@ namespace ItemzApp.WebUI.Client.SharedModels
         /// <summary>
         /// True if action is to include BaselineItemzs otherwise False
         /// </summary>
-        public bool ShouldBeIncluded;
+        public bool ShouldBeIncluded { get; set; }
         /// <summary>
         /// True if action is to include only Single BaselineItemzs Node without its child breakdown structure nodes. This property will be ignored when ShouldBeIncluded is set to false.
         /// </summary>
-        public bool SingleNodeInclusion = false;
+        public bool SingleNodeInclusion { get; set; } = false;
         /// <summary>
         /// Id of the BaselineItemz represented by a GUID.
         /// </summary>

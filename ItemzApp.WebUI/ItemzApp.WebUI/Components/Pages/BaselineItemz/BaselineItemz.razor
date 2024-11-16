@@ -24,7 +24,7 @@
 	else
 	{
  		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4">
+			<MudPaper Class="pa-4" >
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
 					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
@@ -41,7 +41,41 @@
 					<MudText><strong>Priority     : </strong> @singleBaselineItemz.Priority</MudText>
 					<MudText><strong>Severity     : </strong> @singleBaselineItemz.Severity</MudText>
 					<MudText><strong>Created Date : </strong> @singleBaselineItemz.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
-					<MudText><strong>Is Included? : </strong> @(singleBaselineItemz.isIncluded ? "Yes" : "No") </MudText>
+					<MudGrid >
+						<MudItem xs="3">
+					<MudSwitch T="bool" 
+						Value="@singleBaselineItemz.isIncluded"
+						ValueChanged="OnSingleBaselineItemzInclusionChanged"
+						Label="Is Included?"
+						Size="Size.Large"
+					    LabelPosition="LabelPosition.End"
+					    Color="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+						ThumbIconColor="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+						UncheckedColor = "Color.Error"
+						 />
+						 </MudItem>
+
+@* 						@if (singleBaselineItemz.isIncluded && AllChildBaselineItemz.Count() > 0 && anyChildBaselineItemzExcluded == true) *@
+						@if (anyChildBaselineItemzExcluded == true)
+						{
+							<MudItem xs="6">
+							<MudButton OnClick="async _ => await OnAllChildBaselineItemzInclusionChanged(true)" 
+								Variant="Variant.Filled" 
+								Size="Size.Medium" 
+								Color="Color.Success" style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
+							</MudItem>
+@* 							<MudSwitch T="bool" 
+							Value="false"
+							ValueChanged="OnAllChildBaselineItemzInclusionChanged"
+							Label="Include All Child Baseline Itemz?"
+							Size="Size.Large"
+							LabelPosition="LabelPosition.End" 
+							Color="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+							ThumbIconColor="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+							UncheckedColor="Color.Error"
+							/> *@
+						}
+					</MudGrid>
 					<MudText><strong>Description  : </strong> @singleBaselineItemz.Description</MudText>
 				</MudCardContent>
 			</MudCard>
@@ -104,6 +138,7 @@
 	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
 	private List<BaselineHierarchyIdRecordDetailsDTO> AllChildBaselineItemz { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
 	public bool initializingPage { get; set; } = true;
+	public bool anyChildBaselineItemzExcluded { get; set; } = false;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -120,6 +155,14 @@
 			if (returnedItemzList != null)
 			{
 				AllChildBaselineItemz = returnedItemzList.ToList();
+			}
+
+			foreach (var _childBaselineItemz in AllChildBaselineItemz)
+			{
+				if (_childBaselineItemz.IsIncluded == false)
+				{
+					anyChildBaselineItemzExcluded = true;
+				}
 			}
 
 			initializingPage = false;
@@ -157,4 +200,40 @@
 			NavManager.NavigateTo($"/baselineitemz/{httpResponse.ParentRecordId.ToString()}",true);
 		}
 	}
+
+	private async Task OnSingleBaselineItemzInclusionChanged(bool newValue)
+	{
+
+		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+		// TODO :: Get Baseline ID from the server.
+		tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+		tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
+		tempUpdateBaselineItemzDTO.SingleNodeInclusion = true;
+		// Send the new value to the server
+
+		// TODO :: EXCEPTION HANDLING.
+		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+		NavManager.NavigateTo($"/baselineitemz/{BaselineItemzId.ToString()}", true);
+//		singleBaselineItemz.isIncluded = newValue; // Update the previous value on success
+	}
+
+	private async Task OnAllChildBaselineItemzInclusionChanged(bool newValue)
+	{
+		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+		// TODO :: Get Baseline ID from the server.
+		tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+		tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
+		tempUpdateBaselineItemzDTO.SingleNodeInclusion = false;
+		// Send the new value to the server
+
+		// TODO :: EXCEPTION HANDLING.
+		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+		NavManager.NavigateTo($"/baselineitemz/{BaselineItemzId.ToString()}", true);
+		//		singleBaselineItemz.isIncluded = newValue; // Update the previous value on success
+	}
+
 }
