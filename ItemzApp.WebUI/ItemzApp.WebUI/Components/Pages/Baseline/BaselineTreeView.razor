@@ -78,8 +78,10 @@
     {
         public string RecordType { get; set; }
         public int? Level { get; set; }
+        public bool IsIncluded { get; set; }
 
-        public TreeItemPresenter(Guid value, string text, string icon, string recordType, int? level, bool expandable) : base(value)
+        public TreeItemPresenter(Guid value, string text, string icon
+            , string recordType, int? level, bool expandable, bool isIncluded ) : base(value)
         {
             Value = value;
             Text = text;
@@ -87,6 +89,7 @@
             RecordType = recordType;
             Level = level ?? 0 ;
             Expandable = expandable;
+            IsIncluded = isIncluded;
             Children = new List<TreeItemData<Guid>>();
         }
     }
@@ -105,6 +108,7 @@
                     , recordType: child.RecordType
                     , level: child.Level
                     , expandable: (child.Children.Count() > 0 ? true : false)
+                    , isIncluded: child.isIncluded
                 );
 
             if (child.Children.Count() > 0)
@@ -127,15 +131,16 @@
             throw new ApplicationException($"No Baseline record found for GUID {BaselineId}");
         }
 
-       var tempTreeView = new TreeItemPresenter
-            (
-                value: singleBaseline.RecordId
-                , text: ("DADADADA " + singleBaseline.Name)
-                , icon: @Icons.Material.Filled.LocalFlorist
-                , recordType: singleBaseline.RecordType
-                , level: singleBaseline.Level
-                , expandable: true
-            );
+        var tempTreeView = new TreeItemPresenter
+             (
+                 value: singleBaseline.RecordId
+                 , text: singleBaseline.Name
+                 , icon: @Icons.Material.Filled.LocalFlorist
+                 , recordType: singleBaseline.RecordType
+                 , level: singleBaseline.Level
+                 , expandable: true
+                 , isIncluded: singleBaseline.IsIncluded
+             );
 
         List<TreeItemData<Guid>> _children = new();
 
@@ -155,6 +160,7 @@
                 , recordType: _baselineItemzType.RecordType
                 , level: _baselineItemzType.Level
                 , expandable: true
+                , isIncluded: _baselineItemzType.IsIncluded
                 ));
 
             }
@@ -195,8 +201,9 @@
                 , recordType: singleBaseline.RecordType
                 , level: singleBaseline.Level
                 , expandable: true
+                , isIncluded: singleBaseline.IsIncluded
             );
- 
+
         _baselineHierarchyTreeNodes.Add(_tempTreeViewBaselineNode);
 
         var allHierarchyDataFromAPI = await BaselineHierarchyService.__Get_All_Children_Baseline_Hierarchy_By_GUID__Async(BaselineId);
@@ -215,8 +222,9 @@
                         , recordType: singleHierarchyDataFromAPI.RecordType
                         , level: singleHierarchyDataFromAPI.Level
                         , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
+                        , isIncluded: singleHierarchyDataFromAPI.isIncluded
                     );
-                
+
                 if (singleHierarchyDataFromAPI.Children.Count() > 0)
                 {
                     AddChildrens(childTempTreeViewNode, singleHierarchyDataFromAPI.Children);
@@ -229,19 +237,25 @@
         }
         return _baselineHierarchyTreeNodes;
     }
-    protected async override void OnInitialized()
-    {
-        // Load initial data
-        InitialTreeItems = await LoadInitialData(BaselineId);
-        StateHasChanged();
+    // protected async override void OnInitialized()
+    // {
+    //     // Load initial data
+    //     InitialTreeItems = await LoadInitialData(BaselineId);
+    //     StateHasChanged();
 
-    }
+    // }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+
             // Load initial data
+            InitialTreeItems = await LoadInitialData(BaselineId);
+            StateHasChanged();
+
+            Thread.Sleep(900);
+            // Load Entire Baseline Hierarchy data
             InitialTreeItems = await LoadAllBaselineHierarchyData(BaselineId);
 
             showLoadingMessage = false; 

@@ -1648,6 +1648,11 @@
             Parent Name of the Baseline Hierarchy Record
             </summary>
         </member>
+        <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.ParentIsIncluded">
+            <summary>
+            Is Parent Baseline Hierarchy Record Included or Excluded?
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineItemzTraceDTO.FromTraceBaselineItemzId">
             <summary>
             Id of the From Trace Baseline Itemz representated by a GUID.
@@ -2198,27 +2203,32 @@
         </member>
         <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
-            Record ID representated by a GUID.
+            Baseline Hierarchy Record ID representated by a GUID.
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.BaselineHierarchyId">
             <summary>
-            Hierarchy ID in string format for RecordId e.g. "/3/2/1"
+            Baseline Hierarchy ID in string format for RecordId e.g. "/3/2/1"
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.Level">
             <summary>
-            Hierarchy Level for RecordId
+            Baseline Hierarchy Level for RecordId
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.RecordType">
             <summary>
-            Record Type within Hierarchy for RecordId
+            Record Type within Baseline Hierarchy for RecordId
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.Name">
             <summary>
-            Name of the Hierarchy Record
+            Name of the Baseline Hierarchy Record
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.NestedBaselineHierarchyIdRecordDetailsDTO.isIncluded">
+            <summary>
+            Indicates if Baseline Hierarchy record is included or excluded
             </summary>
         </member>
         <member name="P:ItemzApp.API.Models.NestedHierarchyIdRecordDetailsDTO.RecordId">

@@ -99,6 +99,7 @@ namespace ItemzApp.API.Services
 				baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.ToString();
 				baselineHierarchyIdRecordDetails.ParentLevel = parentBaselineHierarchyRecord.BaselineItemzHierarchyId!.GetLevel();
                 baselineHierarchyIdRecordDetails.ParentName = parentBaselineHierarchyRecord.Name ?? "";
+                baselineHierarchyIdRecordDetails.ParentIsIncluded = parentBaselineHierarchyRecord.isIncluded;
 			}
 			return baselineHierarchyIdRecordDetails;
         }
@@ -180,6 +181,7 @@ namespace ItemzApp.API.Services
 						baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.ToString();
 						baselineHierarchyIdRecordDetails.ParentLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
 						baselineHierarchyIdRecordDetails.ParentName = foundBaselineHierarchyRecord.FirstOrDefault()!.Name ?? "";
+                        baselineHierarchyIdRecordDetails.ParentIsIncluded = foundBaselineHierarchyRecord.FirstOrDefault()!.isIncluded;
 					}
 					else
 					{
@@ -218,6 +220,7 @@ namespace ItemzApp.API.Services
 						baselineHierarchyIdRecordDetails.ParentBaselineHierarchyId = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.ToString();
 						baselineHierarchyIdRecordDetails.ParentLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
 						baselineHierarchyIdRecordDetails.ParentName = foundBaselineHierarchyRecord.FirstOrDefault()!.Name ?? "";
+                        baselineHierarchyIdRecordDetails.ParentIsIncluded = foundBaselineHierarchyRecord.FirstOrDefault()!.isIncluded;
 					}
 
 				}
@@ -273,9 +276,6 @@ namespace ItemzApp.API.Services
         }
 
 
-
-
-
         // TODO :: Baseline Itemz Hierarchy Record should include additional information which is related to Baseline Itemz only. 
         // For example, "IsIncluded" is a property found in BaselineHierarchyRecord but not in HierarchyRecord. So we need to
         // Make sure that we pass back those information as well.
@@ -309,7 +309,6 @@ namespace ItemzApp.API.Services
 
             List<NestedBaselineHierarchyIdRecordDetailsDTO> returningRecords = [];
 
-
             for (var i = 0; i < baselineAllHierarchyItemzs.Count(); i++)
             {
                 if (i == 0) continue; // Skip first record as it's for the supplied recordId
@@ -322,6 +321,7 @@ namespace ItemzApp.API.Services
                         Level = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel(),
                         RecordType = baselineAllHierarchyItemzs[i].RecordType,
                         Name = baselineAllHierarchyItemzs[i].Name ?? "",
+                        isIncluded = baselineAllHierarchyItemzs[i].isIncluded,
                         Children = new List<NestedBaselineHierarchyIdRecordDetailsDTO>()
                     });
                 }
@@ -342,6 +342,7 @@ namespace ItemzApp.API.Services
                             Level = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel(),
                             RecordType = baselineAllHierarchyItemzs[i].RecordType,
                             Name = baselineAllHierarchyItemzs[i].Name ?? "",
+                            isIncluded = baselineAllHierarchyItemzs[i].isIncluded,
                             Children = new List<NestedBaselineHierarchyIdRecordDetailsDTO>()
                         });
                     }
@@ -357,7 +358,6 @@ namespace ItemzApp.API.Services
             }
             return returningRecords;
         }
-
 
         public static NestedBaselineHierarchyIdRecordDetailsDTO? FindLastRecordAtLevel(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, int targetLevel)
         {
@@ -385,11 +385,6 @@ namespace ItemzApp.API.Services
 
             return lastRecord;
         }
-
-
-
-
-
 
 
         public async Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name)

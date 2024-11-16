@@ -169,15 +169,15 @@
             throw new ApplicationException($"No project record found for GUID {ProjectId}");
         }
 
-       var tempTreeView = new TreeItemPresenter
-            (
-                value: singleProject.RecordId
-                , text: ("DADADADA " + singleProject.Name)
-                , icon: @Icons.Material.Filled.LocalFlorist
-                , recordType: singleProject.RecordType
-                , level: singleProject.Level
-                , expandable: true
-            );
+        var tempTreeView = new TreeItemPresenter
+             (
+                 value: singleProject.RecordId
+                 , text: singleProject.Name
+                 , icon: @Icons.Material.Filled.LocalFlorist
+                 , recordType: singleProject.RecordType
+                 , level: singleProject.Level
+                 , expandable: true
+             );
 
         //tempTreeView.Children = new();
 
@@ -267,7 +267,7 @@
                 , level: singleProject.Level
                 , expandable: true
             );
- 
+
         // var _tempTreeViewProjectNode = new TreeItemData<Guid>
         //     {
         //         Value = singleProject.RecordId
@@ -300,7 +300,7 @@
                         , level: singleHierarchyDataFromAPI.Level
                         , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
                     );
-                
+
                 // TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>{
                 //         Value= singleHierarchyDataFromAPI.RecordId
                 //         , Text= singleHierarchyDataFromAPI.Name
@@ -324,20 +324,27 @@
         return _projectHierarchyTreeNodes;
         // InitialTreeItems.Add(tempTreeView);
     }
-    protected async override void OnInitialized()
-    {
-        // Load initial data
-        InitialTreeItems = await LoadInitialData(ProjectId);
-        StateHasChanged();
+    // protected async override void OnInitialized()
+    // {
+    //     // Load initial data
+    //     InitialTreeItems = await LoadInitialData(ProjectId);
+    //     StateHasChanged();
 
-    }
+    // }
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+
             // Load initial data
+            InitialTreeItems = await LoadInitialData(ProjectId);
+            StateHasChanged();
+
+
+            Thread.Sleep(900);
+            // Load Entire Hierarchy data
 
             InitialTreeItems = await LoadAllProjectHierarchyData(ProjectId);
 

@@ -81,5 +81,10 @@ namespace ItemzApp.API.Models
 		/// Parent Name of the Baseline Hierarchy Record
 		/// </summary>
 		public string? ParentName { get; set; }
+
+        /// <summary>
+        /// Is Parent Baseline Hierarchy Record Included or Excluded?
+        /// </summary>
+        public bool ParentIsIncluded { get; set; }
 	}
 }
