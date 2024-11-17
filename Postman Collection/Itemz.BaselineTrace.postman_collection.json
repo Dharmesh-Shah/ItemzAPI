@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4b3c45e6-39b1-4f2b-ad1a-876262bf793f",
+		"_postman_id": "def80c23-5fdd-42fd-943e-f70a213ae8b9",
 		"name": "Itemz.BaselineTrace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33816436"
@@ -22995,6 +22995,57 @@
 			"name": "BaselineTraceScenario05",
 			"item": [
 				{
+					"name": "GET Total Bsaeline Itemz Count by Repository",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test('Status code is 200', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.collectionVariables.set(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\", parseInt(pm.response.text()));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:51087/api/Baselines/GetTotalBaselineItemzCount",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "51087",
+							"path": [
+								"api",
+								"Baselines",
+								"GetTotalBaselineItemzCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST Project",
 					"event": [
 						{
@@ -25590,9 +25641,8 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 12\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12)\r",
-									"})\r",
-									""
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12)\r",
+									"})"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -25828,7 +25878,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 24\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12)\r",
 									"})\r",
 									""
 								],
@@ -26013,7 +26063,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 36\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12)\r",
 									"})\r",
 									""
 								],
@@ -26199,7 +26249,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 48\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12)\r",
 									"})\r",
 									""
 								],
@@ -26385,7 +26435,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 60\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12)\r",
 									"})\r",
 									""
 								],
@@ -26570,7 +26620,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 65\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5)\r",
 									"})\r",
 									""
 								],
@@ -26755,7 +26805,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 70\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5 + 5)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5 + 5)\r",
 									"})\r",
 									""
 								],
@@ -26940,7 +26990,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 72\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -27126,7 +27176,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 77\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5)\r",
 									"})\r",
 									""
 								],
@@ -27312,7 +27362,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 82\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5)\r",
 									"})\r",
 									""
 								],
@@ -27498,7 +27548,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 84\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -28231,7 +28281,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 62\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -28907,7 +28957,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 60\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -29632,7 +29682,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 48\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 5 + 5 + 2 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -30301,7 +30351,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 43\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(12 + 12 + 5 + 2 + 5 + 5 + 2)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 12 + 12 + 5 + 2 + 5 + 5 + 2)\r",
 									"})\r",
 									""
 								],
@@ -31289,7 +31339,7 @@
 									"\r",
 									"\r",
 									"pm.test(\"Verify Baseline Itemz Trace Count is 0\", () => {\r",
-									"    pm.expect(parseInt(pm.response.text())).to.eql(0)\r",
+									"    pm.expect(parseInt(pm.response.text())).to.eql(pm.variables.get(\"BaselineTraceScenario05_InitialBaselineItemzTraceCount\") + 0)\r",
 									"})\r",
 									""
 								],
@@ -43262,6 +43312,10 @@
 		},
 		{
 			"key": "BaselineTraceScenario09_1stItemzTypeId",
+			"value": ""
+		},
+		{
+			"key": "BaselineTraceScenario05_InitialBaselineItemzTraceCount",
 			"value": ""
 		}
 	]
