@@ -13,6 +13,7 @@ using System.Linq.Dynamic.Core;
 using ItemzApp.API.Models;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Services
 {
@@ -218,9 +219,105 @@ namespace ItemzApp.API.Services
 		}
 
 
+		public async Task<RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>> GetAllParentsOfItemzHierarchy(Guid recordId)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+							.Where(ih => ih.Id == recordId);
+
+			if (foundHierarchyRecord.Count() != 1)
+			{
+				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +
+					"Please contact your System Administrator.");
+			}
+
+			var foundHierarchyRecordLevel = foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.GetLevel();
+			int rootRepositoryLevel = 0;
+
+			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+			// methods to query for all Decendents as per below. 
+
+			RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>();
+
+			var allHierarchyItemzs = await _context.ItemzHierarchy!
+					.AsNoTracking()
+					.Where(ih => foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!.IsDescendantOf(ih.ItemzHierarchyId!))
+					.OrderBy(ih => ih.ItemzHierarchyId!)
+					.ToListAsync();
+
+			List<NestedHierarchyIdRecordDetailsDTO> returningRecords = [];
 
 
-		public async Task<IEnumerable<NestedHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfItemzHierarchy(Guid recordId)
+			if (allHierarchyItemzs.Count() > 2) // We check more then 2 because 1st record is repository and last record is for recordId itself.
+			{
+				recordCountAndEnumerable.RecordCount = (allHierarchyItemzs.Count() - 2);
+			}
+			else
+			{
+				recordCountAndEnumerable.RecordCount = 0;
+				recordCountAndEnumerable.AllRecords = new List<NestedHierarchyIdRecordDetailsDTO>();
+			}
+
+			for (var i = 0; i < allHierarchyItemzs.Count(); i++)
+			{
+				if (i == rootRepositoryLevel) continue; // Skip first record as it's for the repository record
+				if (i == (allHierarchyItemzs.Count() - 1)) continue; // Skip last record as it's for the supplied recordId
+
+				if (allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() == (rootRepositoryLevel + 1))
+				{
+					returningRecords.Add(new NestedHierarchyIdRecordDetailsDTO
+					{
+						RecordId = allHierarchyItemzs[i].Id,
+						HierarchyId = allHierarchyItemzs[i].ItemzHierarchyId!.ToString(),
+						Level = allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel(),
+						RecordType = allHierarchyItemzs[i].RecordType,
+						Name = allHierarchyItemzs[i].Name ?? "",
+						Children = new List<NestedHierarchyIdRecordDetailsDTO>()
+					});
+				}
+				else if (allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() > (rootRepositoryLevel + 1))
+				{
+					// Find the last record at a specified level directly within returningRecords
+					var targetLevel = (allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel() - 1);
+					var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+
+					if (lastRecordAtLevel != null)
+					{
+						// Add a child to the last record at the specified level
+						lastRecordAtLevel.Children.Add(new NestedHierarchyIdRecordDetailsDTO
+						{
+							RecordId = allHierarchyItemzs[i].Id,
+							HierarchyId = allHierarchyItemzs[i].ItemzHierarchyId!.ToString(),
+							Level = allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel(),
+							RecordType = allHierarchyItemzs[i].RecordType,
+							Name = allHierarchyItemzs[i].Name ?? "",
+							Children = new List<NestedHierarchyIdRecordDetailsDTO>()
+						});
+					}
+					else
+					{
+						throw new ApplicationException($"Parent record could not be found for  " +
+											$"RecordID {allHierarchyItemzs[i].Id} with " +
+											$"HierarchyID  {allHierarchyItemzs[i].ItemzHierarchyId!.ToString()} and " +
+											$"Level as {allHierarchyItemzs[i].ItemzHierarchyId!.GetLevel().ToString()} " +
+											"Please contact your System Administrator.");
+					}
+				}
+			}
+
+			recordCountAndEnumerable.AllRecords = returningRecords;
+			return recordCountAndEnumerable;
+		}
+
+
+
+
+		public async Task<RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>> GetAllChildrenOfItemzHierarchy(Guid recordId)
 		{
 			if (recordId == Guid.Empty)
 			{
@@ -245,6 +342,8 @@ namespace ItemzApp.API.Services
 			// The 1st Level data of the record itself is ignored and then 2nd level data is the actual child records.
 			// While third level data are used for calculating number of children for child records.
 
+			RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>();
+
 			var itemzTypeHierarchyItemzs = await _context.ItemzHierarchy!
 					.AsNoTracking()
 					.Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!))
@@ -257,7 +356,15 @@ namespace ItemzApp.API.Services
 			//bool hasParent = false;
 			//int previousRecordHierarchyLevel = 0;
 
-
+			if (itemzTypeHierarchyItemzs.Count() > 1) // We check for 1 as 1st record returned is the same as recordId which we skip out.
+			{
+				recordCountAndEnumerable.RecordCount = (itemzTypeHierarchyItemzs.Count() - 1);
+			}
+			else
+			{
+				recordCountAndEnumerable.RecordCount = 0;
+				recordCountAndEnumerable.AllRecords = new List<NestedHierarchyIdRecordDetailsDTO>();
+			}
 
 
 			for (var i = 0; i < itemzTypeHierarchyItemzs.Count(); i++)
@@ -329,8 +436,8 @@ namespace ItemzApp.API.Services
 				}
 			}
 
-
-			return returningRecords;
+			recordCountAndEnumerable.AllRecords = returningRecords;
+			return recordCountAndEnumerable;
 		}
 
 

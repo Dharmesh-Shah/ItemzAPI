@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ItemzApp.API.Entities;
 using ItemzApp.API.Models;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Services
 {
@@ -16,10 +17,13 @@ namespace ItemzApp.API.Services
 
         public Task<IEnumerable<BaselineHierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfBaselineItemzHierarchy(Guid recordId);
 
-        public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId);
+        public Task<RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId);
 
-        public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId);
+        // public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId);
 
+        //public Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId);
+
+        public Task<RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId);
 
 		public Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name);
 

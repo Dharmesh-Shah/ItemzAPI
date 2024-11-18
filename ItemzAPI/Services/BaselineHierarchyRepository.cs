@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Linq.Dynamic.Core;
 using ItemzApp.API.Models;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Services
 {
@@ -276,12 +277,7 @@ namespace ItemzApp.API.Services
         }
 
 
-
-
-
-
-
-		public async Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId)
+		public async Task<RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>> GetAllParentsOfBaselineItemzHierarchy(Guid recordId)
 		{
 			if (recordId == Guid.Empty)
 			{
@@ -303,6 +299,8 @@ namespace ItemzApp.API.Services
 			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
 			// methods to query for all Decendents as per below. 
 
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
+
 			var baselineAllHierarchyItemzs = await _context.BaselineItemzHierarchy!
 					.AsNoTracking()
 					.Where(bih => foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.IsDescendantOf(bih.BaselineItemzHierarchyId!))
@@ -310,6 +308,16 @@ namespace ItemzApp.API.Services
 					.ToListAsync();
 
 			List<NestedBaselineHierarchyIdRecordDetailsDTO> returningRecords = [];
+
+			if (baselineAllHierarchyItemzs.Count() > 2) // We check more then 2 because 1st record is repository and last record is for recordId itself.
+			{
+				recordCountAndEnumerable.RecordCount = (baselineAllHierarchyItemzs.Count() - 2); // We are skipping repository and recordId records and so we reduce by 2 here.
+			}
+			else
+			{
+				recordCountAndEnumerable.RecordCount = 0;
+				recordCountAndEnumerable.AllRecords = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
+			}
 
 			for (var i = 0; i < baselineAllHierarchyItemzs.Count(); i++)
 			{
@@ -359,7 +367,8 @@ namespace ItemzApp.API.Services
 					}
 				}
 			}
-			return returningRecords;
+			recordCountAndEnumerable.AllRecords = returningRecords;
+			return recordCountAndEnumerable;
 		}
 
 
@@ -375,7 +384,7 @@ namespace ItemzApp.API.Services
 		// TODO :: Baseline Itemz Hierarchy Record should include additional information which is related to Baseline Itemz only. 
 		// For example, "IsIncluded" is a property found in BaselineHierarchyRecord but not in HierarchyRecord. So we need to
 		// Make sure that we pass back those information as well.
-		public async Task<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId)
+		public async Task<RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>> GetAllChildrenOfBaselineItemzHierarchy(Guid recordId)
         {
             if (recordId == Guid.Empty)
             {
@@ -394,10 +403,12 @@ namespace ItemzApp.API.Services
 
             var foundBaselineHierarchyRecordLevel = foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!.GetLevel();
 
-            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
-            // methods to query for all Decendents as per below. 
-            
-            var baselineAllHierarchyItemzs = await _context.BaselineItemzHierarchy!
+			// EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+			// methods to query for all Decendents as per below. 
+
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
+
+			var baselineAllHierarchyItemzs = await _context.BaselineItemzHierarchy!
                     .AsNoTracking()
                     .Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf(foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!))
                     .OrderBy(bih => bih.BaselineItemzHierarchyId!)
@@ -405,7 +416,17 @@ namespace ItemzApp.API.Services
 
             List<NestedBaselineHierarchyIdRecordDetailsDTO> returningRecords = [];
 
-            for (var i = 0; i < baselineAllHierarchyItemzs.Count(); i++)
+			if (baselineAllHierarchyItemzs.Count() > 1) // We check for 1 as 1st record returned is the same as recordId which we skip out.
+			{
+				recordCountAndEnumerable.RecordCount = (baselineAllHierarchyItemzs.Count() - 1);
+			}
+			else
+			{
+				recordCountAndEnumerable.RecordCount = 0;
+				recordCountAndEnumerable.AllRecords = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
+			}
+
+			for (var i = 0; i < baselineAllHierarchyItemzs.Count(); i++)
             {
                 if (i == 0) continue; // Skip first record as it's for the supplied recordId
                 if (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() == (foundBaselineHierarchyRecordLevel + 1))
@@ -452,7 +473,9 @@ namespace ItemzApp.API.Services
                     }
                 }
             }
-            return returningRecords;
+
+			recordCountAndEnumerable.AllRecords = returningRecords;
+			return recordCountAndEnumerable;
         }
 
         public static NestedBaselineHierarchyIdRecordDetailsDTO? FindLastRecordAtLevel(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, int targetLevel)

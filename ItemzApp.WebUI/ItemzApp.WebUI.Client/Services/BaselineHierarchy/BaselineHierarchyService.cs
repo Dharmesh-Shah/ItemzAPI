@@ -169,10 +169,10 @@ namespace ItemzApp.WebUI.Client.Services.BaselineHierarchy
 		#region __Get_All_Parents_Baseline_Hierarchy_By_GUID__
 		public async Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(Guid recordId)
 		{
-			return await __Get_All_Parents_Baseline_Hierarchy_By_GUID__(recordId, CancellationToken.None);
+			return await __Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(recordId, CancellationToken.None);
 		}
 
-		public async Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Parents_Baseline_Hierarchy_By_GUID__(Guid recordId, CancellationToken cancellationToken)
+		public async Task<ICollection<NestedBaselineHierarchyIdRecordDetailsDTO>> __Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
 		{
 
 			try

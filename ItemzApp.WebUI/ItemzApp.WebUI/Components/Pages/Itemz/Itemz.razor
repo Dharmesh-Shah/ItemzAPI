@@ -90,7 +90,13 @@
 
 	public GetItemzDTO singleItemz { get; set; } = new();
 	private List<HierarchyIdRecordDetailsDTO> AllChildItemz { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
+	private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
+
 	public bool initializingPage { get; set; } = true;
+	private NestedHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
+	private NestedHierarchyIdRecordDetailsDTO _foundItemzTypeRecord { get; set; }
+
+
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -110,6 +116,28 @@
 			}
 
 			initializingPage = false;
+
+			var returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(ItemzId);
+
+			if (returnedParentHierarchyList != null)
+			{
+				AllParentHierarchy = returnedParentHierarchyList.ToList();
+			}
+
+
+			var matchingProjectRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "Project", level: 1);
+
+			if (matchingProjectRecord != null)
+			{
+				_foundProjectRecord = matchingProjectRecord;
+			}
+
+			var matchingItemzTypeRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "ItemzType", level: 2);
+
+			if (matchingItemzTypeRecord != null)
+			{
+				_foundItemzTypeRecord = matchingItemzTypeRecord;
+			}
 
 			StateHasChanged();
 			//StateHasChanged();
@@ -150,4 +178,26 @@
 			NavManager.NavigateTo($"/itemz/{httpResponse.ParentRecordId.ToString()}",true);
 		}
 	}
+
+	#region Finding_Record_In_Parent_Hierarchy_Nodes
+
+	public NestedHierarchyIdRecordDetailsDTO? FindRecordUsingLambda(List<NestedHierarchyIdRecordDetailsDTO> hierarchy, string recordType, int level)
+	{
+		return hierarchy
+			.SelectMany(parent => GetAllRecords(parent))
+			.FirstOrDefault(record => record.RecordType == recordType && record.Level == level);
+	}
+
+	private IEnumerable<NestedHierarchyIdRecordDetailsDTO> GetAllRecords(NestedHierarchyIdRecordDetailsDTO parent)
+	{
+		yield return parent;
+		if (parent.Children != null)
+		{
+			foreach (var child in parent.Children.SelectMany(GetAllRecords))
+			{
+				yield return child;
+			}
+		}
+	}
+	#endregion
 }

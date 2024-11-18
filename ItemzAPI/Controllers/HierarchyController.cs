@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.IdentityModel.Tokens;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Controllers
 {
@@ -139,6 +140,70 @@ namespace ItemzApp.API.Controllers
 
 		}
 
+
+		/// <summary>
+		/// Gets Hierarchy Records of all parents above Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+		/// <returns>Collection of All Parents Hierarchy record details </returns>
+		/// <response code="200">All Parents Hierarchy record details </response>
+		/// <response code="400">Bad Request</response>
+		/// <response code="404">All Parents Hierarchy record(s) not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NestedHierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetAllParents/{RecordId:Guid}"
+			, Name = "__Get_All_Parents_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/Hierarchy/GetAllParents/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetAllParents/{RecordId:Guid}", Name = "__HEAD_All_Parents_Hierarchy_By_GUID__")]
+		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<IEnumerable<NestedHierarchyIdRecordDetailsDTO>>> GetAllParentsOfItemzHierarchy(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Parents Hierarchy records for ID {ParentRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
+			RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>();
+
+			IEnumerable<NestedHierarchyIdRecordDetailsDTO?> allParentshierarchyRecords = [];
+			try
+			{
+				recordCountAndEnumerable = await _hierarchyRepository.GetAllParentsOfItemzHierarchy(RecordId);
+				if (recordCountAndEnumerable.AllRecords.Any())
+				{
+					allParentshierarchyRecords = recordCountAndEnumerable.AllRecords;
+				}
+				else
+				{
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Parents Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					recordCountAndEnumerable.RecordCount,
+					RecordId);
+					return Ok();
+				}
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Parents Hierarchy records : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce All Parents hierarchy records for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {CountOfAllParentHierarchyRecords} All Parents Hierarchy Records for ID {RecordId} ",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
+
+			return Ok(allParentshierarchyRecords);
+		}
+
+
+		public static int CountRecordsInNestedList(List<NestedHierarchyIdRecordDetailsDTO> itemzList)
+		{
+			return itemzList.Sum(item => 1 + CountRecordsInNestedList(item.Children ?? new List<NestedHierarchyIdRecordDetailsDTO>()));
+		}
+
+
 		/// <summary>
 		/// Gets Hierarchy Records of all children under Record Id provided in GUID form.
 		/// </summary>
@@ -159,10 +224,24 @@ namespace ItemzApp.API.Controllers
 				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
 				RecordId);
 
+			RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedHierarchyIdRecordDetailsDTO>();
+
 			IEnumerable<NestedHierarchyIdRecordDetailsDTO?> allChildrenhierarchyRecords = [];
 			try
 			{
-				allChildrenhierarchyRecords = await _hierarchyRepository.GetAllChildrenOfItemzHierarchy(RecordId);
+				recordCountAndEnumerable = await _hierarchyRepository.GetAllChildrenOfItemzHierarchy(RecordId);
+				if (recordCountAndEnumerable.AllRecords.Any())
+				{
+					allChildrenhierarchyRecords = recordCountAndEnumerable.AllRecords;	
+				}
+				else
+				{
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Children Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					recordCountAndEnumerable.RecordCount,
+					RecordId);
+					return Ok();
+				}
 			}
 			catch (ApplicationException appException)
 			{
@@ -174,20 +253,12 @@ namespace ItemzApp.API.Controllers
 				return BadRequest(tempMessage);
 			}
 
-			if (!(allChildrenhierarchyRecords.IsNullOrEmpty()))
-			{
-				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {hirarchyChildRecordCount} All Children Hierarchy Records for ID {RecordId} ",
-					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-					allChildrenhierarchyRecords.Count(),
-					RecordId);
-			}
-			else
-			{
-				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) All Children Hierarchy Records for ID {RecordId} ",
-					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-					RecordId);
-				return Ok();
-			}
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {hirarchyChildRecordCount} All Children Hierarchy Records for ID {RecordId} ",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
+
+
 			return Ok(allChildrenhierarchyRecords);
 
 		}

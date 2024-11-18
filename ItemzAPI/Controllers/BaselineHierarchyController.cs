@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.CodeAnalysis;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Controllers
 {
@@ -261,11 +262,29 @@ namespace ItemzApp.API.Controllers
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                 RecordId);
 
-            IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allChildrenBaselineHierarchyRecords = [];
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
+
+			IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allChildrenBaselineHierarchyRecords = [];
             try
             {
-                allChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
-            }
+				recordCountAndEnumerable = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
+				// allChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
+
+                if (recordCountAndEnumerable.AllRecords.Any())
+                {
+                    allChildrenBaselineHierarchyRecords = recordCountAndEnumerable.AllRecords;
+				}
+                else
+                {
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Children Baseline Hierarchy Records for ID {RecordId} ",
+						ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+						recordCountAndEnumerable.RecordCount,
+						RecordId);
+    					return Ok();
+				}
+				
+
+			}
             catch (ApplicationException appException)
             {
                 _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Children Baseline Hierarchy records : " + appException.Message,
@@ -276,23 +295,10 @@ namespace ItemzApp.API.Controllers
                 return BadRequest(tempMessage);
             }
 
-
-            if (!(allChildrenBaselineHierarchyRecords.IsNullOrEmpty()))
-            {
-
-				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
-					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-					allChildrenBaselineHierarchyRecords.Count(),
-					RecordId);
-			}
-            else 
-            {
-
-				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) All Children Baseline Hierarchy Records for ID {RecordId} ",
-					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-					RecordId); 
-                return Ok();
-			}
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
 
             return Ok(allChildrenBaselineHierarchyRecords);
 
@@ -317,14 +323,33 @@ namespace ItemzApp.API.Controllers
 		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
 		public async Task<ActionResult<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>>> GetAllParentsOfBaselineItemzHierarchy(Guid RecordId)
 		{
-			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Parents Baseline Hierarchy records for ID {ChildRecordId}",
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Parents Baseline Hierarchy records for ID {ParentRecordId}",
 				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
 				RecordId);
+
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
 
 			IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allParentsBaselineHierarchyRecords = [];
 			try
 			{
-				allParentsBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllParentsOfBaselineItemzHierarchy(RecordId);
+
+				// allParentsBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllParentsOfBaselineItemzHierarchy(RecordId);
+				recordCountAndEnumerable = await _baselineHierarchyRepository.GetAllParentsOfBaselineItemzHierarchy(RecordId);
+
+
+				if (recordCountAndEnumerable.AllRecords.Any())
+				{
+					allParentsBaselineHierarchyRecords = recordCountAndEnumerable.AllRecords;
+				}
+				else
+				{
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Parents Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					recordCountAndEnumerable.RecordCount,
+					RecordId);
+					return Ok();
+				}
+
 			}
 			catch (ApplicationException appException)
 			{
@@ -336,15 +361,11 @@ namespace ItemzApp.API.Controllers
 				return BadRequest(tempMessage);
 			}
 
-			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyParentRecordCount} All Parents Baseline Hierarchy Records for ID {RecordId} ",
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {CountOfAllParentHierarchyRecords} All Parents Baseline Hierarchy Records for ID {RecordId} ",
 	            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
-	            allParentsBaselineHierarchyRecords.Count(),
-	            RecordId);
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
 
-			if (allParentsBaselineHierarchyRecords.IsNullOrEmpty() )
-            { 
-				return Ok();
-			}
 			return Ok(allParentsBaselineHierarchyRecords);
 
 		}
