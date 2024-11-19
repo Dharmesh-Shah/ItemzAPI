@@ -7,6 +7,22 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
+
+<MudBreadcrumbs Items="_localBreadcrumbs" MaxItems="5">
+	<SeparatorTemplate>
+		<MudIcon Icon="@Icons.Material.Filled.KeyboardDoubleArrowRight" Size="Size.Medium" />
+	</SeparatorTemplate>
+	<ItemTemplate Context="item">
+		<div style="display: flex; align-items: center;">
+			@* // TO SHOW MUDICON AND MUDLINK TOGETHER ON THE SAME LINE! *@
+			<MudIcon Icon=@item.Icon Color="Color.Primary"></MudIcon>
+			<MudTooltip Text="@item.Text">
+				<MudLink Href="@item.Href" OnClick="@(e => ForceReload(e, item.Href))" Typo="Typo.h6" Style="margin-left: 8px;">@(item.Text.Length > 20 ? item.Text.Substring(0, 20) + "..." : item.Text)</MudLink>
+			</MudTooltip>
+		</div>
+	</ItemTemplate>
+</MudBreadcrumbs>
+
 <h1>Itemz</h1>
 <br />
 
@@ -93,10 +109,15 @@
 	private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
 
 	public bool initializingPage { get; set; } = true;
-	private NestedHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
-	private NestedHierarchyIdRecordDetailsDTO _foundItemzTypeRecord { get; set; }
 
+	private List<BreadcrumbItem> _localBreadcrumbs = new List<BreadcrumbItem>();
+	// private NestedHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
+	// private NestedHierarchyIdRecordDetailsDTO _foundItemzTypeRecord { get; set; }
 
+	// protected override async Task OnInitializedAsync()
+	// {
+
+	// }
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -125,24 +146,132 @@
 			}
 
 
-			var matchingProjectRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "Project", level: 1);
-
-			if (matchingProjectRecord != null)
+			foreach (var tempParentHierarchyRecord in AllParentHierarchy)
 			{
-				_foundProjectRecord = matchingProjectRecord;
+				var _tempHref = GetHREFForBreadcrumbs(
+					breadcrumRecordType: tempParentHierarchyRecord.RecordType,
+					breadcrumRecordId: tempParentHierarchyRecord.RecordId);
+				var _tempIcon = GetIconForBreadcrumbs(tempParentHierarchyRecord.RecordType);
+
+				_localBreadcrumbs.Add(new BreadcrumbItem
+
+					(text: tempParentHierarchyRecord.Name
+						, href: _tempHref
+						, icon: _tempIcon)
+					);
+				if (tempParentHierarchyRecord.Children.Count > 0)
+				{
+					AddChildBreadcrumbs(tempParentHierarchyRecord.Children);
+				}
 			}
 
-			var matchingItemzTypeRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "ItemzType", level: 2);
+			// EXPLANATION :: Add self to breadcrums
 
-			if (matchingItemzTypeRecord != null)
-			{
-				_foundItemzTypeRecord = matchingItemzTypeRecord;
-			}
+			_localBreadcrumbs.Add(new BreadcrumbItem
+						(
+							text: singleItemz.Name
+							, href: GetHREFForBreadcrumbs(
+										breadcrumRecordType: "itemz", // TODO :: USE CONSTANTS
+										breadcrumRecordId: singleItemz.Id)
+							, icon: GetIconForBreadcrumbs("itemz") // TODO :: USE CONSTANTS
+						)
+				);
+
+
+
+			// var matchingProjectRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "Project", level: 1);
+
+			// if (matchingProjectRecord != null)
+			// {
+			// 	_foundProjectRecord = matchingProjectRecord;
+			// }
+
+			// var matchingItemzTypeRecord = FindRecordUsingLambda(AllParentHierarchy, recordType: "ItemzType", level: 2);
+
+			// if (matchingItemzTypeRecord != null)
+			// {
+			// 	_foundItemzTypeRecord = matchingItemzTypeRecord;
+			// }
 
 			StateHasChanged();
 			//StateHasChanged();
 		}
 	}
+
+	#region Breadcrumbs_helper
+
+	private void ForceReload(MouseEventArgs e, string uri)
+	{
+		if (!e.CtrlKey && !string.IsNullOrEmpty(uri))
+		{
+			NavManager.NavigateTo(uri, forceLoad: true);
+		}
+	}
+
+	private void AddChildBreadcrumbs(List<NestedHierarchyIdRecordDetailsDTO> tempChildHierarchyRecords)
+	{
+		foreach (var _tempChildHierarchyRecord in tempChildHierarchyRecords)
+		{
+			var _tempHref = GetHREFForBreadcrumbs(
+							breadcrumRecordType: _tempChildHierarchyRecord.RecordType,
+							breadcrumRecordId: _tempChildHierarchyRecord.RecordId);
+			var _tempIcon = GetIconForBreadcrumbs(_tempChildHierarchyRecord.RecordType);
+
+			_localBreadcrumbs.Add(new BreadcrumbItem
+
+				(text: (
+								(_tempChildHierarchyRecord.Name.Length < 31)
+								? _tempChildHierarchyRecord.Name
+								: _tempChildHierarchyRecord.Name.Substring(0, 30)
+						)
+					, href: _tempHref
+					, icon: _tempIcon)
+				);
+			if (_tempChildHierarchyRecord.Children.Count > 0)
+			{
+				AddChildBreadcrumbs(_tempChildHierarchyRecord.Children);
+			}
+		}
+	}
+
+
+
+
+	private string GetHREFForBreadcrumbs(string breadcrumRecordType, Guid breadcrumRecordId)
+	{
+		string _tempUrl =
+			breadcrumRecordType.ToLower() switch
+			{
+				"project" => "http://localhost:5166/project/"
+				,
+				"itemztype" => "http://localhost:5166/itemzType/"
+				,
+				"itemz" => "http://localhost:5166/itemz/"
+				,
+				_ => string.Empty
+			};
+
+		_tempUrl = _tempUrl + breadcrumRecordId.ToString();
+		return _tempUrl;
+	}
+
+	private string GetIconForBreadcrumbs(string breadcrumRecordType)
+	{
+		return
+			breadcrumRecordType.ToLower() switch
+			{
+				"project" => Icons.Material.Filled.LocalFlorist
+				,
+				"itemztype" => Icons.Material.Filled.MenuBook
+				,
+				"itemz" => Icons.Material.Filled.Stream
+				,
+				_ => Icons.Material.Filled.Cancel
+			};
+
+	}
+
+	#endregion
 
 	public async Task editItemzDetails(string itemzId)
 	{
