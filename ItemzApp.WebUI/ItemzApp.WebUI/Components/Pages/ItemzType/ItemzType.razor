@@ -7,19 +7,21 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<MudBreadcrumbs Items="_localBreadcrumbs" MaxItems="5"  >
-	<SeparatorTemplate>
-		<MudIcon Icon="@Icons.Material.Filled.KeyboardDoubleArrowRight" Size="Size.Medium" />
-	</SeparatorTemplate>
-	<ItemTemplate Context="item">
-		<div style="display: flex; align-items: center;"> @* // TO SHOW MUDICON AND MUDLINK TOGETHER ON THE SAME LINE! *@
-			<MudIcon Icon=@item.Icon Color="Color.Primary" ></MudIcon> 
-			<MudTooltip Text="@item.Text">
-				<MudLink Href="@item.Href" OnClick="@(e => ForceReload(e, item.Href))" Typo="Typo.h6" Style="margin-left: 8px;">@(item.Text.Length > 20 ? item.Text.Substring(0, 20) + "..." : item.Text)</MudLink>
-			</MudTooltip>
-		</div>
-	</ItemTemplate>
-</MudBreadcrumbs>
+<MudPaper Class="pa-1 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudBreadcrumbs Items="_localBreadcrumbs" MaxItems="5"  >
+		<SeparatorTemplate>
+			<MudIcon Icon="@Icons.Material.Filled.KeyboardDoubleArrowRight" Size="Size.Medium" />
+		</SeparatorTemplate>
+		<ItemTemplate Context="item">
+			<div style="display: flex; align-items: center;"> @* // TO SHOW MUDICON AND MUDLINK TOGETHER ON THE SAME LINE! *@
+				<MudIcon Icon=@item.Icon Color="Color.Primary" ></MudIcon> 
+				<MudTooltip Text="@item.Text">
+					<MudLink Href="@item.Href" OnClick="@(e => ForceReload(e, item.Href))" Typo="Typo.h6" Style="margin-left: 8px;">@(item.Text.Length > 20 ? item.Text.Substring(0, 20) + "..." : item.Text)</MudLink>
+				</MudTooltip>
+			</div>
+		</ItemTemplate>
+	</MudBreadcrumbs>
+</MudPaper>
 @* 	@foreach (var breadcrumb in _localBreadcrumbs)
     {
         <MudBreadcrumbItem Href="@breadcrumb.Href" Icon="@breadcrumb.Icon">
@@ -28,8 +30,10 @@
     }
 </MudBreadcrumbs> *@
 
-<h1>ItemzType</h1>
-<br />
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">ItemzType</MudText>
+</MudPaper>
+
 
 <MudGrid>
 	@if (initializingPage)
@@ -44,34 +48,33 @@
 	}
 	else
 	{
- 		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4">
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
 					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
 						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemzType.Name </strong></MudText>
 						<MudSpacer />
 						<MudButton OnClick="async _ => await editItemzTypeDetails(ItemzTypeId.ToString())" Variant="Variant.Filled" Disabled="singleItemzType.IsSystem" Size="Size.Medium" Color="Color.Success"> Edit ItemzType </MudButton>
-							<MudButton OnClick="goBackToProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
-						</MudItem>
+						<MudButton OnClick="goBackToProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+					</MudItem>
+					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
-					<MudDivider Style="color : black"   />
-					<br />
-					<MudText><strong>ItemzType ID          : </strong> @singleItemzType.Id.ToString()</MudText>
-					<MudText><strong>ItemzType Status      : </strong> @singleItemzType.Status</MudText>
-					<MudText><strong>ItemzType Description : </strong> @singleItemzType.Description</MudText>
+					<MudText><strong>ID          : </strong> @singleItemzType.Id.ToString()</MudText>
+					<MudText><strong>Status      : </strong> @singleItemzType.Status</MudText>
+					<MudText><strong>Description : </strong> @singleItemzType.Description</MudText>
 				</MudCardContent>
 			</MudCard>
 			</MudPaper>
 		</MudItem>
 		<br />
- 		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h4" Align="Align.Left">Itemz</MudText>
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudText Typo="Typo.h6" Align="Align.Left">Itemz</MudText>
 				<MudSpacer />
 				<MudButton @onclick="async _ => await createNewItemz(ItemzTypeId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Create Itemz </MudButton>
 			</MudPaper>
-			<MudText>Total number of Itemz in the ItemzType : @AllItemzForItemzType.Count() </MudText>
+			<MudText Class="pa-3 mb-5">Total number of Itemz in the ItemzType : @AllItemzForItemzType.Count() </MudText>
 			<MudDataGrid Items="@AllItemzForItemzType" 
 						Filterable="true" 
 						SortMode="@SortMode.None" 

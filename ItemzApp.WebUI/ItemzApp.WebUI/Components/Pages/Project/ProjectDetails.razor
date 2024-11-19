@@ -6,8 +6,11 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Project Details</h1>
-<br />
+
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Project Details</MudText>
+</MudPaper>
+
 
 <MudGrid>
 @* 	@if (deletingProject)
@@ -22,9 +25,9 @@
 	} *@
 	@if (initializingPage)
 	{
-		<MudPaper Height="calc(100vh - 100px);" Width="100%">
+		<MudPaper Class="mb-5" Height="calc(100vh - 100px);" Width="100%">
 			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
-				<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
 				<br />
 				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 			</MudOverlay>
@@ -32,14 +35,14 @@
 	}
 	else
 	{
-		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudContainer Class="pa-4 mb-5" MaxWidth="MaxWidth.ExtraLarge">
 		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
 					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
-					 ApplyEffectsToContainer="true" PanelClass="pa-12" MinimumTabWidth="200px" >
+					 ApplyEffectsToContainer="true" PanelClass="pa-4" MinimumTabWidth="200px" >
 			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
 				@if (errors.Length > 0)
 				{
-					<MudPaper Class="pa-4 mud-height-full mud-width-full">
+					<MudPaper Class="pa-4 mb-5 mud-height-full mud-width-full">
 						<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
 						@foreach (var error in errors)
 						{
@@ -47,7 +50,7 @@
 						}
 					</MudPaper>
 				}
-				<MudPaper Class="pa-4 mud-height-full mud-width-full">
+				<MudPaper Class="pa-4 mb-5 mud-height-full mud-width-full">
 				<MudForm Model="@singleProject" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 					<MudCardContent>
 						<MudText>Project GUID Id: @singleProject.Id.ToString()</MudText>
@@ -81,7 +84,7 @@
 								<MudText>Cancel</MudText>
 							</MudButton>
 					</MudCardActions>
-					<MudItem xs="12" sm="12" md="12" lg="9">
+							<MudItem xs="12" sm="9" md="6" lg="6">
 						<br />
 							<MudExpansionPanels Elevation="10" style="margin-left : 15px">
 								<MudExpansionPanel style="background-color : #FABBBB; color : red;"
@@ -105,20 +108,20 @@
 				</MudPaper>
 			</MudTabPanel>
 				<MudTabPanel Icon="@Icons.Material.Filled.ContentCopy" Text="Baselines">
-					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+					<MudPaper Class="pa-4 mb-5 mud-height-full" Width="100%">
 						<ProjectBaselineComponent ProjectId="@ProjectId" />
 					</MudPaper>
 			</MudTabPanel>
 		</MudTabs>
 	</MudContainer>
-	<MudItem xs="12" sm="8">
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@updateProjectButtonClicked" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
 			<br />
 			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 		</MudOverlay>
 	</MudItem>
-	<MudItem xs="12" sm="8">
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@deletingProject" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Deleting ...</MudText>
 			<br />

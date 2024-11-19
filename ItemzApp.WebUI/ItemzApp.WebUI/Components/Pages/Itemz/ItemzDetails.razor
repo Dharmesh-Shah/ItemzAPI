@@ -8,8 +8,10 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Itemz Details</h1>
-<br />
+
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Itemz Details</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
@@ -24,14 +26,16 @@
 	}
 	else
 	{
-		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudItem Class="pa-6 mb-5" xs="12" sm="12">
+		<MudPaper Class="mb-5">
+		<MudContainer Class="pa-1 mb-5" MaxWidth="MaxWidth.ExtraLarge">
 		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
 					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
-					 ApplyEffectsToContainer="true" PanelClass="pa-12" MinimumTabWidth="200px" >
+					 ApplyEffectsToContainer="true" PanelClass="pa-2" MinimumTabWidth="200px" >
 			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
 				@if (errors.Length > 0)
 				{
-					<MudPaper Class="pa-4 mud-height-full mud-width-full">
+					<MudPaper Class="pa-4 mb-5 mud-height-full mud-width-full">
 						<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
 						@foreach (var error in errors)
 						{
@@ -39,8 +43,7 @@
 						}
 					</MudPaper>
 				}
-				@* <MudItem xs="12" sm="12" md="12" lg="12"> *@
-					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+				<MudPaper Class="pa-4 mud-height-full" Width="100%">
 				<MudForm Model="@singleItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
 				<MudText>Itemz GUID Id: @ItemzId.ToString()</MudText>
@@ -97,7 +100,7 @@
 				</MudButton>
 			</MudCardActions>
 
-				<MudItem xs="12" sm="12" md="12" lg="9">
+									<MudItem xs="12" sm="9" md="6" lg="6">
 					<br />
 						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
 							<MudExpansionPanel style="background-color : #FABBBB; color : red;"
@@ -122,7 +125,7 @@
 				</MudItem>
 		</MudForm>
 	</MudPaper>
-	@* </MudItem> *@
+
 			</MudTabPanel>
 			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
 				<MudItem xs="12" sm="12" md="12" lg="12">
@@ -140,14 +143,16 @@
 			</MudTabPanel>
 		</MudTabs>
 		</MudContainer>
-	<MudItem xs="12" sm="8">
+		</MudPaper>
+		</MudItem>
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@updateItemzButtonClicked" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
 			<br />
 			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 		</MudOverlay>
 	</MudItem>
-	<MudItem xs="12" sm="8">
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@deletingItemz" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Deleting ...</MudText>
 			<br />

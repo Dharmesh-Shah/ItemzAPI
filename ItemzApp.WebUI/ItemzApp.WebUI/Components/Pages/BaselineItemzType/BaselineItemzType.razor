@@ -8,15 +8,17 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Baseline ItemzType</h1>
-<br />
+
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline ItemzType</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
 	{
 		<MudPaper Height="calc(100vh - 100px);" Width="100%">
 			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
-				<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
 				<br />
 				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 			</MudOverlay>
@@ -24,7 +26,7 @@
 	}
 	else
 	{
- 		<MudItem xs="12" sm="8">
+ 		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
@@ -33,8 +35,8 @@
 						<MudSpacer />
 						<MudButton OnClick="goBackToBaseline" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
 						</MudItem>
-					<br />
-					<MudDivider Style="color : black"   />
+
+					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
 					<MudText><strong>ID           : </strong> @singleIBaselineItemzType.Id.ToString()</MudText>
 					<MudText><strong>Status       : </strong> @singleIBaselineItemzType.Status</MudText>
@@ -46,11 +48,11 @@
 			</MudPaper>
 		</MudItem>
 		<br />
- 		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h4" Align="Align.Left">Baseline Itemz</MudText>
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
 			</MudPaper>
-			<MudText>Total number of Baseline Itemz in the Baseline ItemzType : @AllBaselineItemzForBaselineItemzType.Count() </MudText>
+			<MudText Class="pa-3 mb-5">Total number of Baseline Itemz in the Baseline ItemzType : @AllBaselineItemzForBaselineItemzType.Count() </MudText>
 			<MudDataGrid Items="@AllBaselineItemzForBaselineItemzType" 
 						Filterable="true" 
 						SortMode="@SortMode.None" 

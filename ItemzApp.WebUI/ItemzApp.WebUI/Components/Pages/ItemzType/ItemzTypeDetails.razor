@@ -6,8 +6,9 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>ItemzType Details</h1>
-<br />
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">ItemzType Details</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
@@ -22,8 +23,8 @@
 	}
 	else
 	{
-		<MudItem hidden="@hideValidationError" xs="12" sm="8">
-			<MudPaper Class="pa-4 mud-height-full">
+		<MudItem hidden="@hideValidationError" xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5 mud-height-full">
 				<MudText Typo="Typo.subtitle2" Color="@Color.Error">@($"Validation Errors ({errors.Length})")</MudText>
 				@foreach (var error in errors)
 				{
@@ -31,11 +32,11 @@
 				}
 			</MudPaper>
 		</MudItem>
-		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4">
+		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5">
 				<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
-						<MudText>Project GUID Id: @ParentId.ToString()</MudText>
+						<MudText>Project GUID Id: @(ParentId != Guid.Empty ? ParentId.ToString() : "")  </MudText>
 				<br />
 				<MudText>ItemzType GUID Id: @ItemzTypeId.ToString()</MudText>
 				<br />
@@ -68,7 +69,7 @@
 						<MudText>Cancel</MudText>
 					</MudButton>
 			</MudCardActions>
-				<MudItem xs="12" sm="12" md="12" lg="9">
+				<MudItem xs="12" sm="9" md="6" lg="6">
 					<br />
 						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
 							<MudExpansionPanel style="background-color : #FABBBB; color : red;"
@@ -94,14 +95,14 @@
 
 	</MudPaper>
 	</MudItem>
-	<MudItem xs="12" sm="8">
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@updateItemzTypeButtonClicked" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit"> Updating ...  </MudText>
 			<br />
 			<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
 		</MudOverlay>
 	</MudItem>
-	<MudItem xs="12" sm="8">
+	<MudItem xs="12" sm="12">
 		<MudOverlay Visible="@deletingItemzType" DarkBackground="true" Absolute="true">
 			<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Deleting ...</MudText>
 			<br />

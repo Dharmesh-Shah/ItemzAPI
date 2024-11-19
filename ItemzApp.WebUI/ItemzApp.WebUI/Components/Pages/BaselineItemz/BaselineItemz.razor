@@ -7,8 +7,10 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Baseline Itemz</h1>
-<br />
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
+</MudPaper>
+
 
 <MudGrid>
 	@if (initializingPage)
@@ -23,7 +25,7 @@
 	}
 	else
 	{
- 		<MudItem xs="12" sm="8">
+ 		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4" >
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
@@ -33,17 +35,9 @@
 						<MudButton OnClick="async _ => await openBaselineItemzDetails(BaselineItemzId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Open </MudButton>
 						<MudButton OnClick="goBackToParent" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
 						</MudItem>
-					<br />
-					<MudDivider Style="color : black"   />
-					<br />
 
-					@if (_foundProjectRecord is not null && _foundBaselineRecord is not null)
-					{
-					<MudText><strong>Project ID           : </strong> @_foundProjectRecord.RecordId.ToString()</MudText>
-					<MudText><strong>Project Name         : </strong> @_foundProjectRecord.Name</MudText>
-					<MudText><strong>Baseline ID          : </strong> @_foundBaselineRecord.RecordId.ToString()</MudText>
-					<MudText><strong>Baseline Name        : </strong> @_foundBaselineRecord.Name</MudText>
-					}
+					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+					<br />
 					<MudText><strong>ID                   : </strong> @singleBaselineItemz.Id.ToString()</MudText>
 					<MudText><strong>Status               : </strong> @singleBaselineItemz.Status</MudText>
 					<MudText><strong>Priority             : </strong> @singleBaselineItemz.Priority</MudText>
@@ -90,11 +84,11 @@
 			</MudPaper>
 		</MudItem>
 		<br />
- 		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h4" Align="Align.Left">Baseline Itemz</MudText>
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudText Typo="Typo.h6" Align="Align.Left">Child Baseline Itemz</MudText>
 			</MudPaper>
-			<MudText>Total number of Child Baseline Itemz : @AllChildBaselineItemz.Count() </MudText>
+			<MudText Class="pa-3 mb-5">Total number of Child Baseline Itemz : @AllChildBaselineItemz.Count() </MudText>
 			<MudDataGrid Items="@AllChildBaselineItemz" 
 						Filterable="true" 
 						SortMode="@SortMode.None" 

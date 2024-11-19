@@ -6,8 +6,9 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Project</h1>
-<br />
+<MudPaper Class="pa-3 mb-5 align-start d-flex" Style="width: auto " Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Project</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
@@ -22,7 +23,7 @@
 	}
 	else
 	{
- 		<MudItem xs="12" sm="8">
+ 		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
@@ -32,24 +33,23 @@
 						<MudButton OnClick="async _ => await editProjectDetails(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Project </MudButton>
 						<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
 						</MudItem>
+					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
-					<MudDivider Style="color : black"   />
-					<br />
-					<MudText><strong>Project ID          : </strong> @singleProject.Id.ToString()</MudText>
-					<MudText><strong>Project Status      : </strong> @singleProject.Status</MudText>
-					<MudText><strong>Project Description : </strong> @singleProject.Description</MudText>
+					<MudText><strong>ID          : </strong> @singleProject.Id.ToString()</MudText>
+					<MudText><strong>Status      : </strong> @singleProject.Status</MudText>
+					<MudText><strong>Description : </strong> @singleProject.Description</MudText>
 				</MudCardContent>
 			</MudCard>
 			</MudPaper>
 		</MudItem>
 		<br />
- 		<MudItem xs="12" sm="8">
-			<MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h4" Align="Align.Left">Itemz Types</MudText>
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-3 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudText Typo="Typo.h6" Align="Align.Left">Itemz Types</MudText>
 				<MudSpacer />
 				<MudButton @onclick="async _ => await createNewItemzType(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Create Itemz Type </MudButton>
 			</MudPaper>
-			<MudText>Total number of ItemzType in the project : @AllItemzTypesForProject.Count() </MudText>
+			<MudText Class="pa-3 mb-5">Total number of ItemzType in the project : @AllItemzTypesForProject.Count() </MudText>
 			<MudDataGrid Items="@AllItemzTypesForProject" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
 				<Columns>
 					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
