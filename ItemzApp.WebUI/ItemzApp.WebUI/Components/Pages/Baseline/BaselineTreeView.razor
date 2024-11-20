@@ -135,7 +135,7 @@
              (
                  value: singleBaseline.RecordId
                  , text: singleBaseline.Name
-                 , icon: @Icons.Material.Filled.LocalFlorist
+                 , icon: @Icons.Material.Filled.ContentCopy // TODO :: ICON CAN BE ELEGENTLY HANDLED BASED ON RECORD TYPE
                  , recordType: singleBaseline.RecordType
                  , level: singleBaseline.Level
                  , expandable: true
@@ -154,7 +154,7 @@
                                 (
                 value: _baselineItemzType.RecordId
                 , text: _baselineItemzType.Name
-                , icon: _baselineItemzType.RecordType!.ToLower() == "baseline" ? @Icons.Material.Filled.LocalFlorist :
+                , icon: _baselineItemzType.RecordType!.ToLower() == "baseline" ? @Icons.Material.Filled.ContentCopy :
                                                      _baselineItemzType.RecordType!.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.MenuBook :
                                                              _baselineItemzType.RecordType!.ToLower() == "baselineitemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
                 , recordType: _baselineItemzType.RecordType
@@ -197,7 +197,7 @@
             (
                 value: singleBaseline.RecordId
                 , text: singleBaseline.Name
-                , icon: @Icons.Material.Filled.LocalFlorist
+                , icon: @Icons.Material.Filled.ContentCopy
                 , recordType: singleBaseline.RecordType
                 , level: singleBaseline.Level
                 , expandable: true
