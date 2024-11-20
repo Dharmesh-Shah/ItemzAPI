@@ -145,7 +145,7 @@
 
 	public void goBackToParentProject()
 	{
-		NavManager.NavigateTo($"/project/{parentId.ToString()}");
+		NavManager.NavigateTo($"/projectdetails/{parentId.ToString()}?showBaselineTab=true");
 	}
 
 	public async Task editBaselineDetails(string Id)

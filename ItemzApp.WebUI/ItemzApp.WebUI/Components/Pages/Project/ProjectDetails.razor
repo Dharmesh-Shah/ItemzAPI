@@ -36,10 +36,11 @@
 	else
 	{
 		<MudContainer Class="pa-4 mb-5" MaxWidth="MaxWidth.ExtraLarge">
-		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
-					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
-					 ApplyEffectsToContainer="true" PanelClass="pa-4" MinimumTabWidth="200px" >
-			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
+		<MudTabs @ref="projectTabs" ActivePanelIndex="activeIndex"
+				Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
+				IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
+				ApplyEffectsToContainer="true" PanelClass="pa-4" MinimumTabWidth="200px" >
+			<MudTabPanel @ref="projectTab" Text="Details" Icon="@Icons.Material.Filled.EditNote" @onclick="() => activeIndex = 0" >
 				@if (errors.Length > 0)
 				{
 					<MudPaper Class="pa-4 mb-5 mud-height-full mud-width-full">
@@ -107,7 +108,7 @@
 				</MudForm>
 				</MudPaper>
 			</MudTabPanel>
-				<MudTabPanel Icon="@Icons.Material.Filled.ContentCopy" Text="Baselines">
+				<MudTabPanel @ref="baselineTab" Icon="@Icons.Material.Filled.ContentCopy" Text="Baselines">
 					<MudPaper Class="pa-4 mb-5 mud-height-full" Width="100%">
 						<ProjectBaselineComponent ProjectId="@ProjectId" />
 					</MudPaper>
@@ -135,6 +136,9 @@
 
 	[Parameter]
 	public Guid ProjectId { get; set; }
+	[Parameter]
+	[SupplyParameterFromQuery(Name = "showBaselineTab")]
+	public bool ShowBaselineTab { get; set; } = false;
 
 	[Inject]
 	public IProjectService ProjectService { get; set; }
@@ -153,11 +157,26 @@
 	bool disableUpdateProjectDetailsButton = false;
 	string[] errors = { };
 	MudForm form;
+	MudTabs projectTabs;
+	MudTabPanel projectTab;
+	MudTabPanel baselineTab;
+	int activeIndex = 0;
 
 	// TODO START HERE BY CREATING INSTANCE OF ProjectExceptionDialog AND SHOWING IT WHEN ERROR GETS ENCOUNTERED. 
 
 	bool hideValidationError = true;
 	string[] _stringProjectStatusValues = { };
+
+
+	// protected override void OnInitialized() 
+	// {
+	// 	if (ShowBaselineTab == true)
+	// 	{
+	// 		projectTabs.ActivatePanel(baselineTab);
+	// 	}
+
+	// 	StateHasChanged();
+	// }
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -189,8 +208,10 @@
 			}
 			_stringProjectStatusValues = tempList.ToArray();
 
-
-
+			if (ShowBaselineTab == true)
+			{
+				activeIndex = 1;
+			}
 			StateHasChanged();
 		}
 	}

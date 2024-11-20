@@ -64,6 +64,7 @@
 @*                         <MudButton Size="@Size.Large" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => editProjectDetails(context.Item.Id.ToString())"> Edit </MudButton> *@
                         <MudButton Size="@Size.Large" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => openProject(context.Item.Id.ToString())"> Open </MudButton>
                         <MudButton Size="@Size.Large" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => openProjectTreeView(context.Item.Id.ToString())"> Open TreeView</MudButton>
+                        <MudButton Size="@Size.Large" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => openProjectBaseline(context.Item.Id.ToString())"> Baselines </MudButton>
                     </MudStack>
                 </CellTemplate>
             </TemplateColumn>
@@ -152,6 +153,12 @@
     {
         NavManager.NavigateTo($"/project/{Id}");
     }
+    public async Task openProjectBaseline(string Id)
+    {
+        NavManager.NavigateTo($"/projectdetails/{Id}?showBaselineTab=true");
+    }
+
+
 
     public async Task openProjectTreeView(string Id)
     {
