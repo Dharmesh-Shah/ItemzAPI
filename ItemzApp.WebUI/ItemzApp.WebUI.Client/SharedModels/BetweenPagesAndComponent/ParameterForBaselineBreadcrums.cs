@@ -5,7 +5,7 @@ using System;
 
 namespace ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 {
-	public class ParameterForItemzBreadcrums
+	public class ParameterForBaselineBreadcrums
 	{
 		/// <summary>
 		/// Id of the ItemzType representated by a GUID.
@@ -19,6 +19,11 @@ namespace ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 		/// Name or Title of the Itemz
 		/// </summary>
 		public string RecordType { get; set; }
+
+		/// <summary>
+		/// Indicates if Baseline Hierarchy record is included or excluded
+		/// </summary>
+		public bool isIncluded { get; set; }
 	}
 }
 

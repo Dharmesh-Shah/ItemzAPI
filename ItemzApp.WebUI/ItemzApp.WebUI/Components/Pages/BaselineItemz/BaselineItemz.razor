@@ -2,10 +2,17 @@
 @using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.Services.BaselineItemz
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+
+@if (BreadcrumsParameter != null)
+{
+	<BaselineBreadcrums produceBreadcrums="BreadcrumsParameter" />
+}
 
 <MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
@@ -140,6 +147,7 @@
 	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
 	private List<BaselineHierarchyIdRecordDetailsDTO> AllChildBaselineItemz { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
 	private List<NestedBaselineHierarchyIdRecordDetailsDTO> AllParentBaselineHierarchy { get; set; } = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
+	private ParameterForBaselineBreadcrums BreadcrumsParameter;
 	public bool initializingPage { get; set; } = true;
 	public bool anyChildBaselineItemzExcluded { get; set; } = false;
 
@@ -156,6 +164,14 @@
 			//Thread.Sleep(300);
 			singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
 
+			if (singleBaselineItemz != null)
+			{
+				BreadcrumsParameter = new ParameterForBaselineBreadcrums();
+				BreadcrumsParameter.Id = singleBaselineItemz.Id;
+				BreadcrumsParameter.Name = singleBaselineItemz.Name;
+				BreadcrumsParameter.RecordType = "baselineitemz"; // TODO :: USE CONSTANT
+				BreadcrumsParameter.isIncluded = singleBaselineItemz.isIncluded;
+			}
 			var returnedItemzList = await baselineHierarchyService.__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
 
 			if (returnedItemzList != null)

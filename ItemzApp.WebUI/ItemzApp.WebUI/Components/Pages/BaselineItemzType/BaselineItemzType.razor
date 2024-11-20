@@ -3,11 +3,17 @@
 @using ItemzApp.WebUI.Client.Services.BaselineItemzTypes
 @using ItemzApp.WebUI.Client.Services.Baselines
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
+@if (BreadcrumsParameter != null)
+{
+	<BaselineBreadcrums produceBreadcrums="BreadcrumsParameter" />
+}
 
 <MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline ItemzType</MudText>
@@ -108,6 +114,7 @@
 
 	public GetBaselineItemzTypeDTO singleIBaselineItemzType { get; set; } = new();
 	private List<BaselineHierarchyIdRecordDetailsDTO> AllBaselineItemzForBaselineItemzType { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
+	private ParameterForBaselineBreadcrums BreadcrumsParameter;
 	public bool initializingPage { get; set; } = true;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -120,6 +127,15 @@
 			singleIBaselineItemzType = await baselineItemzTypesService.__Single_BaselineItemzType_By_GUID_ID__Async(BaselineItemzTypeId);
 
 			// TODO :: THROW EXCEPTION IF BASELINE ITEMTYPE IS NOT FOUND!
+
+			if (singleIBaselineItemzType != null)
+			{
+				BreadcrumsParameter = new ParameterForBaselineBreadcrums();
+				BreadcrumsParameter.Id = singleIBaselineItemzType.Id;
+				BreadcrumsParameter.Name = singleIBaselineItemzType.Name;
+				BreadcrumsParameter.RecordType = "baselineitemztype"; // TODO :: USE CONSTANT
+				BreadcrumsParameter.isIncluded = true ; // TODO :: WE SET INCLUSION FOR BASELINEITEMZTYPE TO TRUE BUT WE CAN DO BETTER
+			}
 
 			var returnedItemzList = await baselineHierarchyService.__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(BaselineItemzTypeId);
 
