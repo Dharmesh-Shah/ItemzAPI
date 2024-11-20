@@ -8,7 +8,8 @@
 
 
 <MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false" >
-    <MudText Typo="Typo.h6" Align="Align.Left">Projects</MudText>
+    <MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Projects &nbsp;&nbsp;"))</MudText>
+    <MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllProjects.Count().ToString()</MudChip>
     <MudSpacer />
     <MudButton @onclick="createNewProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Create Project </MudButton>
 </MudPaper>
@@ -22,10 +23,9 @@
             <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
         </MudOverlay>
     </MudPaper> 
- }else
+}
+ else
 {
-    <MudText Class="pa-3 mb-5">Total number of projects in repository : @AllProjects.Count() </MudText>
-
     <MudDataGrid Items="@GetFilteredProjects()" Filterable="true"
         FilterMode="DataGridFilterMode.ColumnFilterRow"
         FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive"

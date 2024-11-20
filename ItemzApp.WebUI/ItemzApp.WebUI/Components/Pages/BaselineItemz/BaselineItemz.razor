@@ -93,9 +93,9 @@
 		<br />
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h6" Align="Align.Left">Child Baseline Itemz</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Child Baseline Itemz &nbsp;&nbsp;"))</MudText>
+				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllChildBaselineItemz.Count().ToString()</MudChip>
 			</MudPaper>
-			<MudText Class="pa-3 mb-5">Total number of Child Baseline Itemz : @AllChildBaselineItemz.Count() </MudText>
 			<MudDataGrid Items="@AllChildBaselineItemz" 
 						Filterable="true" 
 						SortMode="@SortMode.None" 

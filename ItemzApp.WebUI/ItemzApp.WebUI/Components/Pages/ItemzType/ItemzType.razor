@@ -54,11 +54,11 @@
 		<br />
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h6" Align="Align.Left">Itemz</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Itemz &nbsp;&nbsp;"))</MudText>
+				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllItemzForItemzType.Count().ToString()</MudChip>
 				<MudSpacer />
 				<MudButton @onclick="async _ => await createNewItemz(ItemzTypeId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Create Itemz </MudButton>
 			</MudPaper>
-			<MudText Class="pa-3 mb-5">Total number of Itemz in the ItemzType : @AllItemzForItemzType.Count() </MudText>
 			<MudDataGrid Items="@AllItemzForItemzType" 
 						Filterable="true" 
 						SortMode="@SortMode.None" 

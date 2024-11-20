@@ -56,7 +56,8 @@
 		<br />
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Baseline Itemz &nbsp;&nbsp;"))</MudText>
+				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllBaselineItemzForBaselineItemzType.Count().ToString()</MudChip>
 			</MudPaper>
 			<MudText Class="pa-3 mb-5">Total number of Baseline Itemz in the Baseline ItemzType : @AllBaselineItemzForBaselineItemzType.Count() </MudText>
 			<MudDataGrid Items="@AllBaselineItemzForBaselineItemzType" 

@@ -51,9 +51,9 @@
 		<br />
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
-				<MudText Typo="Typo.h6" Align="Align.Left">Baseline ItemzType</MudText>
+				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Baseline ItemzType &nbsp;&nbsp;"))</MudText>
+				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllItemzTypesForBaseline.Count().ToString()</MudChip>
 			</MudPaper>
-			<MudText Class="pa-3 mb-5">Total number of Baseline ItemzType in the Baseline: @AllItemzTypesForBaseline.Count() </MudText>
 			<MudDataGrid Items="@AllItemzTypesForBaseline" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
 				<Columns>
 					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
