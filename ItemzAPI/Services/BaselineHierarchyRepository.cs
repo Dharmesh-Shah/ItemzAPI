@@ -341,8 +341,9 @@ namespace ItemzApp.API.Services
 
 
 					// Find the last record at a specified level directly within returningRecords
-					var targetLevel = (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() - 1);
-					var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+					//var targetLevel = (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() - 1);
+					//var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+					var lastRecordAtLevel = FindParentRecord(returningRecords, baselineAllHierarchyItemzs[i]);
 
 					if (lastRecordAtLevel != null)
 					{
@@ -447,12 +448,12 @@ namespace ItemzApp.API.Services
 
 
                     // Find the last record at a specified level directly within returningRecords
-                    var targetLevel = (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() - 1);
-                    var lastRecordAtLevel = FindLastRecordAtLevel(returningRecords, targetLevel);
+                    //var targetLevel = (baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.GetLevel() - 1);
+                    var foundParentRecordInReturningList = FindParentRecord(returningRecords, baselineAllHierarchyItemzs[i]);
 
-                    if (lastRecordAtLevel != null)
+                    if (foundParentRecordInReturningList != null)
                     {
-                        lastRecordAtLevel.Children.Add(new NestedBaselineHierarchyIdRecordDetailsDTO
+                        foundParentRecordInReturningList.Children.Add(new NestedBaselineHierarchyIdRecordDetailsDTO
                         {
                             RecordId = baselineAllHierarchyItemzs[i].Id,
                             BaselineHierarchyId = baselineAllHierarchyItemzs[i].BaselineItemzHierarchyId!.ToString(),
@@ -478,32 +479,72 @@ namespace ItemzApp.API.Services
 			return recordCountAndEnumerable;
         }
 
-        public static NestedBaselineHierarchyIdRecordDetailsDTO? FindLastRecordAtLevel(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, int targetLevel)
-        {
-            NestedBaselineHierarchyIdRecordDetailsDTO? lastRecord = null;
+		public static NestedBaselineHierarchyIdRecordDetailsDTO? FindParentRecord(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, BaselineItemzHierarchy childRecordToBeInserted)
+		{
+			NestedBaselineHierarchyIdRecordDetailsDTO? lastRecord = null;
 
-            foreach (var record in records)
-            {
-                if (record.Level == targetLevel)
-                {
-                    if (lastRecord == null || string.Compare(record.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
-                    {
-                        lastRecord = record;
-                    }
-                }
+			foreach (var record in records)
+			{
+				//if (record.Level == childRecordToBeInserted)
+				//{
+				//	if (lastRecord == null || string.Compare(record.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+				//	{
+				//		lastRecord = record;
+				//	}
+				//}
 
-                var childRecord = FindLastRecordAtLevel(record.Children, targetLevel);
-                if (childRecord != null)
-                {
-                    if (lastRecord == null || string.Compare(childRecord.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
-                    {
-                        lastRecord = childRecord;
-                    }
-                }
-            }
+				if ((record.Level == (childRecordToBeInserted.BaselineItemzHierarchyId!.GetLevel() - 1))
+					&& (childRecordToBeInserted.BaselineItemzHierarchyId.ToString().StartsWith(record.BaselineHierarchyId!.ToString())))
+				{
+					lastRecord = record;
+					break;
+				}
 
-            return lastRecord;
-        }
+				//var childRecord = FindLastRecordAtLevel(record.Children, childRecordToBeInserted);
+				//if (childRecord != null)
+				//{
+				//	if (lastRecord == null || string.Compare(childRecord.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+				//	{
+				//		lastRecord = childRecord;
+				//	}
+				//}
+
+				var childRecord = FindParentRecord(record.Children, childRecordToBeInserted);
+				if (childRecord != null)
+				{
+					lastRecord = childRecord;
+					break;
+				}
+			}
+			return lastRecord;
+		}
+
+  ////		public static NestedBaselineHierarchyIdRecordDetailsDTO? FindLastRecordAtLevelOLD(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, int targetLevel)
+  ////      {
+  ////          NestedBaselineHierarchyIdRecordDetailsDTO? lastRecord = null;
+
+  ////          foreach (var record in records)
+  ////          {
+  ////              if (record.Level == targetLevel)
+  ////              {
+  ////                  if (lastRecord == null || string.Compare(record.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+  ////                  {
+  ////                      lastRecord = record;
+  ////                  }
+  ////              }
+
+  ////              var childRecord = FindLastRecordAtLevel(record.Children, targetLevel);
+  ////              if (childRecord != null)
+  ////              {
+  ////                  if (lastRecord == null || string.Compare(childRecord.BaselineHierarchyId, lastRecord.BaselineHierarchyId, StringComparison.Ordinal) > 0)
+  ////                  {
+  ////                      lastRecord = childRecord;
+  ////                  }
+  ////              }
+  ////          }
+
+  ////          return lastRecord;
+  ////      }
 
 
         public async Task<bool> UpdateBaselineHierarchyRecordNameByID(Guid recordId, string name)
