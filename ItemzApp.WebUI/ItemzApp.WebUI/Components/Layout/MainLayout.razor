@@ -43,11 +43,17 @@
 		</MudDrawerHeader>  *@
 		<MudNavMenu Color="Color.Secondary" Bordered="true">
 			<MudNavLink Href="/projects" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Apps">Projects</MudNavLink>
-			<MudNavLink Href="/projectTreeView" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Speaker">Project TreeView</MudNavLink>
-			<MudNavLink Href="/moveitemz" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ConnectingAirports">Move Itemz</MudNavLink>
-			<MudNavLink Href="/settings" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
-			<MudNavLink Href="/stats" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">Stats</MudNavLink>
-			<MudNavLink Href="/raw" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.RawOn">Raw Logs</MudNavLink>
+			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Speaker">Project TreeView</MudNavLink>
+			<MudNavGroup Icon="@Icons.Material.Filled.Moving" Title="Move" Expanded="true">
+				<MudNavLink Href="/moveitemz" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ConnectingAirports">Itemz - Under </MudNavLink>
+				<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.FormatIndentIncrease">Itemz - Between </MudNavLink>
+				<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AirlineStops">ItemzType - Under</MudNavLink>
+				<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AirlineStops">ItemzType - Between</MudNavLink>
+			</MudNavGroup>
+			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
+			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.BarChart">Stats</MudNavLink>
+			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.RawOn">Raw Logs</MudNavLink>
+			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Security">Security</MudNavLink>
 		</MudNavMenu>
 	</MudDrawer>
 	<MudMainContent Class="mt-2">
