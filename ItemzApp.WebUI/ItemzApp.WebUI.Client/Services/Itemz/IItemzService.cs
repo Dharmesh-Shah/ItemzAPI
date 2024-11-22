@@ -20,7 +20,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		public Task __DELETE_Itemz_By_GUID_ID__Async(Guid itemzId);
 
-		public Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid? targetId, bool? atBottomOfChildNodes);
+		public Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes);
 
 	}
 }

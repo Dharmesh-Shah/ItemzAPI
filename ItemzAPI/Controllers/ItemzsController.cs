@@ -786,8 +786,16 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            await _itemzRepository.MoveItemzHierarchyAsync(MovingItemzId, TargetId, atBottomOfChildNodes: AtBottomOfChildNodes);
-            await _itemzRepository.SaveAsync();
+            try
+            {
+
+                await _itemzRepository.MoveItemzHierarchyAsync(MovingItemzId, TargetId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {MovingItemzId} successfully moved under Target ID {TargetId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),

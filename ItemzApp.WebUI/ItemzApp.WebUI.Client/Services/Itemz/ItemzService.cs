@@ -344,30 +344,32 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		#region __POST_Move_Itemz__Async
 
-		public async Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid? targetId, bool? atBottomOfChildNodes)
+		public async Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true)
 		{
 			await __POST_Move_Itemz__Async(movingItemzId, targetId, atBottomOfChildNodes, CancellationToken.None);
 		}
 
-		public async Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid? targetId, bool? atBottomOfChildNodes, CancellationToken cancellationToken)
+		public async Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes, CancellationToken cancellationToken)
 		{
 			try
 			{
 				// TODO::Utilize urlBuilder which is commented below.
 
 				var urlBuilder_ = new System.Text.StringBuilder();
-
+				Guid tempMovingItemzId;
+				Guid tempTargetId;
 				if (movingItemzId == Guid.Empty)
 				{
 					throw new ArgumentNullException(nameof(movingItemzId) + "is required for which value is not provided");
 				}
 
-				urlBuilder_.Append($"/api/Itemzs/{movingItemzId.ToString()}");
+				urlBuilder_.Append($"/api/Itemzs/");
+				urlBuilder_.Append(System.Uri.EscapeDataString(movingItemzId.ToString()!));
 				urlBuilder_.Append('?');
 
 				if (targetId != Guid.Empty)
 				{
-					urlBuilder_.Append(System.Uri.EscapeDataString("targetId")).Append('=').Append(System.Uri.EscapeDataString(targetId.ToString()!)).Append('&');
+					urlBuilder_.Append(System.Uri.EscapeDataString("TargetId")).Append('=').Append(System.Uri.EscapeDataString(targetId.ToString()!)).Append('&');
 				}
 				else
 				{
@@ -376,24 +378,49 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 				if ((bool)atBottomOfChildNodes!)
 				{
-					urlBuilder_.Append(System.Uri.EscapeDataString("atBottomOfChildNodes")).Append('=').Append(System.Uri.EscapeDataString("true")).Append('&');
+					urlBuilder_.Append(System.Uri.EscapeDataString("AtBottomOfChildNodes")).Append('=').Append(System.Uri.EscapeDataString("true")).Append('&');
 				}
 				else
 				{
-					urlBuilder_.Append(System.Uri.EscapeDataString("atBottomOfChildNodes")).Append('=').Append(System.Uri.EscapeDataString("false")).Append('&');
+					urlBuilder_.Append(System.Uri.EscapeDataString("AtBottomOfChildNodes")).Append('=').Append(System.Uri.EscapeDataString("false")).Append('&');
 				}
 
 				urlBuilder_.Length--;
 
-				var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs/{movingItemzId.ToString()}?targetId={targetId.ToString()}&atBottomOfChildNodes={atBottomOfChildNodes}", cancellationToken);
+				//tempMovingItemzId = movingItemzId;
+				//tempTargetId = targetId;
+				//var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs/{tempMovingItemzId}?TargetId={tempTargetId}&AtBottomOfChildNodes=true", cancellationToken);
+
+				// EXPLANATION :: WOW THIS WAS TOUGH ONE. _httpClient.PostAsJsonAsync was not happy until I passed in 'targetId' OR SOME SERIALIZABLE OBJECT 
+				// as second parameter. It just kept giving error while I was passing in only cancellationToken as parameter.
+				// This is because cancellationToken has to be 3rd or further down parameter. It can't be 2nd Parameter!
+				// I kept getting error as ... NotSupportedException: Serialization and deserialization of 'System.IntPtr' instances is not supported.
+
+				var httpResponseMessage = await _httpClient.PostAsJsonAsync(requestUri:$"{urlBuilder_}", targetId, cancellationToken: cancellationToken);
+
+				////MoveItemzRequest payload = new MoveItemzRequest();
+				////payload.MovingItemzId = movingItemzId;
+				////payload.TargetId = targetId;
+				////payload.AtBottomOfChildNodes = true;
+
+				////var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs/{payload.MovingItemzId}?TargetId={payload.TargetId}&AtBottomOfChildNodes={payload.AtBottomOfChildNodes}", payload);
+
 				httpResponseMessage.EnsureSuccessStatusCode();
 				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
 			}
 			catch (Exception)
 			{
+				throw;
 			}
 		}
 			#endregion
 	}
+
+	//public class MoveItemzRequest 
+	//{ 
+	//	public Guid MovingItemzId { get; set; } 
+	//	public Guid TargetId { get; set; } 
+	//	public bool AtBottomOfChildNodes { get; set; } 
+	//}
 }
