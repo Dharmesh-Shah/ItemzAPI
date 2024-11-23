@@ -42,14 +42,67 @@ namespace ItemzApp.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        /// <summary>
-        /// Gets Hierarchy Record details based on Record Id provided in GUID form.
-        /// </summary>
-        /// <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
-        /// <returns>Hierarchy record details containing various information about given Record Id</returns>
-        /// <response code="200">Hierarchy record details containing various information about given Record Id</response>
-        /// <response code="404">Hierarchy record not found in the repository for the given GUID ID</response>
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+
+
+		/// <summary>
+		/// Gets Hierarchy Record details of the next Sibling of Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+		/// <returns>Hierarchy record details containing various information about given Record Id's next Sibling</returns>
+		/// <response code="200">Hierarchy record details containing various information about given Record Id's next Sibling</response>
+		/// <response code="404">Either Sibling OR Hierarchy record not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetNextSibling/{RecordId:Guid}",
+			Name = "__Get_Next_Sibling_Hierarchy_Record_Details_By_GUID__")] // e.g. http://HOST:PORT/api/Hierarchy/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetNextSibling/{RecordId:Guid}", Name = "__HEAD_Next_Sibling_Hierarchy_Record_Details_By_GUID__")]
+		public async Task<ActionResult<HierarchyIdRecordDetailsDTO>> GetNextSiblingHierarchyRecordDetailsAsync(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Next Sibling Hierarchy record details for ID {1stRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
+
+			var nextSiblingRecordDetailsDTO = new HierarchyIdRecordDetailsDTO();
+			try
+			{
+				nextSiblingRecordDetailsDTO = await _hierarchyRepository.GetNextSiblingHierarchyRecordDetailsByID(RecordId);
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get Next Sibling Hierarchy Details : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce next sibling hierarchy details for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			if (nextSiblingRecordDetailsDTO != null)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Returning Next Sibling Hierarchy Record details for ID {ParentRecordId} " +
+					"with '{HierarchyId}' as HierarchyID and {RecordType} as Record Type.",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId,
+					nextSiblingRecordDetailsDTO.HierarchyId,
+					nextSiblingRecordDetailsDTO.RecordType);
+			}
+			return Ok(nextSiblingRecordDetailsDTO);
+		}
+
+
+
+
+
+
+		/// <summary>
+		/// Gets Hierarchy Record details based on Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+		/// <returns>Hierarchy record details containing various information about given Record Id</returns>
+		/// <response code="200">Hierarchy record details containing various information about given Record Id</response>
+		/// <response code="404">Hierarchy record not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HierarchyIdRecordDetailsDTO))]
         [HttpGet("{RecordId:Guid}",
             Name = "__Get_Hierarchy_Record_Details_By_GUID__")] // e.g. http://HOST:PORT/api/Hierarchy/42f62a6c-fcda-4dac-a06c-406ac1c17770

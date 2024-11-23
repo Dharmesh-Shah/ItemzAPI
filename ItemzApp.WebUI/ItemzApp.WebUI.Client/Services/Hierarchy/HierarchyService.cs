@@ -46,6 +46,37 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
 		#endregion
 
 
+		#region __Get_Next_Sibling_Hierarchy_Record_Details_By_GUID__Async
+
+		public async Task<HierarchyIdRecordDetailsDTO> __Get_Next_Sibling_Hierarchy_Record_Details_By_GUID__Async(Guid recordId)
+		{
+			return await __Get_Next_Sibling_Hierarchy_Record_Details_By_GUID__Async(recordId, CancellationToken.None);
+		}
+		public async Task<HierarchyIdRecordDetailsDTO> __Get_Next_Sibling_Hierarchy_Record_Details_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
+		{
+			try
+			{
+				//TODO::Utilize urlBuilder which is commented below.
+
+				//var urlBuilder_ = new System.Text.StringBuilder();
+				//urlBuilder_.Append($"/api/Hierarchy/{recordId.ToString()}");
+				//urlBuilder_.Append('?');
+
+				//urlBuilder_.Length--;
+
+				var httpResponseMessage = await _httpClient.GetFromJsonAsync<HierarchyIdRecordDetailsDTO>($"/api/Hierarchy/GetNextSibling/{recordId.ToString()}", cancellationToken);
+				return httpResponseMessage!;
+			}
+			catch (Exception)
+			{
+			}
+			return default;
+		}
+
+		#endregion
+
+		
+
 		#region __Get_Immediate_Children_Hierarchy_By_GUID__Async
 		public async Task<ICollection<HierarchyIdRecordDetailsDTO>> __Get_Immediate_Children_Hierarchy_By_GUID__Async(Guid recordId)
 		{

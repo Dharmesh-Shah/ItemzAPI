@@ -8,14 +8,14 @@
 <MudPaper Class="pa-3 mb-3 align-start d-flex" Style="width: auto " Outlined="false">
 	<MudStack Row="true" Spacing="3">
 	<MudIcon Icon="@Icons.Material.Filled.ConnectingAirports" Size="Size.Large" />
-		<MudText Typo="Typo.h5" Align="Align.Left">Move Itemz</MudText>
+		<MudText Typo="Typo.h5" Align="Align.Left">Move Itemz Under </MudText>
 		<MudSpacer /> 
-		<MudText Class="mt-3" Typo="Typo.caption"> and it's sub-itemz node tree structure as child under selected target ItemzType / Itemz </MudText>
+		<MudText Class="mt-3" Typo="Typo.caption"> Move Itemz and it's Sub-Itemz tree structure as child under selected target ItemzType / Itemz </MudText>
 	</MudStack>
 </MudPaper>
 
-<MudItem xs="12" Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-8">
-	<MudPaper Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-8" style="padding: 16px;">
+<MudItem xs="12" Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-3">
+	<MudPaper Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-3" style="padding: 16px;">
 		<div class="d-flex flex-column align-items-center justify-center w-100 h-100">
 			<MudStack Row="true" Spacing="2">
 				<MudTooltip Text="Step 1 is to select Source Itemz that should be moved">
@@ -25,9 +25,8 @@
 			</MudStack>
 			@if (sourceItemz != null && sourceItemz.Id != Guid.Empty)
 			{
-			<br />
-			<br />
-				<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
+			<MudStack Row="false" Spacing="2">
+			<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
 				<MudCardContent Class="d-flex flex-wrap">
 					<div>
 						<MudText Typo="Typo.h6" Align="Align.Left"> Source Itemz Details </MudText> 
@@ -40,16 +39,16 @@
 					</div>
 				</MudCardContent>
 			</MudCard>
+			</MudStack>
 			}
 		</div>
     </MudPaper>
 </MudItem>
 @if (sourceItemz != null && sourceItemz.Id != Guid.Empty)
 {
-	<MudItem xs="12" Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-8">
-	<MudPaper Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-8" style="padding: 16px;">
+	<MudItem xs="12" Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-3">
+	<MudPaper Class="d-flex align-items-center justify-center mud-width-full mud-height-full py-3" style="padding: 16px;">
 		<div class="d-flex flex-column align-items-center justify-center w-100 h-100">
-
 			<MudStack Row="true" Spacing="2">
 				<MudTooltip Text="Step 2 is to select Target Itemz OR ItemzType to move under">
 					<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Success"> STEP 2 </MudChip>
@@ -59,9 +58,7 @@
 			</MudStack>
 			@if (targetItemz != null && targetItemz.Id != Guid.Empty )
 			{
-					//targetItemzType = new();
-				<br />
-				<br />
+				<MudStack Row="false" Spacing="2">
 				<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
 				<MudCardContent>
 					<MudText Typo="Typo.h6" Align="Align.Left"> Target Itemz Details </MudText> 
@@ -73,21 +70,21 @@
 					<MudText><strong>Severity    : </strong> @targetItemz.Severity</MudText>
 				</MudCardContent>
 				</MudCard>
+				</MudStack>
 			}
 			else if (targetItemzType != null && targetItemzType.Id != Guid.Empty)
 			{
-					// targetItemz = new();
-					<br />
-					<br />
-					<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
-					<MudCardContent>
-						<MudText Typo="Typo.h6" Align="Align.Left"> Target ItemzType Details </MudText>
-						<MudDivider></MudDivider>
-						<MudText><strong>Name        : </strong> @targetItemzType.Name </MudText>
-						<MudText><strong>ID          : </strong> @targetItemzType.Id.ToString()</MudText>
-						<MudText><strong>Status      : </strong> @targetItemzType.Status</MudText>
-					</MudCardContent>
-					</MudCard>
+				<MudStack Row="false" Spacing="2">
+				<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
+				<MudCardContent>
+					<MudText Typo="Typo.h6" Align="Align.Left"> Target ItemzType Details </MudText>
+					<MudDivider></MudDivider>
+					<MudText><strong>Name        : </strong> @targetItemzType.Name </MudText>
+					<MudText><strong>ID          : </strong> @targetItemzType.Id.ToString()</MudText>
+					<MudText><strong>Status      : </strong> @targetItemzType.Status</MudText>
+				</MudCardContent>
+				</MudCard>
+				</MudStack>
 			}
 			@if ((targetItemz != null && targetItemz.Id != Guid.Empty) ||
 				(targetItemzType != null && targetItemzType.Id != Guid.Empty))
@@ -113,6 +110,7 @@
 			(targetItemzType != null && targetItemzType.Id != Guid.Empty))
 	{
 		<MudPaper Class="pa-3 mb-3 align-end d-flex" Style="width: auto " Outlined="false">
+		<div class="d-flex flex-column align-items-center justify-center w-100 h-100">
 		<MudStack Row="true" Spacing="2">
 			<MudTooltip Text="Step 4 is to Perform OR Cancel the move">
 				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Success"> STEP 4 </MudChip>
@@ -120,6 +118,7 @@
 			<MudButton @onclick="async _ => await performItemzMove()" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Primary"> Move Source Itemz to selected Target </MudButton>
 			<MudButton @onclick="async _ => await performCleanUpActivity()" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning"> Cancel / Restart Move </MudButton>
 		</MudStack>
+		</div>
 		</MudPaper>
 	}
 }
@@ -322,8 +321,6 @@
 		radioAtBottomOfChildList = true;
 		movingItemzOverlay = false;
 	}
-
-
 
 	// private async Task<(bool isEligible, string checkEligibilityErrorMessage)> CheckTargetEligibility(GetItemzDTO checkTargetItemz)
 	// {

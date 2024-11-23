@@ -263,7 +263,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 				//urlBuilder_.Length--;
 
-				var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs/MoveItemzBetweenExistingItemz?movingItemzId={movingItemzId.ToString()}&firstItemzId={firstItemzId.ToString()}&secondItemzId={secondItemzId.ToString()}  ", cancellationToken);
+				var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs/MoveItemzBetweenExistingItemz?movingItemzId={movingItemzId.ToString()}&firstItemzId={firstItemzId.ToString()}&secondItemzId={secondItemzId.ToString()}", movingItemzId,cancellationToken: cancellationToken);
 				httpResponseMessage.EnsureSuccessStatusCode();
 				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
 				// TODO :: Send back updated content for GetProjectDTO

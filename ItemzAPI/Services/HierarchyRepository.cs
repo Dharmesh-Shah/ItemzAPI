@@ -41,7 +41,104 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public async Task<HierarchyIdRecordDetailsDTO?> GetHierarchyRecordDetailsByID(Guid recordId)
+		//public async Task<HierarchyIdRecordDetailsDTO> GetNextSiblingHierarchyRecordDetailsByID(Guid recordId)
+		//{
+		//	if (recordId == Guid.Empty)
+		//	{
+		//		throw new ArgumentNullException(nameof(recordId));
+		//	}
+
+		//	var foundFirstHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+		//		.Where(ih => ih.Id == recordId);
+
+		//	if (foundFirstHierarchyRecord.Count() != 1)
+		//	{
+		//		throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+		//			$"but instead found {foundFirstHierarchyRecord.Count()} records for ID {recordId}" +
+		//			"Please contact your System Administrator.");
+		//	}
+
+		//	var foundSecondHierarchyRecord =
+
+		//}
+
+
+
+		//// GENERATED CODE STARTS
+		public async Task<HierarchyIdRecordDetailsDTO?> GetNextSiblingHierarchyRecordDetailsByID(Guid recordId)
+		{
+			if (recordId == Guid.Empty)
+			{
+				throw new ArgumentNullException(nameof(recordId));
+			}
+
+			var foundFirstHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+				.Where(ih => ih.Id == recordId)
+				.FirstOrDefault();
+
+			if (foundFirstHierarchyRecord == null)
+			{
+				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+					$"but instead found 0 records for ID {recordId}. " +
+					"Please contact your System Administrator.");
+			}
+
+			//if (foundFirstHierarchyRecord.RecordType.ToLower() != "itemz") // TODO :: USE CONSTANTS
+			//{
+			//	throw new ApplicationException($"Provided ID should be for RecordType Itemz and not for {foundFirstHierarchyRecord.RecordType}");
+			//}
+
+			// EXPLANATION :: Get Immediate parent of the current record and it's RecordType does not matter.
+			var parentHierarchyId = foundFirstHierarchyRecord.ItemzHierarchyId!.GetAncestor(1);
+
+			if (parentHierarchyId == null)
+			{
+				return null;
+			}
+
+			// Get all child nodes of the parent
+			var siblingNodes = await _context.ItemzHierarchy!
+				.AsNoTracking()
+				.Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == parentHierarchyId)
+				.OrderBy(ih => ih.ItemzHierarchyId!)
+				.ToListAsync();
+
+			// Find the index of the current record and get the next sibling
+			var currentIndex = siblingNodes.FindIndex(ih => ih.Id == recordId);
+
+			if (currentIndex == -1 || currentIndex + 1 >= siblingNodes.Count)
+			{
+				// No next sibling found
+				return null;
+			}
+
+			var nextSibling = siblingNodes[currentIndex + 1];
+
+			//var nextSiblingDetails = new HierarchyIdRecordDetailsDTO
+			//{
+			//	RecordId = nextSibling.Id,
+			//	Name = nextSibling.Name ?? "",
+			//	HierarchyId = nextSibling.ItemzHierarchyId!.ToString(),
+			//	RecordType = nextSibling.RecordType,
+			//	Level = nextSibling.ItemzHierarchyId.GetLevel(),
+			//	ParentRecordId = foundFirstHierarchyRecord.Id,
+			//	ParentRecordType = foundFirstHierarchyRecord.RecordType,
+			//	ParentHierarchyId = foundFirstHierarchyRecord.ItemzHierarchyId.ToString(),
+			//	ParentLevel = foundFirstHierarchyRecord.ItemzHierarchyId.GetLevel(),
+			//	ParentName = foundFirstHierarchyRecord.Name ?? ""
+			//};
+
+			var nextSiblingDetails = await GetHierarchyRecordDetailsByID(nextSibling.Id);
+
+			return nextSiblingDetails;
+		}
+		//// GENERATED CODE ENDS
+
+
+
+
+
+		public async Task<HierarchyIdRecordDetailsDTO?> GetHierarchyRecordDetailsByID(Guid recordId)
         {
             if (recordId == Guid.Empty)
             {

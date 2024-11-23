@@ -433,6 +433,15 @@
             <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
             <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.HierarchyController.GetNextSiblingHierarchyRecordDetailsAsync(System.Guid)">
+            <summary>
+            Gets Hierarchy Record details of the next Sibling of Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+            <returns>Hierarchy record details containing various information about given Record Id's next Sibling</returns>
+            <response code="200">Hierarchy record details containing various information about given Record Id's next Sibling</response>
+            <response code="404">Either Sibling OR Hierarchy record not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.HierarchyController.GetHierarchyRecordDetailsAsync(System.Guid)">
             <summary>
             Gets Hierarchy Record details based on Record Id provided in GUID form.

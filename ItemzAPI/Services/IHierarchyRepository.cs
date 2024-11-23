@@ -13,6 +13,8 @@ namespace ItemzApp.API.Services
     {
         public Task<HierarchyIdRecordDetailsDTO?> GetHierarchyRecordDetailsByID(Guid recordId);
 
+		public Task<HierarchyIdRecordDetailsDTO?> GetNextSiblingHierarchyRecordDetailsByID(Guid recordId);
+
 		public Task<IEnumerable<HierarchyIdRecordDetailsDTO?>> GetImmediateChildrenOfItemzHierarchy(Guid recordId);
 
 		//public Task<IEnumerable<NestedHierarchyIdRecordDetailsDTO?>> GetAllParentsOfItemzHierarchy(Guid recordId);
