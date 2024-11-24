@@ -1,4 +1,5 @@
 ﻿using ItemzApp.WebUI.Client.SharedModels;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -133,17 +134,32 @@ namespace ItemzApp.WebUI.Client.Services.ItemzType
 
         public async Task __POST_Move_ItemzType__Async(Guid movingItemzTypeId, Guid? targetProjectId, bool? atBottomOfChildNodes, CancellationToken cancellationToken)
         {
-            try
+			HttpResponseMessage httpResponseMessage = null;
+			try
             {
-                var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/ItemzTypes/{movingItemzTypeId}?TargetProjectId={targetProjectId}&AtBottomOfChildNodes={atBottomOfChildNodes}", cancellationToken);
-                httpResponseMessage.EnsureSuccessStatusCode();
-                string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+                httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/ItemzTypes/{movingItemzTypeId}?TargetProjectId={targetProjectId}&AtBottomOfChildNodes={atBottomOfChildNodes}", movingItemzTypeId, cancellationToken: cancellationToken);
+				httpResponseMessage.EnsureSuccessStatusCode();
+				string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+			}
+			catch (HttpRequestException httpRequestException)
+			{
+				string errorMessage = $"Error: {httpRequestException.StatusCode}";
 
-            }
-            catch (Exception)
-            {
-            }
-        }
+				// Read the response content if available
+				if (httpResponseMessage != null)
+				{
+					var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+					errorMessage += $": {responseContent}";
+				}
+
+//				throw new ApplicationException(errorMessage, httpRequestException);
+				throw new ApplicationException(errorMessage);
+			}
+			catch (Exception ex)
+			{
+				throw new ApplicationException("An unexpected error occurred.", ex);
+			}
+		}
 
 		#endregion
 
@@ -155,15 +171,30 @@ namespace ItemzApp.WebUI.Client.Services.ItemzType
 
         public async Task __POST_Move_ItemzType_Between_ItemzTypes__Async(Guid? movingItemzTypeId, Guid? firstItemzTypeId, Guid? secondItemzTypeId, CancellationToken cancellationToken)
         {
+			HttpResponseMessage httpResponseMessage = null;
 			try
 			{
-				var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/ItemzTypes/MoveItemzTypeBetweenItemzTypes?movingItemzTypeId={movingItemzTypeId}&firstItemzTypeId={firstItemzTypeId}&secondItemzTypeId={secondItemzTypeId}", cancellationToken);
+				httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/ItemzTypes/MoveItemzTypeBetweenItemzTypes?movingItemzTypeId={movingItemzTypeId}&firstItemzTypeId={firstItemzTypeId}&secondItemzTypeId={secondItemzTypeId}", movingItemzTypeId, cancellationToken: cancellationToken);
 				httpResponseMessage.EnsureSuccessStatusCode();
-				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
-
+				string responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
 			}
-			catch (Exception)
+			catch (HttpRequestException httpRequestException)
 			{
+				string errorMessage = $"Error: {httpRequestException.StatusCode}";
+
+				// Read the response content if available
+				if (httpResponseMessage != null)
+				{
+					var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+					errorMessage += $": {responseContent}";
+				}
+
+				//				throw new ApplicationException(errorMessage, httpRequestException);
+				throw new ApplicationException(errorMessage);
+			}
+			catch (Exception ex)
+			{
+				throw new ApplicationException("An unexpected error occurred.", ex);
 			}
 		}
 
