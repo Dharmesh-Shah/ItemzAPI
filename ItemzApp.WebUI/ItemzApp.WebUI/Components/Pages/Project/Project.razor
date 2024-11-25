@@ -56,10 +56,10 @@
 					<PropertyColumn Property="x => x.RecordId" Title="Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<PropertyColumn Property="x => x.Name" />
 					<PropertyColumn Property="x => x.NumberOfChildNodes" Title="Number of Child Nodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
-					<TemplateColumn Title="Move Up or Down">
+					<TemplateColumn Title="Action">
 						<CellTemplate>
 							<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
-							<MudButton Size="@Size.Small"
+							<MudButton Size="@Size.Medium"
 								Variant="@Variant.Filled" Color="@Color.Success"
 							    Style="border: none; box-shadow: none;"
 								OnClick="_ => editItemzTypeDetails(context.Item.RecordId.ToString())"> Open </MudButton>
@@ -69,14 +69,14 @@
 					<TemplateColumn Title="Move Up or Down">
 						<CellTemplate >
 						<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
-							<MudButton Size="@Size.Small"
+							<MudButton Size="@Size.Medium"
 									Disabled="@(AllItemzTypesForProject.IndexOf(context.Item) == 0)"
 									Color="Color.Success" Variant="@Variant.Filled"
-									OnClick="_ => MoveUp(context.Item.RecordId.ToString())">Up</MudButton>
-							<MudButton Size="@Size.Small"
+										   OnClick="async _ => await MoveUpAsync(context.Item.RecordId.ToString())">Up</MudButton>
+								<MudButton Size="@Size.Medium"
 									Disabled="@(AllItemzTypesForProject.IndexOf(context.Item) == AllItemzTypesForProject.Count - 1)"
 									Color="Color.Success" Variant="@Variant.Filled"
-									OnClick="_ => MoveDown(context.Item.RecordId.ToString())">Down</MudButton>
+									OnClick="async _ => await MoveDownAsync(context.Item.RecordId.ToString())">Down</MudButton>
 						</div>
 						</CellTemplate>
 					</TemplateColumn>
@@ -85,6 +85,18 @@
  		</MudItem>
 }
 </MudGrid>
+@if (_showOverlay)
+{
+	<MudPaper Height="calc(100vh - 100px);" Width="100%">
+		<MudOverlay Visible="@_showOverlay" DarkBackground="true" Absolute="true">
+			<MudContainer Class="d-flex flex-column justify-center align-center" Style="height: 100%;">
+				@* <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Moving ... </MudText>
+			<br /> *@
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+			</MudContainer>
+		</MudOverlay>
+	</MudPaper>
+}
 @code {
 	[Parameter]
 	public Guid ProjectId { get; set; }
@@ -101,6 +113,7 @@
 	public GetProjectDTO singleProject { get; set; } = new();
 	private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
 	public bool initializingPage { get; set; } = true;
+	public bool _showOverlay { get; set; } = false;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -148,7 +161,7 @@
 
 
 	#region MOVE_Up_and_Down
-	private void MoveUp(string currentId)
+	private async Task MoveUpAsync(string currentId)
 	{
 		var _totalRecordsInList = AllItemzTypesForProject.Count();
 
@@ -160,10 +173,12 @@
 			// EXPLANATION :: // 0,1,2,3,4,5 SO IF GAP HAS TWO POSSIBLE SPACES ABOVE CURRENT RECORD
 			// Here the lowest currentIndex number has to be 2 and so we can move  2 between 0 & 1, 
 			// 3 between 1 & 2, 4 in between 2 & 3, so forth.
+			_showOverlay = true;
+			StateHasChanged();
 
 			if (currentIndex > 1) 
 			{
-				ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
+				await ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
 					movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
 					, firstItemzTypeId: AllItemzTypesForProject[currentIndex - 2].RecordId
 					, secondItemzTypeId: AllItemzTypesForProject[currentIndex - 1].RecordId
@@ -176,7 +191,7 @@
 
 			else if (currentIndex == 1) 
 			{
-				ItemzTypeService.__POST_Move_ItemzType__Async(
+				await ItemzTypeService.__POST_Move_ItemzType__Async(
 							movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
 					, targetProjectId: ProjectId
 					, atBottomOfChildNodes: false
@@ -185,8 +200,14 @@
 		}
 		catch (Exception ex)
 		{
-			DialogService.ShowMessageBox("ERROR", markupMessage: new
+			await DialogService.ShowMessageBox("ERROR", markupMessage: new
 					MarkupString($"<p style=\"color: red; \">{ex.Message}</p>"), yesText: "OK");
+			return;
+		}
+		finally
+		{
+			_showOverlay = false;
+			StateHasChanged();
 		}
 
 		var previousIndex = currentIndex - 1;
@@ -199,7 +220,7 @@
 		}
 	}
 
-	private void MoveDown(string currentId)
+	private async Task MoveDownAsync(string currentId)
 	{
 
 		var _totalRecordsInList = AllItemzTypesForProject.Count();
@@ -208,6 +229,8 @@
 
 		try
 		{
+			_showOverlay = true;
+			StateHasChanged();
 			// EXPLANATION :: 0,1,2,3,4 - Count 5  SO IF GAP HAS TWO POSSIBLE SPACES BELOW CURRENT RECORD.
 			// Here the hieghest currentIndex number has to be 2 and so we can move  2 between 3 & 4,
 			// 1 between 2 & 3, 0 in between 1 & 2, so forth.
@@ -215,7 +238,7 @@
 
 			if (currentIndex + 2 < _totalRecordsInList) 
 			{
-				ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
+				await ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
 					movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
 					, firstItemzTypeId: AllItemzTypesForProject[currentIndex + 1].RecordId
 					, secondItemzTypeId: AllItemzTypesForProject[currentIndex + 2].RecordId
@@ -227,7 +250,7 @@
 
 			else if (currentIndex + 2 == _totalRecordsInList)
 			{
-				ItemzTypeService.__POST_Move_ItemzType__Async(
+				await ItemzTypeService.__POST_Move_ItemzType__Async(
 							movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
 					, targetProjectId: ProjectId
 					, atBottomOfChildNodes: true
@@ -236,8 +259,14 @@
 		}
 		catch (Exception ex)
 		{
-			DialogService.ShowMessageBox("ERROR", markupMessage: new
+			await DialogService.ShowMessageBox("ERROR", markupMessage: new
 					MarkupString($"<p style=\"color: red; \">{ex.Message}</p>"), yesText: "OK");
+			return;
+		}
+		finally
+		{
+			_showOverlay = false;
+			StateHasChanged();
 		}
 
 		var nextIndex = currentIndex + 1;
