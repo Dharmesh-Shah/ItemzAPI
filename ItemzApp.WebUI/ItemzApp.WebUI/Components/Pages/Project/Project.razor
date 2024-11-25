@@ -1,6 +1,7 @@
 ﻿@page "/project/{ProjectId:guid}"
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Project
+@using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
@@ -52,18 +53,31 @@
 			</MudPaper>
 			<MudDataGrid Items="@AllItemzTypesForProject" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
 				<Columns>
-					<PropertyColumn Property="x => x.RecordId" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<PropertyColumn Property="x => x.RecordId" Title="Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<PropertyColumn Property="x => x.Name" />
-					<PropertyColumn Property="x => x.NumberOfChildNodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
-					<TemplateColumn CellClass="d-flex justify-left">
+					<PropertyColumn Property="x => x.NumberOfChildNodes" Title="Number of Child Nodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<TemplateColumn Title="Move Up or Down">
 						<CellTemplate>
-@* 							<MudButton Size="@Size.Large"
-								Variant="@Variant.Filled" Color="@Color.Success" 
-								Disabled="context.Item.IsSystem"
-								OnClick="_ => editItemzTypeDetails(context.Item.Id.ToString())"> Open </MudButton> *@
-							<MudButton Size="@Size.Large"
-								Variant="@Variant.Filled" Color="@Color.Success" 
+							<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
+							<MudButton Size="@Size.Small"
+								Variant="@Variant.Filled" Color="@Color.Success"
+							    Style="border: none; box-shadow: none;"
 								OnClick="_ => editItemzTypeDetails(context.Item.RecordId.ToString())"> Open </MudButton>
+							</div>
+						</CellTemplate>
+					</TemplateColumn>
+					<TemplateColumn Title="Move Up or Down">
+						<CellTemplate >
+						<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
+							<MudButton Size="@Size.Small"
+									Disabled="@(AllItemzTypesForProject.IndexOf(context.Item) == 0)"
+									Color="Color.Success" Variant="@Variant.Filled"
+									OnClick="_ => MoveUp(context.Item.RecordId.ToString())">Up</MudButton>
+							<MudButton Size="@Size.Small"
+									Disabled="@(AllItemzTypesForProject.IndexOf(context.Item) == AllItemzTypesForProject.Count - 1)"
+									Color="Color.Success" Variant="@Variant.Filled"
+									OnClick="_ => MoveDown(context.Item.RecordId.ToString())">Down</MudButton>
+						</div>
 						</CellTemplate>
 					</TemplateColumn>
 				</Columns>
@@ -77,9 +91,12 @@
 
 	[Inject]
 	public IProjectService ProjectService { get; set; }
-	
+
 	[Inject]
 	public IHierarchyService HierarchyService { get; set; }
+
+	[Inject]
+	public IItemzTypeService ItemzTypeService { get; set; }
 
 	public GetProjectDTO singleProject { get; set; } = new();
 	private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
@@ -129,4 +146,108 @@
 		NavManager.NavigateTo($"/projectDetails/{Id}");
 	}
 
+
+	#region MOVE_Up_and_Down
+	private void MoveUp(string currentId)
+	{
+		var _totalRecordsInList = AllItemzTypesForProject.Count();
+
+		var currentIndex = AllItemzTypesForProject.FindIndex(x => x.RecordId.ToString() == currentId);
+
+		try
+		{
+
+			// EXPLANATION :: // 0,1,2,3,4,5 SO IF GAP HAS TWO POSSIBLE SPACES ABOVE CURRENT RECORD
+			// Here the lowest currentIndex number has to be 2 and so we can move  2 between 0 & 1, 
+			// 3 between 1 & 2, 4 in between 2 & 3, so forth.
+
+			if (currentIndex > 1) 
+			{
+				ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
+					movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
+					, firstItemzTypeId: AllItemzTypesForProject[currentIndex - 2].RecordId
+					, secondItemzTypeId: AllItemzTypesForProject[currentIndex - 1].RecordId
+				);
+			}
+
+			// EXPLANATION :: // 0,1,2,3,4,5 SO IF GAP HAS ONLY ONE ITEMZ ABOVE CURRENT LIST.
+			// Here the currentIndex number will have to be 1 and so we can move  1 at position 0,
+			// which is the top position.
+
+			else if (currentIndex == 1) 
+			{
+				ItemzTypeService.__POST_Move_ItemzType__Async(
+							movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
+					, targetProjectId: ProjectId
+					, atBottomOfChildNodes: false
+				);
+			}
+		}
+		catch (Exception ex)
+		{
+			DialogService.ShowMessageBox("ERROR", markupMessage: new
+					MarkupString($"<p style=\"color: red; \">{ex.Message}</p>"), yesText: "OK");
+		}
+
+		var previousIndex = currentIndex - 1;
+
+		if (currentIndex > 0 && previousIndex >= 0)
+		{
+			var temp = AllItemzTypesForProject[currentIndex];
+			AllItemzTypesForProject[currentIndex] = AllItemzTypesForProject[previousIndex];
+			AllItemzTypesForProject[previousIndex] = temp;
+		}
+	}
+
+	private void MoveDown(string currentId)
+	{
+
+		var _totalRecordsInList = AllItemzTypesForProject.Count();
+
+		var currentIndex = AllItemzTypesForProject.FindIndex(x => x.RecordId.ToString() == currentId);
+
+		try
+		{
+			// EXPLANATION :: 0,1,2,3,4 - Count 5  SO IF GAP HAS TWO POSSIBLE SPACES BELOW CURRENT RECORD.
+			// Here the hieghest currentIndex number has to be 2 and so we can move  2 between 3 & 4,
+			// 1 between 2 & 3, 0 in between 1 & 2, so forth.
+			// Lets say currentIndex is 3 then (3 + 5 < 5) becomes false and so it will skip over if condition
+
+			if (currentIndex + 2 < _totalRecordsInList) 
+			{
+				ItemzTypeService.__POST_Move_ItemzType_Between_ItemzTypes__Async(
+					movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
+					, firstItemzTypeId: AllItemzTypesForProject[currentIndex + 1].RecordId
+					, secondItemzTypeId: AllItemzTypesForProject[currentIndex + 2].RecordId
+				);
+			}
+			// EXPLANATION 0,1,2,3,4 - Count 5 SO 3 IS THE ONLY VALUE THAT RETURNS TRUE IN THIS CASE.
+			// 3 + 2 = 5 AND SO IF CONDITION EVALUATES TO TRUE.
+			// if currentIndex is 3 then it will move it to bottom of the list at position 4.
+
+			else if (currentIndex + 2 == _totalRecordsInList)
+			{
+				ItemzTypeService.__POST_Move_ItemzType__Async(
+							movingItemzTypeId: AllItemzTypesForProject[currentIndex].RecordId
+					, targetProjectId: ProjectId
+					, atBottomOfChildNodes: true
+				);
+			}
+		}
+		catch (Exception ex)
+		{
+			DialogService.ShowMessageBox("ERROR", markupMessage: new
+					MarkupString($"<p style=\"color: red; \">{ex.Message}</p>"), yesText: "OK");
+		}
+
+		var nextIndex = currentIndex + 1;
+
+		if (currentIndex < AllItemzTypesForProject.Count - 1 && nextIndex >= 0)
+		{
+			var temp = AllItemzTypesForProject[currentIndex];
+			AllItemzTypesForProject[currentIndex] = AllItemzTypesForProject[nextIndex];
+			AllItemzTypesForProject[nextIndex] = temp;
+		}
+	}
+	#endregion
 }
