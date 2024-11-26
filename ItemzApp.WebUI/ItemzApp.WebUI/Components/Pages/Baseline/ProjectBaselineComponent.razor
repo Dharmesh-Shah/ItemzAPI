@@ -215,19 +215,19 @@ else
 					</HeaderTemplate>
 				</PropertyColumn>
 			<PropertyColumn Property="x => x.Name" Filterable="true" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " Resizable="true" />
-			<TemplateColumn CellClass="d-flex justify-left">
+			<TemplateColumn Title="Action">
 				<CellTemplate>
-					<MudStack Row>
+					<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
 							<MudButton Size="@Size.Large"
 									   Variant="@Variant.Filled" Color="@Color.Success"
 									   OnClick="_ => openBaseline(context.Item.RecordId)"> Open </MudButton>
 							<MudButton Size="@Size.Large"
 									   Variant="@Variant.Filled" Color="@Color.Success"
-									   OnClick="_ => openBaselineTreeView(context.Item.RecordId)"> Open TreeView </MudButton>
+									   OnClick="_ => openBaselineTreeView(context.Item.RecordId)"> TreeView </MudButton>
 							<MudButton Size="@Size.Large"
 							   Variant="@Variant.Filled" Color="@Color.Error"
 							   OnClick="_ => deleteBaseline(context.Item.RecordId, context.Item.Name!)"> Delete </MudButton>
-					</MudStack>
+					</div>
 				</CellTemplate>
 			</TemplateColumn>
 		</Columns>

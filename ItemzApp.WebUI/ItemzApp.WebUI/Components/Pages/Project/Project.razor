@@ -32,8 +32,8 @@
 						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleProject.Name </strong></MudText>
 						<MudSpacer />
 						<MudButton OnClick="async _ => await editProjectDetails(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Project </MudButton>
-						<MudButton OnClick="_ => openProjectTreeView(@singleProject.Id.ToString())" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" style="gap: 10px; margin-left : 10px"> TreeView </MudButton>
-						<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+						<MudButton OnClick="async _ => await openProjectTreeView(singleProject.Id.ToString())" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" Target="_blank" style="gap: 10px; margin-left : 10px"> TreeView </MudButton> 
+							<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
 						</MudItem>
 					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />

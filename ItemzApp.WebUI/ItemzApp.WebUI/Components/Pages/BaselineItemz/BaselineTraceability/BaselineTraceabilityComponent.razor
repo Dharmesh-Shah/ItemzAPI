@@ -46,11 +46,13 @@
 				}
 			</CellTemplate>
 		</PropertyColumn>
-		<TemplateColumn CellClass="d-flex justify-left">
+		<TemplateColumn Title="Action">
 			<CellTemplate>
+				<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
 				<MudButton Size="@Size.Large"
 						   Variant="@Variant.Filled" Color="@Color.Success"
 						   OnClick="_ => openBaselineItemz(context.Item.Id.ToString())"> Open </MudButton>
+				</div>
 			</CellTemplate>
 		</TemplateColumn>
 	</Columns>

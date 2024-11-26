@@ -14,7 +14,7 @@
 	<BaselineBreadcrums produceBreadcrums="BreadcrumsParameter" />
 }
 
-<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+<MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
 </MudPaper>
 
@@ -90,9 +90,8 @@
 			</MudCard>
 			</MudPaper>
 		</MudItem>
-		<br />
  		<MudItem xs="12" sm="12">
-			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+			<MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
 				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Child Baseline Itemz &nbsp;&nbsp;"))</MudText>
 				<MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @AllChildBaselineItemz.Count().ToString()</MudChip>
 			</MudPaper>
@@ -100,7 +99,8 @@
 						Filterable="true" 
 						SortMode="@SortMode.None" 
 						Groupable="false" 
-						Striped="true" 
+						Striped="true"
+						 Class="pa-4 mb-3"
 						FixedHeader="true" 
 						HeaderClass="background-color: red;">
 				<Columns>
@@ -118,14 +118,15 @@
 							}
 						</CellTemplate>
 					</PropertyColumn>
-
  					<PropertyColumn Property="x => x.Name" />
 					<PropertyColumn Property="x => x.NumberOfChildNodes" Title="Number of Child Baseline Itemz" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
- 					<TemplateColumn CellClass="d-flex justify-left" >
+ 					<TemplateColumn Title="Action" >
 						<CellTemplate>
+							<div style="display: flex; justify-content: left; align-items: center; gap: 10px;">
 							<MudButton Size="@Size.Large"
 								Variant="@Variant.Filled" Color="@Color.Success"
 									   OnClick="_ => openBaselineItemz(context.Item.RecordId.ToString())"> Open </MudButton>
+							</div>
 						</CellTemplate>
 					</TemplateColumn>
 				</Columns>
