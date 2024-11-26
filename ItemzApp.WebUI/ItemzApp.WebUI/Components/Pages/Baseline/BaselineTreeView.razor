@@ -103,7 +103,7 @@
                 (
                     value: child.RecordId
                     , text: child.Name
-                    , icon: (child.RecordType.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.MenuBook :
+                    , icon: (child.RecordType.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.Pix :
                                                    child.RecordType!.ToLower() == "baselineitemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
                     , recordType: child.RecordType
                     , level: child.Level
@@ -155,7 +155,7 @@
                 value: _baselineItemzType.RecordId
                 , text: _baselineItemzType.Name
                 , icon: _baselineItemzType.RecordType!.ToLower() == "baseline" ? @Icons.Material.Filled.ContentCopy :
-                                                     _baselineItemzType.RecordType!.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.MenuBook :
+                                                     _baselineItemzType.RecordType!.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.Pix :
                                                              _baselineItemzType.RecordType!.ToLower() == "baselineitemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
                 , recordType: _baselineItemzType.RecordType
                 , level: _baselineItemzType.Level
@@ -217,7 +217,7 @@
                     (
                         value: singleHierarchyDataFromAPI.RecordId
                         , text: singleHierarchyDataFromAPI.Name
-                        , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.MenuBook :
+                        , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "baselineitemztype" ? @Icons.Material.Filled.Pix :
                                             singleHierarchyDataFromAPI.RecordType!.ToLower() == "baselineitemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
                         , recordType: singleHierarchyDataFromAPI.RecordType
                         , level: singleHierarchyDataFromAPI.Level

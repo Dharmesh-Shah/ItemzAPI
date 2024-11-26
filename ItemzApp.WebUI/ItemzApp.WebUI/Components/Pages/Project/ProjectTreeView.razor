@@ -103,7 +103,7 @@
                 (
                     value: child.RecordId
                     , text: child.Name
-                    , icon: (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                    , icon: (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
                                                    child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
                     , recordType: child.RecordType
                     , level: child.Level
@@ -114,7 +114,7 @@
             // {
             //     Value = child.RecordId
             //     , Text= child.Name
-            //     , Icon= (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+            //     , Icon= (child.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
             //                                     child.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
             //     , Expandable= (child.Children.Count() > 0 ? true : false)
             // };
@@ -207,7 +207,7 @@
                 value: _itemzType.RecordId
                 , text: _itemzType.Name
                 , icon: _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
-                                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
                                                              _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
                 , recordType: _itemzType.RecordType
                 , level: _itemzType.Level
@@ -221,7 +221,7 @@
                 //         Text = _itemzType.Name
                 //                     ,
                 //         Icon = _itemzType.RecordType!.ToLower() == "project" ? @Icons.Material.Filled.LocalFlorist :
-                //                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                //                                     _itemzType.RecordType!.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
                 //                                             _itemzType.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel
                 //                     ,
                 //         Expandable = true
@@ -294,7 +294,7 @@
                     (
                         value: singleHierarchyDataFromAPI.RecordId
                         , text: singleHierarchyDataFromAPI.Name
-                        , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                        , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
                                             singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
                         , recordType: singleHierarchyDataFromAPI.RecordType
                         , level: singleHierarchyDataFromAPI.Level
@@ -304,7 +304,7 @@
                 // TreeItemData<Guid> childTempTreeViewNode = new TreeItemData<Guid>{
                 //         Value= singleHierarchyDataFromAPI.RecordId
                 //         , Text= singleHierarchyDataFromAPI.Name
-                //         , Icon= (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+                //         , Icon= (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
                 //                                         singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
                 //         , Expandable= (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
                 //             ,
@@ -390,7 +390,7 @@
     //                 TreeItemPresenter childTempTreeViewNode = new TreeItemPresenter(
     //                     value: singleHierarchyDataFromAPI.RecordId
     //                     , text: singleHierarchyDataFromAPI.Name
-    //                     , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.MenuBook :
+    //                     , icon: (singleHierarchyDataFromAPI.RecordType.ToLower() == "itemztype" ? @Icons.Material.Filled.Pix :
     //                                                     singleHierarchyDataFromAPI.RecordType!.ToLower() == "itemz" ? @Icons.Material.Filled.Stream : @Icons.Material.Filled.Cancel)
     //                     , expandable: (singleHierarchyDataFromAPI.Children.Count() > 0 ? true : false)
     //                 );
