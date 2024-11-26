@@ -1,14 +1,23 @@
 ﻿@page "/baselineItemzDetails/{BaselineItemzId:guid}"
 @using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.Services.BaselineItemz
+@using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Baseline Itemz Details</h1>
-<br />
+@if (BreadcrumsParameter != null)
+{
+	<BaselineBreadcrums produceBreadcrums="BreadcrumsParameter" />
+}
+
+
+<MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz Details</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
@@ -102,6 +111,7 @@
 
 	
 	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
+	private ParameterForBaselineBreadcrums BreadcrumsParameter;
 	public bool initializingPage { get; set; } = false;
 	
 	//MudForm related fields
@@ -119,6 +129,16 @@
 			StateHasChanged();
 			// TODO :: IMPLEMENT TRY AND CATCH WHILE WE CALL BASELINE ITEMZ SERVICE
 			singleBaselineItemz = await BaselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
+
+			if (singleBaselineItemz != null)
+			{
+				BreadcrumsParameter = new ParameterForBaselineBreadcrums();
+				BreadcrumsParameter.Id = singleBaselineItemz.Id;
+				BreadcrumsParameter.Name = singleBaselineItemz.Name;
+				BreadcrumsParameter.RecordType = "baselineitemz"; // TODO :: USE CONSTANT
+				BreadcrumsParameter.isIncluded = singleBaselineItemz.isIncluded;
+			}
+
 			if (form != null)
 			{
 				initializingPage = false;

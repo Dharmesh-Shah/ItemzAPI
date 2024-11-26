@@ -2,12 +2,21 @@
 @using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.Services.Baselines
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-<h1>Baseline Details</h1>
-<br />
+
+@if (BreadcrumsParameter != null)
+{
+	<BaselineBreadcrums produceBreadcrums="BreadcrumsParameter" />
+}
+
+<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Details</MudText>
+</MudPaper>
 
 <MudGrid>
 	@if (initializingPage)
@@ -116,6 +125,7 @@
 	private bool updateBaselineButtonClicked = false;
 
 	public GetBaselineDTO singleBaseline { get; set; } = new();
+	private ParameterForBaselineBreadcrums BreadcrumsParameter;
 	public bool initializingPage { get; set; } = false;
 	private bool deletingBaseline { get; set; } = false;
 	private bool hasFormFieldChanged { get; set; } = false;
@@ -136,6 +146,16 @@
 			StateHasChanged();
 			//Thread.Sleep(300);
 			singleBaseline = await baselinesService.__Single_Baseline_By_GUID_ID__Async(BaselineId);
+
+			if (singleBaseline != null)
+			{
+				BreadcrumsParameter = new ParameterForBaselineBreadcrums();
+				BreadcrumsParameter.Id = singleBaseline.Id;
+				BreadcrumsParameter.Name = singleBaseline.Name;
+				BreadcrumsParameter.RecordType = "baseline"; // TODO :: USE CONSTANT
+				BreadcrumsParameter.isIncluded = true; // TODO :: WE SET INCLUSION FOR BASELINEITEMZTYPE TO TRUE BUT WE CAN DO BETTER
+			}
+
 			if (form != null)
 			{
 				await form.Validate();
