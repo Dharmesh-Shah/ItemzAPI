@@ -2,9 +2,16 @@
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+
+@if (BreadcrumsParameter != null)
+{
+	<ItemzBreadcrums produceBreadcrums="BreadcrumsParameter" />
+}
 
 <MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">ItemzType Details</MudText>
@@ -125,6 +132,7 @@
 	private bool updateItemzTypeButtonClicked = false;
 
 	public GetItemzTypeDTO singleItemzType { get; set; } = new();
+	private ParameterForItemzBreadcrums BreadcrumsParameter;
 	public bool initializingPage { get; set; } = false;
 	private bool deletingItemzType { get; set; } = false;
 	private bool hasFormFieldChanged { get; set; } = false;
@@ -147,6 +155,14 @@
 			StateHasChanged();
 			//Thread.Sleep(300);
 			singleItemzType = await ItemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
+			if (singleItemzType != null)
+			{
+				BreadcrumsParameter = new ParameterForItemzBreadcrums();
+				BreadcrumsParameter.Id = singleItemzType.Id;
+				BreadcrumsParameter.Name = singleItemzType.Name;
+				BreadcrumsParameter.RecordType = "itemztype"; // TODO :: USE CONSTANT
+			}
+
 			if (form != null)
 			{
 				await form.Validate();
