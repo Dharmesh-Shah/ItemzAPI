@@ -6,6 +6,7 @@
 @using System.Collections.ObjectModel
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject IJSRuntime JS
 
 <MudGrid Spacing="6" Justify="Justify.FlexStart">
     <MudItem xs="6">
@@ -20,7 +21,8 @@
             {
                 <MudButton OnClick="@(()=>baselineMudTreeView.ExpandAllAsync())" Variant="Variant.Filled">Expand All</MudButton>
             }
-            <MudTreeView @ref="baselineMudTreeView" Items="@InitialTreeItems"
+            <div class="resizable">
+                <MudTreeView @ref="baselineMudTreeView" Items="@InitialTreeItems"
                          Color="Color.Secondary"
                          Hover="true"
                          ExpandOnDoubleClick="true"
@@ -31,7 +33,7 @@
                         // for convenient usage in the template
                         var presenter = context as TreeItemPresenter;
                     }
-                    <MudTreeViewItem Value="@context.Value"
+                        <MudTreeViewItem Value="@context.Value"
                                      Text="@context.Text"
                                      Icon="@context.Icon"
                                      Expandable="@( @context.Children.Count()>0 ? true : false )" 
@@ -46,6 +48,7 @@
                                      EndText="@presenter?.childNumber" /> *@
                 </ItemTemplate>
             </MudTreeView>
+            </div>
         </MudPaper>
     </MudItem>
 </MudGrid>
@@ -260,6 +263,9 @@
 
             showLoadingMessage = false; 
             StateHasChanged();
+
+            // Initialize resizable functionality
+            await JS.InvokeVoidAsync("initializeResizable");
         }
     }
 
