@@ -81,7 +81,7 @@
 							@* <MudSpacer /> *@
 							@if (CalledFrom == nameof(ProjectDetails))
 							{
-									<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
 									OnClick="(() => goBackToProject())">
 								<MudText>Cancel</MudText>
 							</MudButton>
@@ -246,12 +246,7 @@
 		}
 
 		// TODO :: IF IT UPDATES THE PROJECT THEN DISABLE SUBMIT BUTTON AND CONFIRM ON SCREEN THAT IT'S NOW UPDATED SUCCESSFULLY
-
-		if (CalledFrom == nameof(ProjectDetails))
-		{
-			goBackToProject();
-		}
-
+		goBackToProject();
 	}
 
 	private async Task formFieldChanged()
@@ -301,7 +296,10 @@
 
 	public void goBackToProject()
 	{
-		NavManager.NavigateTo($"/project/{ProjectId.ToString()}");
+		if (CalledFrom == nameof(ProjectDetails))
+		{
+			NavManager.NavigateTo($"/project/{ProjectId.ToString()}");
+		}
 	}
 
 }

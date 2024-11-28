@@ -3,6 +3,7 @@
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Components.Pages.Itemz
+@using ItemzApp.WebUI.Components.Pages.ItemzType
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Collections.ObjectModel
 @inject NavigationManager NavManager
@@ -57,11 +58,15 @@
             {
                 if (selectedItem.RecordType.ToLower() == "project") // TODO :: USE CONSTANTS
                 {
-                    <ProjectDetailsComponent ProjectId="@selectedItem.Value" />
+                    <ProjectDetailsComponent ProjectId="@selectedItem.Value" @key="selectedItem.Value" />
+                }
+                else if (selectedItem.RecordType.ToLower() == "itemztype") // TODO :: USE CONSTANTS
+                {
+                    <ItemzTypeDetailsComponent ItemzTypeId="@selectedItem.Value" @key="selectedItem.Value" />
                 }
                 else
                 {
-                    <SampleTreeViewComponent NodeText="@selectedItem.Text" NodeIcon="@selectedItem.Icon" RecordId="@selectedItem.Value" />
+                    <SampleTreeViewComponent NodeText="@selectedItem.Text" NodeIcon="@selectedItem.Icon" RecordId="@selectedItem.Value" @key="selectedItem.Value" />
                 }
             }
         </MudPaper>
