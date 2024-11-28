@@ -1,6 +1,6 @@
 ﻿@page "/projectDetails/{ProjectId:guid}"
 
-<ProjectDetailsComponent ProjectId="@ProjectId" ShowBaselineTab="@ShowBaselineTab" CalledFrom="@nameof(ProjectDetails)" />
+<ProjectDetailsComponent ProjectId="@ProjectId" ShowBaselineTab="@ShowBaselineTab" CalledFrom="@this.GetType().Name" />
 
 @code 
 {

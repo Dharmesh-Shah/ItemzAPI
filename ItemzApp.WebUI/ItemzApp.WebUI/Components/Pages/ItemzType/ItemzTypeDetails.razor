@@ -1,6 +1,6 @@
 ﻿@page "/itemzTypeDetails/{ItemzTypeId:guid}"
 
-<ItemzTypeDetailsComponent ItemzTypeId="@ItemzTypeId" CalledFrom="@nameof(ItemzTypeDetails)" />
+<ItemzTypeDetailsComponent ItemzTypeId="@ItemzTypeId" CalledFrom="@this.GetType().Name" />
 
 @code {
 	[Parameter]
