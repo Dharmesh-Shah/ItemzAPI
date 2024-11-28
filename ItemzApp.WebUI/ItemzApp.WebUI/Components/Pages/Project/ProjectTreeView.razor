@@ -9,59 +9,58 @@
 @inject IDialogService DialogService
 @inject IJSRuntime JS
 
-<MudGrid Spacing="6" Justify="Justify.FlexStart">
-    <MudExtensions.MudSplitter @bind-Dimension="@_percentage"
-                               OnDoubleClicked="@OnDoubleClicked"
-                               EnableSlide="@_sliderEnabled" EnableMargin="@_marginEnabled" Sensitivity="_sensitivity"
-                               Height="@_height" Bordered="_borderedEnabled">
-        <StartContent>
-            <MudPaper Elevation="0" Class="full-height full-width">
-                @if (showLoadingMessage)
-                {
-                    <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center">
-                        Loading in Background...
-                    </MudText>
-                    <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
-                }
-                else
-                {
-                    <MudButton OnClick="@(() => projectMudTreeView.ExpandAllAsync())" Variant="Variant.Filled">
-                        Expand All
-                    </MudButton>
-                }
-                <MudTreeView @ref="projectMudTreeView" Items="@InitialTreeItems"
-                             Color="Color.Secondary"
-                             Hover="true"
-                             ExpandOnDoubleClick="true"
-                             Class="full-height full-width">
-                    <ItemTemplate>
-                        @{
-                            var presenter = context as TreeItemPresenter;
-                        }
-                        <MudTreeViewItem Value="@context.Value"
-                                         Text="@context.Text"
-                                         Icon="@context.Icon"
-                                         Expandable="@( @context.Children.Count() > 0 ? true : false )"
-                                         LoadingIconColor="Color.Info"
-                                         Items="@context.Children"
-                                         EndText="@( (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") +
-                                                (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "") )"
-                                         @onclick="() => OnItemClick(context)" />
-                    </ItemTemplate>
-                </MudTreeView>
-            </MudPaper>
-        </StartContent>
-        <EndContent>
-            <MudPaper Elevation="0" Class="full-height full-width">
-                <h1>Right content!!!</h1>
-                @if (selectedNodeText != null)
-                {
-                    <SampleTreeViewComponent NodeText="@selectedNodeText" NodeIcon="@selectedNodeIcon" RecordId="@selecedNodeId" />
-                }
-            </MudPaper>
-        </EndContent>
-    </MudExtensions.MudSplitter>
-</MudGrid>
+<MudExtensions.MudSplitter @bind-Dimension="@_percentage"
+                            OnDoubleClicked="@OnDoubleClicked"
+                            EnableSlide="@_sliderEnabled" EnableMargin="@_marginEnabled" Sensitivity="_sensitivity"
+                            Height="@_height" Bordered="_borderedEnabled">
+    <StartContent>
+        <MudPaper Elevation="0" Class="full-width">
+            @if (showLoadingMessage)
+            {
+                <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center">
+                    Loading in Background...
+                </MudText>
+                <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
+            }
+            else
+            {
+                <MudButton OnClick="@(() => projectMudTreeView.ExpandAllAsync())" Variant="Variant.Filled">
+                    Expand All
+                </MudButton>
+            }
+            <MudTreeView @ref="projectMudTreeView" Items="@InitialTreeItems"
+                            Color="Color.Secondary"
+                            Hover="true"
+                            ExpandOnDoubleClick="true"
+                            Class="full-width">
+                <ItemTemplate>
+                    @{
+                        var presenter = context as TreeItemPresenter;
+                    }
+                    <MudTreeViewItem Value="@context.Value"
+                                        Text="@context.Text"
+                                        Icon="@context.Icon"
+                                        Expandable="@( @context.Children.Count() > 0 ? true : false )"
+                                        LoadingIconColor="Color.Info"
+                                        Items="@context.Children"
+                                        EndText="@( (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") +
+                                            (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "") )"
+                                        @onclick="() => OnItemClick(context)" />
+                </ItemTemplate>
+            </MudTreeView>
+        </MudPaper>
+    </StartContent>
+    <EndContent>
+        <MudPaper Elevation="0" Class="full-width">
+            <h1>Right content!!!</h1>
+            @if (selectedNodeText != null)
+            {
+                <SampleTreeViewComponent NodeText="@selectedNodeText" NodeIcon="@selectedNodeIcon" RecordId="@selecedNodeId" />
+            }
+        </MudPaper>
+    </EndContent>
+</MudExtensions.MudSplitter>
+
 
 @code {
 
@@ -90,8 +89,8 @@
 
 
     // Variables related to MudSlidder
-    string _height = "800px";
-    double _sensitivity = 0.1d;
+    string _height = "calc(100vh - 80px)";
+    double _sensitivity = 0.3d;
     double _percentage = 27;
     bool _sliderEnabled = true;
     bool _marginEnabled = true;
@@ -106,7 +105,7 @@
         }
         return Task.CompletedTask;
     }
-
+        
 
     private string selectedNodeText;
     private string selectedNodeIcon;

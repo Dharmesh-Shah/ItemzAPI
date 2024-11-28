@@ -56,9 +56,9 @@
 			<MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Security">Security</MudNavLink>
 		</MudNavMenu>
 	</MudDrawer>
-	<MudMainContent Class="mt-2">
+	<MudMainContent Class="mt-1">
 		<CascadingValue Name="AppLayout" Value="this">
-			<MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
+			<MudContainer Gutters="false" MaxWidth="MaxWidth.False" Class="pa-2">
 				@Body
 			</MudContainer>
 		</CascadingValue>

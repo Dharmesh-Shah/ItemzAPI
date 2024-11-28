@@ -65,17 +65,40 @@ h1:focus {
 }
 
 /* MudSplitter related classes */
-
 .full-height {
+    height: calc(100vh - 96px); /* Full viewport height */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.mud-splitter {
     height: 100%;
+    display: flex;
+    overflow: hidden;
 }
 
 .full-width {
     width: 100%;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-.mud-splitter {
-    height: 100%;
+.mud-splitter .mud-slider-track {
+    height: 10px; /* Adjust the thickness here */
+    background-color: #ccc; /* Optional: change track color */
+}
+
+.mud-splitter .mud-slider-thumb {
+    height: 15px; /* Adjust the thumb height */
+    width: 15px; /* Adjust the thumb width */
+    background-color: #333; /* Optional: change thumb color */
 }
