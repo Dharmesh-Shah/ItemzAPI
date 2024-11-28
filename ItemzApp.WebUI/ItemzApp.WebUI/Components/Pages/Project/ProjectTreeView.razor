@@ -53,9 +53,16 @@
     <EndContent>
         <MudPaper Elevation="0" Class="full-width">
             <h1>Right content!!!</h1>
-            @if (selectedNodeText != null)
+            @if (selectedItem != null)
             {
-                <SampleTreeViewComponent NodeText="@selectedNodeText" NodeIcon="@selectedNodeIcon" RecordId="@selecedNodeId" />
+                if (selectedItem.RecordType.ToLower() == "project") // TODO :: USE CONSTANTS
+                {
+                    <ProjectDetailsComponent ProjectId="@selectedItem.Value" />
+                }
+                else
+                {
+                    <SampleTreeViewComponent NodeText="@selectedItem.Text" NodeIcon="@selectedItem.Icon" RecordId="@selectedItem.Value" />
+                }
             }
         </MudPaper>
     </EndContent>
@@ -105,11 +112,8 @@
         }
         return Task.CompletedTask;
     }
-        
 
-    private string selectedNodeText;
-    private string selectedNodeIcon;
-    private Guid selecedNodeId;
+    private TreeItemPresenter selectedItem;
 
 
     public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
@@ -133,10 +137,7 @@
     {
         // Handle the clicked node here
 
-        selectedNodeText = node.Text;
-        selecedNodeId = node.Value;
-        selectedNodeIcon = node.Icon;
-        StateHasChanged();
+        selectedItem = node as TreeItemPresenter;
     }
 
     public void AddChildrens(TreeItemData<Guid> parentTempTreeViewNode, List<NestedHierarchyIdRecordDetailsDTO> Children )
