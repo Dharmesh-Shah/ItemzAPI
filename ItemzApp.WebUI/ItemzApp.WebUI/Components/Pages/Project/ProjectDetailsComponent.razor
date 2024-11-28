@@ -79,12 +79,17 @@
 							<MudText>Save</MudText>
 							</MudButton>
 							@* <MudSpacer /> *@
-							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
-								OnClick="(() => goBackToProject())">
+							@if (CalledFrom == nameof(ProjectDetails))
+							{
+									<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+									OnClick="(() => goBackToProject())">
 								<MudText>Cancel</MudText>
 							</MudButton>
+							}
 					</MudCardActions>
-							<MudItem xs="12" sm="9" md="6" lg="6">
+					@if (CalledFrom == nameof(ProjectDetails))
+					{
+					<MudItem xs="12" sm="9" md="6" lg="6">
 						<br />
 							<MudExpansionPanels Elevation="10" style="margin-left : 15px">
 								<MudExpansionPanel style="background-color : #FABBBB; color : red;"
@@ -104,6 +109,7 @@
 							</MudExpansionPanel>
 						</MudExpansionPanels>
 					</MudItem>
+					}
 				</MudForm>
 				</MudPaper>
 			</MudTabPanel>
@@ -138,6 +144,9 @@
 	[Parameter]
 	[SupplyParameterFromQuery(Name = "showBaselineTab")]
 	public bool ShowBaselineTab { get; set; } = false;
+	[Parameter]
+	[SupplyParameterFromQuery(Name = "calledFrom")]
+	public string CalledFrom { get; set; } = string.Empty;
 
 	[Inject]
 	public IProjectService ProjectService { get; set; }
@@ -231,8 +240,17 @@
 			await OpenExceptionDialogAsync("Problem Updating Project Details : " + ex.Message);
 			return;
 		}
-		goBackToProject();
-		// IF IT UPDATES THE PROJECT THEN DISABLE SUBMIT BUTTON AND CONFIRM ON SCREEN THAT IT'S NOW UPDATED SUCCESSFULLY
+		finally
+		{
+			updateProjectButtonClicked = false;
+		}
+
+		// TODO :: IF IT UPDATES THE PROJECT THEN DISABLE SUBMIT BUTTON AND CONFIRM ON SCREEN THAT IT'S NOW UPDATED SUCCESSFULLY
+
+		if (CalledFrom == nameof(ProjectDetails))
+		{
+			goBackToProject();
+		}
 
 	}
 
