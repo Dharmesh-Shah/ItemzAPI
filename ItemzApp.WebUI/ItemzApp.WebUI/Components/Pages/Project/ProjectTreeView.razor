@@ -6,52 +6,49 @@
 @using System.Collections.ObjectModel
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
-@inject IJSRuntime JS
 
 <MudGrid Spacing="6" Justify="Justify.FlexStart">
     <MudItem xs="6">
         <MudPaper Width="500px" Elevation="0">
             @if (showLoadingMessage)
             {
+                @* <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center"> Loading in Background ... </MudText> *@
                 <MudText Typo="Typo.button" Color="Color.Secondary" HtmlTag="h3" Align="Align.Center"> Loading in Background ... </MudText>
                 <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Class="my-7" />
             }
             else
             {
-                <MudButton OnClick="@(() => projectMudTreeView.ExpandAllAsync())" Variant="Variant.Filled">Expand All</MudButton>
+                <MudButton OnClick="@(()=>projectMudTreeView.ExpandAllAsync())" Variant="Variant.Filled">Expand All</MudButton>
             }
-            <div class="resizable">
-                <MudTreeView @ref="projectMudTreeView" Items="@InitialTreeItems"
-                             Color="Color.Secondary"
-                             Hover="true"
-                             ExpandOnDoubleClick="true"
-                             Width="100%">
-                    <ItemTemplate>
-                        @{
+            <MudTreeView @ref="projectMudTreeView" Items="@InitialTreeItems"
+                         Color="Color.Secondary"
+                         Hover="true"
+                         ExpandOnDoubleClick="true"
+                         Width=" 100%">
+                <ItemTemplate>
+                    @{
                         // Casting context from TreeItemData<string> to our own derived class TreeItemPresenter
                         // for convenient usage in the template
-                            var presenter = context as TreeItemPresenter;
-                        }
-                        <MudTreeViewItem Value="@context.Value"
-                                         Text="@context.Text"
-                                         Icon="@context.Icon"
-                                         Expandable="@( @context.Children.Count()>0 ? true : false )"
-                                         LoadingIconColor="Color.Info"
-                                         Items="@context.Children"
-                                         EndText="@(
-                                (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") +
-                                (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "")
+                        var presenter = context as TreeItemPresenter;
+                    }
+                    <MudTreeViewItem Value="@context.Value"
+                                     Text="@context.Text"
+                                     Icon="@context.Icon"
+                                     Expandable="@( @context.Children.Count()>0 ? true : false )" 
+                                     LoadingIconColor="Color.Info"
+                                     Items="@context.Children"
+                                     EndText="@( 
+                                        (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") + 
+                                        (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "")
                                         )" 
                     />
                                      @* CanExpand="@( @context.Children.Count()>0 ? true : false )" 
                                      EndText="@presenter?.childNumber" /> *@
-                    </ItemTemplate>
-                </MudTreeView>
-            </div>
+                </ItemTemplate>
+            </MudTreeView>
         </MudPaper>
     </MudItem>
 </MudGrid>
-
 
 
 @code {
@@ -78,6 +75,7 @@
     public HierarchyIdRecordDetailsDTO singleProject { get; set; } = new();
     private List<HierarchyIdRecordDetailsDTO> AllItemzTypesForProject { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
     public bool initializingPage { get; set; } = false;
+
 
     public class TreeItemPresenter : MudBlazor.TreeItemData<Guid>
     {
@@ -339,6 +337,7 @@
     {
         if (firstRender)
         {
+
             // Load initial data
             InitialTreeItems = await LoadInitialData(ProjectId);
             StateHasChanged();
@@ -355,10 +354,6 @@
             // await projectMudTreeView.ExpandAllAsync();
             showLoadingMessage = false; 
             StateHasChanged();
-            
-            // Initialize resizable functionality 
-            await JS.InvokeVoidAsync("initializeResizable");
-
         }
     }
 
