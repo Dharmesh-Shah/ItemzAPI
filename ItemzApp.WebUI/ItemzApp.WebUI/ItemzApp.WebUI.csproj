@@ -14,7 +14,8 @@
     <ProjectReference Include="..\ItemzApp.WebUI.Client\ItemzApp.WebUI.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.8" />
 	<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-	<PackageReference Include="MudBlazor" Version="7.8.0" />
+	<PackageReference Include="MudBlazor" Version="7.15.0" />
+	<PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="7.1.0" />
   </ItemGroup>
 
   <ItemGroup>

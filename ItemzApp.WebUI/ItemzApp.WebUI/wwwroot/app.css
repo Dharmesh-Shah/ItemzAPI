@@ -63,3 +63,19 @@ h1:focus {
 .confirmation-modal button {
     margin-right: 10px;
 }
+
+/* MudSplitter related classes */
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mud-splitter {
+    height: 100%;
+}
