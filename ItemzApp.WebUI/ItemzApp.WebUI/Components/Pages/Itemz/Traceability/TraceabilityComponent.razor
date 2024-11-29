@@ -209,6 +209,15 @@
 		var result = await dialog.Result; 
 		if (!result.Canceled && result.Data is Guid inputParentItemzId)
 		{ 
+			// Verify that ParentItemzId is not present in the current Parent traces.
+			// We first check for null and then any otherwise it gives runtime null error
+
+			if (AllParentItemzTraces != null && AllParentItemzTraces.Any(pit => pit.Id == inputParentItemzId))
+			{
+				DialogService.ShowMessageBox("INFORMATION", markupMessage: new MarkupString($"<p style=\"color: green; \">Trace for record with Id '{ItemzId.ToString()}' already exists.</p>"), yesText: "OK");
+				return;
+			}
+
 			// Verify recordId exists in your repository 
 			if (await ItemzService.__Single_Itemz_By_GUID_ID__Async(inputParentItemzId) != null && inputParentItemzId != ItemzId)
 			{
@@ -258,6 +267,13 @@
 		var result = await dialog.Result;
 		if (!result.Canceled && result.Data is Guid inputChildItemzId)
 		{
+			// Verify that ChildItemzId is not present in the current child traces. 
+			// We first check for null and then any otherwise it gives runtime null error
+			if (AllChildItemzTraces != null && AllChildItemzTraces.Any(cit => cit.Id == inputChildItemzId))
+			{
+				DialogService.ShowMessageBox("INFORMATION", markupMessage: new MarkupString($"<p style=\"color: green; \">Trace for record with Id '{ItemzId.ToString()}' already exists.</p>"), yesText: "OK");
+				return;
+			}
 			// Verify recordId exists in your repository
 			if (await ItemzService.__Single_Itemz_By_GUID_ID__Async(inputChildItemzId) != null && inputChildItemzId != ItemzId)
 			{
