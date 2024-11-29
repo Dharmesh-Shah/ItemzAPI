@@ -410,6 +410,7 @@
     protected override void OnInitialized()
     {
         ItemzSelectionService.OnTreeNodeItemzSelected += HandleItemzSelected;
+        ItemzSelectionService.OnTreeNodeItemzNameUpdated += HandleTreeNodeItemzNameUpdated;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -451,6 +452,16 @@
         selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
     }
 
+    // Handle name updates for tree items
+    private void HandleTreeNodeItemzNameUpdated(Guid recordId, string newName)
+    {
+        var item = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == recordId) as TreeItemPresenter;
+        if (item != null)
+        {
+            item.Text = newName; // Update the tree item name
+            StateHasChanged(); // Refresh the UI
+        }
+    }
 
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {

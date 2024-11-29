@@ -2,12 +2,14 @@
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Itemz.ChangeLog
 @using ItemzApp.WebUI.Components.Pages.Itemz.Traceability
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
 
 @if (CalledFrom == nameof(ItemzDetails))
 {
@@ -209,6 +211,8 @@
 	string[] _stringItemzPriorityValues = { };
 	string[] _stringItemzSeverityValues = { };
 
+	string originalItemzName { get; set; } = string.Empty;
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
@@ -224,6 +228,9 @@
 				BreadcrumsParameter.Id = singleItemz.Id;
 				BreadcrumsParameter.Name = singleItemz.Name;
 				BreadcrumsParameter.RecordType = "itemz"; // TODO :: USE CONSTANT
+
+				TreeNodeItemzSelectionService.UpdateTreeNodeItemzName(ItemzId, singleItemz.Name!);
+				originalItemzName = singleItemz.Name;
 			}
 
 			if (form != null)
@@ -288,6 +295,8 @@
 				updateItemzDTO.Priority = String.IsNullOrEmpty(singleItemz.Priority) ? "" : singleItemz.Priority;
 				updateItemzDTO.Severity = String.IsNullOrEmpty(singleItemz.Severity) ? "" : singleItemz.Severity;
 				await ItemzService.__PUT_Update_Itemz_By_GUID_ID__Async(ItemzId, updateItemzDTO);
+				TreeNodeItemzSelectionService.UpdateTreeNodeItemzName(ItemzId, updateItemzDTO.Name);
+				// TODO :: SEND ITEMZ NAME UPDATE TO BREADCRUMS AS WELL.
 				Thread.Sleep(800);
 				await goBackToItemz();
 			}
