@@ -2,12 +2,15 @@
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Itemz
 @using ItemzApp.WebUI.Components.Pages.ItemzType
+@using ItemzApp.WebUI.Helper.TreeViewNodes
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Collections.ObjectModel
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject TreeNodeItemzSelectionService ItemzSelectionService
 @inject IJSRuntime JS
 
 <MudExtensions.MudSplitter @bind-Dimension="@_percentage"
@@ -33,7 +36,8 @@
                             Color="Color.Secondary"
                             Hover="true"
                             ExpandOnDoubleClick="true"
-                            Class="full-width">
+                            Class="full-width"
+                            @bind-SelectedValue="SelectedValue">
                 <ItemTemplate>
                     @{
                         var presenter = context as TreeItemPresenter;
@@ -45,7 +49,7 @@
                                         LoadingIconColor="Color.Info"
                                         Items="@context.Children"
                                         EndText="@( (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") +
-                                            (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "") )"
+                                            (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "") )" 
                                         @onclick="() => OnItemClick(context)" />
                 </ItemTemplate>
             </MudTreeView>
@@ -53,7 +57,6 @@
     </StartContent>
     <EndContent>
         <MudPaper Elevation="0" Class="full-width">
-            <h1>Right content!!!</h1>
             @if (selectedItem != null)
             {
                 if (selectedItem.RecordType.ToLower() == "project") // TODO :: USE CONSTANTS
@@ -64,6 +67,10 @@
                 {
                     <ItemzTypeDetailsComponent ItemzTypeId="@selectedItem.Value" @key="selectedItem.Value" />
                 }
+                else if (selectedItem.RecordType.ToLower() == "itemz") // TODO :: USE CONSTANTS
+                {
+                    <ItemzDetailsComponent ItemzId="@selectedItem.Value" @key="selectedItem.Value" />
+                }
                 else
                 {
                     <SampleTreeViewComponent NodeText="@selectedItem.Text" NodeIcon="@selectedItem.Icon" RecordId="@selectedItem.Value" @key="selectedItem.Value" />
@@ -72,7 +79,6 @@
         </MudPaper>
     </EndContent>
 </MudExtensions.MudSplitter>
-
 
 @code {
 
@@ -116,6 +122,23 @@
             _percentage = 27;
         }
         return Task.CompletedTask;
+    }
+
+    private Guid selectedValue;
+
+    private Guid SelectedValue
+    {
+        get => selectedValue;
+        set
+        {
+            if (selectedValue != value)
+            {
+                selectedValue = value;
+                // Update selectedItem when SelectedValue changes
+                UpdateSelectedItem(value);
+                StateHasChanged();
+            }
+        }
     }
 
     private TreeItemPresenter selectedItem;
@@ -383,6 +406,10 @@
 
     // }
 
+    protected override void OnInitialized()
+    {
+        ItemzSelectionService.OnTreeNodeItemzSelected += HandleItemzSelected;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -409,6 +436,20 @@
             StateHasChanged();
         }
     }
+
+    private void HandleItemzSelected(Guid itemzId)
+    {
+        // Update the SelectedValue to select the node 
+        SelectedValue = itemzId;
+        // StateHasChanged();
+    }
+
+    // Efficient method to update selectedItem by its ID
+    private void UpdateSelectedItem(Guid id)
+    {
+        selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
+    }
+
 
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {

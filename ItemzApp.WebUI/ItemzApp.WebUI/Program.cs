@@ -17,6 +17,7 @@ using ItemzApp.WebUI.Client.Services.BaselineItemz;
 using ItemzApp.WebUI.Client.Services.BaselineItemzCollection;
 using ItemzApp.WebUI.Client.Services.BaselineItemzTrace;
 using MudExtensions.Services;
+using ItemzApp.WebUI.Components.EventServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -99,6 +100,8 @@ client.BaseAddress = new Uri("http://localhost:51087");
 
 builder.Services.AddMudServices();
 builder.Services.AddMudExtensions();
+
+builder.Services.AddScoped<TreeNodeItemzSelectionService>(); // Register the service
 
 
 var app = builder.Build();

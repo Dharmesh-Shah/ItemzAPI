@@ -2,8 +2,10 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.Services.ItemzCollection
+@using ItemzApp.WebUI.Components.EventServices
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject TreeNodeItemzSelectionService ItemzSelectionService
 
 @* <h5>Traceability Component</h5>
 <br /> *@
@@ -73,6 +75,9 @@
 @code {
 	[Parameter]
 	public Guid ItemzId { get; set; }
+	[Parameter]
+	[SupplyParameterFromQuery(Name = "calledFrom")]
+	public string CalledFrom { get; set; } = string.Empty;
 
 	[Inject]
 	public IItemzTraceService ItemzTraceService { get; set; }
@@ -123,7 +128,12 @@
 
 	public async Task openItemz(string itemzId)
 	{
-		NavManager.NavigateTo($"/itemzDetails/{itemzId}", true);
+		ItemzSelectionService.SelectTreeNodeItemz(Guid.Parse(itemzId));
+
+		@if (CalledFrom == nameof(ItemzDetails))
+		{
+			NavManager.NavigateTo($"/itemzDetails/{itemzId}", true);
+		}
 	}
 
 	private async Task OpenDeleteParentItemzTraceConfirmationDialogAsync(Guid fromTraceItemzId, Guid toTraceItemzId)
