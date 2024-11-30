@@ -22,7 +22,6 @@
     <Folder Include="Components\Pages\BaselineItemz\BaselineTraceability\" />
     <Folder Include="Components\Pages\Baseline\" />
     <Folder Include="Components\Pages\ChangeLog\" />
-    <Folder Include="Components\Pages\BaselineItemzType\" />
   </ItemGroup>
 
 </Project>

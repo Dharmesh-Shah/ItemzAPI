@@ -4,6 +4,8 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Common
+@using ItemzApp.WebUI.Components.Pages.BaselineItemz
+@using ItemzApp.WebUI.Components.Pages.BaselineItemzType
 @using ItemzApp.WebUI.Helper.TreeViewNodes
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Collections.ObjectModel
@@ -45,7 +47,10 @@
                     }
                     <MudTreeViewItem Value="@context.Value"
                                      Text="@context.Text"
-                                     Icon="@context.Icon"
+                                     Icon="@((((TreeItemPresenter)context).IsIncluded) ? context.Icon : Icons.Material.Filled.Close)"
+                                     IconColor=" (((TreeItemPresenter)context).IsIncluded) ? Color.Inherit : Color.Error "
+                                     ExpandButtonIconColor="(((TreeItemPresenter)context).IsIncluded) ? Color.Inherit : Color.Error"
+                                     EndIconColor="(((TreeItemPresenter)context).IsIncluded) ? Color.Inherit : Color.Error"
                                      Expandable="@( @context.Children.Count()>0 ? true : false )" 
                                      LoadingIconColor="Color.Info"
                                      Items="@context.Children"
@@ -64,17 +69,17 @@
         <MudPaper Elevation="0" Class="full-width">
             @if (selectedItem != null)
             {
-                if (selectedItem.RecordType.ToLower() == "baseline") // TODO :: USE CONSTANTS
+                if (selectedItem.RecordType.ToLower() == "baseline".ToLower()) // TODO :: USE CONSTANTS
                 {
                     <BaselineDetailsComponent BaselineId="@selectedItem.Value" @key="selectedItem.Value" />
                 }
-                else if (selectedItem.RecordType.ToLower() == "itemztype") // TODO :: USE CONSTANTS
+                else if (selectedItem.RecordType.ToLower() == "baselineitemztype".ToLower()) // TODO :: USE CONSTANTS
                 {
-                    <ItemzTypeDetailsComponent ItemzTypeId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <BaselineItemzTypeTreeViewComponent BaselineItemzTypeId="@selectedItem.Value" @key="selectedItem.Value"/>
                 }
-                else if (selectedItem.RecordType.ToLower() == "itemz") // TODO :: USE CONSTANTS
+                else if (selectedItem.RecordType.ToLower() == "baselineitemz".ToLower()) // TODO :: USE CONSTANTS
                 {
-                    <ItemzDetailsComponent ItemzId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <BaselineItemzTreeViewComponent BaselineItemzId="@selectedItem.Value" @key="selectedItem.Value" />
                 }
                 else
                 {

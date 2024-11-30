@@ -1,0 +1,240 @@
+﻿@using ItemzApp.WebUI.Client.Services.BaselineHierarchy
+@using ItemzApp.WebUI.Client.Services.BaselineItemz
+@using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Globalization
+@* @inject NavigationManager NavManager *@
+@inject IDialogService DialogService
+
+<MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
+</MudPaper>
+
+<MudGrid>
+	@if (initializingPage)
+	{
+		<MudPaper Height="calc(100vh - 100px);" Width="100%">
+			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
+				<MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<br />
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+			</MudOverlay>
+		</MudPaper>
+	}
+	else
+	{
+		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
+					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
+					 ApplyEffectsToContainer="true" PanelClass="pa-2" MinimumTabWidth="200px" >
+			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
+ 			<MudItem xs="12" sm="12">
+				<MudPaper Class="pa-4" >
+				<MudCard style="background-color : #FABBBB;" >
+					<MudCardContent>
+						<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleBaselineItemz.Name </strong></MudText>
+						</MudItem>
+						<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+						<br />
+						<MudText><strong>ID                   : </strong> @singleBaselineItemz.Id.ToString()</MudText>
+						<MudText><strong>Status               : </strong> @singleBaselineItemz.Status</MudText>
+						<MudText><strong>Priority             : </strong> @singleBaselineItemz.Priority</MudText>
+						<MudText><strong>Severity             : </strong> @singleBaselineItemz.Severity</MudText>
+						<MudText><strong>Created Date         : </strong> @singleBaselineItemz.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
+						<MudGrid >
+							<MudItem xs="3">
+						<MudSwitch T="bool" 
+							Value="@singleBaselineItemz.isIncluded"
+							ValueChanged="OnSingleBaselineItemzInclusionChanged"
+							Label="Is Included?"
+							Size="Size.Large"
+							LabelPosition="LabelPosition.End"
+							Color="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+							ThumbIconColor="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
+							UncheckedColor = "Color.Error"
+								/>
+								</MudItem>
+							@if (anyChildBaselineItemzExcluded == true)
+							{
+								<MudItem xs="6">
+								<MudButton OnClick="async _ => await OnAllChildBaselineItemzInclusionChanged(true)" 
+									Variant="Variant.Filled" 
+									Size="Size.Medium" 
+									Color="Color.Success" style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
+								</MudItem>
+							}
+						</MudGrid>
+						<MudText><strong>Description  : </strong> @singleBaselineItemz.Description</MudText>
+					</MudCardContent>
+				</MudCard>
+				</MudPaper>
+			</MudItem>
+			</MudTabPanel>
+			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
+				<MudItem xs="12" sm="12" md="12" lg="12">
+					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+						<BaselineTraceabilityTreeViewComponent BaselineItemzId="@BaselineItemzId" />
+					</MudPaper>
+				</MudItem>
+			</MudTabPanel>
+		</MudTabs>
+		</MudContainer>
+	}
+</MudGrid>
+@code {
+	[Parameter]
+	public Guid BaselineItemzId { get; set; }
+
+	[Inject]
+	public IBaselineItemzService baselineItemzService { get; set; }
+
+	[Inject]
+	public IBaselineHierarchyService baselineHierarchyService { get; set; }
+
+	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
+	private List<BaselineHierarchyIdRecordDetailsDTO> AllChildBaselineItemz { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
+	private List<NestedBaselineHierarchyIdRecordDetailsDTO> AllParentBaselineHierarchy { get; set; } = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
+	public bool initializingPage { get; set; } = true;
+	public bool anyChildBaselineItemzExcluded { get; set; } = false;
+
+	private NestedBaselineHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
+	private NestedBaselineHierarchyIdRecordDetailsDTO _foundBaselineRecord { get; set; }
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			initializingPage = true;
+			StateHasChanged();
+			//Thread.Sleep(300);
+			singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
+
+			await UpdateAllChildBaselineItemzFromServer();
+
+			initializingPage = false;
+
+			StateHasChanged();
+
+			var returnedParentHierarchyList = await baselineHierarchyService.__Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
+
+			if (returnedParentHierarchyList != null)
+			{
+				AllParentBaselineHierarchy = returnedParentHierarchyList.ToList();
+			}
+
+			var matchingProjectRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Project", level: 1);
+
+			if (matchingProjectRecord != null)
+			{
+				_foundProjectRecord = matchingProjectRecord;
+			}
+
+			var matchingBaselineRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Baseline", level: 2);
+
+			if (matchingBaselineRecord != null)
+			{
+				_foundBaselineRecord = matchingBaselineRecord;
+			}
+
+			//StateHasChanged();
+		}
+	}
+
+	public async Task UpdateAllChildBaselineItemzFromServer()
+	{
+		var returnedItemzList = await baselineHierarchyService.__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
+		if (returnedItemzList != null)
+		{
+			AllChildBaselineItemz = returnedItemzList.ToList();
+		}
+
+		if (AllChildBaselineItemz != null && AllChildBaselineItemz.Any())
+		{
+			anyChildBaselineItemzExcluded = false;
+			foreach (var _childBaselineItemz in AllChildBaselineItemz)
+			{
+				if (_childBaselineItemz.IsIncluded == false)
+				{
+					anyChildBaselineItemzExcluded = true;
+				}
+			}
+		}
+	}
+
+	private async Task OnSingleBaselineItemzInclusionChanged(bool newValue)
+	{
+
+		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+		// TODO :: Get Baseline ID from the server.
+		// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
+		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+		tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
+		tempUpdateBaselineItemzDTO.SingleNodeInclusion = true;
+		// Send the new value to the server
+
+		// TODO :: EXCEPTION HANDLING.
+		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+		singleBaselineItemz.isIncluded = newValue;
+
+		// TODO :: Find in child if any one is exlcuded then show Include All Child Button.
+
+		if (newValue == false && AllChildBaselineItemz != null && AllChildBaselineItemz.Any())
+		{ 
+			anyChildBaselineItemzExcluded = true;
+		}
+		else
+		{
+			await UpdateAllChildBaselineItemzFromServer();
+		}
+		StateHasChanged();
+
+	}
+
+	private async Task OnAllChildBaselineItemzInclusionChanged(bool newValue)
+	{
+		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+		// TODO :: Get Baseline ID from the server.
+		//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+		tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
+		tempUpdateBaselineItemzDTO.SingleNodeInclusion = false;
+		// Send the new value to the server
+
+		// TODO :: EXCEPTION HANDLING.
+		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+		singleBaselineItemz.isIncluded = newValue;
+		anyChildBaselineItemzExcluded = false;
+		StateHasChanged();
+
+	}
+
+	#region Finding_Record_In_Parent_Hierarchy_Nodes
+
+	public NestedBaselineHierarchyIdRecordDetailsDTO? FindRecordUsingLambda(List<NestedBaselineHierarchyIdRecordDetailsDTO> hierarchy, string recordType, int level)
+	{
+		return hierarchy
+			.SelectMany(parent => GetAllRecords(parent))
+			.FirstOrDefault(record => record.RecordType == recordType && record.Level == level);
+	}
+
+	private IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> GetAllRecords(NestedBaselineHierarchyIdRecordDetailsDTO parent)
+	{
+		yield return parent;
+		if (parent.Children != null)
+		{
+			foreach (var child in parent.Children.SelectMany(GetAllRecords))
+			{
+				yield return child;
+			}
+		}
+	}
+	#endregion
+
+}

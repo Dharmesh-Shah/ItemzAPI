@@ -1,0 +1,71 @@
+﻿@using ItemzApp.WebUI.Client.Services.BaselineHierarchy
+@using ItemzApp.WebUI.Client.Services.BaselineItemzTypes
+@using ItemzApp.WebUI.Client.SharedModels
+@using System.Globalization
+@inject NavigationManager NavManager
+
+<MudPaper Class="pa-4 mb-3 ml-1 align-start d-flex" Style="width: auto" Outlined="false">
+	<MudText Typo="Typo.h6" Align="Align.Left">Baseline ItemzType</MudText>
+</MudPaper>
+
+<MudGrid>
+	@if (initializingPage)
+	{
+		<MudPaper Height="calc(100vh - 100px);" Width="100%">
+			<MudOverlay Visible="@initializingPage" DarkBackground="true" Absolute="true">
+				<MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Inherit">Loading ...</MudText>
+				<br />
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+			</MudOverlay>
+		</MudPaper>
+	}
+	else
+	{
+ 		<MudItem xs="12" sm="12">
+			<MudPaper Class="pa-4 ml-1">
+			<MudCard style="background-color : #FABBBB;" >
+				<MudCardContent>
+					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleIBaselineItemzType.Name </strong></MudText>
+					</MudItem>
+					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+					<br />
+					<MudText><strong>ID           : </strong> @singleIBaselineItemzType.Id.ToString()</MudText>
+					<MudText><strong>Status       : </strong> @singleIBaselineItemzType.Status</MudText>
+					<MudText><strong>Is System?   : </strong> @(singleIBaselineItemzType.IsSystem ? "Yes" : "No") </MudText>
+					<MudText><strong>Created Date : </strong> @singleIBaselineItemzType.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
+					<MudText><strong>Description  : </strong> @singleIBaselineItemzType.Description</MudText>
+				</MudCardContent>
+			</MudCard>
+			</MudPaper>
+		</MudItem>
+	}
+</MudGrid>
+@code {
+	[Parameter]
+	public Guid BaselineItemzTypeId { get; set; }
+
+	[Inject]
+	public IBaselineItemzTypesService baselineItemzTypesService { get; set; }
+
+	public GetBaselineItemzTypeDTO singleIBaselineItemzType { get; set; } = new();
+	public bool initializingPage { get; set; } = true;
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			initializingPage = true;
+			StateHasChanged();
+			//Thread.Sleep(300);
+			singleIBaselineItemzType = await baselineItemzTypesService.__Single_BaselineItemzType_By_GUID_ID__Async(BaselineItemzTypeId);
+
+			// TODO :: THROW EXCEPTION IF BASELINE ITEMTYPE IS NOT FOUND!
+			
+			initializingPage = false;
+
+			StateHasChanged();
+		}
+	}
+}
+

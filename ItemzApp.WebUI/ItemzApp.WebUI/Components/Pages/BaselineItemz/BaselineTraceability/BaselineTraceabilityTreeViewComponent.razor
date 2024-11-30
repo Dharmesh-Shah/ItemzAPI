@@ -1,12 +1,12 @@
 ﻿@using ItemzApp.WebUI.Client.SharedModels
-@* @using ItemzApp.WebUI.Client.Services.BaselineItemz *@
+
 @using ItemzApp.WebUI.Client.Services.BaselineItemzCollection
 @using ItemzApp.WebUI.Client.Services.BaselineItemzTrace;
+@using ItemzApp.WebUI.Components.EventServices
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
 
-@* <h5>Traceability Component</h5>
-<br /> *@
 <MudPaper Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left"> <MudIcon Icon="@Icons.Material.Filled.KeyboardDoubleArrowUp" /> Parent / From Baseline Traces </MudText>
 </MudPaper>
@@ -93,13 +93,9 @@
 	[Inject]
 	public IBaselineItemzCollectionService baselineItemzCollectionService { get; set; }
 
-	
-
-
 	private BaselineItemzParentAndChildTraceDTO SingleBaselineItemzTraces { get; set; } = new BaselineItemzParentAndChildTraceDTO();
 	private ICollection<GetBaselineItemzDTO> AllParentBaselineItemzTraces { get; set; } = new List<GetBaselineItemzDTO>();
 	private ICollection<GetBaselineItemzDTO> AllChildBaselineItemzTraces { get; set; } = new List<GetBaselineItemzDTO>();
-
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -116,8 +112,7 @@
 					tempParentBaselineItemzIds = SingleBaselineItemzTraces.BaselineItemz.ParentBaselineItemz.Select(p => p.BaselineItemzID).ToList();
 
 					AllParentBaselineItemzTraces = await baselineItemzCollectionService.__GET_BaselineItemz_Collection_By_GUID_IDS__Async(tempParentBaselineItemzIds);
-
-					// AllParentItemzTraces = SingleItemzTraces.Itemz.ParentItemz;
+					
 				}
 				if (SingleBaselineItemzTraces.BaselineItemz.ChildBaselineItemz != null)
 				{
@@ -127,7 +122,6 @@
 
 					AllChildBaselineItemzTraces = await baselineItemzCollectionService.__GET_BaselineItemz_Collection_By_GUID_IDS__Async(tempChildBaselineItemzIds);
 
-					// AllChildItemzTraces = SingleItemzTraces.Itemz.ChildItemz;
 				}
 			}
 		}
@@ -136,7 +130,8 @@
 
 	public async Task openBaselineItemz(string baselineItemzId)
 	{
-		NavManager.NavigateTo($"/baselineItemzDetails/{baselineItemzId}", true);
+		BaselineItemzSelectionService.SelectBaselineTreeNodeItemz(Guid.Parse(baselineItemzId));
+
 	}
 
 }
