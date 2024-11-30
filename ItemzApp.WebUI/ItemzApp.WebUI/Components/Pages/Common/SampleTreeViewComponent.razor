@@ -4,6 +4,7 @@
     <MudDivider Class="my-2" />
     <MudText Typo="Typo.subtitle1"><MudIcon Icon="@NodeIcon" /> @RecordId.ToString()</MudText>
     <MudText Typo="Typo.subtitle1"><MudIcon Icon="@NodeIcon" /> @NodeText</MudText>
+    <MudText Typo="Typo.subtitle1"><MudIcon Icon="@NodeIcon" /> @RecordType</MudText>
 </MudPaper>
 
 
@@ -14,4 +15,6 @@
     public Guid RecordId { get; set; }
     [Parameter]
     public string NodeIcon { get; set; }
+    [Parameter]
+    public string RecordType { get; set; }
 }

@@ -102,6 +102,7 @@ builder.Services.AddMudServices();
 builder.Services.AddMudExtensions();
 
 builder.Services.AddScoped<TreeNodeItemzSelectionService>(); // Register the service
+builder.Services.AddScoped<BaselineTreeNodeItemzSelectionService>(); // Register the service
 
 
 var app = builder.Build();
