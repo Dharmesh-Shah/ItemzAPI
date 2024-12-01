@@ -339,7 +339,11 @@
     protected override void OnInitialized()
     {
         BaselineItemzSelectionService.OnBaselineTreeNodeItemzSelected += HandleItemzSelected;
-        BaselineItemzSelectionService.OnBaselineTreeNodeItemzNameUpdated += HandleTreeNodeItemzNameUpdated;
+        BaselineItemzSelectionService.OnBaselineTreeNodeItemzNameUpdated += NOT_IN_USE_HandleTreeNodeItemzNameUpdated;
+        BaselineItemzSelectionService.OnLoadingOfBaselineItemzTreeViewComponent += HandleLoadingOfBaselineItemzTreeViewComponent;
+        BaselineItemzSelectionService.OnSingleBaselineItemzIsIncludedChanged += HandleIncludeOnlySingleBaselineItemzNode;
+        BaselineItemzSelectionService.OnIncludeAllChildrenBaselineItemzTreeNodes += HandleIncludeAllChildrenBaselineItemzTreeNodes;
+        BaselineItemzSelectionService.OnExcludeAllChildrenBaselineItemzTreeNodes += HandleExcludeAllChildrenBaselineItemzTreeNodes;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -351,7 +355,7 @@
             InitialTreeItems = await LoadInitialData(BaselineId);
             StateHasChanged();
 
-            Thread.Sleep(900);
+            Thread.Sleep(300);
             // Load Entire Baseline Hierarchy data
             InitialTreeItems = await LoadAllBaselineHierarchyData(BaselineId);
 
@@ -374,10 +378,15 @@
     private void UpdateSelectedItem(Guid id)
     {
         selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
+
+        // if (selectedItem.IsIncluded == false)
+        // {
+        //     selectedItem.Icon = @Icons.Material.Filled.Close;
+        // }
     }
 
     // Handle name updates for tree items
-    private void HandleTreeNodeItemzNameUpdated(Guid recordId, string newName)
+    private void NOT_IN_USE_HandleTreeNodeItemzNameUpdated(Guid recordId, string newName)
     {
         var item = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == recordId) as TreeItemPresenter;
         if (item != null)
@@ -386,4 +395,101 @@
             StateHasChanged(); // Refresh the UI
         }
     }
+
+
+    #region  Handle_IsIncluded_Changes
+
+
+
+    private void HandleLoadingOfBaselineItemzTreeViewComponent(Guid recordId, bool isIncluded)
+    {
+        var item = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == recordId) as TreeItemPresenter;
+        if (item != null)
+        {
+            // Update the tree item icon by changing isIncluded
+            // This is to support multi user scenario where someone else has changed isIncluded 
+            // then we need to automaitally update it in the BaselineTreeView for current user.
+            item.IsIncluded = isIncluded; 
+
+            StateHasChanged(); // Refresh the UI
+        }
+    }
+
+    // Handle isIncluded updates for tree items
+    private void HandleIncludeOnlySingleBaselineItemzNode(Guid recordId)
+    {
+        var item = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == recordId) as TreeItemPresenter;
+        if (item != null)
+        {
+            item.IsIncluded = true; // Update the tree item name
+            
+            StateHasChanged(); // Refresh the UI
+        }
+    }
+
+    private void HandleIncludeAllChildrenBaselineItemzTreeNodes(Guid recordId)
+    {
+        // Setting isIncluded to true for marking record itself as well as all it's children as included. 
+        UpdateIsIncludedForBranch(recordId, isIncluded: true);
+        StateHasChanged();
+    }
+
+    private void HandleExcludeAllChildrenBaselineItemzTreeNodes(Guid recordId)
+    {
+        // Setting isIncluded to false for marking record itself as well as all it's children as excluded.
+        UpdateIsIncludedForBranch(recordId, isIncluded: false);
+        StateHasChanged();
+    }
+
+    public void UpdateIsIncludedForBranch(Guid baselineItemzId, bool isIncluded)
+    {
+        foreach (var treeNodeItem in InitialTreeItems)
+        {
+            var targetNode = FindNodeById(treeNodeItem, baselineItemzId);
+            if (targetNode != null)
+            {
+                ((TreeItemPresenter)targetNode).IsIncluded = isIncluded;
+                UpdateChildrenIsIncluded(targetNode, isIncluded);
+                break; // Exit the loop once the node is found and updated
+            }
+        }
+    }
+
+    public TreeItemData<Guid>? FindNodeById(TreeItemData<Guid> treeNode, Guid baselineItemzId)
+    {
+        if (treeNode.Value == baselineItemzId)
+        {
+            return treeNode;
+        }
+
+        if (treeNode.HasChildren && treeNode.Children != null)
+        {
+            foreach (var child in treeNode.Children)
+            {
+                var foundNode = FindNodeById(child, baselineItemzId);
+                if (foundNode != null)
+                {
+                    return foundNode;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void UpdateChildrenIsIncluded(TreeItemData<Guid> node, bool isIncluded)
+    {
+        ((TreeItemPresenter)node).IsIncluded = isIncluded;
+        // node.Icon = newIcon;
+
+        if (node.HasChildren && node.Children != null)
+        {
+            foreach (var child in node.Children)
+            {
+                UpdateChildrenIsIncluded(child, isIncluded);
+            }
+        }
+    }
+
+    #endregion
+
 }

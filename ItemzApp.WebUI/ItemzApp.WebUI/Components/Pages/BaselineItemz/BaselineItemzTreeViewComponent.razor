@@ -2,11 +2,13 @@
 @using ItemzApp.WebUI.Client.Services.BaselineItemz
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @* @inject NavigationManager NavManager *@
 @inject IDialogService DialogService
+@inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
 
 <MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
@@ -111,7 +113,10 @@
 			StateHasChanged();
 			//Thread.Sleep(300);
 			singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
-
+			if (singleBaselineItemz != null)
+			{
+				BaselineItemzSelectionService.LoadingOfBaselineItemzTreeViewComponent(BaselineItemzId, singleBaselineItemz.isIncluded);
+			}
 			await UpdateAllChildBaselineItemzFromServer();
 
 			initializingPage = false;
@@ -181,6 +186,19 @@
 		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
 		singleBaselineItemz.isIncluded = newValue;
 
+
+		// SEND NOTIFICATION TO BASELINE TREE VIEW COMPONENT TO UPDATE IT'S ICONS AND IS INCLUDED INFORMATION
+
+		if (newValue == true)
+		{
+			BaselineItemzSelectionService.SingleBaselineItemzIsIncludedChanged(recordId: BaselineItemzId);
+		}
+		else
+		{
+			BaselineItemzSelectionService.ExcludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+		}
+
+
 		// TODO :: Find in child if any one is exlcuded then show Include All Child Button.
 
 		if (newValue == false && AllChildBaselineItemz != null && AllChildBaselineItemz.Any())
@@ -210,6 +228,10 @@
 		// TODO :: EXCEPTION HANDLING.
 		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
 		singleBaselineItemz.isIncluded = newValue;
+
+		BaselineItemzSelectionService.IncludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+
+
 		anyChildBaselineItemzExcluded = false;
 		StateHasChanged();
 
