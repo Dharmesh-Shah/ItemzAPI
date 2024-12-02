@@ -112,7 +112,7 @@
 					tempParentBaselineItemzIds = SingleBaselineItemzTraces.BaselineItemz.ParentBaselineItemz.Select(p => p.BaselineItemzID).ToList();
 
 					AllParentBaselineItemzTraces = await baselineItemzCollectionService.__GET_BaselineItemz_Collection_By_GUID_IDS__Async(tempParentBaselineItemzIds);
-					
+
 				}
 				if (SingleBaselineItemzTraces.BaselineItemz.ChildBaselineItemz != null)
 				{
@@ -131,7 +131,7 @@
 	public async Task openBaselineItemz(string baselineItemzId)
 	{
 		BaselineItemzSelectionService.SelectBaselineTreeNodeItemz(Guid.Parse(baselineItemzId));
-
+		BaselineItemzSelectionService.ScrollToTreeViewNode(Guid.Parse(baselineItemzId));
 	}
 
 }

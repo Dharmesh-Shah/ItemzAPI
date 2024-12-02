@@ -47,7 +47,7 @@
 						<MudText><strong>Severity             : </strong> @singleBaselineItemz.Severity</MudText>
 						<MudText><strong>Created Date         : </strong> @singleBaselineItemz.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
 						<MudGrid >
-							<MudItem xs="3">
+						<MudItem xs="3">
 						<MudSwitch T="bool" 
 							Value="@singleBaselineItemz.isIncluded"
 							ValueChanged="OnSingleBaselineItemzInclusionChanged"
@@ -57,15 +57,18 @@
 							Color="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
 							ThumbIconColor="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
 							UncheckedColor = "Color.Error"
-								/>
-								</MudItem>
+							Disabled = "@(!(BaselineItemzSelectionService.RequestNodeWithParent(BaselineItemzId)))"
+						/>
+						</MudItem>
 							@if (anyChildBaselineItemzExcluded == true)
 							{
 								<MudItem xs="6">
 								<MudButton OnClick="async _ => await OnAllChildBaselineItemzInclusionChanged(true)" 
 									Variant="Variant.Filled" 
 									Size="Size.Medium" 
-									Color="Color.Success" style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
+									Color="Color.Success"
+									Disabled="@(!(BaselineItemzSelectionService.RequestNodeWithParent(BaselineItemzId)))"
+									style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
 								</MudItem>
 							}
 						</MudGrid>
@@ -172,69 +175,133 @@
 	private async Task OnSingleBaselineItemzInclusionChanged(bool newValue)
 	{
 
-		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
-		// TODO :: Get Baseline ID from the server.
-		// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
-		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
-		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
-		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
-		tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
-		tempUpdateBaselineItemzDTO.SingleNodeInclusion = true;
-		// Send the new value to the server
-
-		// TODO :: EXCEPTION HANDLING.
-		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
-		singleBaselineItemz.isIncluded = newValue;
-
-
-		// SEND NOTIFICATION TO BASELINE TREE VIEW COMPONENT TO UPDATE IT'S ICONS AND IS INCLUDED INFORMATION
-
-		if (newValue == true)
+		try
 		{
-			BaselineItemzSelectionService.SingleBaselineItemzIsIncludedChanged(recordId: BaselineItemzId);
+
+			var parentNodeIsIncluded = BaselineItemzSelectionService.RequestNodeWithParent(BaselineItemzId);
+
+			if(!(parentNodeIsIncluded))
+			{
+				// Handle the case where parent node is not included
+				await OpenExceptionDialogAsync("Parent node is marked as Excluded and so selected node can not be marked as Included.");
+				return;
+
+			}
+
+			// if (parentNodeIsIncluded)
+			// {
+				
+				UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+				// TODO :: Get Baseline ID from the server.
+				// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
+				tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+				// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+				tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+				tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
+				tempUpdateBaselineItemzDTO.SingleNodeInclusion = true;
+				// Send the new value to the server
+
+				// TODO :: EXCEPTION HANDLING.
+				await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+				singleBaselineItemz.isIncluded = newValue;
+
+
+				// SEND NOTIFICATION TO BASELINE TREE VIEW COMPONENT TO UPDATE IT'S ICONS AND IS INCLUDED INFORMATION
+
+				if (newValue == true)
+				{
+					BaselineItemzSelectionService.SingleBaselineItemzIsIncludedChanged(recordId: BaselineItemzId);
+				}
+				else
+				{
+					BaselineItemzSelectionService.ExcludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+				}
+
+
+				// TODO :: Find in child if any one is exlcuded then show Include All Child Button.
+
+				if (newValue == false && AllChildBaselineItemz != null && AllChildBaselineItemz.Any())
+				{
+					anyChildBaselineItemzExcluded = true;
+				}
+				else
+				{
+					await UpdateAllChildBaselineItemzFromServer();
+				}
+				StateHasChanged();
+			//	}
+			// else
+			// {
+			// 	// Handle the case where parent node is not included
+			// 	await OpenExceptionDialogAsync("Parent node is marked as Excluded and so selected node can not be marked as Included.");
+			// }
 		}
-		else
+		catch (Exception ex)
 		{
-			BaselineItemzSelectionService.ExcludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+			// updateItemzTypeButtonClicked = false;
+			await OpenExceptionDialogAsync("Problem Updating ItemzType Details : " + ex.Message);
+			return;
 		}
-
-
-		// TODO :: Find in child if any one is exlcuded then show Include All Child Button.
-
-		if (newValue == false && AllChildBaselineItemz != null && AllChildBaselineItemz.Any())
-		{ 
-			anyChildBaselineItemzExcluded = true;
-		}
-		else
+		finally
 		{
-			await UpdateAllChildBaselineItemzFromServer();
+			//updateItemzTypeButtonClicked = false;
 		}
-		StateHasChanged();
 
 	}
 
 	private async Task OnAllChildBaselineItemzInclusionChanged(bool newValue)
 	{
-		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
-		// TODO :: Get Baseline ID from the server.
-		//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
-		tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
-		// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
-		tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
-		tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
-		tempUpdateBaselineItemzDTO.SingleNodeInclusion = false;
-		// Send the new value to the server
+		try
+		{
+			var parentNodeIsIncluded = BaselineItemzSelectionService.RequestNodeWithParent(BaselineItemzId);
 
-		// TODO :: EXCEPTION HANDLING.
-		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
-		singleBaselineItemz.isIncluded = newValue;
+			if (!(parentNodeIsIncluded))
+			{
+				// Handle the case where parent node is not included
+				await OpenExceptionDialogAsync("Parent node is marked as Excluded and so selected node and its children can not be marked as Included.");
+				return;
 
-		BaselineItemzSelectionService.IncludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+			}
 
+			UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
+			// TODO :: Get Baseline ID from the server.
+			//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+			tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+			// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
+			tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
+			tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
+			tempUpdateBaselineItemzDTO.SingleNodeInclusion = false;
+			// Send the new value to the server
 
+			// TODO :: EXCEPTION HANDLING.
+			await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
+			singleBaselineItemz.isIncluded = newValue;
+
+			// Notify TreeView that all children has to be excluded.
+			BaselineItemzSelectionService.IncludeAllChildrenBaselineItemzTreeNodes(recordId: BaselineItemzId);
+		}
+		catch (Exception ex)
+		{
+			// updateItemzTypeButtonClicked = false;
+			await OpenExceptionDialogAsync("Problem Updating ItemzType Details : " + ex.Message);
+			return;
+		}
+		finally
+		{
+			//updateItemzTypeButtonClicked = false;
+		}
 		anyChildBaselineItemzExcluded = false;
 		StateHasChanged();
 
+	}
+
+	private async Task OpenExceptionDialogAsync(string exceptionMessage)
+	{
+		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+		var dialogPara = new DialogParameters();
+		dialogPara.Add("exceptionMessage", exceptionMessage);
+		var dialogref = await DialogService.ShowAsync<BaselineItemzExceptionDialog>("CONFIRM", dialogPara, options);
+		// var dialogresult = await dialogref.Result;
 	}
 
 	#region Finding_Record_In_Parent_Hierarchy_Nodes

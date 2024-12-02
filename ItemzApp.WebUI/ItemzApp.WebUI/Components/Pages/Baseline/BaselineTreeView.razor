@@ -46,6 +46,7 @@
                         var presenter = context as TreeItemPresenter;
                     }
                     <MudTreeViewItem Value="@context.Value"
+                                     Id="@($"tree-node-{context.Value}")"
                                      Text="@context.Text"
                                      Icon="@((((TreeItemPresenter)context).IsIncluded) ? context.Icon : Icons.Material.Filled.Close)"
                                      IconColor=" (((TreeItemPresenter)context).IsIncluded) ? Color.Inherit : Color.Error "
@@ -58,7 +59,7 @@
                                         (@presenter.Children.Count() > 0 ? ("[C" + @presenter.Children.Count().ToString() + "]") : "") + 
                                         (@presenter.Level > 0 ? ("[L" + @presenter.Level.ToString() + "]") : "")
                                         )"
-                                     @onclick="() => OnItemClick(context)" />
+                                     @onclick="async () => await OnItemClick(context)" />
                                      @* CanExpand="@( @context.Children.Count()>0 ? true : false )" 
                                      EndText="@presenter?.childNumber" /> *@
                 </ItemTemplate>
@@ -178,10 +179,9 @@
         }
     }
 
-    private void OnItemClick(MudBlazor.TreeItemData<System.Guid> node)
+    private async Task OnItemClick(MudBlazor.TreeItemData<System.Guid> node)
     {
         // Handle the clicked node here
-
         selectedItem = node as TreeItemPresenter;
     }
 
@@ -344,6 +344,9 @@
         BaselineItemzSelectionService.OnSingleBaselineItemzIsIncludedChanged += HandleIncludeOnlySingleBaselineItemzNode;
         BaselineItemzSelectionService.OnIncludeAllChildrenBaselineItemzTreeNodes += HandleIncludeAllChildrenBaselineItemzTreeNodes;
         BaselineItemzSelectionService.OnExcludeAllChildrenBaselineItemzTreeNodes += HandleExcludeAllChildrenBaselineItemzTreeNodes;
+        BaselineItemzSelectionService.OnRequestNodeWithParent += HandleRequestNodeWithParent;
+        BaselineItemzSelectionService.OnScrollToTreeViewNode += HandleScrollToTreeViewNode;
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -371,13 +374,21 @@
     {
         // Update the SelectedValue to select the node
         SelectedValue = itemzId;
-        // StateHasChanged();
+        StateHasChanged();
+    }
+
+    private void HandleScrollToTreeViewNode(Guid recordId)
+    {
+        // Task.Delay(100); // Add a slight delay to ensure DOM updates are complete
+        ScrollToSelectedNode($"tree-node-{recordId}");
     }
 
     // Efficient method to update selectedItem by its ID
-    private void UpdateSelectedItem(Guid id)
+    private async Task UpdateSelectedItem(Guid id)
     {
         selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
+
+        //await InvokeAsync(StateHasChanged);
 
         // if (selectedItem.IsIncluded == false)
         // {
@@ -395,6 +406,58 @@
             StateHasChanged(); // Refresh the UI
         }
     }
+
+
+    private bool HandleRequestNodeWithParent(Guid recordId)
+    {
+        foreach (var treeNodeItem in InitialTreeItems)
+        {
+            var targetParentNode = FindNodeWithParent(treeNodeItem, recordId).Item1; // Item1 is refering to 2nd Item in the Tuple.
+
+            if (targetParentNode != null)
+            {
+                var _foundParentIsIncluded = ((TreeItemPresenter)targetParentNode).IsIncluded;
+                return _foundParentIsIncluded;
+            }
+        }
+
+        // If nothing found then return false;
+        return false;
+    }
+
+    private (TreeItemData<Guid>, TreeItemData<Guid>?) FindNodeWithParent(TreeItemData<Guid> treeNode, Guid recordId, TreeItemData<Guid>? parentNode = null)
+    {
+        if (treeNode.Value == recordId)
+        {
+            return (parentNode, treeNode); // retruning Tuple where Item1 is parentNode and Item2 will be treeNode for the recordId
+        }
+
+        if (treeNode.HasChildren && treeNode.Children != null)
+        {
+            foreach (var child in treeNode.Children)
+            {
+                var result = FindNodeWithParent(child, recordId, treeNode);
+                if (result.Item2 != null)
+                {
+                    return result;
+                }
+            }
+        }
+
+        return (null, null);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     #region  Handle_IsIncluded_Changes
@@ -491,5 +554,10 @@
     }
 
     #endregion
+
+    private async Task ScrollToSelectedNode(string elementId)
+    {
+        await JS.InvokeVoidAsync("scrollToElementById", elementId);
+    }
 
 }

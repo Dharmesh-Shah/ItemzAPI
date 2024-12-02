@@ -2,10 +2,12 @@
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
 
 @if (CalledFrom == nameof(ItemzTypeDetails))
 {
@@ -171,6 +173,8 @@
 				BreadcrumsParameter.Id = singleItemzType.Id;
 				BreadcrumsParameter.Name = singleItemzType.Name;
 				BreadcrumsParameter.RecordType = "itemztype"; // TODO :: USE CONSTANT
+
+				TreeNodeItemzSelectionService.UpdateTreeNodeItemzName(ItemzTypeId, singleItemzType.Name!);
 			}
 
 			if (form != null)
@@ -229,7 +233,8 @@
 				updateItemzTypeDTO.Status = singleItemzType.Status;
 				updateItemzTypeDTO.Description = singleItemzType.Description;
 				var updatedResult = await ItemzTypeService.__PUT_Update_ItemzType_By_GUID_ID__Async(ItemzTypeId, updateItemzTypeDTO);
-				Thread.Sleep(800);
+				TreeNodeItemzSelectionService.UpdateTreeNodeItemzName(ItemzTypeId, singleItemzType.Name!);
+				//Thread.Sleep(800);
 			}
 		}
 		catch (Exception ex)

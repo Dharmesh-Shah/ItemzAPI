@@ -170,6 +170,7 @@ namespace ItemzApp.WebUI.Client.Services.BaselineItemz
 
 		public async Task __PUT_Update_BaselineItemzs_By_GUID_IDs__Async(UpdateBaselineItemzDTO updateBaselineItemzDTO, CancellationToken cancellationToken)
 		{
+			HttpResponseMessage httpResponseMessage = null;
 			try
 			{
 				// TODO::Utilize urlBuilder which is commented below.
@@ -180,14 +181,33 @@ namespace ItemzApp.WebUI.Client.Services.BaselineItemz
 
 				//urlBuilder_.Length--;
 
-				var httpResponseMessage = await _httpClient.PutAsJsonAsync($"/api/BaselineItemz", updateBaselineItemzDTO, cancellationToken);
+				httpResponseMessage = await _httpClient.PutAsJsonAsync($"/api/BaselineItemz", updateBaselineItemzDTO, cancellationToken);
 				httpResponseMessage.EnsureSuccessStatusCode();
 				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
 			}
-			catch (Exception)
+			catch (HttpRequestException httpRequestException)
 			{
+				string errorMessage = $"Error: {httpRequestException.StatusCode}";
+
+				// Read the response content if available
+				if (httpResponseMessage != null)
+				{
+					var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+					errorMessage += $": {responseContent}";
+				}
+
+				//				throw new ApplicationException(errorMessage, httpRequestException);
+				throw new ApplicationException(errorMessage);
 			}
+			catch (Exception ex)
+			{
+				throw new ApplicationException("An unexpected error occurred.", ex);
+			}
+
+
+
+
 		}
 		#endregion
 

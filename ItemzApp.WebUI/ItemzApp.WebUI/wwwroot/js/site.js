@@ -67,3 +67,13 @@ window.addEventListener('resize', () => {
             ]
         });
 });
+
+
+// Visualize selected TreeView Node via automatic scrolling.
+
+function scrollToElementById(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
