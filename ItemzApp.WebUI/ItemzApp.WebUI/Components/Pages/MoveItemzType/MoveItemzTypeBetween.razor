@@ -71,7 +71,7 @@
 					<CopyableText TextToCopy="@targetFirstItemzType.Id.ToString()" />
 					</MudStack>
 					<MudText><strong>Status      : </strong> @targetFirstItemzType.Status</MudText>
-					<MudText Color="@(targetFirstItemzType.IsSystem ? Color.Error : Color.Inherit)" ><strong>IsSystem?   : </strong> @sourceItemzType.IsSystem</MudText>
+								<MudText Color="@(targetFirstItemzType.IsSystem ? Color.Error : Color.Inherit)"><strong>IsSystem?   : </strong> @targetFirstItemzType.IsSystem</MudText>
 				</MudCardContent>
 				</MudCard>
 				<MudCard style="background-color : #FABBBB; margin: 16px;" Class="w-100">
@@ -84,7 +84,7 @@
 						<CopyableText TextToCopy="@targetSecondItemzType.Id.ToString()" />
 						</MudStack>
 						<MudText><strong>Status      : </strong> @targetSecondItemzType.Status</MudText>
-						<MudText Color="@(targetSecondItemzType.IsSystem ? Color.Error : Color.Inherit)" ><strong>IsSystem?   : </strong> @sourceItemzType.IsSystem</MudText>
+								<MudText Color="@(targetSecondItemzType.IsSystem ? Color.Error : Color.Inherit)"><strong>IsSystem?   : </strong> @targetSecondItemzType.IsSystem</MudText>
 					</MudCardContent>
 				</MudCard>
 				</MudStack>
