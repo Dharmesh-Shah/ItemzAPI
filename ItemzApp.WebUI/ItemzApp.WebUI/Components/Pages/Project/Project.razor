@@ -4,6 +4,7 @@
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
+@using ItemzApp.WebUI.Components.Pages.Common
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
@@ -37,7 +38,11 @@
 						</MudItem>
 					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
-					<MudText><strong>ID          : </strong> @singleProject.Id.ToString()</MudText>
+					<MudText><strong> </strong> </MudText>
+					<MudStack Row="true" Spacing="2">
+					<MudText><strong>ID          : </strong></MudText>
+					<CopyableText TextToCopy="@singleProject.Id.ToString()" />
+					</MudStack>
 					<MudText><strong>Status      : </strong> @singleProject.Status</MudText>
 					<MudText><strong>Description : </strong> @singleProject.Description</MudText>
 				</MudCardContent>

@@ -6,6 +6,7 @@
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Itemz.ChangeLog
 @using ItemzApp.WebUI.Components.Pages.Itemz.Traceability
+@using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
@@ -56,7 +57,10 @@
 				<MudPaper Class="pa-4 mud-height-full" Width="100%">
 				<MudForm Model="@singleItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
-				<MudText>Itemz GUID Id: @ItemzId.ToString()</MudText>
+				<MudStack Row="true" Spacing="2">
+				<MudText><strong>Itemz GUID Id: </strong></MudText>
+				<CopyableText TextToCopy="@ItemzId.ToString()" />
+				</MudStack>
 				<br />
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 					@bind-Value="singleItemz.Name"

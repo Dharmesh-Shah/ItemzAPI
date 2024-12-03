@@ -3,6 +3,7 @@
 @using ItemzApp.WebUI.Client.Services.BaselineItemz
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
+@using ItemzApp.WebUI.Components.Pages.Common
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using Microsoft.AspNetCore.Components.Forms
@@ -51,7 +52,10 @@
 					<MudPaper Class="pa-4 mud-height-full" Width="100%">
 		<MudForm Model="@singleBaselineItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
 			<MudCardContent>
-				<MudText>Baseline Itemz GUID Id: @BaselineItemzId.ToString()</MudText>
+				<MudStack Row="true" Spacing="2">
+					<MudText><strong>Baseline Itemz GUID Id: </strong></MudText>
+					<CopyableText TextToCopy="@BaselineItemzId.ToString()" />
+				</MudStack>
 				<br />
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 					@bind-Value="singleBaselineItemz.Name"

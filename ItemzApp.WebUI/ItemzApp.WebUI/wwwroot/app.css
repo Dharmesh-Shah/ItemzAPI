@@ -102,3 +102,14 @@ h1:focus {
     width: 15px; /* Adjust the thumb width */
     background-color: #333; /* Optional: change thumb color */
 }
+
+/* Used for Mouse Pointer mainly for Copy ID */
+
+.mouse-pointer-icon {
+    cursor: pointer;
+}
+
+.mouse-pointer-icon:active {
+    transform: scale(0.95);
+}
+

@@ -4,6 +4,7 @@
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
+@using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
@@ -47,9 +48,16 @@
 			<MudPaper Class="pa-4 mb-5">
 				<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" FieldChanged="formFieldChanged" >
 			<MudCardContent>
-						<MudText>Project GUID Id: @(ParentId != Guid.Empty ? ParentId.ToString() : "")  </MudText>
+				<MudStack Row="true" Spacing="2">
+					<MudText><strong>Project GUID Id: </strong></MudText>
+					<CopyableText TextToCopy="@(ParentId != Guid.Empty ? ParentId.ToString() : "")" />
+				</MudStack>
+
 				<br />
-				<MudText>ItemzType GUID Id: @ItemzTypeId.ToString()</MudText>
+				<MudStack Row="true" Spacing="2">
+					<MudText><strong>ItemzType GUID Id: </strong></MudText>
+					<CopyableText TextToCopy="@ItemzTypeId.ToString()" />
+				</MudStack>
 				<br />
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 								@bind-Value="singleItemzType.Name"

@@ -4,6 +4,7 @@
 @using ItemzApp.WebUI.Client.Services.ItemzType
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.Services.Hierarchy
+@using ItemzApp.WebUI.Components.Pages.Common
 
 @inject IDialogService DialogService
 
@@ -34,7 +35,10 @@
 						<MudText Typo="Typo.h6" Align="Align.Left"> Source ItemzType Details </MudText> 
 						<MudDivider></MudDivider>
 						<MudText><strong>Name        : </strong> @sourceItemzType.Name </MudText>
-						<MudText><strong>ID          : </strong> @sourceItemzType.Id.ToString()</MudText>
+						<MudStack Row="true" Spacing="2">
+						<MudText><strong>ID          : </strong></MudText>
+						<CopyableText TextToCopy="@sourceItemzType.Id.ToString()" />
+						</MudStack>
 						<MudText><strong>Status      : </strong> @sourceItemzType.Status</MudText>
 						<MudText Color="@(sourceItemzType.IsSystem ? Color.Error : Color.Inherit)" ><strong>IsSystem?   : </strong> @sourceItemzType.IsSystem</MudText>
 					</div>
@@ -65,7 +69,10 @@
 					<MudText Typo="Typo.h6" Align="Align.Left"> Target Project Details </MudText> 
 					<MudDivider></MudDivider>
 					<MudText><strong>Name        : </strong> @targetProject.Name </MudText>
-					<MudText><strong>ID          : </strong> @targetProject.Id.ToString()</MudText>
+					<MudStack Row="true" Spacing="2">
+					<MudText><strong>ID          : </strong></MudText>
+					<CopyableText TextToCopy="@targetProject.Id.ToString()" />
+					</MudStack>
 					<MudText><strong>Status      : </strong> @targetProject.Status</MudText>
 				</MudCardContent>
 				</MudCard>

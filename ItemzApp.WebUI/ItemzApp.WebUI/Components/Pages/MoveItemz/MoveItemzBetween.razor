@@ -2,6 +2,7 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using ItemzApp.WebUI.Client.Services.Hierarchy
+@using ItemzApp.WebUI.Components.Pages.Common
 
 
 @inject IDialogService DialogService
@@ -33,7 +34,10 @@
 						<MudText Typo="Typo.h6" Align="Align.Left"> Source Itemz Details </MudText> 
 						<MudDivider></MudDivider>
 						<MudText><strong>Name        : </strong> @sourceItemz.Name </MudText>
-						<MudText><strong>ID          : </strong> @sourceItemz.Id.ToString()</MudText>
+						<MudStack Row="true" Spacing="2">
+						<MudText><strong>ID          : </strong></MudText>
+						<CopyableText TextToCopy="@sourceItemz.Id.ToString()" />
+						</MudStack>
 						<MudText><strong>Status      : </strong> @sourceItemz.Status</MudText>
 						<MudText><strong>Priority    : </strong> @sourceItemz.Priority</MudText>
 						<MudText><strong>Severity    : </strong> @sourceItemz.Severity</MudText>
@@ -64,7 +68,10 @@
 					<MudText Typo="Typo.h6" Align="Align.Left"> Target First Itemz Details </MudText> 
 					<MudDivider></MudDivider>
 					<MudText><strong>Name        : </strong> @targetFirstItemz.Name </MudText>
-					<MudText><strong>ID          : </strong> @targetFirstItemz.Id.ToString()</MudText>
+					<MudStack Row="true" Spacing="2">
+					<MudText><strong>ID          : </strong></MudText>
+					<CopyableText TextToCopy="@targetFirstItemz.Id.ToString()" />
+					</MudStack>
 					<MudText><strong>Status      : </strong> @targetFirstItemz.Status</MudText>
 					<MudText><strong>Priority    : </strong> @targetFirstItemz.Priority</MudText>
 					<MudText><strong>Severity    : </strong> @targetFirstItemz.Severity</MudText>
@@ -75,7 +82,10 @@
 						<MudText Typo="Typo.h6" Align="Align.Left"> Target Second Itemz Details </MudText>
 						<MudDivider></MudDivider>
 						<MudText><strong>Name        : </strong> @targetSecondItemz.Name </MudText>
-						<MudText><strong>ID          : </strong> @targetSecondItemz.Id.ToString()</MudText>
+						<MudStack Row="true" Spacing="2">
+						<MudText><strong>ID          : </strong></MudText>
+						<CopyableText TextToCopy="@targetSecondItemz.Id.ToString()" />
+						</MudStack>
 						<MudText><strong>Status      : </strong> @targetSecondItemz.Status</MudText>
 						<MudText><strong>Priority    : </strong> @targetSecondItemz.Priority</MudText>
 						<MudText><strong>Severity    : </strong> @targetSecondItemz.Severity</MudText>

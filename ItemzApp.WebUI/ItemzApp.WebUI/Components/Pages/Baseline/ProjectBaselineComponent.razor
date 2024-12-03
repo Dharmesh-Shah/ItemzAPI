@@ -3,6 +3,7 @@
 @using ItemzApp.WebUI.Client.Services.Baselines
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.Pages.Common
 @inject IDialogService DialogService
 @inject NavigationManager NavManager
 
@@ -59,7 +60,10 @@ else
 	<MudForm Style="width: 100%" Model="@singleCreateBaselineByProject" @ref="createByProjectForm" @bind-IsValid="@createBaselineByProjectSuccess" @bind-Errors="@createBaselineByProjectErrors">
 		<MudCardContent>
 			<MudText Typo="Typo.h6" Align="Align.Left">Create Baseline by Project</MudText>
-			<MudText>Project GUID Id: @ProjectId.ToString()</MudText>
+			<MudStack Row="true" Spacing="2">
+			<MudText><strong>Project GUID Id: </strong></MudText>
+			<CopyableText TextToCopy="@ProjectId.ToString()" />
+			</MudStack>
 			<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 						  @bind-Value="singleCreateBaselineByProject.Name"
 						  For="@(() => singleCreateBaselineByProject.Name)" />
@@ -97,7 +101,11 @@ else
 		<MudForm Style="width: 100%" Model="@singleCreateBaselineByItemzType" @ref="createByItemzTypeForm" @bind-IsValid="@createBaselineByItemzTypeSuccess" @bind-Errors="@createBaselineByItemzTypeErrors">
 			<MudCardContent>
 				<MudText Typo="Typo.h6" Align="Align.Left">Create Baseline by ItemzType</MudText>
-				<MudText>Project GUID Id: @ProjectId.ToString()</MudText>
+				<MudStack Row="true" Spacing="2">
+				<MudText><strong>Project GUID Id: </strong></MudText>
+				<CopyableText TextToCopy="@ProjectId.ToString()" />
+				</MudStack>
+
 				<MudSelect T="@(Guid)"
 						   @bind-Value="singleCreateBaselineByItemzType.ItemzTypeId"
 						   For="@(() => singleCreateBaselineByItemzType.ItemzTypeId)"
@@ -147,7 +155,10 @@ else
 		<MudForm Style="width: 100%" Model="@singleCloneBaseline" @ref="cloneForm" @bind-IsValid="@cloneBaselineSuccess" @bind-Errors="@cloneBaselineErrors">
 			<MudCardContent>
 				<MudText Typo="Typo.h6" Align="Align.Left">Clone Existing Baseline</MudText>
-				<MudText>Project GUID Id: @ProjectId.ToString()</MudText>
+				<MudStack Row="true" Spacing="2">
+				<MudText><strong>Project GUID Id: </strong></MudText>
+				<CopyableText TextToCopy="@ProjectId.ToString()" />
+				</MudStack>
 				<MudSelect T="@(Guid)"
 						   @bind-Value="singleCloneBaseline.BaselineId"
 						   For="@(() => singleCloneBaseline.BaselineId)"

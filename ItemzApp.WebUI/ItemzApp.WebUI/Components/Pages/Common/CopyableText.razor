@@ -1,0 +1,47 @@
+﻿@using MudBlazor
+@inject IJSRuntime JSRuntime
+
+<MudText>@TextToCopy</MudText>
+<div style="position: relative; display: inline-block;">
+
+    <MudIcon Icon="@Icons.Material.Filled.ContentCopy"
+             Color="Color.Primary"
+             Size="Size.Small"
+             Class="mouse-pointer-icon"
+             @onclick="CopyToClipboard" />
+@if (showTooltip)
+{
+    <MudTooltip Text="Copied" Visible="true" Class="custom-tooltip" />
+}
+</div>
+
+<style>
+    .custom-tooltip {
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-100%);
+        z-index: 1000; 
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string TextToCopy { get; set; }
+    private bool showTooltip;
+
+    private async Task CopyToClipboard()
+    {
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", TextToCopy);
+        await ShowTooltip();
+    }
+
+    private async Task ShowTooltip()
+    {
+        showTooltip = true;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(2000); // Show tooltip for 2 seconds
+        showTooltip = false;
+        await InvokeAsync(StateHasChanged);
+    }
+}
