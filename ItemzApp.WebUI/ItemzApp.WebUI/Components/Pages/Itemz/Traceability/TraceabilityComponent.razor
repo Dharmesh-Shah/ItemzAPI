@@ -129,6 +129,7 @@
 	public async Task openItemz(string itemzId)
 	{
 		ItemzSelectionService.SelectTreeNodeItemz(Guid.Parse(itemzId));
+		ItemzSelectionService.ScrollToTreeViewNode(Guid.Parse(itemzId));
 
 		@if (CalledFrom == nameof(ItemzDetails))
 		{

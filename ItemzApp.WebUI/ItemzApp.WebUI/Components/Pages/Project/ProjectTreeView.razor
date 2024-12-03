@@ -45,6 +45,7 @@
                         var presenter = context as TreeItemPresenter;
                     }
                     <MudTreeViewItem Value="@context.Value"
+                                     Id="@($"tree-node-{context.Value}")"
                                         Text="@context.Text"
                                         Icon="@context.Icon"
                                         Expandable="@( @context.Children.Count() > 0 ? true : false )"
@@ -416,6 +417,7 @@
     {
         ItemzSelectionService.OnTreeNodeItemzSelected += HandleItemzSelected;
         ItemzSelectionService.OnTreeNodeItemzNameUpdated += HandleTreeNodeItemzNameUpdated;
+        ItemzSelectionService.OnScrollToTreeViewNode += HandleScrollToTreeViewNode;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -466,6 +468,17 @@
             item.Text = newName; // Update the tree item name
             StateHasChanged(); // Refresh the UI
         }
+    }
+
+    private void HandleScrollToTreeViewNode(Guid recordId)
+    {
+        // Task.Delay(100); // Add a slight delay to ensure DOM updates are complete
+        ScrollToSelectedNode($"tree-node-{recordId}");
+    }
+
+    private async Task ScrollToSelectedNode(string elementId)
+    {
+        await JS.InvokeVoidAsync("scrollToElementById", elementId);
     }
 
     // protected override async Task OnAfterRenderAsync(bool firstRender)
