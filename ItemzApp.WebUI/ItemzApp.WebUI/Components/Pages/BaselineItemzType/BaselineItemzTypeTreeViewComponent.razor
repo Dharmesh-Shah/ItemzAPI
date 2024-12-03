@@ -1,8 +1,11 @@
 ﻿@using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.Services.BaselineItemzTypes
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.EventServices
 @using System.Globalization
 @inject NavigationManager NavManager
+@inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
+
 
 <MudPaper Class="pa-4 mb-3 ml-1 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline ItemzType</MudText>
@@ -30,7 +33,12 @@
 					</MudItem>
 					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
-					<MudText><strong>ID           : </strong> @singleIBaselineItemzType.Id.ToString()</MudText>
+					<MudStack Row="true" Spacing="2">
+						<MudText><strong>ID           : </strong> @singleIBaselineItemzType.Id.ToString()</MudText>
+						<MudTooltip Text="Show in Tree View">
+						<MudIcon Icon="@Icons.Material.Filled.Park" Size="Size.Small" @onclick="findAndShowInTreeView" />
+						</MudTooltip>
+					</MudStack>
 					<MudText><strong>Status       : </strong> @singleIBaselineItemzType.Status</MudText>
 					<MudText><strong>Is System?   : </strong> @(singleIBaselineItemzType.IsSystem ? "Yes" : "No") </MudText>
 					<MudText><strong>Created Date : </strong> @singleIBaselineItemzType.CreatedDate.ToString("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture)</MudText>
@@ -66,6 +74,10 @@
 
 			StateHasChanged();
 		}
+	}
+	private void findAndShowInTreeView()
+	{
+		BaselineItemzSelectionService.ScrollToTreeViewNode(BaselineItemzTypeId);
 	}
 }
 

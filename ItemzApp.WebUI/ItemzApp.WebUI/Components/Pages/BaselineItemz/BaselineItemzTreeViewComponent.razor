@@ -41,7 +41,12 @@
 						</MudItem>
 						<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 						<br />
+						<MudStack Row="true" Spacing="2">
 						<MudText><strong>ID                   : </strong> @singleBaselineItemz.Id.ToString()</MudText>
+						<MudTooltip Text="Show in Tree View">
+						<MudIcon Icon="@Icons.Material.Filled.Park" Size="Size.Small" @onclick="findAndShowInTreeView" />
+ 						</MudTooltip>
+						</MudStack>
 						<MudText><strong>Status               : </strong> @singleBaselineItemz.Status</MudText>
 						<MudText><strong>Priority             : </strong> @singleBaselineItemz.Priority</MudText>
 						<MudText><strong>Severity             : </strong> @singleBaselineItemz.Severity</MudText>
@@ -326,4 +331,9 @@
 	}
 	#endregion
 
+	private void findAndShowInTreeView()
+	{
+
+		BaselineItemzSelectionService.ScrollToTreeViewNode(BaselineItemzId);
+	}
 }

@@ -485,7 +485,7 @@
         if (item != null)
         {
             item.IsIncluded = true; // Update the tree item name
-            
+
             StateHasChanged(); // Refresh the UI
         }
     }
@@ -555,9 +555,15 @@
 
     #endregion
 
+
+    #region Scroll_To_TreeViewNode
+
+
     private async Task ScrollToSelectedNode(string elementId)
     {
         await JS.InvokeVoidAsync("scrollToElementById", elementId);
     }
+
+    #endregion
 
 }
