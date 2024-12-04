@@ -7,8 +7,10 @@
 @using ItemzApp.WebUI.Components.Pages.ItemzType
 @using ItemzApp.WebUI.Components.Pages.Common
 @using ItemzApp.WebUI.Helper.TreeViewNodes
+@using ItemzApp.WebUI.Components.FindServices
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Collections.ObjectModel
+@inject IServiceProvider serviceProvider
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService ItemzSelectionService
@@ -91,6 +93,10 @@
 
     [Parameter]
     public Guid ProjectId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "autoSelectedRecordId")]
+    [Parameter]
+    public Guid? AutoSelectedRecordId { get; set; }
 
     [Inject]
     public IProjectService ProjectService { get; set; }
@@ -439,7 +445,20 @@
             // _ = LoadItemzTypesData(ProjectId);
 
             // await projectMudTreeView.ExpandAllAsync();
-            showLoadingMessage = false; 
+            showLoadingMessage = false;
+            StateHasChanged();
+
+            if (AutoSelectedRecordId.HasValue)
+            {
+                // Select the node after the first render 
+                
+                // This Task.Delay is important to allow full 
+                // rendering which could take some time for large project.
+                // await Task.Delay(500);
+
+                HandleItemzSelected(AutoSelectedRecordId.Value);
+                AutoSelectedRecordId = null;
+            }
 
             await JS.InvokeVoidAsync("initializeResizable");
             StateHasChanged();
@@ -448,15 +467,28 @@
 
     private void HandleItemzSelected(Guid itemzId)
     {
-        // Update the SelectedValue to select the node 
+        // Update the SelectedValue to select the node as it uses property setter to later call UpdateSelectedItem
         SelectedValue = itemzId;
         // StateHasChanged();
     }
 
     // Efficient method to update selectedItem by its ID
-    private void UpdateSelectedItem(Guid id)
+    private async Task UpdateSelectedItem(Guid id)
     {
         selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
+
+        if (selectedItem == null)
+        {
+            // get ProjectID of the recordId
+            var hierarchyService = serviceProvider.GetRequiredService<IHierarchyService>(); 
+            var findProjectOfItemzId = new FindProjectOfItemzId(hierarchyService);
+
+            var foundProjectId = await findProjectOfItemzId.getProjectIdOfItemzId(id);
+            if (foundProjectId != Guid.Empty)
+            {
+                NavManager.NavigateTo($"/ProjectTreeView/{foundProjectId}?autoSelectedRecordId={id}", true);
+            }
+        }
     }
 
     // Handle name updates for tree items
