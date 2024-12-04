@@ -3,11 +3,13 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using ItemzApp.WebUI.Components.EventServices
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
 @using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @* @inject NavigationManager NavManager *@
+@inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
 @inject IDialogService DialogService
 @inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
 
@@ -108,12 +110,10 @@
 
 	public GetBaselineItemzDTO singleBaselineItemz { get; set; } = new();
 	private List<BaselineHierarchyIdRecordDetailsDTO> AllChildBaselineItemz { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
-	private List<NestedBaselineHierarchyIdRecordDetailsDTO> AllParentBaselineHierarchy { get; set; } = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
+	private (Guid ProjectId, Guid BaselineId) foundProjectAndBaselineIds;
 	public bool initializingPage { get; set; } = true;
 	public bool anyChildBaselineItemzExcluded { get; set; } = false;
 
-	private NestedBaselineHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
-	private NestedBaselineHierarchyIdRecordDetailsDTO _foundBaselineRecord { get; set; }
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -133,26 +133,9 @@
 
 			StateHasChanged();
 
-			var returnedParentHierarchyList = await baselineHierarchyService.__Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
+			foundProjectAndBaselineIds = await FindProjectAndBaselineIdsByBaselineItemzIdService.GetProjectAndBaselineId(BaselineItemzId);
 
-			if (returnedParentHierarchyList != null)
-			{
-				AllParentBaselineHierarchy = returnedParentHierarchyList.ToList();
-			}
 
-			var matchingProjectRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Project", level: 1);
-
-			if (matchingProjectRecord != null)
-			{
-				_foundProjectRecord = matchingProjectRecord;
-			}
-
-			var matchingBaselineRecord = FindRecordUsingLambda(AllParentBaselineHierarchy, recordType: "Baseline", level: 2);
-
-			if (matchingBaselineRecord != null)
-			{
-				_foundBaselineRecord = matchingBaselineRecord;
-			}
 
 			//StateHasChanged();
 		}
@@ -200,8 +183,8 @@
 				
 				UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 				// TODO :: Get Baseline ID from the server.
-				// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
-				tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+				// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
+				tempUpdateBaselineItemzDTO.BaselineId = foundProjectAndBaselineIds.BaselineId;
 				// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
 				tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
 				tempUpdateBaselineItemzDTO.ShouldBeIncluded = newValue;
@@ -273,13 +256,13 @@
 			UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 			// TODO :: Get Baseline ID from the server.
 			//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
-			tempUpdateBaselineItemzDTO.BaselineId = _foundBaselineRecord.RecordId;
+			tempUpdateBaselineItemzDTO.BaselineId = foundProjectAndBaselineIds.BaselineId;  
 			// tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { Guid.Parse(singleBaselineItemz.Id.ToString()) };
 			tempUpdateBaselineItemzDTO.BaselineItemzIds = new List<Guid> { singleBaselineItemz.Id };
 			tempUpdateBaselineItemzDTO.ShouldBeIncluded = true;
 			tempUpdateBaselineItemzDTO.SingleNodeInclusion = false;
 			// Send the new value to the server
-
+			
 			// TODO :: EXCEPTION HANDLING.
 			await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
 			singleBaselineItemz.isIncluded = newValue;
@@ -310,28 +293,6 @@
 		var dialogref = await DialogService.ShowAsync<BaselineItemzExceptionDialog>("CONFIRM", dialogPara, options);
 		// var dialogresult = await dialogref.Result;
 	}
-
-	#region Finding_Record_In_Parent_Hierarchy_Nodes
-
-	public NestedBaselineHierarchyIdRecordDetailsDTO? FindRecordUsingLambda(List<NestedBaselineHierarchyIdRecordDetailsDTO> hierarchy, string recordType, int level)
-	{
-		return hierarchy
-			.SelectMany(parent => GetAllRecords(parent))
-			.FirstOrDefault(record => record.RecordType == recordType && record.Level == level);
-	}
-
-	private IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> GetAllRecords(NestedBaselineHierarchyIdRecordDetailsDTO parent)
-	{
-		yield return parent;
-		if (parent.Children != null)
-		{
-			foreach (var child in parent.Children.SelectMany(GetAllRecords))
-			{
-				yield return child;
-			}
-		}
-	}
-	#endregion
 
 	private void findAndShowInTreeView()
 	{
