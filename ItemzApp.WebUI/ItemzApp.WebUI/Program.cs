@@ -18,6 +18,7 @@ using ItemzApp.WebUI.Components.EventServices;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using MudExtensions.Services;
+using ItemzApp.WebUI.Components.FindServices;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -103,7 +104,7 @@ builder.Services.AddMudExtensions();
 
 builder.Services.AddScoped<TreeNodeItemzSelectionService>(); // Register the service
 builder.Services.AddScoped<BaselineTreeNodeItemzSelectionService>(); // Register the service
-
+builder.Services.AddScoped<IFindProjectAndBaselineIdsByBaselineItemzIdService, FindProjectAndBaselineIdsByBaselineItemzIdService>();
 
 var app = builder.Build();
 

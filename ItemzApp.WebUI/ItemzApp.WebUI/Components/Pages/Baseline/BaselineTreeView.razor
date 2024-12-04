@@ -6,9 +6,11 @@
 @using ItemzApp.WebUI.Components.Pages.Common
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz
 @using ItemzApp.WebUI.Components.Pages.BaselineItemzType
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Helper.TreeViewNodes
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Collections.ObjectModel
+@inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
@@ -102,6 +104,10 @@
 
     [Parameter]
     public Guid BaselineId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "autoSelectedRecordId")]
+    [Parameter]
+    public Guid? AutoSelectedRecordId { get; set; }
 
     [Inject]
     public IBaselinesService BaselinesService { get; set; }
@@ -364,6 +370,20 @@
 
             showLoadingMessage = false; 
 
+            StateHasChanged();
+
+            if (AutoSelectedRecordId.HasValue)
+            {
+                // Select the node after the first render
+
+                // This Task.Delay is important to allow full
+                // rendering which could take some time for large project.
+                // await Task.Delay(500);
+
+                HandleItemzSelected(AutoSelectedRecordId.Value);
+                AutoSelectedRecordId = null;
+            }
+
             await JS.InvokeVoidAsync("initializeResizable");
             StateHasChanged();
         }
@@ -388,12 +408,29 @@
     {
         selectedItem = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == id) as TreeItemPresenter;
 
-        //await InvokeAsync(StateHasChanged);
+        if (selectedItem == null)
+        {
+            // EXPLANATION :: Because Baselines should only contain traces to BaselineItemz within the same baseline,
+            // there is no need for this code to ever execute. 
+            // On the other hand Project will have possibility to create trace to Itemz in other Projects and so this 
+            // feature to navigate to that ItemzId would be very useful there. 
+            // Anyways, let's show a dialog box to user first before we try navigating outside of the current baseline.
 
-        // if (selectedItem.IsIncluded == false)
-        // {
-        //     selectedItem.Icon = @Icons.Material.Filled.Close;
-        // }
+            await OpenExceptionDialogAsync($"ISSUE :: OOPS!! Could not find record with Id {id} in current Baseline! If you are looking for Baseline Trace then its an Issue with data.");
+            await Task.Delay(2000);
+            // get BaselineID of the recordId
+
+            // var baselineHierarchyService = serviceProvider.GetRequiredService<IBaselineHierarchyService>();
+            // var findProjectAndBaselineIdsByBaselineItemzIdService = new FindProjectAndBaselineIdsByBaselineItemzIdService(baselineHierarchyService);
+
+            var foundProjectAndBaselineIds = await FindProjectAndBaselineIdsByBaselineItemzIdService.GetProjectAndBaselineId(id);
+            if (foundProjectAndBaselineIds.BaselineId != Guid.Empty)
+            {
+                NavManager.NavigateTo($"/BaselineTreeView/{foundProjectAndBaselineIds.BaselineId}?autoSelectedRecordId={id}", true);
+            }
+
+        }
+        //await InvokeAsync(StateHasChanged);
     }
 
     // Handle name updates for tree items
@@ -565,5 +602,12 @@
     }
 
     #endregion
-
+    
+    private async Task OpenExceptionDialogAsync(string exceptionMessage)
+    {
+        var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+        var dialogPara = new DialogParameters();
+        dialogPara.Add("exceptionMessage", exceptionMessage);
+        var dialogref = await DialogService.ShowAsync<BaselineExceptionDialog>("ISSUE", dialogPara, options);
+    }
 }
