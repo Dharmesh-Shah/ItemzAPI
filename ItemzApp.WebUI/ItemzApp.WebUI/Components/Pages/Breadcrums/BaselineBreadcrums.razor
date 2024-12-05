@@ -1,8 +1,10 @@
 ﻿@using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Helper.WrapperClasses
 @inject NavigationManager NavManager
+@inject BaselineBreadcrumsService baselineBreadcrumsService
 
 <MudPaper Class="pa-1 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudBreadcrumbs Items="@_localBreadcrumbs.Select(i => i.OriginalItem).ToList()" MaxItems="5">
@@ -35,51 +37,58 @@
 	private List<ExtendedBreadcrumbItem> _localBreadcrumbs = new List<ExtendedBreadcrumbItem>();
 	private List<NestedBaselineHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedBaselineHierarchyIdRecordDetailsDTO>();
 
+	protected override async Task OnInitializedAsync()
+	{
+		baselineBreadcrumsService.OnRequestParentNodeIsIncluded += HandleRequestParentNodeIsIncluded;
+
+		ICollection<NestedBaselineHierarchyIdRecordDetailsDTO> returnedParentHierarchyList;
+		// Thread.Sleep(5000);
+
+		returnedParentHierarchyList = await BaselineHierarchyService.__Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
+
+		if (returnedParentHierarchyList != null)
+		{
+			AllParentHierarchy = returnedParentHierarchyList.ToList();
+		}
+
+		foreach (var tempParentHierarchyRecord in AllParentHierarchy)
+		{
+			var _tempHref = GetHREFForBreadcrumbs(
+				breadcrumRecordType: tempParentHierarchyRecord.RecordType ?? "",
+				breadcrumRecordId: tempParentHierarchyRecord.RecordId);
+			var _tempIcon = GetIconForBreadcrumbs(tempParentHierarchyRecord.RecordType ?? "");
+
+			_localBreadcrumbs.Add(new ExtendedBreadcrumbItem(
+				text: tempParentHierarchyRecord.Name ?? tempParentHierarchyRecord.RecordId.ToString()
+				, href: _tempHref
+				, icon: _tempIcon
+				, isIncluded: tempParentHierarchyRecord.isIncluded
+			));
+
+			if (tempParentHierarchyRecord.Children.Count > 0)
+			{
+				AddChildBreadcrumbs(tempParentHierarchyRecord.Children);
+			}
+		}
+
+		// EXPLANATION :: Add self to breadcrums
+
+		_localBreadcrumbs.Add(new ExtendedBreadcrumbItem(
+		text: produceBreadcrums.Name
+							, href: GetHREFForBreadcrumbs(
+						breadcrumRecordType: produceBreadcrums.RecordType,
+						breadcrumRecordId: produceBreadcrums.Id)
+				, icon: GetIconForBreadcrumbs(produceBreadcrums.RecordType)
+				, isIncluded: produceBreadcrums.isIncluded
+
+		));
+	}
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if(firstRender)
 		{
-			ICollection<NestedBaselineHierarchyIdRecordDetailsDTO> returnedParentHierarchyList;
-			// Thread.Sleep(5000);
-
-			returnedParentHierarchyList = await BaselineHierarchyService.__Get_All_Parents_Baseline_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
-
-			if (returnedParentHierarchyList != null)
-			{
-				AllParentHierarchy = returnedParentHierarchyList.ToList();
-			}
-
-			foreach (var tempParentHierarchyRecord in AllParentHierarchy)
-			{
-				var _tempHref = GetHREFForBreadcrumbs(
-					breadcrumRecordType: tempParentHierarchyRecord.RecordType ?? "",
-					breadcrumRecordId: tempParentHierarchyRecord.RecordId);
-				var _tempIcon = GetIconForBreadcrumbs(tempParentHierarchyRecord.RecordType ?? "");
-
-				_localBreadcrumbs.Add(new ExtendedBreadcrumbItem(
-					text: tempParentHierarchyRecord.Name ?? tempParentHierarchyRecord.RecordId.ToString()
-					,href: _tempHref
-					, icon: _tempIcon
-					, isIncluded: tempParentHierarchyRecord.isIncluded 
-				));
-
-				if (tempParentHierarchyRecord.Children.Count > 0)
-				{
-					AddChildBreadcrumbs(tempParentHierarchyRecord.Children);
-				}
-			}
-
-			// EXPLANATION :: Add self to breadcrums
-
-			_localBreadcrumbs.Add(new ExtendedBreadcrumbItem(
-			text: produceBreadcrums.Name
-								, href: GetHREFForBreadcrumbs(
-							breadcrumRecordType: produceBreadcrums.RecordType,
-							breadcrumRecordId: produceBreadcrums.Id)
-					, icon: GetIconForBreadcrumbs(produceBreadcrums.RecordType)
-					, isIncluded: produceBreadcrums.isIncluded
-
-			));
+			
 
 		}
 
@@ -159,4 +168,52 @@
 	}
 
 	#endregion
+
+	private bool HandleRequestParentNodeIsIncluded()
+	{
+		// EXPLANATION :: Level 0 is for Repository, Level 1 is for Project, 
+		// Level 2 is for Baseline and Level 3 is for BaselineItemzType
+		// So we need to make sure that parent is atleast Level 4 which is 
+		// nothing but BaselineItemz. So this will be mainly applicable for 
+		// sub-BaselineItemz that checks for it's parent BaselineItemz IsIncluded status.
+
+		var lastChildRecord = FindLastChild();
+
+		// This guy is only returning Repository or Project Node because last node is nested into CHILDREN Nodes.
+		if (lastChildRecord != null && lastChildRecord.Level > 3)
+		{
+			return lastChildRecord.isIncluded;
+		}
+
+		// We allow BaselineItemz to be included if parent is BaselineItemzType
+
+		if (lastChildRecord != null && lastChildRecord.Level == 3)
+		{
+			return true;
+		}
+
+		// If parent BaselineItemz is not found then return false;
+		return false;
+	}
+
+	public NestedBaselineHierarchyIdRecordDetailsDTO? FindLastChild()
+	{
+		NestedBaselineHierarchyIdRecordDetailsDTO? lastChild = null;
+		Queue<NestedBaselineHierarchyIdRecordDetailsDTO> queue = new Queue<NestedBaselineHierarchyIdRecordDetailsDTO>(AllParentHierarchy);
+
+		while (queue.Count > 0)
+		{
+			var current = queue.Dequeue();
+			if (current.Children != null && current.Children.Count > 0)
+			{
+				foreach (var child in current.Children)
+				{
+					queue.Enqueue(child);
+				}
+			}
+			lastChild = current;
+		}
+
+		return lastChild;
+	}
 }

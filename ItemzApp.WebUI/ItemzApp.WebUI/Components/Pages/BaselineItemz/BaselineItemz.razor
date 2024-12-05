@@ -5,10 +5,12 @@
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.FindServices
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
+@inject BaselineBreadcrumsService baselineBreadcrumsService
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
@@ -20,7 +22,6 @@
 <MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
 </MudPaper>
-
 
 <MudGrid>
 	@if (initializingPage)
@@ -44,7 +45,7 @@
 						<MudSpacer />
 						<MudButton OnClick="async _ => await openBaselineItemzDetails(BaselineItemzId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Open </MudButton>
 						<MudButton OnClick="goBackToParent" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
-						</MudItem>
+					</MudItem>
 
 					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
@@ -67,8 +68,9 @@
 					    Color="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
 						ThumbIconColor="@(singleBaselineItemz.isIncluded ? Color.Success : Color.Error)"
 						UncheckedColor = "Color.Error"
+						Disabled = "@(disableIncludeChildOptions)"
 						 />
-						 </MudItem>
+					 </MudItem>
 
 @* 						@if (singleBaselineItemz.isIncluded && AllChildBaselineItemz.Count() > 0 && anyChildBaselineItemzExcluded == true) *@
 						@if (anyChildBaselineItemzExcluded == true)
@@ -77,7 +79,9 @@
 							<MudButton OnClick="async _ => await OnAllChildBaselineItemzInclusionChanged(true)" 
 								Variant="Variant.Filled" 
 								Size="Size.Medium" 
-								Color="Color.Success" style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
+								Color="Color.Success" 
+								Disabled = "@(disableIncludeChildOptions)"
+								style="gap: 10px; margin-left : 10px"> Include All Child Baseline Itemz </MudButton>
 							</MudItem>
 @* 							<MudSwitch T="bool" 
 							Value="false"
@@ -158,27 +162,33 @@
 	public bool initializingPage { get; set; } = true;
 	public bool anyChildBaselineItemzExcluded { get; set; } = false;
 
+	public bool disableIncludeChildOptions { get; set; } = true;
 
+	protected override async Task OnInitializedAsync()
+	{
+		initializingPage = true;
+		StateHasChanged();
+		//Thread.Sleep(300);
+		singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
+
+		if (singleBaselineItemz != null)
+		{
+			BreadcrumsParameter = new ParameterForBaselineBreadcrums();
+			BreadcrumsParameter.Id = singleBaselineItemz.Id;
+			BreadcrumsParameter.Name = singleBaselineItemz.Name;
+			BreadcrumsParameter.RecordType = "baselineitemz"; // TODO :: USE CONSTANT
+			BreadcrumsParameter.isIncluded = singleBaselineItemz.isIncluded;
+		}
+
+	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
 			initializingPage = true;
-			StateHasChanged();
-			//Thread.Sleep(300);
-			singleBaselineItemz = await baselineItemzService.__Single_BaselineItemz_By_GUID_ID__Async(BaselineItemzId);
 
-			if (singleBaselineItemz != null)
-			{
-				BreadcrumsParameter = new ParameterForBaselineBreadcrums();
-				BreadcrumsParameter.Id = singleBaselineItemz.Id;
-				BreadcrumsParameter.Name = singleBaselineItemz.Name;
-				BreadcrumsParameter.RecordType = "baselineitemz"; // TODO :: USE CONSTANT
-				BreadcrumsParameter.isIncluded = singleBaselineItemz.isIncluded;
-			}
 			var returnedItemzList = await baselineHierarchyService.__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__Async(BaselineItemzId);
-
 			if (returnedItemzList != null)
 			{
 				AllChildBaselineItemz = returnedItemzList.ToList();
@@ -192,13 +202,15 @@
 				}
 			}
 
+			await Task.Delay(200);
+
+			disableIncludeChildOptions = !(baselineBreadcrumsService.RequestParentNodeIsIncluded());
+
 			initializingPage = false;
 
 			StateHasChanged();
 
 			foundProjectAndBaselineIds = await FindProjectAndBaselineIdsByBaselineItemzIdService.GetProjectAndBaselineId(BaselineItemzId);
-
-
 
 			//StateHasChanged();
 		}
@@ -236,6 +248,14 @@
 	private async Task OnSingleBaselineItemzInclusionChanged(bool newValue)
 	{
 
+		if(!(baselineBreadcrumsService.RequestParentNodeIsIncluded()))
+		{
+			// Handle the case where parent node is not included
+			await OpenExceptionDialogAsync("Parent node is marked as Excluded and so selected node can not be marked as Included.");
+			return;
+
+		}
+
 		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 		// TODO :: Get Baseline ID from the server.
 		// tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd"); 
@@ -254,6 +274,13 @@
 
 	private async Task OnAllChildBaselineItemzInclusionChanged(bool newValue)
 	{
+		if(!(baselineBreadcrumsService.RequestParentNodeIsIncluded()))
+		{
+			// Handle the case where parent node is not included
+			await OpenExceptionDialogAsync("Parent node is marked as Excluded and so selected node can not be marked as Included.");
+			return;
+
+		}
 		UpdateBaselineItemzDTO tempUpdateBaselineItemzDTO = new UpdateBaselineItemzDTO();
 		// TODO :: Get Baseline ID from the server.
 		//tempUpdateBaselineItemzDTO.BaselineId = Guid.Parse("412f4a87-0b75-4631-958d-e2e92ea8e2fd");
@@ -268,6 +295,15 @@
 		await baselineItemzService.__PUT_Update_BaselineItemzs_By_GUID_IDs__Async(tempUpdateBaselineItemzDTO);
 		NavManager.NavigateTo($"/baselineitemz/{BaselineItemzId.ToString()}", true);
 		//		singleBaselineItemz.isIncluded = newValue; // Update the previous value on success
+	}
+
+	private async Task OpenExceptionDialogAsync(string exceptionMessage)
+	{
+		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+		var dialogPara = new DialogParameters();
+		dialogPara.Add("exceptionMessage", exceptionMessage);
+		var dialogref = await DialogService.ShowAsync<BaselineItemzExceptionDialog>("CONFIRM", dialogPara, options);
+		// var dialogresult = await dialogref.Result;
 	}
 
 
