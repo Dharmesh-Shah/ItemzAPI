@@ -170,6 +170,7 @@
 			initializingPage = false;
 
 			StateHasChanged();
+
 		}
 	}
 
@@ -180,14 +181,24 @@
 
 	public async Task createNewItemz(string itemzTypeId)
 	{
-		NavManager.NavigateTo($"/CreateItemz/{itemzTypeId}");
+
+		var httpResponse = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzId);
+
+		if (httpResponse == null) // Orphand Itemz does not have Hierarchy Record
+		{
+			await DialogService.ShowMessageBox("ERROR", markupMessage: new
+								MarkupString($"<p style=\"color: red; \">Looks like current Itemz is an Orphand Itemz and it can not contain Child Itemz.</p>"), yesText: "OK");
+		}
+		else
+		{
+			NavManager.NavigateTo($"/CreateItemz/{itemzTypeId}");
+		}
 	}
 
 	public async Task openItemz(string itemzId)
 	{
 		NavManager.NavigateTo($"/itemz/{itemzId}",true);
 	}
-
 
 	public async Task goBackToParent()
 	{
@@ -198,13 +209,21 @@
 		// Parent ItemzType post completing deletion operation.
 		var httpResponse = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzId);
 
-		if (httpResponse.ParentRecordType.ToLower() == "itemztype")
+		if (httpResponse != null) // Orphand Itemz does not have Hierarchy Record
 		{
-			NavManager.NavigateTo($"/itemztype/{httpResponse.ParentRecordId.ToString()}",true);
+			if (httpResponse.ParentRecordType.ToLower() == "itemztype")
+			{
+				NavManager.NavigateTo($"/itemztype/{httpResponse.ParentRecordId.ToString()}",true);
+			}
+			else if (httpResponse.ParentRecordType.ToLower() == "itemz")
+			{
+				NavManager.NavigateTo($"/itemz/{httpResponse.ParentRecordId.ToString()}",true);
+			}
 		}
-		else if (httpResponse.ParentRecordType.ToLower() == "itemz")
+		else
 		{
-			NavManager.NavigateTo($"/itemz/{httpResponse.ParentRecordId.ToString()}",true);
+			// Orphand Itemz when deleted then go back to Project's list.
+			NavManager.NavigateTo($"/projects/");
 		}
 	}
 

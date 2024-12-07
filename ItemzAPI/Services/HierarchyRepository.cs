@@ -327,7 +327,12 @@ namespace ItemzApp.API.Services
 			var foundHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
 							.Where(ih => ih.Id == recordId);
 
-			if (foundHierarchyRecord.Count() != 1)
+			if (foundHierarchyRecord.Count() == 0)
+			{
+				return new();
+			}
+
+			if (foundHierarchyRecord.Count() > 1)
 			{
 				throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
 					$"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}" +

@@ -281,8 +281,11 @@
 			// Now even if user decides to Delete this Itemz Record then also we can go back to it's 
 			// Parent ItemzType post completing deletion operation. 
 			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzId);
-			ParentId = httpResponse.ParentRecordId;
-			ParentRecordType = httpResponse.ParentRecordType;
+			if (httpResponse != null) // Orphand Itemz will not have any Hierarchy records.
+			{
+				ParentId = httpResponse.ParentRecordId;
+				ParentRecordType = httpResponse.ParentRecordType;
+			}
 		}
 	}
 	public async Task HandleItemzDetailsPatchSubmission()
@@ -372,16 +375,25 @@
 	}
 	public async Task goBackToParent()
 	{
-		@if (CalledFrom == nameof(ItemzDetails))
+		@if (CalledFrom == nameof(ItemzDetails)) 
 		{
-			if (ParentRecordType.ToLower() == "itemztype")
+			if (ParentId != Guid.Empty) // Orphand Itemz will not have ParentId
 			{
-				NavManager.NavigateTo($"/itemztype/{ParentId.ToString()}");
+				if (ParentRecordType.ToLower() == "itemztype")
+				{
+					NavManager.NavigateTo($"/itemztype/{ParentId.ToString()}");
+				}
+				else if (ParentRecordType.ToLower() == "itemz")
+				{
+					NavManager.NavigateTo($"/itemz/{ParentId.ToString()}");
+				}
 			}
-			else if (ParentRecordType.ToLower() == "itemz")
+			else
 			{
-				NavManager.NavigateTo($"/itemz/{ParentId.ToString()}");
+				// Orphand Itemz when deleted then go back to Project's list.
+				NavManager.NavigateTo($"/projects/");
 			}
+
 		}
 	}
 
