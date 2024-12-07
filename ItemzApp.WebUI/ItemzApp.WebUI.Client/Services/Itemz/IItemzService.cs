@@ -8,7 +8,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		public Task<GetItemzDTO> __POST_Create_Itemz__Async(Guid? parentId, bool? atBottomOfChildNodes, CreateItemzDTO body);
 
-		public Task<ICollection<GetItemzDTO>> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy);
+		public Task<(ICollection<GetItemzDTO>, string)> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy);
 
 		public Task<int> __GET_Orphan_Itemzs_Count__Async();
 

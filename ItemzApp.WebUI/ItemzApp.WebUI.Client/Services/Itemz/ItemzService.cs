@@ -3,6 +3,7 @@ using System;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -91,39 +92,53 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		#region __GET_Orphan_Itemzs_Collection__Async
 
-		public async Task<ICollection<GetItemzDTO>> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy)
+		public async Task<(ICollection<GetItemzDTO>, string )> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy)
 		{
 			return await __GET_Orphan_Itemzs_Collection__Async(pageNumber, pageSize, orderBy, CancellationToken.None);
 		}
-		public async Task<ICollection<GetItemzDTO>> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy, CancellationToken cancellationToken)
+		public async Task<(ICollection<GetItemzDTO>, string)> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy, CancellationToken cancellationToken)
 		{
 			try
 			{
+				var urlBuilder_ = new System.Text.StringBuilder();
+				urlBuilder_.Append("/api/Itemzs/GetOrphan");
+				urlBuilder_.Append('?');
+				if (pageNumber != null)
+				{
+					urlBuilder_.Append(System.Uri.EscapeDataString("pageNumber")).Append('=').Append(System.Uri.EscapeDataString(pageNumber.ToString()!)).Append('&');
+				}
+				if (pageSize != null)
+				{
+					urlBuilder_.Append(System.Uri.EscapeDataString("pageSize")).Append('=').Append(System.Uri.EscapeDataString(pageSize.ToString()!)).Append('&');
+				}
 
-				// TODO :: Utilize urlBuilder which is commented below.
+				if (orderBy != null)
+				{
+					urlBuilder_.Append(System.Uri.EscapeDataString("orderBy")).Append('=').Append(System.Uri.EscapeDataString(orderBy)).Append('&');
+				}
 
-				//var urlBuilder_ = new System.Text.StringBuilder();
-				//urlBuilder_.Append("/api/Itemzs/GetOrphan");
-				//urlBuilder_.Append('?');
-				//if (pageNumber != null)
-				//{
-				//	urlBuilder_.Append(System.Uri.EscapeDataString("pageNumber")).Append('=').Append(System.Uri.EscapeDataString(pageNumber.ToString()!)).Append('&');
+    //            if (urlBuilder_[urlBuilder_.Length - 1] == '&') 
+				//{ 
+				//	urlBuilder_.Length--; 
 				//}
-				//if (pageSize != null)
-				//{
-				//	urlBuilder_.Append(System.Uri.EscapeDataString("pageSize")).Append('=').Append(System.Uri.EscapeDataString(pageSize.ToString()!)).Append('&');
-				//}
 
-				//if (orderBy != null)
-				//{
-				//	urlBuilder_.Append(System.Uri.EscapeDataString("orderBy")).Append('=').Append(System.Uri.EscapeDataString(orderBy)).Append('&');
-				//}
+                urlBuilder_.Length--;
 
-				//urlBuilder_.Length--;
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get, // TODO: VERIFY THAT THIS GET METHOD WORKS AS I CHANGED DELETE TO GET HERE.
+                    RequestUri = new Uri(urlBuilder_.ToString(), UriKind.Relative)
+                };
+                var response = await _httpClient.SendAsync(request);
 
-				var response = await _httpClient.GetFromJsonAsync<ICollection<GetItemzDTO>>("/api/Itemzs/GetOrphan", cancellationToken);
+                var listOfOrphandItemz = await response.Content.ReadFromJsonAsync<ICollection<GetItemzDTO>>(cancellationToken);
+                var paginationHeader = response.Headers.GetValues("x-pagination").FirstOrDefault();
 
-				return response!;
+				return (listOfOrphandItemz!, paginationHeader!); // return paginationHeader which is JSON
+
+                // var response = await _httpClient.GetFromJsonAsync<ICollection<GetItemzDTO>>("/api/Itemzs/GetOrphan", cancellationToken);
+                // var response = await _httpClient.SendAsync(request, cancellationToken);
+                //return response!;
 			}
 			catch (Exception)
 			{

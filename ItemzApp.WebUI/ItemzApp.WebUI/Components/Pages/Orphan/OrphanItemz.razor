@@ -1,0 +1,101 @@
+﻿@page "/orphanitemz"
+@using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Client.Services.Itemz
+@using System.Text.Json
+@using ItemzApp.WebUI.Components.Pages.Common
+
+<MudPaper Class="pa-3 mb-3 align-start d-flex" Style="width: auto " Outlined="false">
+    <MudStack Row="true" Spacing="3">
+        <MudIcon Icon="@Icons.Material.Filled.HolidayVillage" Size="Size.Large" />
+        <MudText Typo="Typo.h6" Align="Align.Left">Orphaned Itemz </MudText>
+    </MudStack>
+</MudPaper>
+
+<MudTextField @bind-Value="searchText" Placeholder="Search..." Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" OnAdornmentClick="async () => await SearchItems()" />
+
+<MudTable @ref="mudTable"
+              ServerData="LoadServerData"
+              Items="@itemzs"
+              Filter="@FilterItems"
+              RowsPerPage="10"
+              RowsPerPageOptions="new int[] { 5, 10, 20 }">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Priority</MudTh>
+        <MudTh>Severity</MudTh>
+        <MudTh>Created Date</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id"><CopyableText TextToCopy="@context.Id.ToString()" /> </MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd DataLabel="Priority">@context.Priority</MudTd>
+        <MudTd DataLabel="Severity">@context.Severity</MudTd>
+        <MudTd DataLabel="Created Date">@context.CreatedDate.ToString("yyyy-MM-dd")</MudTd>
+    </RowTemplate>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent  >
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    [Inject]
+    public IItemzService itemzService { get; set; }
+
+    private MudTable<GetItemzDTO> mudTable;
+    private int totalItemzs = 0;
+
+    private string searchText = string.Empty;
+    private List<GetItemzDTO> itemzs = new();
+
+    private async Task<TableData<GetItemzDTO>> LoadServerData(TableState state, CancellationToken token)
+    {
+        var pageNumber = state.Page + 1; // MudTable's page index is zero-based
+        var pageSize = state.PageSize;
+        var orderBy = state.SortLabel ?? "Name";
+
+        var response = await itemzService.__GET_Orphan_Itemzs_Collection__Async(pageNumber, pageSize, orderBy);
+
+        itemzs = response.Item1.ToList();
+
+        var paginationHeader = response.Item2;
+
+        if (paginationHeader != null)
+        {
+            var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+            var pagination = JsonSerializer.Deserialize<PaginationInfo>(paginationHeader, options);
+
+           // var pagination = JsonSerializer.Deserialize<PaginationInfo>(paginationHeader);
+            totalItemzs = pagination.totalCount;
+        }
+        mudTable.TotalItems = totalItemzs;
+
+        return new TableData<GetItemzDTO> { Items = itemzs, TotalItems = totalItemzs };
+    }
+
+    private bool FilterItems(GetItemzDTO item) => string.IsNullOrWhiteSpace(searchText) || item.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
+
+    private async Task SearchItems()
+    {
+        await LoadServerData(new TableState { Page = 0, PageSize = 10 }, CancellationToken.None);
+    }
+
+    private class PaginationInfo
+    {
+        public int totalCount { get; set; }
+        public int PageSize { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+        public string PreviousPageLink { get; set; }
+        public string NextPageLink { get; set; }
+    }
+}
