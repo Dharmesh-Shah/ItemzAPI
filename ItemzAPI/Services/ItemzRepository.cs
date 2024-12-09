@@ -148,11 +148,12 @@ namespace ItemzApp.API.Services
 
 
                     var itemzCollection = _context.Itemzs
-                        .Include(i => i.ItemzTypeJoinItemz)
+                        .AsNoTracking()
+	    				.Include(i => i.ItemzTypeJoinItemz)
                         .Where (i => i.ItemzTypeJoinItemz!.Count() == 0)
-                        .AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+		    			.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
-                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+					if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
                     {
                         var itemzPropertyMappingDictionary =
                                                _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
@@ -185,8 +186,14 @@ namespace ItemzApp.API.Services
 
         public async Task<int> GetOrphanItemzsCount()
         {
-            var foundOrphanItemzsCount = -1;
+
+			// TODO :: Instead of utilizing ItemzTypeJoinItemz for finding Orphaned Itemz,
+			// now that we have implemented support for Hierarchy, we should utilize ItemzHierarchy
+			// instead. 
+
+			var foundOrphanItemzsCount = -1;
             foundOrphanItemzsCount = await _context.Itemzs
+                        .AsNoTracking()
                         .Include(i => i.ItemzTypeJoinItemz)
                         .Where(i => i.ItemzTypeJoinItemz!.Count() == 0)
                         .CountAsync();
