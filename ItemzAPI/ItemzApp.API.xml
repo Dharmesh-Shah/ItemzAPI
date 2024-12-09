@@ -1614,6 +1614,18 @@
         <member name="M:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByProjectId_202412090713.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202412091028">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202412091028.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202412091028.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202412091028.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
