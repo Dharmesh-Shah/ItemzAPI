@@ -61,7 +61,10 @@
 
         var response = await itemzService.__GET_Orphan_Itemzs_Collection__Async(pageNumber, pageSize, orderBy);
 
-        itemzs = response.Item1.ToList();
+        if (response.Item1 != null && response.Item1.Any())
+        {
+            itemzs = response.Item1.ToList();
+        }
 
         var paginationHeader = response.Item2;
 
