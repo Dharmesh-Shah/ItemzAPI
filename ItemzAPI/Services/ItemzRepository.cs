@@ -128,7 +128,7 @@ namespace ItemzApp.API.Services
             }
         }
 
-        public PagedList<Itemz>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter)
+        public PagedList<GetItemzWithBasePropertiesDTO>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter)
         {
             // TODO: Should we check for itemzResourceParameter being null?
             // There are chances that we just want to get all the itemz and
@@ -146,30 +146,111 @@ namespace ItemzApp.API.Services
                     // now that we have implemented support for Hierarchy, we should utilize ItemzHierarchy
                     // instead. 
 
+                    ////               var itemzCollection = _context.Itemzs
+                    ////                   .AsNoTracking()
+                    ////				.Include(i => i.ItemzTypeJoinItemz)
+                    ////                   .Where (i => i.ItemzTypeJoinItemz!.Count() == 0)
+                    //// 			.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
 
-                    var itemzCollection = _context.Itemzs
-                        .AsNoTracking()
-	    				.Include(i => i.ItemzTypeJoinItemz)
-                        .Where (i => i.ItemzTypeJoinItemz!.Count() == 0)
-		    			.AsQueryable<Itemz>(); // as IQueryable<Itemz>;
+                    ////if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+                    ////               {
+                    ////                   var itemzPropertyMappingDictionary =
+                    ////                                          _propertyMappingService.GetPropertyMapping<Models.GetItemzWithBasePropertiesDTO, Models.GetItemzWithBasePropertiesDTO>();
 
-					if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+                    ////                   itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
+                    ////                       itemzPropertyMappingDictionary).AsNoTracking();
+                    ////               }
+
+                    ////               // EXPLANATION: Pagging feature should be implemented at the end 
+                    ////               // just before calling ToList. This will make sure that any filtering,
+                    ////               // sorting, grouping, etc. that we implement on the data are 
+                    ////               // put in place before calling ToList. 
+
+                    ////               return PagedList<Itemz>.Create(itemzCollection,
+                    ////                   itemzResourceParameter.PageNumber,
+                    ////                   itemzResourceParameter.PageSize);
+
+
+                    ////var itemsNotInHierarchy = from item in _context.Itemzs 
+                    ////                          join itemHierarchy in _context.ItemzHierarchy 
+                    ////                          on item.Id equals itemHierarchy.Id into itemHierarchyGroup 
+                    ////                          from itemHierarchy 
+                    ////                          in itemHierarchyGroup.DefaultIfEmpty() 
+                    ////                          where itemHierarchy == null
+                    ////                          select new GetItemzWithBasePropertiesDTO 
+                    ////                          { 
+                    ////                              Id = item.Id
+                    ////                            , Name = item.Name
+                    ////                            , Status = item.Status
+                    ////                            , Priority = item.Priority.ToString()
+                    ////                            , Severity = item.Severity.ToString()
+                    ////                            , CreatedDate = item.CreatedDate 
+                    ////                          }; 
+
+                    var itemsNotInHierarchy = from item in _context.Itemzs
+                                              join itemHierarchy in _context.ItemzHierarchy 
+                                              on item.Id equals itemHierarchy.Id into itemHierarchyGroup
+                                              from itemHierarchy in itemHierarchyGroup.DefaultIfEmpty()
+                                              where itemHierarchy == null
+                                              select new GetItemzWithBasePropertiesDTO
+                                              {
+                                                  Id = item.Id,
+                                                  Name = item.Name,
+                                                  Status = item.Status.ToString(), // Still Enum at this stage
+                                                  Priority = item.Priority.ToString() , // Still Enum at this stage
+                                                  Severity = item.Severity.ToString(), // Still Enum at this stage
+                                                  CreatedDate = item.CreatedDate 
+                                              };
+
+                    if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
                     {
+                        if (itemzResourceParameter.OrderBy.ToLower() != "name"
+                            && itemzResourceParameter.OrderBy.ToLower() != "name desc" 
+                            && itemzResourceParameter.OrderBy.ToLower() != "createddate"
+                            && itemzResourceParameter.OrderBy.ToLower() != "createddate desc" )
+                        {
+                            // TODO :: We currently allow ordering by only name and createddate. We have to support ENUMs in the future for
+                            // Status, Priority and Severity. 
+                            // Also, consider response code for not supported OrderBy value in the future so that we can
+                            // show elegent error message to the users.
+                            return null; 
+                        }
                         var itemzPropertyMappingDictionary =
-                                               _propertyMappingService.GetPropertyMapping<Models.GetItemzDTO, Itemz>();
+                                               _propertyMappingService.GetPropertyMapping<Models.GetItemzWithBasePropertiesDTO, Models.GetItemzWithBasePropertiesDTO>();
 
-                        itemzCollection = itemzCollection.ApplySort(itemzResourceParameter.OrderBy,
+                        itemsNotInHierarchy = itemsNotInHierarchy.ApplySort(itemzResourceParameter.OrderBy,
                             itemzPropertyMappingDictionary).AsNoTracking();
                     }
+
+
+                    //if (!string.IsNullOrWhiteSpace(itemzResourceParameter.OrderBy))
+                    //{
+                    //    var itemzPropertyMappingDictionary =
+                    //                           _propertyMappingService.GetPropertyMapping<Models.GetItemzWithBasePropertiesDTO, Models.GetItemzWithBasePropertiesDTO>();
+
+                    //    itemsNotInHierarchy = itemsNotInHierarchy.ApplySort(itemzResourceParameter.OrderBy,
+                    //        itemzPropertyMappingDictionary).AsNoTracking()
+                    //        .Select(i => new GetItemzWithBasePropertiesDTO
+                    //        {
+                    //            Id = i.Id,
+                    //            Name = i.Name,
+                    //            Status = i.Status.ToString(), // Convert to string in projection
+                    //            Priority = i.Priority.ToString(), // Convert to string in projection
+                    //            Severity = i.Severity.ToString(), // Convert to string in projection
+                    //            CreatedDate = i.CreatedDate
+                    //        }
+                    //        ).ToList(); ;
+
 
                     // EXPLANATION: Pagging feature should be implemented at the end 
                     // just before calling ToList. This will make sure that any filtering,
                     // sorting, grouping, etc. that we implement on the data are 
                     // put in place before calling ToList. 
 
-                    return PagedList<Itemz>.Create(itemzCollection,
+                    return PagedList<GetItemzWithBasePropertiesDTO>.Create(itemsNotInHierarchy,
                         itemzResourceParameter.PageNumber,
                         itemzResourceParameter.PageSize);
+                    
                 }
                 return null;
             }
@@ -192,11 +273,20 @@ namespace ItemzApp.API.Services
 			// instead. 
 
 			var foundOrphanItemzsCount = -1;
-            foundOrphanItemzsCount = await _context.Itemzs
-                        .AsNoTracking()
-                        .Include(i => i.ItemzTypeJoinItemz)
-                        .Where(i => i.ItemzTypeJoinItemz!.Count() == 0)
-                        .CountAsync();
+            //foundOrphanItemzsCount = await _context.Itemzs
+            //            .AsNoTracking()
+            //            .Include(i => i.ItemzTypeJoinItemz)
+            //            .Where(i => i.ItemzTypeJoinItemz!.Count() == 0)
+            //            .CountAsync();
+
+            foundOrphanItemzsCount = (from item in _context.Itemzs
+                                join itemHierarchy in _context.ItemzHierarchy
+                                on item.Id equals itemHierarchy.Id into itemHierarchyGroup
+                                from itemHierarchy in itemHierarchyGroup.DefaultIfEmpty()
+                                where itemHierarchy == null
+                                select item)
+                                .Count();
+
             return foundOrphanItemzsCount > 0 ? foundOrphanItemzsCount : -1;
         }
 

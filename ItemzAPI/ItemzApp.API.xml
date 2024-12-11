@@ -2053,6 +2053,43 @@
             Returns true if it's system ItemzType otherwise false
             </summary>
         </member>
+        <member name="T:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO">
+            <summary>
+            Itemz class containing several properties that represents it.
+            This Itemz class is returned by the "ItemzApp.API" in most of the cases when
+            user sends request to read an Itemz record.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.Id">
+            <summary>
+            Id of the Itemz representated by a GUID.
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.Name">
+            <summary>
+            Name or Title of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.Status">
+            <summary>
+            Status of the itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.Priority">
+            <summary>
+            Priority of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.CreatedDate">
+            <summary>
+            Description of the Itemz
+            </summary>
+        </member>
+        <member name="P:ItemzApp.API.Models.GetItemzWithBasePropertiesDTO.Severity">
+            <summary>
+            Severity of the Itemz
+            </summary>
+        </member>
         <member name="P:ItemzApp.API.Models.GetNumberOfChangeHistoryByRepositoryDTO.UptoDateTime">
             <summary>
             Date and Time upto which Itemz Change History data has to be deleted for given ItemzId.

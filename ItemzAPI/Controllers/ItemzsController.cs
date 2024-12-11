@@ -183,10 +183,10 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzDTO>> GetOrphanItemzs(
+        public ActionResult<IEnumerable<GetItemzWithBasePropertiesDTO>> GetOrphanItemzs(
             [FromQuery] ItemzResourceParameter itemzResourceParameter)
         {
-            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
+            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzWithBasePropertiesDTO, GetItemzWithBasePropertiesDTO>
                 (itemzResourceParameter.OrderBy))
             {
                 _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
@@ -241,7 +241,7 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} orphan Itemzs",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzsFromRepo.TotalCount);
-            return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
+            return Ok(itemzsFromRepo);
         }
 
         /// <summary>

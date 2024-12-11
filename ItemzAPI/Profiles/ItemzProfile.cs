@@ -20,6 +20,8 @@ namespace ItemzApp.API.Profiles
                 .ForMember(i => i.Severity, dto => dto.MapFrom(d => d.Severity));// Used for updating Itemz based on UpdateItemzDTO object.
             CreateMap<Entities.Itemz,Models.UpdateItemzDTO>()
                 .ForMember(dto => dto.Severity, i => i.MapFrom(o => o.Severity));// Used for updating UpdateItemzDTO based on Itemz object.
+            CreateMap<Models.GetItemzWithBasePropertiesDTO, Models.GetItemzWithBasePropertiesDTO>()
+                            .ForMember(dto => dto.Severity, i => i.MapFrom(o => o.Severity));    // Used for creating GetItemzWithBasePropertiesDTO based on Custom Itemz object mainly used for Sorting Paginated Orphand Itemz.
         }
     }
 }

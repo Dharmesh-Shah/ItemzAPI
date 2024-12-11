@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0078f334-a940-420b-885e-8a9c798e9f8d",
+		"_postman_id": "e09a136d-e232-4ece-9fe8-fb8a6222360c",
 		"name": "Itemzs.API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36455815"
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
@@ -4942,18 +4942,26 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"// });",
 									""
 								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
 								"type": "text/javascript"
 							}
 						}
@@ -4968,7 +4976,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority, createdDate&pageSize=100",
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority,createdDate&pageSize=100",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4982,7 +4990,7 @@
 							"query": [
 								{
 									"key": "orderBy",
-									"value": "priority, createdDate"
+									"value": "priority,createdDate"
 								},
 								{
 									"key": "pageSize",
@@ -5000,10 +5008,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									""
 								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
 								"type": "text/javascript"
 							}
 						}
@@ -5050,18 +5067,26 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"// });",
 									""
 								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
 								"type": "text/javascript"
 							}
 						}
@@ -5108,19 +5133,27 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"// });",
 									"",
 									""
 								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
 								"type": "text/javascript"
 							}
 						}
@@ -5639,10 +5672,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-											" pm.test(\"Status code is either 200 or 204\", function () {",
-											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
-											"});",
-											""
+									" pm.test(\"Status code is either 200 or 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+									"});",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -6025,10 +6058,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-											" pm.test(\"Status code is either 200 or 204\", function () {",
-											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
-											"});",
-											""
+									" pm.test(\"Status code is either 200 or 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+									"});",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}

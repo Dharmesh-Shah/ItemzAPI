@@ -21,7 +21,7 @@ namespace ItemzApp.API.Services
 
         PagedList<Itemz>? GetItemzs(ItemzResourceParameter itemzResourceParameter);
 
-        PagedList<Itemz>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter);
+        PagedList<GetItemzWithBasePropertiesDTO>? GetOrphanItemzs(ItemzResourceParameter itemzResourceParameter);
 
         Task<int> GetOrphanItemzsCount();
 
