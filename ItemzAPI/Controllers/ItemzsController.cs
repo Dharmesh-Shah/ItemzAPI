@@ -845,13 +845,38 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Get list of supported HTTP Options for the Itemz controller.
-        /// </summary>
-        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+		/// <summary>
+		/// Delete All Orphan Itemz
+		/// </summary>
+		/// <response code="204">Returns status as successful</response>
+		/// <response code="404">Requested Itemz not found</response>
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[HttpDelete("DeleteAllOrphanItemz",
+			Name = "__Delete_All_Orphan_Itemz__")] // e.g. http://HOST:PORT/api/Itemzs/DeleteAllOrphanItemz
+		public async Task<ActionResult> DeleteAllOrphanItemzAsync()
+		{
 
-        [HttpOptions (Name ="__OPTIONS_for_Itemz_Controller__")]
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to Delete All Orphan Itemz!",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+            try
+            {
+                await _itemzRepository.DeleteAllOrphanItemz();
+            }
+            catch (ApplicationException ex)
+            {
+				return NotFound(ex.Message);
+			}
+			return NoContent();
+		}
+
+		/// <summary>
+		/// Get list of supported HTTP Options for the Itemz controller.
+		/// </summary>
+		/// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+		/// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+		[HttpOptions (Name ="__OPTIONS_for_Itemz_Controller__")]
         public IActionResult GetItemzOptions()
         {
             Response.Headers.Add("Allow","GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");

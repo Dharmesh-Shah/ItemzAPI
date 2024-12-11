@@ -1,4 +1,7 @@
-﻿namespace ItemzApp.API.DbContexts.SQLHelper
+﻿using ItemzApp.API.Entities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+
+namespace ItemzApp.API.DbContexts.SQLHelper
 {
     public static class SQLStatements
     {
@@ -179,8 +182,17 @@
             "LEFT JOIN [dbo].[BaselineItemzHierarchy] AS bih " +
             "ON bih.Id = bi.id " +
             "WHERE bih.id IS NULL";
-            
-        #endregion Baseline_OrphanedBaseilneItemzCount
 
-    }
+		#endregion Baseline_OrphanedBaseilneItemzCount
+
+		#region OrphanItemz_DeleteAllOrphanedItemz
+
+		public static readonly string SQLStatementFor_DeleteAllOrphanedItemz =
+		    "DELETE FROM ITEMZS WHERE ID NOT IN (SELECT id FROM ItemzHierarchy) AND " + 
+            "ID NOT IN (SELECT FromItemzId FROM dbo.ItemzJoinItemzTrace) and " + 
+            "ID NOT IN (SELECT ToItemzId FROM dbo.ItemzJoinItemzTrace)";
+
+		#endregion OrphanItemz_DeleteAllOrphanedItemz
+
+	}
 }

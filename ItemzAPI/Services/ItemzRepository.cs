@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ItemzApp.API.DbContexts.SQLHelper;
 
 namespace ItemzApp.API.Services
 {
@@ -913,7 +914,21 @@ namespace ItemzApp.API.Services
             var _ = await _context.Database.ExecuteSqlRawAsync(sql: "EXEC userProcDeleteSingleItemzByItemzID @ItemzId, @OUTPUT_Success = @OUTPUT_Success OUT", parameters: sqlParameters);
         }
 
-        public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO)
+		public async Task DeleteAllOrphanItemz()
+		{
+            try
+            {
+                // TODO :: Verify that it's safe to execute SQL Statement like this and protect
+                // data from SQL Injections.
+                await _context.Database.ExecuteSqlRawAsync(SQLStatements.SQLStatementFor_DeleteAllOrphanedItemz);
+            }
+			catch (Exception ex)
+			{
+				throw new ApplicationException("Issue encountered while deleting All Orphan Itemz via SQL Statement!");
+			}
+		}
+
+		public void RemoveItemzFromItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO)
         {
             RemoveItemzTypeJoinItemzRecord(itemzTypeItemzDTO.ItemzId);
 

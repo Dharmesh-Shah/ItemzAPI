@@ -8,6 +8,8 @@
     <MudStack Row="true" Spacing="3">
         <MudIcon Icon="@Icons.Material.Filled.HolidayVillage" Size="Size.Large" />
         <MudText Typo="Typo.h6" Align="Align.Left">Orphaned Itemz </MudText>
+        <MudChip T="string" Icon="@Icons.Material.Filled.Numbers" Size="Size.Small" Color="Color.Primary"> @(totalItemzs < 0 ? "0" : totalItemzs.ToString()) </MudChip>
+
     </MudStack>
 </MudPaper>
 
@@ -74,11 +76,11 @@
 
             var pagination = JsonSerializer.Deserialize<PaginationInfo>(paginationHeader, options);
 
-           // var pagination = JsonSerializer.Deserialize<PaginationInfo>(paginationHeader);
+            // var pagination = JsonSerializer.Deserialize<PaginationInfo>(paginationHeader);
             totalItemzs = pagination.totalCount;
         }
         mudTable.TotalItems = totalItemzs;
-
+        StateHasChanged();
         return new TableData<GetItemzDTO> { Items = itemzs, TotalItems = totalItemzs };
     }
 

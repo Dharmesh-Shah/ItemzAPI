@@ -356,6 +356,37 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 		}
 		#endregion
 
+		#region __Delete_All_Orphan_Itemz__Async
+
+		public async Task __Delete_All_Orphan_Itemz__Async()
+		{
+			await __Delete_All_Orphan_Itemz__Async(CancellationToken.None);
+		}
+
+		public async Task __Delete_All_Orphan_Itemz__Async(CancellationToken cancellationToken)
+		{
+			try
+			{
+				// TODO::Utilize urlBuilder which is commented below.
+
+				//var urlBuilder_ = new System.Text.StringBuilder();
+				//urlBuilder_.Append($"/api/Itemzs/DeleteAllOrphanItemz");
+				//urlBuilder_.Append('?');
+
+				//urlBuilder_.Length--;
+
+				var httpResponseMessage = await _httpClient.DeleteAsync($"/api/Itemzs/DeleteAllOrphanItemz", cancellationToken);
+				httpResponseMessage.EnsureSuccessStatusCode();
+				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
+
+			}
+			catch (Exception)
+			{
+				throw new NotImplementedException();
+			}
+		}
+
+		#endregion
 
 		#region __POST_Move_Itemz__Async
 

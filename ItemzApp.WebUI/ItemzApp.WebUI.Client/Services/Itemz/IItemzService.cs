@@ -22,5 +22,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		public Task __POST_Move_Itemz__Async(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes);
 
+		public Task __Delete_All_Orphan_Itemz__Async();
+
 	}
 }

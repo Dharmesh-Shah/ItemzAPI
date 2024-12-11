@@ -740,6 +740,13 @@
             <returns>Status code 204 is returned without any content indicating that deletion of the specified Itemz was successful</returns>
             <response code="404">Itemz based on itemzId was not found</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.ItemzsController.DeleteAllOrphanItemzAsync">
+            <summary>
+            Delete All Orphan Itemz
+            </summary>
+            <response code="204">Returns status as successful</response>
+            <response code="404">Requested Itemz not found</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.ItemzsController.GetItemzOptions">
             <summary>
             Get list of supported HTTP Options for the Itemz controller.

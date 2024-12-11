@@ -53,19 +53,21 @@ namespace ItemzApp.API.Services
 
         public Task MoveItemzHierarchyAsync(Guid movingItemzId, Guid targetId, bool atBottomOfChildNodes = true,  string? movingItemzName = null );
 
-        #region NOT USED ANYMORE CODE 
+        public Task DeleteAllOrphanItemz();
 
-        //public Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true);
+		#region NOT USED ANYMORE CODE 
 
-        //public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId, bool atBottomOfChildNodes = true);
+		//public Task AddNewItemzHierarchyByItemzTypeIdAsync(Guid itemzId, Guid itemzTypeId, bool atBottomOfChildNodes = true);
 
-        //public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes);
+		//public Task AddNewItemzHierarchyAsync(Guid parentItemzId, Guid newlyAddedItemzId, bool atBottomOfChildNodes = true);
 
-        //public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO
-        //                                               , ItemzTypeItemzDTO targetItemzTypeItemzDTO
-        //                                               , bool atBottomOfChildNodes = true);
+		//public void AssociateItemzToItemzType(ItemzTypeItemzDTO itemzTypeItemzDTO, bool atBottomOfChildNodes);
 
-        #endregion NOT USED ANYMORE CODE 
+		//public void MoveItemzFromOneItemzTypeToAnother(ItemzTypeItemzDTO sourceItemzTypeItemzDTO
+		//                                               , ItemzTypeItemzDTO targetItemzTypeItemzDTO
+		//                                               , bool atBottomOfChildNodes = true);
 
-    }
+		#endregion NOT USED ANYMORE CODE 
+
+	}
 }
