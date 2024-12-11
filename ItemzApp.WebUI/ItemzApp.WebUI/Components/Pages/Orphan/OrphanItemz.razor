@@ -11,12 +11,9 @@
     </MudStack>
 </MudPaper>
 
-<MudTextField @bind-Value="searchText" Placeholder="Search..." Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" OnAdornmentClick="async () => await SearchItems()" />
-
 <MudTable @ref="mudTable"
               ServerData="LoadServerData"
               Items="@itemzs"
-              Filter="@FilterItems"
               RowsPerPage="10"
               RowsPerPageOptions="new int[] { 5, 10, 20 }">
     <HeaderContent>
@@ -84,8 +81,6 @@
 
         return new TableData<GetItemzDTO> { Items = itemzs, TotalItems = totalItemzs };
     }
-
-    private bool FilterItems(GetItemzDTO item) => string.IsNullOrWhiteSpace(searchText) || item.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
 
     private async Task SearchItems()
     {
