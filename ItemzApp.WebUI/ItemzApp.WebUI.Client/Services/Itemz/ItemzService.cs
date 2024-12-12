@@ -92,11 +92,11 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 
 		#region __GET_Orphan_Itemzs_Collection__Async
 
-		public async Task<(ICollection<GetItemzDTO>, string )> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy)
+		public async Task<(ICollection<GetItemzWithBasePropertiesDTO>, string )> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy)
 		{
 			return await __GET_Orphan_Itemzs_Collection__Async(pageNumber, pageSize, orderBy, CancellationToken.None);
 		}
-		public async Task<(ICollection<GetItemzDTO>, string)> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy, CancellationToken cancellationToken)
+		public async Task<(ICollection<GetItemzWithBasePropertiesDTO>, string)> __GET_Orphan_Itemzs_Collection__Async(int? pageNumber, int? pageSize, string orderBy, CancellationToken cancellationToken)
 		{
 			try
 			{
@@ -131,7 +131,7 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
                 };
                 var response = await _httpClient.SendAsync(request);
 
-                var listOfOrphandItemz = await response.Content.ReadFromJsonAsync<ICollection<GetItemzDTO>>(cancellationToken);
+                var listOfOrphandItemz = await response.Content.ReadFromJsonAsync<ICollection<GetItemzWithBasePropertiesDTO>>(cancellationToken);
                 var paginationHeader = response.Headers.GetValues("x-pagination").FirstOrDefault();
 
 				return (listOfOrphandItemz!, paginationHeader!); // return paginationHeader which is JSON
