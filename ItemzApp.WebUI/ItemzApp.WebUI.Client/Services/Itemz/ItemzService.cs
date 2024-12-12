@@ -78,9 +78,9 @@ namespace ItemzApp.WebUI.Client.Services.Itemz
 				var httpResponseMessage = await _httpClient.PostAsJsonAsync($"/api/Itemzs?parentId={parentId}&AtBottomOfChildNodes={atBottomOfChildNodes}", createItemzDTO, cancellationToken);
 				httpResponseMessage.EnsureSuccessStatusCode();
 
-				string responseContent = httpResponseMessage.Content.ReadAsStringAsync().Result;
-				// TODO :: Send back updated content for GetProjectDTO
-				return default;
+                // Deserialize the response content to GetItemzDTO.
+				var responseContent = await httpResponseMessage.Content.ReadFromJsonAsync<GetItemzDTO>(cancellationToken);
+				return responseContent;
 			}
 			catch (Exception)
 			{

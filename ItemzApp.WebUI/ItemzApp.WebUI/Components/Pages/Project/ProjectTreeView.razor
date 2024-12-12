@@ -74,7 +74,7 @@
                 }
                 else if (selectedItem.RecordType.ToLower() == "itemz") // TODO :: USE CONSTANTS
                 {
-                    <ItemzDetailsComponent ItemzId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <ItemzDetailsComponent ItemzId="@selectedItem.Value" @key="selectedItem.Value" CalledFrom="@this.GetType().Name" />
                 }
                 else
                 {
@@ -423,6 +423,7 @@
     {
         ItemzSelectionService.OnTreeNodeItemzSelected += HandleItemzSelected;
         ItemzSelectionService.OnTreeNodeItemzNameUpdated += HandleTreeNodeItemzNameUpdated;
+        ItemzSelectionService.OnCreatedNewItemz += HandleCreatedNewItemz;
         ItemzSelectionService.OnScrollToTreeViewNode += HandleScrollToTreeViewNode;
     }
 
@@ -451,7 +452,7 @@
             if (AutoSelectedRecordId.HasValue)
             {
                 // Select the node after the first render 
-                
+
                 // This Task.Delay is important to allow full 
                 // rendering which could take some time for large project.
                 // await Task.Delay(500);
@@ -499,6 +500,31 @@
         {
             item.Text = newName; // Update the tree item name
             StateHasChanged(); // Refresh the UI
+        }
+    }
+
+    // Handle name updates for tree items
+    private void HandleCreatedNewItemz(Guid recordId, GetItemzDTO newlyCreatedSiblingItemz)
+    {
+        var item = InitialTreeItems.Flatten().FirstOrDefault(i => i.Value == recordId) as TreeItemPresenter;
+        if (item != null)
+        {
+            var childTempTreeViewNode = new TreeItemPresenter
+                (
+                    value: newlyCreatedSiblingItemz.Id
+                    , text: newlyCreatedSiblingItemz.Name
+                    , icon: @Icons.Material.Filled.Stream
+                    , recordType: "Itemz" // TODO :: Use Constants
+                    , level: item.Level + 1
+                    , expandable: true
+                );
+
+            item.Children.Add(childTempTreeViewNode);
+            item.Expandable = true;
+            item.Expanded = true;
+            projectMudTreeView.SelectedValue = newlyCreatedSiblingItemz.Id;
+            StateHasChanged();
+            HandleItemzSelected(newlyCreatedSiblingItemz.Id);
         }
     }
 
