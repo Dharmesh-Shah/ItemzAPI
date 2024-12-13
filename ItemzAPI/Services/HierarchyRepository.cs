@@ -545,7 +545,36 @@ namespace ItemzApp.API.Services
 			return recordCountAndEnumerable;
 		}
 
-		public static NestedHierarchyIdRecordDetailsDTO? FindParentRecord(List<NestedHierarchyIdRecordDetailsDTO> records, ItemzHierarchy childRecordToBeInserted)
+        public async Task<int> GetAllChildrenCountOfItemzHierarchy(Guid recordId)
+        {
+            if (recordId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(recordId));
+            }
+
+            var foundHierarchyRecord = _context.ItemzHierarchy!.AsNoTracking()
+                            .Where(ih => ih.Id == recordId);
+
+            if (foundHierarchyRecord.Count() != 1 )
+            {
+                throw new ApplicationException($"Expected 1 Hierarchy record to be found " +
+                    $"but instead found {foundHierarchyRecord.Count()} records for ID {recordId}. " +
+                    "Please contact your System Administrator."); // We dont expect multiple records for a single recordId anyways.
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. 
+
+			return (
+						await _context.ItemzHierarchy!
+						.AsNoTracking()
+						.Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(foundHierarchyRecord.FirstOrDefault()!.ItemzHierarchyId!))
+						.OrderBy(ih => ih.ItemzHierarchyId!)
+						.CountAsync()
+					) - 1; // reducing it by 1 because it will include record for supplied recordId as well.
+        }
+
+        public static NestedHierarchyIdRecordDetailsDTO? FindParentRecord(List<NestedHierarchyIdRecordDetailsDTO> records, ItemzHierarchy childRecordToBeInserted)
 		{
 			NestedHierarchyIdRecordDetailsDTO? lastRecord = null;
 

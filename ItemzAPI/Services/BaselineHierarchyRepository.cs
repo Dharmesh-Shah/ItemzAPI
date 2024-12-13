@@ -479,7 +479,37 @@ namespace ItemzApp.API.Services
 			return recordCountAndEnumerable;
         }
 
-		public static NestedBaselineHierarchyIdRecordDetailsDTO? FindParentRecord(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, BaselineItemzHierarchy childRecordToBeInserted)
+
+        public async Task<int> GetAllChildrenCountOfBaselineItemzHierarchy(Guid recordId)
+        {
+            if (recordId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(recordId));
+            }
+
+            var foundBaselineHierarchyRecord = _context.BaselineItemzHierarchy!.AsNoTracking()
+                            .Where(bih => bih.Id == recordId);
+
+            if (foundBaselineHierarchyRecord.Count() != 1)
+            {
+                throw new ApplicationException($"Expected 1 Baseline Hierarchy record to be found " +
+                    $"but instead found {foundBaselineHierarchyRecord.Count()} records for ID {recordId}. " +
+                    "Please contact your System Administrator."); // We dont expect multiple records for a single recordId anyways.
+            }
+
+            // EXPLANATION : We are using SQL Server HierarchyID field type. Now we can use EF Core special
+            // methods to query for all Decendents as per below. 
+
+            return (
+                        await _context.BaselineItemzHierarchy!
+                        .AsNoTracking()
+                        .Where(bih => bih.BaselineItemzHierarchyId!.IsDescendantOf(foundBaselineHierarchyRecord.FirstOrDefault()!.BaselineItemzHierarchyId!))
+                        .OrderBy(bih => bih.BaselineItemzHierarchyId!)
+                        .CountAsync()
+                    ) - 1; // reducing it by 1 because it will include record for supplied recordId as well.
+        }
+
+        public static NestedBaselineHierarchyIdRecordDetailsDTO? FindParentRecord(List<NestedBaselineHierarchyIdRecordDetailsDTO> records, BaselineItemzHierarchy childRecordToBeInserted)
 		{
 			NestedBaselineHierarchyIdRecordDetailsDTO? lastRecord = null;
 

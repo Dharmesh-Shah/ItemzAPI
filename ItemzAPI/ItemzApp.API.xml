@@ -98,6 +98,16 @@
             <response code="400">Bad Request</response>
             <response code="404">All children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
         </member>
+        <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.GetAllChildrenCountOfBaselineItemzHierarchy(System.Guid)">
+            <summary>
+            Gets count of all baseline hierarchy children under Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a baseline hierarchy record</param>
+            <returns>Count of All children Baseline Hierarchy record </returns>
+            <response code="200">All children Baseline Hierarchy record count </response>
+            <response code="400">Bad Request</response>
+            <response code="404">Record ID not found in the repository for the given GUID ID</response>
+        </member>
         <member name="M:ItemzApp.API.Controllers.BaselineHierarchyController.GetAllParentsOfBaselineItemzHierarchy(System.Guid)">
             <summary>
             Gets Baseline Hierarchy Records of all parents above Record Id provided in GUID form.
@@ -480,6 +490,16 @@
             <response code="200">All children Hierarchy record details </response>
             <response code="400">Bad Request</response>
             <response code="404">All children Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        </member>
+        <member name="M:ItemzApp.API.Controllers.HierarchyController.GetAllChildrenCountOfItemzHierarchy(System.Guid)">
+            <summary>
+            Gets count of all hierarchy children under Record Id provided in GUID form.
+            </summary>
+            <param name="RecordId">GUID representing an unique ID of a hierarchy record</param>
+            <returns>Count of All children Hierarchy record </returns>
+            <response code="200">All children Hierarchy record count </response>
+            <response code="400">Bad Request</response>
+            <response code="404">Record ID not found in the repository for the given GUID ID</response>
         </member>
         <member name="M:ItemzApp.API.Controllers.ItemzChangeHistoryByItemzTypeController.DeleteItemzChangeHistoryByItemzTypeAsync(ItemzApp.API.Models.DeleteChangeHistoryDTO)">
             <summary>

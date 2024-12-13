@@ -304,18 +304,66 @@ namespace ItemzApp.API.Controllers
 
         }
 
+        /// <summary>
+        /// Gets count of all baseline hierarchy children under Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a baseline hierarchy record</param>
+        /// <returns>Count of All children Baseline Hierarchy record </returns>
+        /// <response code="200">All children Baseline Hierarchy record count </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Record ID not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [HttpGet("GetAllChildrenCount/{RecordId:Guid}"
+            , Name = "__Get_All_Children_Baseline_Hierarchy_Count_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllChildrenCount/42f62a6c-fcda-4dac-a06c-406ac1c17770
+        [HttpHead("GetAllChildrenCount/{RecordId:Guid}", Name = "__HEAD_All_Children_Baseline_Hierarchy_Count_By_GUID__")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> GetAllChildrenCountOfBaselineItemzHierarchy(Guid RecordId)
+        {
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Children Baseline Hierarchy records count for ID {RecordId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                RecordId);
 
+            try
+            {
+                var allChildBaselineHierarchyRecordCount = await _baselineHierarchyRepository.GetAllChildrenCountOfBaselineItemzHierarchy(RecordId);
+                if (allChildBaselineHierarchyRecordCount == 0)
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames} Returning {allChildHierarchyRecordCount} ZERO All Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    allChildBaselineHierarchyRecordCount,
+                    RecordId);
+                    return Ok(allChildBaselineHierarchyRecordCount);
+                }
+                else
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames} Returning {allChildHierarchyRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    allChildBaselineHierarchyRecordCount,
+                    RecordId);
+                    return Ok(allChildBaselineHierarchyRecordCount);
+                }
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Children Baseline Hierarchy records count : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce All Children Baseline Hierarchy records count for given Record Id {RecordId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+        }
 
-
-		/// <summary>
-		/// Gets Baseline Hierarchy Records of all parents above Record Id provided in GUID form.
-		/// </summary>
-		/// <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
-		/// <returns>Collection of All Parents  Baseline Hierarchy record details </returns>
-		/// <response code="200">All Parents Baseline Hierarchy record details </response>
-		/// <response code="400">Bad Request</response>
-		/// <response code="404">All Parents Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
-		[ProducesResponseType(StatusCodes.Status404NotFound)]
+        /// <summary>
+        /// Gets Baseline Hierarchy Records of all parents above Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
+        /// <returns>Collection of All Parents  Baseline Hierarchy record details </returns>
+        /// <response code="200">All Parents Baseline Hierarchy record details </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">All Parents Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NestedBaselineHierarchyIdRecordDetailsDTO))]
 		[HttpGet("GetAllParents/{RecordId:Guid}"
 			, Name = "__Get_All_Parents_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllParents/42f62a6c-fcda-4dac-a06c-406ac1c17770
