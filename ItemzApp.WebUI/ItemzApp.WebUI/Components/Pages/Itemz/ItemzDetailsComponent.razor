@@ -136,8 +136,8 @@
 				</MudButton>
 				}
 			</MudCardActions>
-				@if (CalledFrom == nameof(ItemzDetails))
-				{
+				@* @if (CalledFrom == nameof(ItemzDetails))
+				{ *@
  				<MudItem xs="12" sm="9" md="6" lg="6">
 					<br />
 						<MudExpansionPanels Elevation="10" style="margin-left : 15px">
@@ -150,17 +150,18 @@
 								</div>
 							</TitleContent>
 							<ChildContent>
-									<MudText Typo="Typo.body1" Color="Color.Error">Deleting Itemz means loosing all it's data including all Child Itemz Tree Nodes. This is <STRONG>IRREVERSIBLE</STRONG> operation.</MudText>
-									<MudButton @onclick="OpenDeleteConfirmationDialogAsync" Variant="Variant.Filled"
-										Disabled="@(disableUpdateItemzDetailsButton)"
-										Color="Color.Error" Size="Size.Large" style="align-items: center; margin-top : 10px">
+								<MudText Typo="Typo.body1" Color="Color.Error">Deleting Itemz means loosing all it's data including all Child Itemz Tree Nodes. </MudText>
+								<MudText Typo="Typo.body1" Color="Color.Error">This is <STRONG>IRREVERSIBLE</STRONG> operation.</MudText>
+								<MudButton @onclick="OpenDeleteConfirmationDialogAsync" Variant="Variant.Filled"
+									Disabled="@(disableUpdateItemzDetailsButton)"
+									Color="Color.Error" Size="Size.Large" style="align-items: center; margin-top : 10px">
 									Delete Itemz
 								</MudButton>
 							</ChildContent>
 						</MudExpansionPanel>
 					</MudExpansionPanels>
 				</MudItem>
-				}
+				@* } *@
 		</MudForm>
 	</MudPaper>
 
@@ -364,8 +365,19 @@
 	}
 	private async Task OpenDeleteConfirmationDialogAsync()
 	{
+		int allChildrenCount = 0;
+		try
+		{
+			allChildrenCount = await hierarchyService.__Get_All_Children_Hierarchy_Count_By_GUID__Async(singleItemz.Id);
+		}
+		catch
+		{
+			await DialogService.ShowMessageBox("ERROR", markupMessage: new
+								MarkupString($"<p style=\"color: red; \">Issue encountered while trying to obtain All Children Count for current Itemz.</p>"), yesText: "OK");
+		}
 		var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
-		var dialogref = await DialogService.ShowAsync<ItemzDeletionConfirmDialog>("CONFIRM", options);
+		var dialogParameters = new DialogParameters { { "AllChildrenCount", allChildrenCount } };
+		var dialogref = await DialogService.ShowAsync<ItemzDeletionConfirmDialog>(title: "CONFIRM", parameters: dialogParameters , options: options);
 		var dialogresult = await dialogref.Result;
 		if (!(dialogresult!.Canceled))
 		{
@@ -373,6 +385,7 @@
 			StateHasChanged();
 			await deleteItemz();
 			Thread.Sleep(200);
+			deletingItemz = false;
 		}
 	}
 
@@ -414,6 +427,16 @@
 			}
 
 		}
+		@if(CalledFrom == nameof(ProjectTreeView))
+		{
+			TreeNodeItemzSelectionService.DeletedTreeNodeItemz(ItemzId);
+			if (ParentId != Guid.Empty) // Orphand Itemz will not have ParentId
+			{
+				TreeNodeItemzSelectionService.SelectTreeNodeItemz(ParentId);
+			}
+		}
+
+
 	}
 
 	public async Task HandleCreateTreeViewSiblingItemzClicked()

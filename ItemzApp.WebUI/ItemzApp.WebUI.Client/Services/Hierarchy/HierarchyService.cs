@@ -69,7 +69,8 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
 			}
 			catch (Exception)
 			{
-			}
+                throw new NotImplementedException();
+            }
 			return default;
 		}
 
@@ -118,8 +119,8 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
 			}
 			catch (Exception)
 			{
-
-			}
+                throw new NotImplementedException();
+            }
 			return default;
 
 		}
@@ -142,11 +143,37 @@ namespace ItemzApp.WebUI.Client.Services.Hierarchy
 			}
 			catch (Exception)
 			{
-
-			}
-			return default;
+                throw new NotImplementedException();
+            }
+            return default;
 
 		}
-		#endregion
-	}
+        #endregion
+
+        #region __Get_All_Children_Hierarchy_Count_By_GUID__Async
+        public async Task<int> __Get_All_Children_Hierarchy_Count_By_GUID__Async(Guid recordId)
+        {
+            return await __Get_All_Children_Hierarchy_Count_By_GUID__Async(recordId, CancellationToken.None);
+        }
+
+        public async Task<int> __Get_All_Children_Hierarchy_Count_By_GUID__Async(Guid recordId, CancellationToken cancellationToken)
+        {
+
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<int>($"/api/Hierarchy/GetAllChildrenCount/{recordId}", cancellationToken);
+
+                return response!;
+            }
+            catch (Exception)
+            {
+				throw new NotImplementedException();
+            }
+            return default;
+
+        }
+        #endregion
+
+
+    }
 }

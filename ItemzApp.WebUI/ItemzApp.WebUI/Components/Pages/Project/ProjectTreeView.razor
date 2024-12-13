@@ -425,6 +425,8 @@
         ItemzSelectionService.OnTreeNodeItemzNameUpdated += HandleTreeNodeItemzNameUpdated;
         ItemzSelectionService.OnCreatedNewItemz += HandleCreatedNewItemz;
         ItemzSelectionService.OnScrollToTreeViewNode += HandleScrollToTreeViewNode;
+        ItemzSelectionService.OnTreeNodeItemzDeleted += HandleItemzDeleted;
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -491,6 +493,38 @@
             }
         }
     }
+
+    private void HandleItemzDeleted(Guid itemzId)
+    {
+        bool nodeRemoved = RemoveNode(itemzId, InitialTreeItems); 
+
+        if (nodeRemoved)
+        { 
+            // Refresh the MudTreeView 
+            StateHasChanged(); 
+        }
+    }
+
+    public bool RemoveNode(Guid id, List<TreeItemData<Guid>> nodes)
+    {
+        foreach (var node in nodes.ToList())
+        {
+            if (node.Value.Equals(id))
+            {
+                nodes.Remove(node);
+                return true;
+            }
+            else if (node.HasChildren)
+            {
+                if (RemoveNode(id, node.Children))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     // Handle name updates for tree items
     private void HandleTreeNodeItemzNameUpdated(Guid recordId, string newName)
