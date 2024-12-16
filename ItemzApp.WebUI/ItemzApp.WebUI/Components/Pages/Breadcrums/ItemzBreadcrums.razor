@@ -21,24 +21,38 @@
 </MudPaper>
 
 @code {
-	[Parameter]
-	public ParameterForItemzBreadcrums produceBreadcrums  { get; set; }
+    [Parameter]
+    public ParameterForItemzBreadcrums produceBreadcrums  { get; set; }
 
-	[Inject]
-	public IHierarchyService HierarchyService { get; set; }
+    private const ICollection<NestedHierarchyIdRecordDetailsDTO> NestedHierarchyIdRecordDetailsDTOs = default;
 
-	private List<BreadcrumbItem> _localBreadcrumbs = new List<BreadcrumbItem>();
-	private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
+    [Inject]
+    public IHierarchyService HierarchyService { get; set; }
 
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if(firstRender)
-		{
-			ICollection<NestedHierarchyIdRecordDetailsDTO> returnedParentHierarchyList;
-			// Thread.Sleep(5000);
+    private List<BreadcrumbItem> _localBreadcrumbs = new List<BreadcrumbItem>();
+    private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
 
-			returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender)
+        {
+            ICollection<NestedHierarchyIdRecordDetailsDTO> returnedParentHierarchyList ;
+            // Thread.Sleep(5000);
+            try
+            {
+                returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
+            }
+            catch
+            {
+                _localBreadcrumbs.Add(new BreadcrumbItem
 
+                    (text: "Orphaned Itemz"
+						, href: "orphanitemz"
+						, disabled: true
+                        , icon: Icons.Material.Filled.HolidayVillage)
+                    );
+                returnedParentHierarchyList = NestedHierarchyIdRecordDetailsDTOs;
+            }
 			if (returnedParentHierarchyList != null)
 			{
 				AllParentHierarchy = returnedParentHierarchyList.ToList();

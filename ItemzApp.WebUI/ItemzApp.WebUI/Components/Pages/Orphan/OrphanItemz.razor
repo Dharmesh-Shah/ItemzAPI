@@ -3,6 +3,9 @@
 @using ItemzApp.WebUI.Client.Services.Itemz
 @using System.Text.Json
 @using ItemzApp.WebUI.Components.Pages.Common
+@using ItemzApp.WebUI.Components.Pages.Itemz
+@inject IJSRuntime JS
+@inject IDialogService DialogService
 
 <MudPaper Class="pa-3 mb-3 align-start d-flex" Style="width: auto " Outlined="false">
     <MudStack Row="true" Spacing="3">
@@ -24,6 +27,7 @@
         <MudTh>Priority</MudTh>
         <MudTh>Severity</MudTh>
         <MudTh>Created Date</MudTh>
+        <MudTh>Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id"><CopyableText TextToCopy="@context.Id.ToString()" /></MudTd>
@@ -32,6 +36,10 @@
         <MudTd DataLabel="Priority">@context.Priority</MudTd>
         <MudTd DataLabel="Severity">@context.Severity</MudTd>
         <MudTd DataLabel="Created Date">@context.CreatedDate.ToString("yyyy-MM-dd")</MudTd>
+        <MudTd DataLabel="Actions"> 
+            <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="async () => await OpenOrphanItemzAsync(context)">Open</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="async () => await DeleteOrphanItemzAsync(context)">Delete</MudButton>
+        </MudTd>
     </RowTemplate>
     <LoadingContent>
         <MudText>Loading...</MudText>
@@ -50,6 +58,7 @@
     private int rowsPerPage = 10;
     private List<GetItemzWithBasePropertiesDTO> itemzs = new();
 
+    private bool deletingItemz { get; set; } = false;
     private string searchText = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -102,6 +111,38 @@
     {
         rowsPerPage = newRowsPerPage;
         // Explicitly save or update other state-related logic here if necessary
+    }
+
+    private async Task OpenOrphanItemzAsync(GetItemzWithBasePropertiesDTO itemz)
+    {
+        var url = $"/itemz/{itemz.Id.ToString()}"; 
+        await JS.InvokeVoidAsync("openInNewTab", url);
+
+        // NavManager.NavigateTo($"/itemz/{itemz.Id}");
+    }
+
+    private async Task DeleteOrphanItemzAsync(GetItemzWithBasePropertiesDTO itemz)
+    {
+
+        var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, Position = DialogPosition.Center };
+        var dialogParameters = new DialogParameters { { "AllChildrenCount", 0 } };
+        var dialogref = await DialogService.ShowAsync<ItemzDeletionConfirmDialog>(title: "CONFIRM", parameters: dialogParameters, options: options);
+        var dialogresult = await dialogref.Result;
+        if (!(dialogresult!.Canceled))
+        {
+            deletingItemz = true;
+            StateHasChanged();
+            await deleteItemz(itemz.Id);
+            Thread.Sleep(200);
+            deletingItemz = false;
+        }
+    }
+
+    public async Task deleteItemz(Guid ItemzId)
+    {
+        await itemzService.__DELETE_Itemz_By_GUID_ID__Async(ItemzId);
+        itemzs.RemoveAll(item => item.Id == ItemzId);
+        StateHasChanged();
     }
 
     private class PaginationInfo

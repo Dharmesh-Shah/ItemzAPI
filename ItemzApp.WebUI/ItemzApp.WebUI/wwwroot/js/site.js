@@ -77,3 +77,10 @@ function scrollToElementById(elementId) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
+
+// Open URL In New Tab 
+
+function openInNewTab(url) {
+    window.open(url, '_blank');
+}
+
