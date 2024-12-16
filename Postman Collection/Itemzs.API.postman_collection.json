@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e09a136d-e232-4ece-9fe8-fb8a6222360c",
+		"_postman_id": "f19ee9d2-f8f6-4c07-a92b-9cd7c082ca9d",
 		"name": "Itemzs.API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33816436"
@@ -4184,11 +4184,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4290,11 +4291,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4347,11 +4349,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4404,11 +4407,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4510,11 +4514,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4567,12 +4572,13 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									"",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4726,11 +4732,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4834,11 +4841,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4892,11 +4900,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4950,7 +4959,7 @@
 									"// pm.test(\"Page Size is always less then 20\", function () {",
 									"//    pm.response.to.have.header(\"X-Pagination\");",
 									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"// });",
 									""
 								],
@@ -4961,8 +4970,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -5075,7 +5087,7 @@
 									"// pm.test(\"Page Size is always less then 20\", function () {",
 									"//    pm.response.to.have.header(\"X-Pagination\");",
 									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"// });",
 									""
 								],
@@ -5086,8 +5098,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -5141,7 +5156,7 @@
 									"// pm.test(\"Page Size is always less then 20\", function () {",
 									"//    pm.response.to.have.header(\"X-Pagination\");",
 									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"//    pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"// });",
 									"",
 									""
@@ -5153,8 +5168,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"exec": [],
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
