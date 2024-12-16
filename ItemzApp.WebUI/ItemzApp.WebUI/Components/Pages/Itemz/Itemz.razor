@@ -4,11 +4,13 @@
 @using ItemzApp.WebUI.Client.Services.ItemzTypeItemzsService
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject BreadcrumsService breadcrumsService
 
 @if (BreadcrumsParameter != null)
 {
@@ -31,6 +33,8 @@
 		</MudPaper>
 	}
 	else
+	{
+	if (singleItemz != null)
 	{
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5">
@@ -56,6 +60,8 @@
 			</MudCard>
 			</MudPaper>
 		</MudItem>
+		@if (!(breadcrumsService.RequestIsOrphanStatus()))
+		{
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 				<MudText Typo="Typo.h6" Align="Align.Left">@((MarkupString)("Child Itemz &nbsp;&nbsp;"))</MudText>
@@ -100,6 +106,8 @@
 				</Columns>
 			</MudDataGrid>
  		</MudItem>
+		}
+	}
 	}
 </MudGrid>
 @if (_showOverlay)
@@ -125,7 +133,6 @@
 	[Inject]
 	public IHierarchyService HierarchyService { get; set; }
 
-
 	public GetItemzDTO singleItemz { get; set; } = new();
 	private List<HierarchyIdRecordDetailsDTO> AllChildItemz { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
 	// private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
@@ -138,40 +145,38 @@
 	// private NestedHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
 	// private NestedHierarchyIdRecordDetailsDTO _foundItemzTypeRecord { get; set; }
 
-	// protected override async Task OnInitializedAsync()
-	// {
-
-	// }
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
+	protected override async Task OnInitializedAsync()
 	{
-		if (firstRender)
-		{
-			initializingPage = true;
-			StateHasChanged();
-			//Thread.Sleep(300);
-			singleItemz = await itemzService.__Single_Itemz_By_GUID_ID__Async(ItemzId);
+		initializingPage = true;
+		StateHasChanged();
+		//Thread.Sleep(300);
+		singleItemz = await itemzService.__Single_Itemz_By_GUID_ID__Async(ItemzId);
 
-			if (singleItemz != null)
-			{
-				BreadcrumsParameter = new ParameterForItemzBreadcrums();
-				BreadcrumsParameter.Id = singleItemz.Id;
-				BreadcrumsParameter.Name = singleItemz.Name;
-				BreadcrumsParameter.RecordType = "itemz"; // TODO :: USE CONSTANT
-			}
-			//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
+		if (singleItemz != null)
+		{
+			BreadcrumsParameter = new ParameterForItemzBreadcrums();
+			BreadcrumsParameter.Id = singleItemz.Id;
+			BreadcrumsParameter.Name = singleItemz.Name;
+			BreadcrumsParameter.RecordType = "itemz"; // TODO :: USE CONSTANT
+
 			var returnedItemzList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ItemzId);
 
 			if (returnedItemzList != null)
 			{
 				AllChildItemz = returnedItemzList.ToList();
 			}
-
-			initializingPage = false;
-
-			StateHasChanged();
-
 		}
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			initializingPage = true;
+			await Task.Delay(200); // Wanted Breadcrums to load so that decision about displaying Child Itemz can be taken properly.
+		}
+		await InvokeAsync(StateHasChanged);
+		initializingPage = false;
 	}
 
 	public async Task editItemzDetails(string itemzId)

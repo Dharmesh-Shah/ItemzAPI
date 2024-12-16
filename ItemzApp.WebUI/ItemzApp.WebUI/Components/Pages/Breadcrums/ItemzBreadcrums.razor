@@ -1,7 +1,9 @@
 ﻿@using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
 @inject NavigationManager NavManager
+@inject BreadcrumsService breadcrumsService;
 
 
 <MudPaper Class="pa-1 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
@@ -21,38 +23,43 @@
 </MudPaper>
 
 @code {
-    [Parameter]
-    public ParameterForItemzBreadcrums produceBreadcrums  { get; set; }
+	[Parameter]
+	public ParameterForItemzBreadcrums produceBreadcrums  { get; set; }
 
-    private const ICollection<NestedHierarchyIdRecordDetailsDTO> NestedHierarchyIdRecordDetailsDTOs = default;
+	private const ICollection<NestedHierarchyIdRecordDetailsDTO> NestedHierarchyIdRecordDetailsDTOs = default;
 
-    [Inject]
-    public IHierarchyService HierarchyService { get; set; }
+	[Inject]
+	public IHierarchyService HierarchyService { get; set; }
 
-    private List<BreadcrumbItem> _localBreadcrumbs = new List<BreadcrumbItem>();
-    private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
+	private List<BreadcrumbItem> _localBreadcrumbs = new List<BreadcrumbItem>();
+	private List<NestedHierarchyIdRecordDetailsDTO> AllParentHierarchy { get; set; } = new List<NestedHierarchyIdRecordDetailsDTO>();
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if(firstRender)
-        {
-            ICollection<NestedHierarchyIdRecordDetailsDTO> returnedParentHierarchyList ;
-            // Thread.Sleep(5000);
-            try
-            {
-                returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
-            }
-            catch
-            {
-                _localBreadcrumbs.Add(new BreadcrumbItem
+	protected override async Task OnInitializedAsync()
+	{
+		breadcrumsService.OnRequestIsOrphanStatus += HandleOnRequestIsOrphanStatus;
+	}
 
-                    (text: "Orphaned Itemz"
-						, href: "orphanitemz"
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if(firstRender)
+		{
+			ICollection<NestedHierarchyIdRecordDetailsDTO> returnedParentHierarchyList ;
+			// Thread.Sleep(5000);
+			try
+			{
+				returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(produceBreadcrums.Id);
+			}
+			catch
+			{
+				_localBreadcrumbs.Add(new BreadcrumbItem
+
+					(text: "Orphaned Itemz"
+						, href: "orphanitemz" // TODO :: Instead use constant
 						, disabled: true
-                        , icon: Icons.Material.Filled.HolidayVillage)
-                    );
-                returnedParentHierarchyList = NestedHierarchyIdRecordDetailsDTOs;
-            }
+						, icon: Icons.Material.Filled.HolidayVillage)
+					);
+				returnedParentHierarchyList = NestedHierarchyIdRecordDetailsDTOs;
+			}
 			if (returnedParentHierarchyList != null)
 			{
 				AllParentHierarchy = returnedParentHierarchyList.ToList();
@@ -157,6 +164,22 @@
 				_ => Icons.Material.Filled.Cancel
 			};
 
+	}
+
+	#endregion
+
+	#region HandleOnRequestIsOrphanStatus
+	private bool HandleOnRequestIsOrphanStatus()
+	{
+		var allItemzCount = AllParentHierarchy?.Count ?? 0;
+		if (allItemzCount == 0)
+		{
+			return true;
+		}
+
+		// If Parent Hierarchy record is found then it's not a Orphan Itemz.
+		// Only exception is the entry for Repository ID itself. There is no parent found for Repository type of Hierarchy entry.
+		return false;
 	}
 
 	#endregion

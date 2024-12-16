@@ -71,6 +71,7 @@
     {
         // Load initial data and set up initial state
         await LoadServerData(new TableState { Page = 0, PageSize = rowsPerPage }, CancellationToken.None);
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task<TableData<GetItemzWithBasePropertiesDTO>> LoadServerData(TableState state, CancellationToken token)
@@ -81,7 +82,10 @@
 
         rowsPerPage = pageSize; // Ensure this is up-to-date
 
+        Console.WriteLine($"Loading data: PageNumber={pageNumber}, PageSize={pageSize}");
+
         var response = await itemzService.__GET_Orphan_Itemzs_Collection__Async(pageNumber, pageSize, orderBy);
+        Console.WriteLine($"Records returned by service: {response.Item1?.Count()}");
 
         if (response.Item1 != null && response.Item1.Any())
         {
@@ -102,14 +106,18 @@
             totalItemzs = pagination.totalCount;
         }
 
+        Console.WriteLine($"Total Items: {totalItemzs}, RowsPerPage: {rowsPerPage}");
+
         mudTable.TotalItems = totalItemzs;
 
         return new TableData<GetItemzWithBasePropertiesDTO> { Items = itemzs, TotalItems = totalItemzs };
     }
 
-    private void OnRowsPerPageChanged(int newRowsPerPage)
+    private async Task OnRowsPerPageChanged(int newRowsPerPage)
     {
         rowsPerPage = newRowsPerPage;
+        await mudTable.ReloadServerData();
+        await InvokeAsync(StateHasChanged);
         // Explicitly save or update other state-related logic here if necessary
     }
 

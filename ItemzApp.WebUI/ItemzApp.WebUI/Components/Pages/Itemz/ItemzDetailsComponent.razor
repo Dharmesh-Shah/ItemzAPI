@@ -12,6 +12,7 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
+@inject BreadcrumsService breadcrumsService
 
 @if (CalledFrom == nameof(ItemzDetails))
 {
@@ -166,6 +167,8 @@
 	</MudPaper>
 
 			</MudTabPanel>
+			@if (ParentId != Guid.Empty) // Itemz is not Orphaned
+			{
 			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
 				<MudItem xs="12" sm="12" md="12" lg="12">
 					<MudPaper Class="pa-4 mud-height-full" Width="100%">
@@ -173,6 +176,7 @@
 				 	</MudPaper> 
 				</MudItem>
 			</MudTabPanel>
+			}
 			<MudTabPanel Icon="@Icons.Material.Filled.ChangeHistory" Text="Change History">
 				<MudItem xs="12" sm="12" md="12" lg="12">
 					<MudPaper Class="pa-4 mud-height-full" Width="100%">
@@ -294,7 +298,6 @@
 				_stringItemzSeverityValues = tempSeverityList.ToArray();
 
 				initializingPage = false;
-				StateHasChanged();
 			}
 
 			// EXPLANATION : At the start of initialization process we capture parent record ID. 
@@ -306,6 +309,7 @@
 				ParentId = httpResponse.ParentRecordId;
 				ParentRecordType = httpResponse.ParentRecordType;
 			}
+			StateHasChanged();
 		}
 	}
 	public async Task HandleItemzDetailsPatchSubmission()
