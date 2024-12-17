@@ -9,6 +9,7 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
+@inject IJSRuntime JS
 
 @if (CalledFrom == nameof(BaselineDetails))
 {
@@ -60,6 +61,14 @@
 										OnClick="(() => HandleBaselineDetailsPatchSubmission())">
 								<MudText>Save</MudText>
 							</MudButton>
+							@if (CalledFrom == nameof(BaselineTreeView))
+							{
+								<MudButton Variant="Variant.Filled" Color="Color.Primary"
+											Size="Size.Large"
+											OnClick="(() => HandleGoToDetailsView())">
+									<MudText>Details View</MudText>
+								</MudButton>
+							}
 							@if (CalledFrom == nameof(BaselineDetails))
 							{
 								<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
@@ -296,6 +305,12 @@
 		{
 			NavManager.NavigateTo($"/baseline/{BaselineId.ToString()}");
 		}
+	}
+
+	public async Task HandleGoToDetailsView()
+	{
+		var url = $"/baseline/{BaselineId.ToString()}";
+		await JS.InvokeVoidAsync("openInNewTab", url);
 	}
 
 }

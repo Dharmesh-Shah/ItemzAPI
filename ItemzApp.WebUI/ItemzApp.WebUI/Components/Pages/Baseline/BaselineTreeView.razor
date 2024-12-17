@@ -74,7 +74,7 @@
             {
                 if (selectedItem.RecordType.ToLower() == "baseline".ToLower()) // TODO :: USE CONSTANTS
                 {
-                    <BaselineDetailsComponent BaselineId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <BaselineDetailsComponent BaselineId="@selectedItem.Value" @key="selectedItem.Value" CalledFrom="@this.GetType().Name" />
                 }
                 else if (selectedItem.RecordType.ToLower() == "baselineitemztype".ToLower()) // TODO :: USE CONSTANTS
                 {

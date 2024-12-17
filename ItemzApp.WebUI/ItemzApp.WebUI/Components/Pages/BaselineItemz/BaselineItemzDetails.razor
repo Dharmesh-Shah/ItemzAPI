@@ -1,6 +1,7 @@
 ﻿@page "/baselineItemzDetails/{BaselineItemzId:guid}"
 @using ItemzApp.WebUI.Client.Services.BaselineHierarchy
 @using ItemzApp.WebUI.Client.Services.BaselineItemz
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.BaselineItemz.BaselineTraceability
 @using ItemzApp.WebUI.Components.Pages.Common
@@ -8,7 +9,9 @@
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
+@inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
 @inject IDialogService DialogService
+@inject IJSRuntime JS
 
 @if (BreadcrumsParameter != null)
 {
@@ -33,7 +36,8 @@
 	}
 	else
 	{
-		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudItem xs="12" sm="12">
+		<MudPaper Class="mb-5">
 		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
 					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
 					 ApplyEffectsToContainer="true" PanelClass="pa-2" MinimumTabWidth="200px" >
@@ -48,9 +52,37 @@
 						}
 					</MudPaper>
 				}
-				@* <MudItem xs="12" sm="12" md="12" lg="12"> *@
-					<MudPaper Class="pa-4 mud-height-full" Width="100%">
+		<MudPaper Class="pa-4 mud-height-full" Width="100%">
 		<MudForm Model="@singleBaselineItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+			<MudCardActions>
+				<MudItem Class="align-start d-flex" Style="width: 100%;" Outlined="false">
+					<MudGrid Class="w-100">
+						<MudItem xs="12" sm="12" md="6" lg="6">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100">
+								<MudButton Variant="Variant.Filled" Color="Color.Primary"
+											Size="Size.Large"
+											OnClick="(() => openBaselineTreeView())">
+									<MudText>Tree View</MudText>
+								</MudButton>
+								<MudButton Variant="Variant.Filled" Color="Color.Warning"
+											Size="Size.Large" 
+											OnClick="(async () => await goBackToBaselineItemz())">
+									<MudText>Close</MudText>
+								</MudButton>
+							</MudStack>
+						</MudItem>
+						<MudItem xs="12" sm="12" md="6" lg="6">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100" Justify="Justify.FlexEnd">
+								<MudAlert Severity="Severity.Error"
+											Variant="Variant.Filled"
+											style="margin-left: 10px;">
+									NOTE: Baseline Itemz are designed to be READ ONLY records!
+								</MudAlert>
+							</MudStack>
+						</MudItem>
+					</MudGrid>
+				</MudItem>
+			</MudCardActions>
 			<MudCardContent>
 				<MudStack Row="true" Spacing="2">
 					<MudText><strong>Baseline Itemz GUID Id: </strong></MudText>
@@ -60,41 +92,31 @@
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 					@bind-Value="singleBaselineItemz.Name"
 					For="@(() => singleBaselineItemz.Name)" FullWidth="true" />
+				<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Start" Class="w-100">
 				<MudTextField T="string" Label="Status" Required="true" RequiredError="Status is required!"
 					@bind-Value="singleBaselineItemz.Status"
 					For="@(() => singleBaselineItemz.Status)" FullWidth="true" />
 				<MudTextField T="string" Label="Status" Required="true" RequiredError="Priority is required!"
 					@bind-Value="singleBaselineItemz.Priority"
 					For="@(() => singleBaselineItemz.Priority)" FullWidth="true" />
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
-					@bind-Value="singleBaselineItemz.Description"
-					For="@(() => singleBaselineItemz.Description)" />
 				<MudTextField T="string" Label="Status" Required="true" RequiredError="Severity is required!"
 					@bind-Value="singleBaselineItemz.Severity"
 					For="@(() => singleBaselineItemz.Severity)" FullWidth="true" />
-			</MudCardContent>
-			<MudCardActions>
-				<MudButton Variant="Variant.Filled" Color="Color.Warning" 
-					Size="Size.Large" style="gap: 10px; margin-left : 10px"
-					OnClick="(async () => await goBackToBaselineItemz())">
-					<MudText>Close</MudText>
-				</MudButton>
-				<MudSpacer />
-				<MudAlert Severity="Severity.Error"
-							Variant="Variant.Filled"
-							style="gap: 10px; margin-left : 10px">
-					NOTE: Baseline Itemz are designed to be READ ONLY records!
-				</MudAlert>
-			</MudCardActions>
+				</MudStack>
+				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+								@bind-Value="singleBaselineItemz.Description"
+								For="@(() => singleBaselineItemz.Description)" />
+				</MudCardContent>
 		</MudForm>
 	</MudPaper>
-	@* </MudItem> *@
 			</MudTabPanel>
 			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
 				<BaselineTraceabilityComponent BaselineItemzId="@BaselineItemzId" />
 			</MudTabPanel>
 		</MudTabs>
-		</MudContainer>
+		
+		</MudPaper>
+		</MudItem>
 	}
 </MudGrid>
 @code {
@@ -172,5 +194,17 @@
 		}
 	}
 
+	public async Task openBaselineTreeView()
+	{
+		// TODO :: Similar Code is there in several places in the project.
+		// We should try and come up with some common way to handle it!
+
+		var foundProjectAndBaselineIds = await FindProjectAndBaselineIdsByBaselineItemzIdService.GetProjectAndBaselineId(BaselineItemzId);
+		if (foundProjectAndBaselineIds.BaselineId != Guid.Empty)
+		{
+			var url = $"/BaselineTreeView/{foundProjectAndBaselineIds.BaselineId}?autoSelectedRecordId={BaselineItemzId}";
+			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
 
 }

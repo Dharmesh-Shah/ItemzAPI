@@ -12,6 +12,7 @@
 @inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
 @inject IDialogService DialogService
 @inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
+@inject IJSRuntime JS
 
 <MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Baseline Itemz</MudText>
@@ -37,9 +38,18 @@
 			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
 				<MudCard style="background-color : #FABBBB;" >
 					<MudCardContent>
-						<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleBaselineItemz.Name </strong></MudText>
-						</MudItem>
+					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+						<MudGrid>
+							<MudItem xs="12" sm="12" md="7" lg="7">
+								<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleBaselineItemz.Name </strong></MudText>
+							</MudItem>
+							<MudItem xs="12" sm="12" md="5" lg="5">
+								<MudStack Row="true" Spacing="2" AlignItems="AlignItems.End" Justify="Justify.FlexEnd" Class="w-100">
+									<MudButton OnClick="async _ => await openBaselineItemzDetailsView(BaselineItemzId.ToString())" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" Target="_blank"> Details View </MudButton>
+								</MudStack>
+							</MudItem>
+						</MudGrid>
+					</MudItem>
 						<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 						<br />
 						<MudStack Row="true" Spacing="2">
@@ -290,5 +300,11 @@
 	{
 
 		BaselineItemzSelectionService.ScrollToTreeViewNode(BaselineItemzId);
+	}
+
+	public async Task openBaselineItemzDetailsView(string Id)
+	{
+		var url = $"/baselineItemz/{Id}";
+		await JS.InvokeVoidAsync("openInNewTab", url);
 	}
 }

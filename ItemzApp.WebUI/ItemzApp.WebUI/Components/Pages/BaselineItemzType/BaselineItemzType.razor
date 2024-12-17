@@ -4,12 +4,16 @@
 @using ItemzApp.WebUI.Client.Services.Baselines
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Globalization
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject IFindProjectAndBaselineIdsByBaselineItemzIdService FindProjectAndBaselineIdsByBaselineItemzIdService
+@inject IJSRuntime JS
+
 
 @if (BreadcrumsParameter != null)
 {
@@ -37,12 +41,19 @@
 			<MudPaper Class="pa-4">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleIBaselineItemzType.Name </strong></MudText>
-						<MudSpacer />
-						<MudButton OnClick="goBackToBaseline" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+				<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+					<MudGrid>
+						<MudItem xs="12" sm="12" md="7" lg="7">
+							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleIBaselineItemzType.Name </strong></MudText>
 						</MudItem>
-
+						<MudItem xs="12" sm="12" md="5" lg="5">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.End" Justify="Justify.FlexEnd" Class="w-100">
+								<MudButton OnClick="async _ => await openBaselineTreeView(BaselineItemzTypeId)" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" Target="_blank"> TreeView </MudButton>
+								<MudButton OnClick="goBackToBaseline" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+							</MudStack>
+						</MudItem>
+					</MudGrid>
+				</MudItem>
 					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
 					<br />
 					<MudStack Row="true" Spacing="2">
@@ -172,5 +183,18 @@
 	public void goBackToBaseline()
 	{
 		NavManager.NavigateTo($"/baseline/{ParentId.ToString()}");
+	}
+
+	public async Task openBaselineTreeView(Guid Id)
+	{
+		// TODO :: Similar Code is there in ProjectTreeView.razor file as well.
+		// We should try and come up with some common way to handle it!
+
+		var foundProjectAndBaselineIds = await FindProjectAndBaselineIdsByBaselineItemzIdService.GetProjectAndBaselineId(Id);
+		if (foundProjectAndBaselineIds.BaselineId != Guid.Empty)
+		{
+			var url = $"/BaselineTreeView/{foundProjectAndBaselineIds.BaselineId}?autoSelectedRecordId={Id}";
+			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
 	}
 }
