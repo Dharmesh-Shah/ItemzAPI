@@ -3,6 +3,7 @@
 @using ItemzApp.WebUI.Client.Services.BaselineItemzCollection
 @using ItemzApp.WebUI.Client.Services.BaselineItemzTrace;
 @using ItemzApp.WebUI.Components.EventServices
+@using ItemzApp.WebUI.Components.Pages.Common
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject BaselineTreeNodeItemzSelectionService BaselineItemzSelectionService
@@ -18,7 +19,11 @@
 			 FixedHeader="true"
 			 HeaderClass="background-color: red;">
 	<Columns>
-		<PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+		<PropertyColumn Property="x => x.Id" Title="Id" Filterable="false">
+			<CellTemplate>
+				<CopyableText TextToCopy="@context.Item.Id.ToString()" DisplayLength="8" />
+			</CellTemplate>
+		</PropertyColumn>
 		<PropertyColumn Property="x => x.isIncluded">
 			<CellTemplate>
 				@if (context.Item.isIncluded == true) // I don't know why true is actually false when it comes to MudIcon logic below.
@@ -56,7 +61,11 @@
 			 FixedHeader="true"
 			 HeaderClass="background-color: red;">
 	<Columns>
-		<PropertyColumn Property="x => x.Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+		<PropertyColumn Property="x => x.Id" Title="Id" Filterable="false">
+			<CellTemplate>
+				<CopyableText TextToCopy="@context.Item.Id.ToString()" DisplayLength="8" />
+			</CellTemplate>
+		</PropertyColumn>
 		<PropertyColumn Property="x => x.isIncluded">
 			<CellTemplate>
 				@if (context.Item.isIncluded == true) // I don't know why true is actually false when it comes to MudIcon logic below.

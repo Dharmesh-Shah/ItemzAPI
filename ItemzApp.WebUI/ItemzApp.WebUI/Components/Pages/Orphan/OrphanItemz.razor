@@ -21,7 +21,7 @@
           RowsPerPage="@rowsPerPage"
           RowsPerPageChanged="OnRowsPerPageChanged">
     <HeaderContent>
-        <MudTh>Id</MudTh>
+        <MudTh>Itemz Id</MudTh>
         <MudTh>Name</MudTh>
         <MudTh>Status</MudTh>
         <MudTh>Priority</MudTh>
@@ -30,15 +30,17 @@
         <MudTh>Actions</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id"><CopyableText TextToCopy="@context.Id.ToString()" /></MudTd>
+        <MudTd DataLabel="Id"><CopyableText TextToCopy="@context.Id.ToString()" DisplayLength="8" /></MudTd>
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Status">@context.Status</MudTd>
         <MudTd DataLabel="Priority">@context.Priority</MudTd>
         <MudTd DataLabel="Severity">@context.Severity</MudTd>
         <MudTd DataLabel="Created Date">@context.CreatedDate.ToString("yyyy-MM-dd")</MudTd>
         <MudTd DataLabel="Actions"> 
+			<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100"> 		
             <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="async () => await OpenOrphanItemzAsync(context)">Open</MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="async () => await DeleteOrphanItemzAsync(context)">Delete</MudButton>
+            </MudStack>
         </MudTd>
     </RowTemplate>
     <LoadingContent>

@@ -4,8 +4,15 @@
     </TitleContent>
     <DialogContent>
         <p style="color:red;">
-        <MudIcon Icon="@Icons.Material.Filled.Dangerous" Size="Size.Large" Color="Color.Error" Title="Delete ItemzType" />
-        Are you sure you want to delete the ItemzType?</p>
+            <MudIcon Icon="@Icons.Material.Filled.Dangerous" Size="Size.Large" Color="Color.Error" Title="Delete ItemzType" />
+            THIS IS IRREVERSABLE OPERATION!
+        </p>
+        <p style="color:red; align-content:center">
+            Are you sure you want to delete following ItemzType?
+        </p>
+        <p style="color:red; align-content:center">
+            <b> @deletingItemzTypeName.ToString() </b>
+        </p>
     </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="Submit">Yes</MudButton>
@@ -16,6 +23,8 @@
 @code {
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; }
+    [Parameter]
+    public string deletingItemzTypeName { get; set; }
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
 

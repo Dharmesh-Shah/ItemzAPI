@@ -19,6 +19,22 @@
     <MudItem xs="12" sm="8">
         <MudPaper Class="pa-4">
 			<MudForm Model="@singleItemzType" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+				<MudCardActions>
+					<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100"> 
+					<MudButton Variant="Variant.Filled" Color="Color.Primary"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => HandleCreateItemzTypePostSubmission())">
+						<MudText>Create</MudText>
+					</MudButton>
+					<MudButton Variant="Variant.Filled" Color="Color.Warning"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => goBackToProjectSetting())">
+						<MudText>Cancel</MudText>
+					</MudButton>
+					</MudStack>
+				</MudCardActions>
 				<MudCardContent>
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="ItemzType name is required!"
 								  @bind-Value="singleItemzType.Name"
@@ -37,21 +53,7 @@
 								  @bind-Value="singleItemzType.Description"
 								  For="@(() => singleItemzType.Description)" />
 				</MudCardContent>
-				<MudCardActions>
-					<MudButton Variant="Variant.Filled" Color="Color.Primary"
-							   Size="Size.Large" 
-							   style="gap: 10px; margin : 10px"
-							   OnClick="(() => HandleCreateItemzTypePostSubmission())">
-						<MudText>Create</MudText>
-					</MudButton>
-					@* <MudSpacer /> *@
-					<MudButton Variant="Variant.Filled" Color="Color.Warning"
-							   Size="Size.Large"
-							   style="gap: 10px; margin : 10px" 
-							   OnClick="(() => goBackToProjectSetting())">
-						<MudText>Cancel</MudText>
-					</MudButton>
-				</MudCardActions>
+
 			</MudForm>
 		</MudPaper>
 	</MudItem>

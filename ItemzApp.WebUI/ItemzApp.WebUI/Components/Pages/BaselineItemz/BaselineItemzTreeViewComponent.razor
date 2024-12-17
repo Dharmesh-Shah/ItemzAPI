@@ -30,13 +30,11 @@
 	}
 	else
 	{
-		<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+		<MudItem xs="12" sm="12">
 		<MudTabs Outlined="true" Position="Position.Top" Rounded="true" Border="true" 
 					 IconColor="Color.Secondary" ScrollIconColor="Color.Secondary" SliderColor = "Color.Secondary"
 					 ApplyEffectsToContainer="true" PanelClass="pa-2" MinimumTabWidth="200px" >
 			<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.EditNote" >
- 			<MudItem xs="12" sm="12">
-				<MudPaper Class="pa-4" >
 				<MudCard style="background-color : #FABBBB;" >
 					<MudCardContent>
 						<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
@@ -84,18 +82,12 @@
 						<MudText><strong>Description  : </strong> @singleBaselineItemz.Description</MudText>
 					</MudCardContent>
 				</MudCard>
-				</MudPaper>
-			</MudItem>
 			</MudTabPanel>
 			<MudTabPanel Icon="@Icons.Material.Filled.Hub" Text="Treaceability">
-				<MudItem xs="12" sm="12" md="12" lg="12">
-					<MudPaper Class="pa-4 mud-height-full" Width="100%">
-						<BaselineTraceabilityTreeViewComponent BaselineItemzId="@BaselineItemzId" />
-					</MudPaper>
-				</MudItem>
+				<BaselineTraceabilityTreeViewComponent BaselineItemzId="@BaselineItemzId" />
 			</MudTabPanel>
 		</MudTabs>
-		</MudContainer>
+		</MudItem>
 	}
 </MudGrid>
 @code {

@@ -59,7 +59,11 @@
 			</MudPaper>
 			<MudDataGrid Items="@AllItemzTypesForProject" Filterable="true" SortMode="@SortMode.None" Groupable="false" Striped="true" FixedHeader="true" HeaderClass="background-color: red;">
 				<Columns>
-					<PropertyColumn Property="x => x.RecordId" Title="Id" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
+					<TemplateColumn Title="Record Id">
+						<CellTemplate>
+							<CopyableText TextToCopy="@context.Item.RecordId.ToString()" DisplayLength="8" />
+						</CellTemplate>
+					</TemplateColumn>
 					<PropertyColumn Property="x => x.Name" />
 					<PropertyColumn Property="x => x.NumberOfChildNodes" Title="Number of Child Nodes" Filterable="false" CellStyle="max-width: 100px; overflow-x: visible; white-space: normal; " />
 					<TemplateColumn Title="Action">

@@ -1,6 +1,7 @@
 ﻿@page "/projects"
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
+@using ItemzApp.WebUI.Components.Pages.Common
 @rendermode InteractiveServer
 @inject NavigationManager NavManager
 
@@ -34,12 +35,15 @@
         FixedHeader="true" 
         HeaderClass="background-color: red;">
         <Columns>
-            <PropertyColumn Property="x => x.Id" >
-                <FilterTemplate>
-                    <MudButton Size="Size.Small" Style="align-content:end" Variant="Variant.Filled" OnClick="ClearFilters">Clear All Filters</MudButton>
-                </FilterTemplate>
+			<PropertyColumn Property="x => x.Id" Title="Record Id"> 
+                <CellTemplate> 
+                    <CopyableText TextToCopy="@context.Item.Id.ToString()" DisplayLength="8" /> 
+                </CellTemplate> 
+                <FilterTemplate> 
+                    <MudButton Size="Size.Small" Style="align-content:end" Variant="Variant.Filled" OnClick="ClearFilters">Clear All Filters</MudButton> 
+                </FilterTemplate> 
             </PropertyColumn>
-            <PropertyColumn Property="x => x.Name">
+			<PropertyColumn Property="x => x.Name">
                 <FilterTemplate>
                     <MudTextField @bind-Value="nameFilter" Placeholder="Type to search for Name..." 
                         Adornment="Adornment.End" 
@@ -65,7 +69,7 @@
                         <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => openProject(context.Item.Id.ToString())"> Detail View </MudButton>
                         <MudButton Size="@Size.Medium" Variant="@Variant.Filled" Color="@Color.Success" OnClick="_ => openProjectBaseline(context.Item.Id.ToString())"> Baselines </MudButton>
                     </div>
-            </CellTemplate>
+                </CellTemplate>
             </TemplateColumn>
         </Columns>
     </MudDataGrid>
@@ -76,21 +80,8 @@
     private List<GetProjectDTO> AllProjects { get; set; } = new List<GetProjectDTO>();
     private bool initializingPage = true;
 
-
     [Inject]
     public IProjectService ProjectService { get; set; }
-
-    // protected override async Task OnInitializedAsync()
-    // {
-    //     initializingPage = true;
-    //     var returnedProjectList = await ProjectService.__GET_Projects__Async();
-    //     if (returnedProjectList != null)
-    //     {
-    //         AllProjects = returnedProjectList.ToList();
-    //     }
-    //     initializingPage = false;
-    // }
-
 
     #region DataGridFilter_Project
 
@@ -119,6 +110,7 @@
     {
         nameFilter = string.Empty;
         statusFilter = string.Empty;
+        StateHasChanged();
     }
 
     #endregion
@@ -156,8 +148,6 @@
     {
         NavManager.NavigateTo($"/projectdetails/{Id}?showBaselineTab=true");
     }
-
-
 
     public async Task openProjectTreeView(string Id)
     {

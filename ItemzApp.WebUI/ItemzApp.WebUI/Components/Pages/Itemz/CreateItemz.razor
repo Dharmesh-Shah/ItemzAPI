@@ -20,10 +20,28 @@
     <MudItem xs="12" sm="8">
         <MudPaper Class="pa-4">
 			<MudForm Model="@singleItemz" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+				<MudCardActions>
+					<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100"> 
+					<MudButton Variant="Variant.Filled" Color="Color.Primary"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => HandleCreateItemzPostSubmission())">
+						<MudText>Create</MudText>
+					</MudButton>
+					@* <MudSpacer /> *@
+					<MudButton Variant="Variant.Filled" Color="Color.Warning"
+							   Size="Size.Large"
+							   style="gap: 10px; margin : 10px"
+							   OnClick="(() => goBackToParent())">
+						<MudText>Cancel</MudText>
+					</MudButton>
+					</MudStack>
+				</MudCardActions>
 				<MudCardContent>
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Itemz name is required!"
 								  @bind-Value="singleItemz.Name"
 								  For="@(() => singleItemz.Name)" />
+					<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Start" Class="w-100">
 					<MudSelect @bind-Value="singleItemz.Status"
 							   For="@(() => singleItemz.Status)"
 							   Required="true"
@@ -44,9 +62,6 @@
 							<MudSelectItem T="string" Value="_stringItemzPriorityValue">@_stringItemzPriorityValue</MudSelectItem>
 						}
 					</MudSelect>
-					<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
-								  @bind-Value="singleItemz.Description"
-								  For="@(() => singleItemz.Description)" />
 					<MudSelect @bind-Value="singleItemz.Severity"
 							   For="@(() => singleItemz.Severity)"
 							   Required="true"
@@ -57,22 +72,11 @@
 							<MudSelectItem T="string" Value="_stringItemzSeverityValue">@_stringItemzSeverityValue</MudSelectItem>
 						}
 					</MudSelect>
+					</MudStack>
+					<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+								  @bind-Value="singleItemz.Description"
+								  For="@(() => singleItemz.Description)" />
 				</MudCardContent>
-				<MudCardActions>
-					<MudButton Variant="Variant.Filled" Color="Color.Primary"
-							   Size="Size.Large" 
-							   style="gap: 10px; margin : 10px"
-							   OnClick="(() => HandleCreateItemzPostSubmission())">
-						<MudText>Create</MudText>
-					</MudButton>
-					@* <MudSpacer /> *@
-					<MudButton Variant="Variant.Filled" Color="Color.Warning"
-							   Size="Size.Large"
-							   style="gap: 10px; margin : 10px" 
-							   OnClick="(() => goBackToParent())">
-						<MudText>Cancel</MudText>
-					</MudButton>
-				</MudCardActions>
 			</MudForm>
 		</MudPaper>
 	</MudItem>
