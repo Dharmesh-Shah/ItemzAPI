@@ -3,12 +3,16 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using ItemzApp.WebUI.Components.EventServices
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
+@using ItemzApp.WebUI.Components.Pages.Project
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
+@inject IJSRuntime JS
+@inject IServiceProvider serviceProvider
 
 @if (CalledFrom == nameof(ItemzTypeDetails))
 {
@@ -61,12 +65,31 @@
 								   OnClick="(() => HandleItemzTypeDetailsPatchSubmission())">
 							<MudText>Save</MudText>
 						</MudButton>
+						@if (CalledFrom == nameof(ProjectTreeView))
+						{
+							<MudButton Variant="Variant.Filled" Color="Color.Primary"
+										Size="Size.Large"
+										style="gap: 10px; margin : 10px"
+										OnClick="(() => HandleGoToDetailsView())">
+								<MudText>Details View</MudText>
+							</MudButton>
+						}
+
 						@if (CalledFrom == nameof(ItemzTypeDetails))
 						{
-							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
-									   OnClick="(() => goBackToItemzType())">
-								<MudText>Cancel</MudText>
-							</MudButton>
+							if (ParentId != Guid.Empty) // Orphand Itemz will not have ParentId
+							{
+								<MudButton Variant="Variant.Filled" Color="Color.Primary"
+											Size="Size.Large"
+											style="gap: 10px; margin : 10px"
+											OnClick="(() => HandleGoToTreeView())">
+									<MudText>Tree View</MudText>
+								</MudButton>
+							}
+						<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+									OnClick="(() => goBackToItemzType())">
+							<MudText>Cancel</MudText>
+						</MudButton>
 						}
 						</MudStack>
 					</MudCardActions>
@@ -337,4 +360,25 @@
 		}
 	}
 
+	public async Task HandleGoToDetailsView()
+	{
+		var url = $"/itemztype/{ItemzTypeId.ToString()}";
+		await JS.InvokeVoidAsync("openInNewTab", url);
+	}
+
+	public async Task HandleGoToTreeView()
+	{
+		// TODO :: Similar Code is there in ProjectTreeView.razor file as well.
+		// We should try and come up with some common way to handle it!
+
+		var hierarchyService = serviceProvider.GetRequiredService<IHierarchyService>();
+		var findProjectOfItemzId = new FindProjectOfItemzId(hierarchyService);
+
+		var foundProjectId = await findProjectOfItemzId.getProjectIdOfItemzId(ItemzTypeId);
+		if (foundProjectId != Guid.Empty)
+		{
+			var url = $"/ProjectTreeView/{foundProjectId}?autoSelectedRecordId={ItemzTypeId}";
+			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
 }

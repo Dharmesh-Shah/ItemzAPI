@@ -66,11 +66,11 @@
             {
                 if (selectedItem.RecordType.ToLower() == "project") // TODO :: USE CONSTANTS
                 {
-                    <ProjectDetailsComponent ProjectId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <ProjectDetailsComponent ProjectId="@selectedItem.Value" @key="selectedItem.Value" CalledFrom="@this.GetType().Name" />
                 }
                 else if (selectedItem.RecordType.ToLower() == "itemztype") // TODO :: USE CONSTANTS
                 {
-                    <ItemzTypeDetailsComponent ItemzTypeId="@selectedItem.Value" @key="selectedItem.Value" />
+                    <ItemzTypeDetailsComponent ItemzTypeId="@selectedItem.Value" @key="selectedItem.Value" CalledFrom="@this.GetType().Name" />
                 }
                 else if (selectedItem.RecordType.ToLower() == "itemz") // TODO :: USE CONSTANTS
                 {

@@ -5,11 +5,16 @@
 @using ItemzApp.WebUI.Client.Services.ItemzTypeItemzsService
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
+@using ItemzApp.WebUI.Components.EventServices
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject BreadcrumsService breadcrumsService
+@inject IJSRuntime JS
+@inject IServiceProvider serviceProvider
 
 @if (BreadcrumsParameter != null)
 {
@@ -37,20 +42,36 @@
 			<MudPaper Class="pa-4 mb-5">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemzType.Name </strong></MudText>
-						<MudSpacer />
-						<MudButton OnClick="async _ => await editItemzTypeDetails(ItemzTypeId.ToString())" Variant="Variant.Filled" Disabled="singleItemzType.IsSystem" Size="Size.Medium" Color="Color.Success"> Edit ItemzType </MudButton>
-						<MudButton OnClick="goBackToProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
-					</MudItem>
-					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
-					<br />
-					<MudStack Row="true" Spacing="2">
-						<MudText><strong>ID          : </strong></MudText>
-						<CopyableText TextToCopy="@singleItemzType.Id.ToString()" />
-					</MudStack>
-					<MudText><strong>Status      : </strong> @singleItemzType.Status</MudText>
-					<MudText><strong>Description : </strong> @singleItemzType.Description</MudText>
+				<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+					<MudGrid>
+						<MudItem xs="12" sm="12" md="7" lg="7">
+							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemzType.Name </strong></MudText>
+						</MudItem>
+						<MudItem xs="12" sm="12" md="5" lg="5">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.End" Justify="Justify.FlexEnd" Class="w-100">
+								<MudButton OnClick="async _ => await editItemzTypeDetails(ItemzTypeId.ToString())" Variant="Variant.Filled" Disabled="singleItemzType.IsSystem" Size="Size.Medium" Color="Color.Success"> Edit ItemzType </MudButton>
+								@if (!(breadcrumsService.RequestIsOrphanStatus()))
+								{
+									<MudButton Variant="Variant.Filled"
+												Size="Size.Medium"
+												Color="Color.Success"
+												OnClick="(() => HandleGoToTreeView())">
+										TREE VIEW
+									</MudButton>
+								}
+								<MudButton OnClick="goBackToProject" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning"> Go Back </MudButton>
+							</MudStack>
+						</MudItem>
+					</MudGrid>
+				</MudItem>
+				<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+				<br />
+				<MudStack Row="true" Spacing="2">
+					<MudText><strong>ID          : </strong></MudText>
+					<CopyableText TextToCopy="@singleItemzType.Id.ToString()" />
+				</MudStack>
+				<MudText><strong>Status      : </strong> @singleItemzType.Status</MudText>
+				<MudText><strong>Description : </strong> @singleItemzType.Description</MudText>
 				</MudCardContent>
 			</MudCard>
 			</MudPaper>
@@ -139,35 +160,32 @@
 
 	public bool initializingPage { get; set; } = true;
 	public bool _showOverlay { get; set; } = false;
-	// protected override async Task OnInitializedAsync()
-	// {
+	protected override async Task OnInitializedAsync()
+	{
+		initializingPage = true;
+		StateHasChanged();
+		//Thread.Sleep(300);
+		singleItemzType = await itemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
+		if (singleItemzType != null)
+		{
+			BreadcrumsParameter = new ParameterForItemzBreadcrums();
+			BreadcrumsParameter.Id = singleItemzType.Id;
+			BreadcrumsParameter.Name = singleItemzType.Name;
+			BreadcrumsParameter.RecordType = "itemztype"; // TODO :: USE CONSTANT
+		}
+		//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
+		var returnedItemzList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ItemzTypeId);
 
-	// }
+		if (returnedItemzList != null)
+		{
+			AllItemzForItemzType = returnedItemzList.ToList();
+		}
+	}
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			initializingPage = true;
-			StateHasChanged();
-			//Thread.Sleep(300);
-			singleItemzType = await itemzTypeService.__Single_ItemzType_By_GUID_ID__Async(ItemzTypeId);
-			if (singleItemzType != null)
-			{
-				BreadcrumsParameter = new ParameterForItemzBreadcrums();
-				BreadcrumsParameter.Id = singleItemzType.Id;
-				BreadcrumsParameter.Name = singleItemzType.Name;
-				BreadcrumsParameter.RecordType = "itemztype"; // TODO :: USE CONSTANT
-			}
-			//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
-			var returnedItemzList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ItemzTypeId);
-
-			if (returnedItemzList != null)
-			{
-				AllItemzForItemzType = returnedItemzList.ToList();
-			}
-
-			initializingPage = false;
 
 			// EXPLANATION : At the start of initialization process we capture parent record ID.
 			// Now even if user decides to Delete this Itemz Record then also we can go back to it's
@@ -175,6 +193,8 @@
 
 			var httpResponse = await HierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
 			ParentId = httpResponse.ParentRecordId;
+
+			await Task.Delay(200); // Wanted Breadcrums to load so that decision about displaying Child Itemz can be taken properly.
 
 			// var returnedParentHierarchyList = await HierarchyService.__Get_All_Parents_Hierarchy_By_GUID__Async(ItemzTypeId);
 
@@ -189,10 +209,10 @@
 			// {
 			// 	ParentId = matchingProjectRecord.RecordId;
 			// }
-
-			StateHasChanged();
 			//StateHasChanged();
 		}
+		await InvokeAsync(StateHasChanged);
+		initializingPage = false;
 	}
 
 
@@ -336,6 +356,23 @@
 		}
 	}
 	#endregion
+
+
+	public async Task HandleGoToTreeView()
+	{
+		// TODO :: Similar Code is there in ProjectTreeView.razor file as well.
+		// We should try and come up with some common way to handle it!
+
+		var hierarchyService = serviceProvider.GetRequiredService<IHierarchyService>();
+		var findProjectOfItemzId = new FindProjectOfItemzId(hierarchyService);
+
+		var foundProjectId = await findProjectOfItemzId.getProjectIdOfItemzId(ItemzTypeId);
+		if (foundProjectId != Guid.Empty)
+		{
+			var url = $"/ProjectTreeView/{foundProjectId}?autoSelectedRecordId={ItemzTypeId}";
+			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
 
 	// #region Finding_Record_In_Parent_Hierarchy_Nodes
 

@@ -7,6 +7,7 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
+@inject IJSRuntime JS
 
 <MudPaper Class="pa-4 mb-5 align-start d-flex" Style="width: auto" Outlined="false">
 	<MudText Typo="Typo.h6" Align="Align.Left">Project Details</MudText>
@@ -58,14 +59,26 @@
 						<MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Class="w-100"> 					
 						<MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(disableUpdateProjectDetailsButton)"
 									Size="Size.Large"
-									style="gap: 10px; margin : 10px"
 									OnClick="(() => HandleProjectDetailsPatchSubmission())">
 							<MudText>Save</MudText>
 						</MudButton>
-						@* <MudSpacer /> *@
+						@if (CalledFrom == nameof(ProjectTreeView))
+						{
+							<MudButton Variant="Variant.Filled" Color="Color.Primary"
+										Size="Size.Large"
+										OnClick="(() => HandleGoToDetailsView())">
+								<MudText>Details View</MudText>
+							</MudButton>
+						}						
 						@if (CalledFrom == nameof(ProjectDetails))
 						{
-							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" style="gap: 10px; margin-left : 10px"
+							<MudButton Variant="Variant.Filled" Color="Color.Primary"
+										Size="Size.Large"
+										style="gap: 10px; margin : 10px"
+										OnClick="(() => HandleGoToTreeView())">
+								<MudText>Tree View</MudText>
+							</MudButton>
+							<MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large"
 										OnClick="(() => goBackToProject())">
 								<MudText>Cancel</MudText>
 							</MudButton>
@@ -324,4 +337,15 @@
 		}
 	}
 
+	public async Task HandleGoToDetailsView()
+	{
+		var url = $"/project/{ProjectId.ToString()}";
+		await JS.InvokeVoidAsync("openInNewTab", url);
+	}
+
+	public async Task HandleGoToTreeView()
+	{
+		var url = $"/ProjectTreeView/{ProjectId}";
+		await JS.InvokeVoidAsync("openInNewTab", url);
+	}
 }

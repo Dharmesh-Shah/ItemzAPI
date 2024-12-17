@@ -29,22 +29,29 @@
 			<MudPaper Class="pa-4">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-					<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
-						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleProject.Name </strong></MudText>
-						<MudSpacer />
-						<MudButton OnClick="async _ => await editProjectDetails(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Project </MudButton>
-						<MudButton OnClick="async _ => await openProjectTreeView(singleProject.Id.ToString())" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" Target="_blank" style="gap: 10px; margin-left : 10px"> TreeView </MudButton> 
-							<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+				<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+					<MudGrid>
+						<MudItem xs="12" sm="12" md="7" lg="7">
+							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleProject.Name </strong></MudText>
 						</MudItem>
-					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
-					<br />
-					<MudText><strong> </strong> </MudText>
-					<MudStack Row="true" Spacing="2">
-					<MudText><strong>ID          : </strong></MudText>
-					<CopyableText TextToCopy="@singleProject.Id.ToString()" />
-					</MudStack>
-					<MudText><strong>Status      : </strong> @singleProject.Status</MudText>
-					<MudText><strong>Description : </strong> @singleProject.Description</MudText>
+						<MudItem xs="12" sm="12" md="5" lg="5">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.End" Justify="Justify.FlexEnd" Class="w-100">
+								<MudButton OnClick="async _ => await editProjectDetails(ProjectId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Project </MudButton>
+								<MudButton OnClick="async _ => await openProjectTreeView(singleProject.Id.ToString())" Variant="@Variant.Filled" Size="@Size.Medium" Color="@Color.Success" Target="_blank" style="gap: 10px; margin-left : 10px"> TreeView </MudButton>
+								<MudButton OnClick="goBackToProjects" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+							</MudStack>
+						</MudItem>
+					</MudGrid>
+				</MudItem>
+				<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+				<br />
+				<MudText><strong> </strong> </MudText>
+				<MudStack Row="true" Spacing="2">
+				<MudText><strong>ID          : </strong></MudText>
+				<CopyableText TextToCopy="@singleProject.Id.ToString()" />
+				</MudStack>
+				<MudText><strong>Status      : </strong> @singleProject.Status</MudText>
+				<MudText><strong>Description : </strong> @singleProject.Description</MudText>
 				</MudCardContent>
 			</MudCard>
 			</MudPaper>

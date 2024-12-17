@@ -5,12 +5,15 @@
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Client.SharedModels.BetweenPagesAndComponent
 @using ItemzApp.WebUI.Components.EventServices
+@using ItemzApp.WebUI.Components.FindServices
 @using ItemzApp.WebUI.Components.Pages.Breadcrums
 @using ItemzApp.WebUI.Components.Pages.Common
 @using Microsoft.AspNetCore.Components.Forms
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject BreadcrumsService breadcrumsService
+@inject IJSRuntime JS
+@inject IServiceProvider serviceProvider
 
 @if (BreadcrumsParameter != null)
 {
@@ -40,24 +43,45 @@
 			<MudPaper Class="pa-4 mb-5">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-					<MudItem Class="pa-1 align-start d-flex" Style="width: auto" Outlined="false">
-						<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemz.Name </strong></MudText>
-						<MudSpacer />
-						<MudButton OnClick="async _ => await editItemzDetails(ItemzId.ToString())" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Success"> Edit Itemz </MudButton>
-						<MudButton OnClick="goBackToParent" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning" style="gap: 10px; margin-left : 10px"> Go Back </MudButton>
+				<MudItem Class="pa-1 align-start d-flex" Style="width: auto" Outlined="false">
+					<MudGrid>
+						<MudItem xs="12" sm="12" md="7" lg="7">
+							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemz.Name </strong></MudText>
 						</MudItem>
-					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
-					<br />
-					<MudStack Row="true" Spacing="2" StretchItems="StretchItems.None" AlignItems="AlignItems.Start" Class="w-100">
-						<MudStack Row="true" Spacing="2">
-							<MudText><strong>ID          : </strong></MudText>
-							<CopyableText TextToCopy="@singleItemz.Id.ToString()" DisplayLength="8" />
-						</MudStack>
-						<MudText><strong> || Status      : </strong> @singleItemz.Status</MudText>
-						<MudText><strong> || Priority    : </strong> @singleItemz.Priority</MudText>
-						<MudText><strong> || Severity    : </strong> @singleItemz.Severity</MudText>
+						<MudItem xs="12" sm="12" md="5" lg="5">
+							<MudStack Row="true" Spacing="2" AlignItems="AlignItems.End" Justify="Justify.FlexEnd" Class="w-100">
+								<MudButton OnClick="async _ => await editItemzDetails(ItemzId.ToString())"
+											Variant="Variant.Filled"
+											Size="Size.Medium"
+											Color="Color.Success">
+									Edit Itemz
+								</MudButton>
+								@if (!(breadcrumsService.RequestIsOrphanStatus()))
+								{
+									<MudButton Variant="Variant.Filled"
+												Size="Size.Medium"
+												Color="Color.Success"
+												OnClick="(() => HandleGoToTreeView())">
+										TREE VIEW
+									</MudButton>
+								}
+								<MudButton OnClick="goBackToParent" Variant="Variant.Filled" Size="Size.Medium" Color="Color.Warning"> Go Back </MudButton>
+							</MudStack>
+						</MudItem>
+					</MudGrid>
+				</MudItem>
+				<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
+				<br />
+				<MudStack Row="true" Spacing="2" StretchItems="StretchItems.None" AlignItems="AlignItems.Start" Class="w-100">
+					<MudStack Row="true" Spacing="2">
+						<MudText><strong>ID          : </strong></MudText>
+						<CopyableText TextToCopy="@singleItemz.Id.ToString()" DisplayLength="8" />
 					</MudStack>
-					<MudText><strong>Description : </strong> @singleItemz.Description</MudText>
+					<MudText><strong> || Status      : </strong> @singleItemz.Status</MudText>
+					<MudText><strong> || Priority    : </strong> @singleItemz.Priority</MudText>
+					<MudText><strong> || Severity    : </strong> @singleItemz.Severity</MudText>
+				</MudStack>
+				<MudText><strong>Description : </strong> @singleItemz.Description</MudText>
 				</MudCardContent>
 			</MudCard>
 			</MudPaper>
@@ -356,5 +380,21 @@
 		}
 	}
 	#endregion
+
+	public async Task HandleGoToTreeView()
+	{
+		// TODO :: Similar Code is there in ProjectTreeView.razor file as well.
+		// We should try and come up with some common way to handle it!
+
+		var hierarchyService = serviceProvider.GetRequiredService<IHierarchyService>();
+		var findProjectOfItemzId = new FindProjectOfItemzId(hierarchyService);
+
+		var foundProjectId = await findProjectOfItemzId.getProjectIdOfItemzId(ItemzId);
+		if (foundProjectId != Guid.Empty)
+		{
+			var url = $"/ProjectTreeView/{foundProjectId}?autoSelectedRecordId={ItemzId}";
+			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
 
 }
