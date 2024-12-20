@@ -1653,6 +1653,18 @@
         <member name="M:ItemzApp.API.Migrations.UPDATED_userProcDeleteItemzHierarchyRecordsByItemzTypeId_202412091028.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforProject">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforProject.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforProject.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforProject.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
