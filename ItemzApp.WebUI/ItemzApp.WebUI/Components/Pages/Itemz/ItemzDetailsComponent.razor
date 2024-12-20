@@ -10,6 +10,8 @@
 @using ItemzApp.WebUI.Components.Pages.Common
 @using ItemzApp.WebUI.Components.Pages.Project
 @using Microsoft.AspNetCore.Components.Forms
+@using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
@@ -156,10 +158,22 @@
 					}
 				</MudSelect>
 				</MudStack>
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 					@bind-Value="singleItemz.Description"
-					For="@(() => singleItemz.Description)" />
+					For="@(() => singleItemz.Description)" /> *@
 
+				<!-- Ensure this div applies the custom class to the Markdown content -->
+				<MudText><strong>Description : </strong></MudText>
+				<div class="custom-markdown-editor">
+					<MarkdownEditor @bind-Value="@MyContent" HideIcons="@(["mde-tb-image"])" />
+					<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+						@if (!string.IsNullOrEmpty(convertedMarkdown.Value))
+						{
+							<h3>Preview</h3>
+							<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+						}
+					</MudPaper>
+				</div>
 			</MudCardContent>
 		</MudForm>
 	</MudPaper>
@@ -231,6 +245,10 @@
 @code {
 	[Parameter]
 	public Guid ItemzId { get; set; }
+
+	[Parameter]
+	public EventCallback<string> ContentChanged { get; set; }
+
 	[Parameter]
 	[SupplyParameterFromQuery(Name = "calledFrom")]
 	public string CalledFrom { get; set; } = string.Empty;
@@ -250,6 +268,39 @@
 	private bool deletingItemz { get; set; } = false;
 	private bool hasFormFieldChanged { get; set; } = false;
 
+
+	// private string _Content = string.Empty;
+	private string MyContent
+	{
+		get => singleItemz.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			hasFormFieldChanged = true;
+			singleItemz.Description = value;
+			ConvertMarkdownToHtml(singleItemz.Description);
+			ContentChanged.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
+
+
+
 	//MudForm related fields
 	bool success = true;
 	bool disableUpdateItemzDetailsButton = false;
@@ -263,6 +314,8 @@
 	string[] _stringItemzSeverityValues = { };
 
 	string originalItemzName { get; set; } = string.Empty;
+
+	private MarkupString convertedMarkdown;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -332,6 +385,9 @@
 				ParentId = httpResponse.ParentRecordId;
 				ParentRecordType = httpResponse.ParentRecordType;
 			}
+
+			await ConvertMarkdownToHtml(singleItemz.Description);
+
 			StateHasChanged();
 		}
 	}

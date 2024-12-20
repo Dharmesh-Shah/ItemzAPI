@@ -187,10 +187,6 @@
 			BreadcrumsParameter.RecordType = "itemztype"; // TODO :: USE CONSTANT
 		}
 
-		if (singleItemzType != null && singleItemzType.Description != null)
-		{
-			await ConvertMarkdownToHtml(singleItemzType.Description);
-		}
 		//var returnedItemzList = await itemzTypeItemzsService.__GET_Itemzs_By_ItemzType__Async(ItemzTypeId,1,25,"Name");
 		var returnedItemzList = await HierarchyService.__Get_Immediate_Children_Hierarchy_By_GUID__Async(ItemzTypeId);
 
@@ -204,7 +200,6 @@
 	{
 		if (firstRender)
 		{
-
 			// EXPLANATION : At the start of initialization process we capture parent record ID.
 			// Now even if user decides to Delete this Itemz Record then also we can go back to it's
 			// Parent ItemzType post completing deletion operation.
@@ -229,6 +224,8 @@
 			// }
 			//StateHasChanged();
 		}
+
+		await ConvertMarkdownToHtml(singleItemzType.Description);
 		await InvokeAsync(StateHasChanged);
 		initializingPage = false;
 	}

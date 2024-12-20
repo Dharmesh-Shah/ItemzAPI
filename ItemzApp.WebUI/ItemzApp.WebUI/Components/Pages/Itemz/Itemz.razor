@@ -40,10 +40,9 @@
 	if (singleItemz != null)
 	{
  		<MudItem xs="12" sm="12">
-			<MudPaper Class="pa-4 mb-5">
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-				<MudItem Class="pa-1 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudItem Class="align-start d-flex" Style="width: auto" Outlined="false">
 					<MudGrid>
 						<MudItem xs="12" sm="12" md="7" lg="7">
 							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleItemz.Name </strong></MudText>
@@ -70,8 +69,11 @@
 						</MudItem>
 					</MudGrid>
 				</MudItem>
-				<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
-				<br />
+					@*<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " /> *@
+				</MudCardContent>
+			</MudCard>
+			<MudCard>
+				<MudCardContent>
 				<MudStack Row="true" Spacing="2" StretchItems="StretchItems.None" AlignItems="AlignItems.Start" Class="w-100">
 					<MudStack Row="true" Spacing="2">
 						<MudText><strong>ID          : </strong></MudText>
@@ -81,10 +83,18 @@
 					<MudText><strong> || Priority    : </strong> @singleItemz.Priority</MudText>
 					<MudText><strong> || Severity    : </strong> @singleItemz.Severity</MudText>
 				</MudStack>
-				<MudText><strong>Description : </strong> @singleItemz.Description</MudText>
+					<MudText><strong>Description : </strong></MudText>
+					<br />
+					<div class="custom-markdown-editor">
+						<MudPaper Class="pa-2 fixed-height-scroll">
+							@if (!string.IsNullOrEmpty(singleItemz.Description))
+							{
+								<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+							}
+						</MudPaper>
+					</div>
 				</MudCardContent>
 			</MudCard>
-			</MudPaper>
 		</MudItem>
 		@if (!(breadcrumsService.RequestIsOrphanStatus()))
 		{
@@ -175,6 +185,8 @@
 	// private NestedHierarchyIdRecordDetailsDTO _foundProjectRecord { get; set; }
 	// private NestedHierarchyIdRecordDetailsDTO _foundItemzTypeRecord { get; set; }
 
+	private MarkupString convertedMarkdown;
+
 	protected override async Task OnInitializedAsync()
 	{
 		initializingPage = true;
@@ -205,6 +217,8 @@
 			initializingPage = true;
 			await Task.Delay(200); // Wanted Breadcrums to load so that decision about displaying Child Itemz can be taken properly.
 		}
+
+		await ConvertMarkdownToHtml(singleItemz.Description);
 		await InvokeAsync(StateHasChanged);
 		initializingPage = false;
 	}
@@ -394,6 +408,20 @@
 		{
 			var url = $"/ProjectTreeView/{foundProjectId}?autoSelectedRecordId={ItemzId}";
 			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
 		}
 	}
 
