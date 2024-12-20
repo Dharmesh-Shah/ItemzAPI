@@ -4,8 +4,11 @@
 @using ItemzApp.WebUI.Client.Services.Hierarchy
 @using ItemzApp.WebUI.Client.SharedModels
 @using ItemzApp.WebUI.Components.Pages.Common
+@using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @inject IDialogService DialogService
 @inject NavigationManager NavManager
+@inject IJSRuntime JS
 
 @* <h5>Change History Component</h5>
 <br />
@@ -67,9 +70,22 @@ else
 			<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 						  @bind-Value="singleCreateBaselineByProject.Name"
 						  For="@(() => singleCreateBaselineByProject.Name)" />
-			<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 			<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 						  @bind-Value="singleCreateBaselineByProject.Description"
-						  For="@(() => singleCreateBaselineByProject.Description)" />
+						  For="@(() => singleCreateBaselineByProject.Description)" /> *@
+
+					<!-- Ensure this div applies the custom class to the Markdown content -->
+					<MudText><strong>Description : </strong></MudText>
+					<div class="custom-markdown-editor">
+						<MarkdownEditor @bind-Value="@MyContentForCreateBaselineByProject" HideIcons="@(["mde-tb-image"])" />
+						<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+							@if (!string.IsNullOrEmpty(convertedMarkdownForCreateBaselineByProject.Value))
+							{
+								<h3>Preview</h3>
+								<div class="markdown-body">@((MarkupString)convertedMarkdownForCreateBaselineByProject)</div>
+							}
+						</MudPaper>
+					</div>
 		</MudCardContent>
 		<MudCardActions>
 				<MudButton Variant="Variant.Filled" Color="Color.Primary" 
@@ -121,9 +137,22 @@ else
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 							  @bind-Value="singleCreateBaselineByItemzType.Name"
 							  For="@(() => singleCreateBaselineByItemzType.Name)" />
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 							  @bind-Value="singleCreateBaselineByItemzType.Description"
-							  For="@(() => singleCreateBaselineByItemzType.Description)" />
+							  For="@(() => singleCreateBaselineByItemzType.Description)" /> *@
+
+					<!-- Ensure this div applies the custom class to the Markdown content -->
+					<MudText><strong>Description : </strong></MudText>
+					<div class="custom-markdown-editor">
+						<MarkdownEditor @bind-Value="@MyContentForCreateBaselineByItemzType" HideIcons="@(["mde-tb-image"])" />
+						<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+							@if (!string.IsNullOrEmpty(convertedMarkdownForCreateBaselineByItemzType.Value))
+							{
+								<h3>Preview</h3>
+								<div class="markdown-body">@((MarkupString)convertedMarkdownForCreateBaselineByItemzType)</div>
+							}
+						</MudPaper>
+					</div>
 			</MudCardContent>
 			<MudCardActions>
 				<MudButton Variant="Variant.Filled" Color="Color.Primary"
@@ -174,9 +203,21 @@ else
 				<MudTextField T="string" Label="Name" Required="true" RequiredError="Name is required!"
 							  @bind-Value="singleCloneBaseline.Name"
 							  For="@(() => singleCloneBaseline.Name)" />
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 							  @bind-Value="singleCloneBaseline.Description"
-							  For="@(() => singleCloneBaseline.Description)" />
+							  For="@(() => singleCloneBaseline.Description)" /> *@
+
+					<MudText><strong>Description : </strong></MudText>
+					<div class="custom-markdown-editor">
+						<MarkdownEditor @bind-Value="@MyContentForCreateBaselineByCloneBaseline" HideIcons="@(["mde-tb-image"])" />
+						<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+							@if (!string.IsNullOrEmpty(convertedMarkdownForCreateBaselineByCloneBaseline.Value))
+							{
+								<h3>Preview</h3>
+								<div class="markdown-body">@((MarkupString)convertedMarkdownForCreateBaselineByCloneBaseline)</div>
+							}
+						</MudPaper>
+					</div>
 			</MudCardContent>
 			<MudCardActions>
 				<MudButton Variant="Variant.Filled" Color="Color.Primary"
@@ -202,8 +243,6 @@ else
 		</MudForm>
 		</MudPaper>
 	}
-
-
 
 	if (ProjectBaselineRecords != null && ProjectBaselineRecords.Any())
 	{
@@ -255,6 +294,15 @@ else
 	[Parameter]
 	public Guid ProjectId { get; set; }
 
+	[Parameter]
+	public EventCallback<string> ContentChangedForCreateBaselineByProject { get; set; }
+
+	[Parameter]
+	public EventCallback<string> ContentChangedForCreateBaselineByItemzType { get; set; }
+
+	[Parameter]
+	public EventCallback<string> ContentChangedForCreateBaselineByCloneBaseline { get; set; }
+
 	[Inject]
 	public IBaselinesService baselinesService { get; set; }
 
@@ -276,6 +324,96 @@ else
 	private List<BaselineHierarchyIdRecordDetailsDTO> ProjectBaselineRecords { get; set; } = new List<BaselineHierarchyIdRecordDetailsDTO>();
 	private List<HierarchyIdRecordDetailsDTO> ProjectItemzTypeRecords { get; set; } = new List<HierarchyIdRecordDetailsDTO>();
 
+
+	// private string _Content = string.Empty;
+	private string MyContentForCreateBaselineByProject
+	{
+		get => singleCreateBaselineByProject.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			// hasFormFieldChanged = true;
+			singleCreateBaselineByProject.Description = value;
+			ConvertMarkdownToHtmlForCreateBaselineByProject(singleCreateBaselineByProject.Description);
+			ContentChangedForCreateBaselineByProject.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtmlForCreateBaselineByProject(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdownForCreateBaselineByProject = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
+	// private string _Content = string.Empty;
+	private string MyContentForCreateBaselineByItemzType
+	{
+		get => singleCreateBaselineByItemzType.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			// hasFormFieldChanged = true;
+			singleCreateBaselineByItemzType.Description = value;
+			ConvertMarkdownToHtmlForCreateBaselineByItemzType(singleCreateBaselineByItemzType.Description);
+			ContentChangedForCreateBaselineByItemzType.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtmlForCreateBaselineByItemzType(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdownForCreateBaselineByItemzType = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
+	// private string _Content = string.Empty;
+	private string MyContentForCreateBaselineByCloneBaseline
+	{
+		get => singleCloneBaseline.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			// hasFormFieldChanged = true;
+			singleCloneBaseline.Description = value;
+			ConvertMarkdownToHtmlForCreateBaselineByCloneBaseline(singleCloneBaseline.Description);
+			ContentChangedForCreateBaselineByCloneBaseline.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtmlForCreateBaselineByCloneBaseline(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdownForCreateBaselineByCloneBaseline = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
+
+
 	//MudForm related fields
 	bool createBaselineByProjectSuccess = true;
 	string[] createBaselineByProjectErrors = { };
@@ -295,6 +433,12 @@ else
 	// {
 	// }
 
+	private MarkupString convertedMarkdownForCreateBaselineByProject;
+
+	private MarkupString convertedMarkdownForCreateBaselineByItemzType;
+
+	private MarkupString convertedMarkdownForCreateBaselineByCloneBaseline;
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
@@ -312,6 +456,22 @@ else
 			// 	}
 			// 	StateHasChanged();
 			// }
+
+			if (singleCreateBaselineByProject != null && singleCreateBaselineByProject.Description != null)
+			{
+				await ConvertMarkdownToHtmlForCreateBaselineByProject(singleCreateBaselineByProject.Description);
+			}
+			if (singleCreateBaselineByItemzType != null && singleCreateBaselineByItemzType.Description != null)
+			{
+				await ConvertMarkdownToHtmlForCreateBaselineByProject(singleCreateBaselineByItemzType.Description);
+			}
+
+			if (singleCloneBaseline != null && singleCloneBaseline.Description != null)
+			{
+				await ConvertMarkdownToHtmlForCreateBaselineByProject(singleCloneBaseline.Description);
+			}
+			StateHasChanged();
+
 			await refreshProjectDataRecords();
 		}
 	}
@@ -363,6 +523,7 @@ else
 		if (showCreateBaselineByProjectForm == true)
 		{
 			singleCreateBaselineByProject = new();
+			convertedMarkdownForCreateBaselineByProject = new();
 			showCreateBaselineByProjectForm = false;
 		}
 	}
@@ -382,6 +543,7 @@ else
 		if (showCreateBaselineByItemzTypeForm == true)
 		{
 			singleCreateBaselineByItemzType = new();
+			convertedMarkdownForCreateBaselineByItemzType = new();
 			showCreateBaselineByItemzTypeForm = false;
 		}
 	}
@@ -402,6 +564,7 @@ else
 		if (showCloneBaselineForm == true)
 		{
 			singleCloneBaseline = new();
+			convertedMarkdownForCreateBaselineByCloneBaseline = new();
 			showCloneBaselineForm = false;
 		}
 	}
