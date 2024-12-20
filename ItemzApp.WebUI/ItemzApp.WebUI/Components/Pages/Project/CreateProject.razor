@@ -2,7 +2,10 @@
 @using ItemzApp.WebUI.Client.Services.Project
 @using ItemzApp.WebUI.Client.SharedModels
 @using Microsoft.AspNetCore.Components.Forms
+@using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @inject NavigationManager NavManager
+@inject IJSRuntime JS
 
 <h1>Create Project</h1>
 
@@ -16,7 +19,7 @@
 			}
 		</MudPaper>
 	</MudItem>
-    <MudItem xs="12" sm="8">
+    <MudItem xs="12" sm="12">
         <MudPaper Class="pa-4">
 			<MudForm Model="@singleProject" @ref="form" @bind-IsValid="@success" @bind-Errors="@errors" >
 				<MudCardActions>
@@ -50,9 +53,22 @@
 						<MudSelectItem T="string" Value="_stringProjectStatusValue">@_stringProjectStatusValue</MudSelectItem>
 					}
 				</MudSelect>
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 							  @bind-Value="singleProject.Description"
-							  For="@(() => singleProject.Description)" />
+							  For="@(() => singleProject.Description)" /> *@
+
+					<!-- Ensure this div applies the custom class to the Markdown content -->
+					<MudText><strong>Description : </strong></MudText>
+					<div class="custom-markdown-editor">
+						<MarkdownEditor @bind-Value="@MyContent" HideIcons="@(["mde-tb-image"])" />
+						<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+							@if (!string.IsNullOrEmpty(convertedMarkdown.Value))
+							{
+								<h3>Preview</h3>
+								<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+							}
+						</MudPaper>
+					</div>
 				</MudCardContent>
 			</MudForm>
 		</MudPaper>
@@ -109,12 +125,46 @@
 	[Parameter]
 	public Guid ProjectId { get; set; }
 
+	[Parameter]
+	public EventCallback<string> ContentChanged { get; set; }
+
 	[Inject]
 	public IProjectService ProjectService { get; set; }
 
 	// public Guid displayOnlyProjectID = Guid.Empty ;
 	public GetProjectDTO singleProject { get; set; } = new();
 	public bool IsProcessing { get; set; } = false;
+
+
+	// private string _Content = string.Empty;
+	private string MyContent
+	{
+		get => singleProject.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			// hasFormFieldChanged = true;
+			singleProject.Description = value;
+			ConvertMarkdownToHtml(singleProject.Description);
+			ContentChanged.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
 
 	//MudForm related fields
 	bool success = true;
@@ -124,6 +174,8 @@
 	bool hideValidationError = true;
 
 	string[] _stringProjectStatusValues = { };
+
+	private MarkupString convertedMarkdown;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -136,6 +188,13 @@
 				tempList.Add(_projectStatusValue.ToString().Trim());
 			}
 			_stringProjectStatusValues = tempList.ToArray();
+
+			if (singleProject != null && singleProject.Description != null)
+			{
+				await ConvertMarkdownToHtml(singleProject.Description);
+			}
+
+			StateHasChanged();
 		}
 	}
 
