@@ -60,8 +60,8 @@ namespace ItemzApp.API.Entities
 			}
 		}
 
-		[MaxLength(1028)]
-        public string? Description { get; set; }
+		[Column(TypeName = "VARCHAR(MAX)")]
+		public string? Description { get; set; }
 
         [Required]
         [MaxLength(128)]

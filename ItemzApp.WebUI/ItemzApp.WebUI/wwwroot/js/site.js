@@ -94,90 +94,93 @@ window.markdownToHtml = function (markdown) {
 
 
 //// For FullScreen for MarkdownEditor
-document.addEventListener("DOMContentLoaded", function () {
-    function renderMarkdown() {
-        const markdownContent = "# Hello World\n\nThis is a **markdown** example.";
+//document.addEventListener("DOMContentLoaded", function () {
+//    function renderMarkdown() {
+//        const markdownContent = "# Hello World\n\nThis is a **markdown** example.";
 
-        // Use marked.parse to convert markdown to HTML
-        const renderedHtml = marked.parse(markdownContent);
-        document.getElementById("content").innerHTML = renderedHtml;
-    }
+//        // Use marked.parse to convert markdown to HTML
+//        const renderedHtml = marked.parse(markdownContent);
+//        document.getElementById("content").innerHTML = renderedHtml;
+//    }
 
-    renderMarkdown();
+//    renderMarkdown();
 
-    const applyMarkdownEditorFullscreenStyles = function () {
-        const editorContainer = document.querySelector('.CodeMirror-fullscreen');
-        const previewPane = document.querySelector('.editor-preview-side.editor-preview-active-side');
-        const appBarHeight = document.querySelector('.mud-appbar') ? document.querySelector('.mud-appbar').offsetHeight : 64;
-        const navBarWidth = document.querySelector('.mud-nav') ? document.querySelector('.mud-nav').offsetWidth : 250;
+//    const applyMarkdownEditorFullscreenStyles = function () {
+//        const editorContainer = document.querySelector('.CodeMirror');
+//        const previewPane = document.querySelector('.editor-preview-side.editor-preview-active-side');
+//        const appBarHeight = document.querySelector('.mud-appbar') ? document.querySelector('.mud-appbar').offsetHeight : 64;
+//        const navBarWidth = document.querySelector('.mud-nav') ? document.querySelector('.mud-nav').offsetWidth : 250;
 
-        if (editorContainer) {
-            editorContainer.style.position = 'fixed';
-            editorContainer.style.top = `${appBarHeight}px`;
-            editorContainer.style.left = `${navBarWidth}px`;
-            editorContainer.style.right = '0';
-            editorContainer.style.bottom = '0';
-            editorContainer.style.width = `calc(100% - ${navBarWidth}px)`;
-            editorContainer.style.height = `calc(100% - ${appBarHeight}px)`;
-            editorContainer.style.zIndex = '1000';
-            editorContainer.style.backgroundColor = 'white';
-            editorContainer.style.padding = '10px';
-            editorContainer.style.overflow = 'auto';
+//        if (editorContainer && editorContainer.classList.contains('CodeMirror-fullscreen')) {
+//            // Adjust for fullscreen mode
+//            editorContainer.style.position = 'fixed';
+//            editorContainer.style.top = `${appBarHeight}px`;
+//            editorContainer.style.left = `${navBarWidth}px`;
+//            editorContainer.style.bottom = '0';
+//            editorContainer.style.zIndex = '1000';
+//            editorContainer.style.backgroundColor = 'white';
+//            editorContainer.style.padding = '10px';
+//            editorContainer.style.overflow = 'auto';
 
-            if (previewPane) {
-                previewPane.style.position = 'fixed';
-                previewPane.style.top = `${appBarHeight}px`;
-                previewPane.style.right = '0';
-                previewPane.style.bottom = '0';
-                previewPane.style.width = '50%';
-                previewPane.style.height = `calc(100% - ${appBarHeight}px)`;
-                previewPane.style.zIndex = '1000';
-                previewPane.style.backgroundColor = 'white';
-                previewPane.style.overflow = 'auto';
-            }
-        } else {
-            const editorNormalContainer = document.querySelector('.CodeMirror');
-            if (editorNormalContainer) {
-                editorNormalContainer.style.position = '';
-                editorNormalContainer.style.top = '';
-                editorNormalContainer.style.left = '';
-                editorNormalContainer.style.right = '';
-                editorNormalContainer.style.bottom = '';
-                editorNormalContainer.style.width = '';
-                editorNormalContainer.style.height = '';
-                editorNormalContainer.style.zIndex = '';
-                editorNormalContainer.style.backgroundColor = '';
-                editorNormalContainer.style.padding = '';
-                editorNormalContainer.style.overflow = '';
+//            if (previewPane && previewPane.classList.contains('editor-preview-active-side')) {
+//                // Both the editor and preview pane are visible
+//                editorContainer.style.right = '50%';
+//                editorContainer.style.width = `calc(50% - ${navBarWidth}px)`;
 
-                if (previewPane) {
-                    previewPane.style.position = '';
-                    previewPane.style.top = '';
-                    previewPane.style.right = '';
-                    previewPane.style.bottom = '';
-                    previewPane.style.width = '';
-                    previewPane.style.height = '';
-                    previewPane.style.zIndex = '';
-                    previewPane.style.backgroundColor = '';
-                    previewPane.style.overflow = '';
-                }
-            }
-        }
-    };
+//                previewPane.style.position = 'fixed';
+//                previewPane.style.top = `${appBarHeight}px`;
+//                previewPane.style.left = '50%';
+//                previewPane.style.right = '0';
+//                previewPane.style.bottom = '0';
+//                previewPane.style.width = '50%';
+//                previewPane.style.height = `calc(100% - ${appBarHeight}px)`;
+//                previewPane.style.zIndex = '1000';
+//                previewPane.style.backgroundColor = 'white';
+//                previewPane.style.overflow = 'auto';
+//                previewPane.style.display = 'block';
+//            } else {
+//                // Only the editor is visible
+//                editorContainer.style.right = '0';
+//                editorContainer.style.width = `calc(100% - ${navBarWidth}px)`;
 
-    const observer = new MutationObserver(() => {
-        applyMarkdownEditorFullscreenStyles();
-    });
+//                if (previewPane) {
+//                    previewPane.style.display = 'none';
+//                }
+//            }
+//        } else {
+//            // Adjust for normal mode
+//            editorContainer.style.position = 'relative';
+//            editorContainer.style.width = previewPane ? 'calc(100% - ${navBarWidth}px)' : '100%';
+//            editorContainer.style.height = 'auto';
+//            editorContainer.style.zIndex = '';
+//            editorContainer.style.backgroundColor = '';
+//            editorContainer.style.padding = '';
+//            editorContainer.style.overflow = 'auto';
 
-    const startObserving = function () {
-        const editorContainer = document.querySelector('.EasyMDEContainer');
-        if (editorContainer) {
-            observer.observe(editorContainer, { attributes: true, attributeFilter: ['class'] });
-            applyMarkdownEditorFullscreenStyles();
-        } else {
-            setTimeout(startObserving, 500);
-        }
-    };
+//            if (previewPane) {
+//                previewPane.style.position = 'relative';
+//                previewPane.style.width = '50%';
+//                previewPane.style.display = previewPane ? 'block' : 'none';
+//            }
+//        }
+//    };
 
-    startObserving();
-});
+//    // Create a MutationObserver to detect when the preview pane becomes active
+//    const observer = new MutationObserver((mutationsList, observer) => {
+//        for (const mutation of mutationsList) {
+//            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+//                applyMarkdownEditorFullscreenStyles();
+//            }
+//        }
+//    });
+
+//    // Start observing the editor container
+//    const editorContainer = document.querySelector('.EasyMDEContainer');
+//    if (editorContainer) {
+//        observer.observe(editorContainer, { attributes: true, subtree: true, attributeFilter: ['class'] });
+//    }
+
+//    // Initial call to set styles
+//    applyMarkdownEditorFullscreenStyles();
+//});
+

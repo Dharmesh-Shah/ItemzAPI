@@ -129,42 +129,6 @@ h1:focus {
             color: black !important; /* Set the color of the bullet markers */
         }
 
-/* Ensure the markdown editor only takes up the available space */
-:root {
-    --navbar-width: 250px; /* Adjust based on your NavBar width */
-    --appbar-height: 64px; /* Adjust based on your AppBar height */
-}
-
-.CodeMirror-fullscreen {
-    position: fixed !important;
-    top: var(--appbar-height) !important;
-    left: var(--navbar-width) !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: calc(100% - var(--navbar-width)) !important;
-    height: calc(100% - var(--appbar-height)) !important;
-    z-index: 1000 !important;
-    background-color: white !important;
-    padding: 10px !important;
-    overflow: auto !important;
-}
-
-.editor-preview-side.editor-preview-active-side.fullscreen {
-    position: fixed !important;
-    top: var(--appbar-height) !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 50% !important; /* Adjust the width as needed */
-    height: calc(100% - var(--appbar-height)) !important;
-    z-index: 1000 !important;
-    background-color: white !important;
-    overflow: auto !important;
-}
-
-.editor-preview-side.editor-preview-active-side.normal {
-    position: relative !important;
-    width: 50% !important; /* Adjust the width as needed */
-}
 
 /* Scroll bar for MudPaper mainly for displaying Description Content in Read-Only mode */
 .fixed-height-scroll {
@@ -204,3 +168,44 @@ h1:focus {
     .fixed-height-scroll:hover {
         scrollbar-color: #555 #f1f1f1; /* Thumb color followed by track color when hovered */
     }
+
+
+
+/* Ensure the markdown editor only takes up the available space */
+/*:root {
+    --navbar-width: 250px;*/ /* Adjust based on your NavBar width */
+/*--appbar-height: 64px;*/ /* Adjust based on your AppBar height */
+/*}
+
+.CodeMirror-fullscreen {
+    position: fixed !important;
+    top: var(--appbar-height) !important;
+    left: var(--navbar-width) !important;
+    bottom: 0 !important;
+    height: calc(100% - var(--appbar-height)) !important;
+    z-index: 1000 !important;
+    background-color: white !important;
+    padding: 10px !important;
+    overflow: auto !important;
+}
+
+.editor-preview-side.editor-preview-active-side {
+    position: fixed !important;
+    top: var(--appbar-height) !important;
+    left: 50% !important;*/ /* Occupy right half when visible */
+/*right: 0 !important;
+    bottom: 0 !important;
+    width: 50% !important;
+    height: calc(100% - var(--appbar-height)) !important;
+    z-index: 1000 !important;
+    background-color: white !important;
+    overflow: auto !important;
+    display: none;*/ /* Default to hidden */
+/*}
+
+    .editor-preview-side.editor-preview-active-side.normal {
+        position: relative !important;
+        width: 50% !important;*/ /* Adjust the width as needed */
+/*}*/
+
+

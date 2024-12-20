@@ -8,6 +8,8 @@
 @using ItemzApp.WebUI.Components.Pages.Common
 @using ItemzApp.WebUI.Components.Pages.Project
 @using Microsoft.AspNetCore.Components.Forms
+@using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @inject TreeNodeItemzSelectionService TreeNodeItemzSelectionService
@@ -118,9 +120,22 @@
 								<MudSelectItem T="string" Value="_stringItemzTypeStatusValue">@_stringItemzTypeStatusValue</MudSelectItem>
 							}
 						</MudSelect>
-						<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 						<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 							@bind-Value="singleItemzType.Description"
-							For="@(() => singleItemzType.Description)" />
+							For="@(() => singleItemzType.Description)" /> *@
+						
+						<!-- Ensure this div applies the custom class to the Markdown content -->
+						<MudText><strong>Description : </strong></MudText>
+						<div class="custom-markdown-editor">
+							<MarkdownEditor @bind-Value="@MyContent" HideIcons="@(["mde-tb-image"])" />
+							<MudPaper Class="pa-4 mb-5" Style="background-color: #f5f5f5;">
+								@if (!string.IsNullOrEmpty(convertedMarkdown.Value))
+								{
+									<h3>Preview</h3>
+									<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+								}
+							</MudPaper>
+						</div>
 					</MudCardContent>
 				</MudForm>
 				</MudPaper>
@@ -175,6 +190,10 @@
 @code {
 	[Parameter]
 	public Guid ItemzTypeId { get; set; }
+
+	[Parameter]
+	public EventCallback<string> ContentChanged { get; set; }
+
 	[Parameter]
 	[SupplyParameterFromQuery(Name = "calledFrom")]
 	public string CalledFrom { get; set; } = string.Empty;
@@ -193,6 +212,36 @@
 	private bool deletingItemzType { get; set; } = false;
 	private bool hasFormFieldChanged { get; set; } = false;
 
+
+	// private string _Content = string.Empty;
+	private string MyContent
+	{
+		get => singleItemzType.Description ?? string.Empty;
+		set
+		{
+			// _Content = value;
+			hasFormFieldChanged = true;
+			singleItemzType.Description = value;
+			ConvertMarkdownToHtml(singleItemzType.Description);
+			ContentChanged.InvokeAsync(value);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
+		}
+	}
+
+
 	//MudForm related fields
 	bool success = true;
 	bool disableUpdateItemzTypeDetailsButton = false;
@@ -202,6 +251,8 @@
 	bool hideValidationError = true;
 
 	string[] _stringItemzTypeStatusValues = { };
+
+	private MarkupString convertedMarkdown;
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
@@ -262,6 +313,9 @@
 			// Parent ItemzType post completing deletion operation.
 			var httpResponse = await hierarchyService.__Get_Hierarchy_Record_Details_By_GUID__Async(ItemzTypeId);
 			ParentId = httpResponse.ParentRecordId;
+
+			await ConvertMarkdownToHtml(singleItemzType.Description);
+
 			StateHasChanged();
 		}
 	}
