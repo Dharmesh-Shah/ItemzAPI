@@ -119,7 +119,10 @@ namespace ItemzApp.API.Services
             var parkingLotItemzType = new ItemzType
             {
                 Name = "Parking Lot",
-                Status = "Active",
+                Status = ((ItemzTypeStatus)Enum.Parse(
+									typeof(ItemzTypeStatus),
+									EntityPropertyDefaultValues.ItemzTypeStatusDefaultValue,
+									true)),
                 Description = "Parking Lot System ItemzType",
                 IsSystem = true
             };
@@ -179,6 +182,7 @@ namespace ItemzApp.API.Services
             {
                 Id = project.Id,
                 RecordType = "Project",
+                Name = project.Name,
                 ItemzHierarchyId = rootItemz.FirstOrDefault()!.ItemzHierarchyId!
                                     .GetDescendant(projectHierarchyItemz.Count() > 0 
                                                         ?  projectHierarchyItemz.FirstOrDefault()!.ItemzHierarchyId 
@@ -197,6 +201,7 @@ namespace ItemzApp.API.Services
                 {
                     Id = project.ItemzTypes[0].Id,
                     RecordType = "ItemzType",
+                    Name = project.ItemzTypes[0].Name,
                     ItemzHierarchyId = tempProjectHierarchy.ItemzHierarchyId.GetDescendant(null, null), 
                     //ItemzHierarchyId = HierarchyId.Parse(newParkingLotItemzTypeInsertionId)
                 };

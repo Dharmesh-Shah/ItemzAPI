@@ -19,6 +19,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 using Microsoft.CodeAnalysis;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ItemzApp.API.Models.BetweenControllerAndRepository;
 
 namespace ItemzApp.API.Controllers
 {
@@ -85,16 +88,75 @@ namespace ItemzApp.API.Controllers
             return Ok(baselineHierarchyIdRecordDetailsDTO);
         }
 
+		/// <summary>
+		/// Gets Baseline Hierarchy Records of immediate children under Record Id provided in GUID form.
+		/// </summary>
+		/// <param name="RecordId">GUID representing an unique ID of a baseline hierarchy record</param>
+		/// <returns>Collection of Immediate children Baseline Hierarchy record details </returns>
+		/// <response code="200">Immediate children Baseline Hierarchy record details </response>
+		/// <response code="400">Bad Request</response>
+		/// <response code="404">Immediate children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaselineHierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetImmediateChildren/{RecordId:Guid}"
+			, Name = "__Get_Immediate_Children_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetImmediateChildren/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetImmediateChildren/{RecordId:Guid}", Name = "__HEAD_Immediate_Children_Baseline_Hierarchy_By_GUID__")]
+		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<IEnumerable<BaselineHierarchyIdRecordDetailsDTO>>> GetImmediateChildrenOfBaselineItemzHierarchy(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get Immediate Children Baseline Hierarchy records for ID {ParentRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
 
-        /// <summary>
-        /// Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
-        /// </summary>
-        /// <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
-        /// <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
-        /// <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
-        /// <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
-        /// <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+			// IEnumerable<BaselineHierarchyIdRecordDetailsDTO?> immediateChildrenBaselineHierarchyRecords = [];
+			IEnumerable<BaselineHierarchyIdRecordDetailsDTO?> immediateChildrenBaselineHierarchyRecords = new List<BaselineHierarchyIdRecordDetailsDTO?>();
+
+			try
+			{
+
+				var tempImmediateChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetImmediateChildrenOfBaselineItemzHierarchy(RecordId);
+                if (tempImmediateChildrenBaselineHierarchyRecords != null)
+                {
+                    immediateChildrenBaselineHierarchyRecords = tempImmediateChildrenBaselineHierarchyRecords;
+                }
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get Immediate Children Baseline Hierarchy records : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce get immediate children baseline hierarchy records for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			if (!(immediateChildrenBaselineHierarchyRecords.IsNullOrEmpty()))
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					immediateChildrenBaselineHierarchyRecords.Count(),
+					RecordId);
+			}
+			else
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames} Returning 0 (ZERO) Immediate Children Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					RecordId);
+			}
+
+            return Ok(immediateChildrenBaselineHierarchyRecords);
+
+		}
+
+		/// <summary>
+		/// Verify that two Baseline Hierarchy IDs are part of same Breakdown Structure within a given Baseline.
+		/// </summary>
+		/// <param name="parentId">GUID representing an unique ID of a Parent BaselineHierarchy record</param>
+		/// <param name="childId">GUID representing an unique ID of a Child BaselineHierarchy record</param>
+		/// <returns>True if ParentHierarchyId and ChildHierarchyId are part of the same Breakdown Structure within a given Baseline. Otherwise False </returns>
+		/// <response code="200">True or False based on outcome of verifying Breakdown Structure while looking for Parent and Child Baseline Hierarchy IDs</response>
+		/// <response code="404">Invalid Id provided for either Parent or Child Baseline Hierarchy record</response>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [HttpGet("VerifyParentChildBreakdownStructure/",
@@ -179,11 +241,189 @@ namespace ItemzApp.API.Controllers
 
         }
 
-        // We have configured in startup class our own custom implementation of 
-        // problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
-        // class to make sure that we use that custom problem details builder. 
-        // Instead of passing 400 it will pass back 422 code with more details.
-        public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
+
+        /// <summary>
+        /// Gets Baseline Hierarchy Records of all children under Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
+        /// <returns>Collection of All children Baseline Hierarchy record details </returns>
+        /// <response code="200">All children Baseline Hierarchy record details </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">All children Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NestedBaselineHierarchyIdRecordDetailsDTO))]
+        [HttpGet("GetAllChildren/{RecordId:Guid}"
+            , Name = "__Get_All_Children_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllChildren/42f62a6c-fcda-4dac-a06c-406ac1c17770
+        [HttpHead("GetAllChildren/{RecordId:Guid}", Name = "__HEAD_All_Children_Baseline_Hierarchy_By_GUID__")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>>> GetAllChildrenOfBaselineItemzHierarchy(Guid RecordId)
+        {
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Children Baseline Hierarchy records for ID {ParentRecordId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                RecordId);
+
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
+
+			IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allChildrenBaselineHierarchyRecords = [];
+            try
+            {
+				recordCountAndEnumerable = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
+				// allChildrenBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllChildrenOfBaselineItemzHierarchy(RecordId);
+
+                if (recordCountAndEnumerable.AllRecords.Any())
+                {
+                    allChildrenBaselineHierarchyRecords = recordCountAndEnumerable.AllRecords;
+				}
+                else
+                {
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Children Baseline Hierarchy Records for ID {RecordId} ",
+						ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+						recordCountAndEnumerable.RecordCount,
+						RecordId);
+    					return Ok();
+				}
+				
+
+			}
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Children Baseline Hierarchy records : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce All Children Baseline Hierarchy records for given Record Id {RecordId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {baselineHirarchyChildRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
+
+            return Ok(allChildrenBaselineHierarchyRecords);
+
+        }
+
+        /// <summary>
+        /// Gets count of all baseline hierarchy children under Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a baseline hierarchy record</param>
+        /// <returns>Count of All children Baseline Hierarchy record </returns>
+        /// <response code="200">All children Baseline Hierarchy record count </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Record ID not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [HttpGet("GetAllChildrenCount/{RecordId:Guid}"
+            , Name = "__Get_All_Children_Baseline_Hierarchy_Count_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllChildrenCount/42f62a6c-fcda-4dac-a06c-406ac1c17770
+        [HttpHead("GetAllChildrenCount/{RecordId:Guid}", Name = "__HEAD_All_Children_Baseline_Hierarchy_Count_By_GUID__")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<int>> GetAllChildrenCountOfBaselineItemzHierarchy(Guid RecordId)
+        {
+            _logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Children Baseline Hierarchy records count for ID {RecordId}",
+                ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                RecordId);
+
+            try
+            {
+                var allChildBaselineHierarchyRecordCount = await _baselineHierarchyRepository.GetAllChildrenCountOfBaselineItemzHierarchy(RecordId);
+                if (allChildBaselineHierarchyRecordCount == 0)
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames} Returning {allChildHierarchyRecordCount} ZERO All Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    allChildBaselineHierarchyRecordCount,
+                    RecordId);
+                    return Ok(allChildBaselineHierarchyRecordCount);
+                }
+                else
+                {
+                    _logger.LogDebug("{FormattedControllerAndActionNames} Returning {allChildHierarchyRecordCount} All Children Baseline Hierarchy Records for ID {RecordId} ",
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+                    allChildBaselineHierarchyRecordCount,
+                    RecordId);
+                    return Ok(allChildBaselineHierarchyRecordCount);
+                }
+            }
+            catch (ApplicationException appException)
+            {
+                _logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Children Baseline Hierarchy records count : " + appException.Message,
+                    ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+                    );
+                var tempMessage = $"Could not produce All Children Baseline Hierarchy records count for given Record Id {RecordId}" +
+                    $" :: InnerException :: {appException.Message} ";
+                return BadRequest(tempMessage);
+            }
+        }
+
+        /// <summary>
+        /// Gets Baseline Hierarchy Records of all parents above Record Id provided in GUID form.
+        /// </summary>
+        /// <param name="RecordId">GUID representing an unique ID of a Baseline Hierarchy record</param>
+        /// <returns>Collection of All Parents  Baseline Hierarchy record details </returns>
+        /// <response code="200">All Parents Baseline Hierarchy record details </response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">All Parents Baseline Hierarchy record(s) not found in the repository for the given GUID ID</response>
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NestedBaselineHierarchyIdRecordDetailsDTO))]
+		[HttpGet("GetAllParents/{RecordId:Guid}"
+			, Name = "__Get_All_Parents_Baseline_Hierarchy_By_GUID__")] // e.g. http://HOST:PORT/api/BaselineHierarchy/GetAllParents/42f62a6c-fcda-4dac-a06c-406ac1c17770
+		[HttpHead("GetAllParents/{RecordId:Guid}", Name = "__HEAD_All_Parents_Baseline_Hierarchy_By_GUID__")]
+		[ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>>> GetAllParentsOfBaselineItemzHierarchy(Guid RecordId)
+		{
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to get All Parents Baseline Hierarchy records for ID {ParentRecordId}",
+				ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				RecordId);
+
+			RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO> recordCountAndEnumerable = new RecordCountAndEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO>();
+
+			IEnumerable<NestedBaselineHierarchyIdRecordDetailsDTO?> allParentsBaselineHierarchyRecords = [];
+			try
+			{
+
+				// allParentsBaselineHierarchyRecords = await _baselineHierarchyRepository.GetAllParentsOfBaselineItemzHierarchy(RecordId);
+				recordCountAndEnumerable = await _baselineHierarchyRepository.GetAllParentsOfBaselineItemzHierarchy(RecordId);
+
+
+				if (recordCountAndEnumerable.AllRecords.Any())
+				{
+					allParentsBaselineHierarchyRecords = recordCountAndEnumerable.AllRecords;
+				}
+				else
+				{
+					_logger.LogDebug("{FormattedControllerAndActionNames} Returning {RecordCount} (ZERO) All Parents Baseline Hierarchy Records for ID {RecordId} ",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+					recordCountAndEnumerable.RecordCount,
+					RecordId);
+					return Ok();
+				}
+
+			}
+			catch (ApplicationException appException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception occured while trying to get All Parents Baseline Hierarchy records : " + appException.Message,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				var tempMessage = $"Could not produce All Parents Baseline Hierarchy records for given Record Id {RecordId}" +
+					$" :: InnerException :: {appException.Message} ";
+				return BadRequest(tempMessage);
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames} Returning {CountOfAllParentHierarchyRecords} All Parents Baseline Hierarchy Records for ID {RecordId} ",
+	            ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
+				recordCountAndEnumerable.RecordCount,
+				RecordId);
+
+			return Ok(allParentsBaselineHierarchyRecords);
+
+		}
+
+
+		// We have configured in startup class our own custom implementation of 
+		// problem Details. Now we are overriding ValidationProblem method that is defined in ControllerBase
+		// class to make sure that we use that custom problem details builder. 
+		// Instead of passing 400 it will pass back 422 code with more details.
+		public override ActionResult ValidationProblem([ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
         {
             var options = HttpContext.RequestServices
                 .GetRequiredService<IOptions<ApiBehaviorOptions>>();

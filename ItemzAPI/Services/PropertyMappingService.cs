@@ -28,6 +28,21 @@ namespace ItemzApp.API.Services
                 {"CreatedDate", new PropertyMappingValue(new List<string>(){ "CreatedDate" } )}
             };
 
+        private Dictionary<string, PropertyMappingValue> _itemzWithBasePropertiesPropertyMapping =
+            new Dictionary<string, PropertyMappingValue>(StringComparer.OrdinalIgnoreCase)
+            {
+                // TODO: We are manually entering this information in the code to map
+                // different properties between source and target objects. We should also 
+                // consider implementing this via some sort of Dynamic method. This information
+                // should either come from Database Table or from some sort of configuration file.
+
+                {"Id", new PropertyMappingValue(new List<string>() {"Id" } )},
+                {"Name", new PropertyMappingValue(new List<string>(){"Name"} )},
+                {"Status", new PropertyMappingValue(new List<string>(){ "Status" } )},
+                {"Priority", new PropertyMappingValue(new List<string>(){ "Priority" } )},
+                {"CreatedDate", new PropertyMappingValue(new List<string>(){ "CreatedDate" } )}
+            };
+
         private Dictionary<string, PropertyMappingValue> _baselineItemzPropertyMapping =
             new Dictionary<string, PropertyMappingValue>(StringComparer.OrdinalIgnoreCase)
             {
@@ -49,6 +64,7 @@ namespace ItemzApp.API.Services
         public PropertyMappingService()
         {
             _propertyMappings.Add(new PropertyMapping<GetItemzDTO, Itemz>(_itemzPropertyMapping));
+            _propertyMappings.Add(new PropertyMapping<GetItemzWithBasePropertiesDTO, GetItemzWithBasePropertiesDTO>(_itemzWithBasePropertiesPropertyMapping));
             _propertyMappings.Add(new PropertyMapping<GetBaselineItemzDTO, BaselineItemz>(_baselineItemzPropertyMapping));
         }
 

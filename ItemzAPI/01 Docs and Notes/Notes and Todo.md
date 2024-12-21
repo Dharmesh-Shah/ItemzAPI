@@ -493,7 +493,7 @@ By <span style="background-color: #99ff66">Steve Collins [@stevetalkscode](https
 
 OVERALL EXCELLENT demo about Dependency Injection in .Net Core.
 
-Detailed explaination of how dependency injection works in .NET Core and what is supported out of the box by Microsoft DI Container. Steve also shows nice tips and tricks including Factory / Decorator patter to extend existing registered services. Very Very nice presentation by Steve.
+Detailed explanation of how dependency injection works in .NET Core and what is supported out of the box by Microsoft DI Container. Steve also shows nice tips and tricks including Factory / Decorator patter to extend existing registered services. Very Very nice presentation by Steve.
 
 Ref:- [Steve's Blog Site](http://Stevetalkscode.co.uk)
 
@@ -1094,4 +1094,17 @@ Above example worked for me while I was initially working with `public class Ins
 
 Now that we are going to remove above code from the application, it was important to make a note of the same so that we can use this technique in the future. 
 
+### [Learn about .NET Code and find source code](https://source.dot.net/)
 
+Very nice site to learn about internal Microsoft Source Code for Microsoft .NET.
+
+We should use this site to find information about how Microsoft has written .NET Core related code and also to debug code.
+
+
+### [Validating Blazor Forms](https://www.learnblazor.com/form-validation)
+
+This blog post shows how `EditContext` can be used to add custom validation logic and messages within Blazor. This I believe will be very useful in the future when we get to advance validation within Blazor Forms.
+
+Author has explains so nicely about callback event `HandleSubmit`
+
+Custom validation rules will be required in the future for ItemzApp. 

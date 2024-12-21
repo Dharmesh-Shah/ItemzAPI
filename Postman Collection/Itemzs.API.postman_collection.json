@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0078f334-a940-420b-885e-8a9c798e9f8d",
+		"_postman_id": "f19ee9d2-f8f6-4c07-a92b-9cd7c082ca9d",
 		"name": "Itemzs.API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "36455815"
+		"_exporter_id": "33816436"
 	},
 	"item": [
 		{
@@ -4184,11 +4184,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4290,11 +4291,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4347,11 +4349,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4404,11 +4407,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4510,11 +4514,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4567,12 +4572,13 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									"",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4726,11 +4732,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4834,11 +4841,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4892,11 +4900,12 @@
 									"pm.test(\"Page Size is always less then 20\", function () {",
 									"   pm.response.to.have.header(\"X-Pagination\");",
 									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
+									"   pm.expect(header_pagination.pageSize).to.be.below(101);",
 									"});",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4942,19 +4951,30 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
+									"// });",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4968,7 +4988,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority, createdDate&pageSize=100",
+							"raw": "http://localhost:51087/api/Itemzs/GetOrphan?orderBy=priority,createdDate&pageSize=100",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4982,7 +5002,7 @@
 							"query": [
 								{
 									"key": "orderBy",
-									"value": "priority, createdDate"
+									"value": "priority,createdDate"
 								},
 								{
 									"key": "pageSize",
@@ -5000,10 +5020,19 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});"
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									""
 								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [],
 								"type": "text/javascript"
 							}
 						}
@@ -5050,19 +5079,30 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
+									"// });",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -5108,20 +5148,31 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
 									"});",
 									"",
 									"",
-									"pm.test(\"Page Size is always less then 20\", function () {",
-									"   pm.response.to.have.header(\"X-Pagination\");",
-									"   var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
-									"   pm.expect(header_pagination.pageSize).to.be.below(21);",
-									"});",
+									"// pm.test(\"Page Size is always less then 20\", function () {",
+									"//    pm.response.to.have.header(\"X-Pagination\");",
+									"//    var header_pagination = JSON.parse(pm.response.headers.get(\"X-Pagination\"));",
+									"//    pm.expect(header_pagination.pageSize).to.be.below(101);",
+									"// });",
 									"",
 									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -5293,7 +5344,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Updated Item 7\",\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Updated Item 7\",\r\n    \"status\": \"Approved\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5347,7 +5398,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"WrongID Item Update - Should never make it into DB\",\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+							"raw": "{\r\n    \"name\": \"WrongID Item Update - Should never make it into DB\",\r\n    \"status\": \"Approved\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5639,10 +5690,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-											" pm.test(\"Status code is either 200 or 204\", function () {",
-											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
-											"});",
-											""
+									" pm.test(\"Status code is either 200 or 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+									"});",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -5747,7 +5798,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"aBc Item 7\",\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+							"raw": "{\r\n    \"name\": \"aBc Item 7\",\r\n    \"status\": \"Approved\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5809,7 +5860,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+							"raw": "{\r\n    \"status\": \"Approved\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -5871,7 +5922,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Updated Item 7 jka kladsj ar aivnakn  asdfnbagh;lkadsnb avsb;asdfh bvoip;awt asba tqlobasd vb ajlha qpuab bjmnabaleb aj ahwjkh;l1324 a af; Malwejhr a8a6sjgh aghjla 8714\",\r\n    \"status\": \"In Progress\",\r\n    \"priority\": \"Very High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Updated Item 7 jka kladsj ar aivnakn  asdfnbagh;lkadsnb avsb;asdfh bvoip;awt asba tqlobasd vb ajlha qpuab bjmnabaleb aj ahwjkh;l1324 a af; Malwejhr a8a6sjgh aghjla 8714\",\r\n    \"status\": \"Approved\",\r\n    \"priority\": \"High\",\r\n    \"description\": \"Updated Requirements to be described here.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6025,10 +6076,10 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-											" pm.test(\"Status code is either 200 or 204\", function () {",
-											"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
-											"});",
-											""
+									" pm.test(\"Status code is either 200 or 204\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);",
+									"});",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}

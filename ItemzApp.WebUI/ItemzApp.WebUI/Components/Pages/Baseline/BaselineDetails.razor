@@ -1,0 +1,9 @@
+﻿@page "/baselineDetails/{BaselineId:guid}"
+
+<BaselineDetailsComponent BaselineId="@BaselineId" CalledFrom="@this.GetType().Name" />
+
+@code {
+	[Parameter]
+	public Guid BaselineId { get; set; }
+
+}

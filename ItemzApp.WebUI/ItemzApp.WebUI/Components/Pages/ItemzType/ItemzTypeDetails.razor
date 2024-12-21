@@ -1,0 +1,8 @@
+﻿@page "/itemzTypeDetails/{ItemzTypeId:guid}"
+
+<ItemzTypeDetailsComponent ItemzTypeId="@ItemzTypeId" CalledFrom="@this.GetType().Name" />
+
+@code {
+	[Parameter]
+	public Guid ItemzTypeId { get; set; }
+}

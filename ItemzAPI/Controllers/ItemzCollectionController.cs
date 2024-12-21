@@ -53,7 +53,7 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> GetItemzCollectionAsync(
+        public async Task<ActionResult<IEnumerable<GetItemzDTO>>> GetItemzCollectionAsync(
             [FromRoute]
             [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {

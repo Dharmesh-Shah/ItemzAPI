@@ -18,7 +18,7 @@ namespace ItemzApp.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -41,8 +41,7 @@ namespace ItemzApp.API.Migrations
                         .HasDefaultValueSql("SYSDATETIMEOFFSET()");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -75,8 +74,7 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<Guid>("IgnoreMeBaselineItemzTypeId")
                         .HasColumnType("uniqueidentifier");
@@ -118,6 +116,10 @@ namespace ItemzApp.API.Migrations
 
                     b.Property<SqlHierarchyId?>("BaselineItemzHierarchyId")
                         .HasColumnType("hierarchyid");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("RecordType")
                         .IsRequired()
@@ -172,8 +174,7 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<bool>("IsSystem")
                         .HasColumnType("bit");
@@ -228,8 +229,7 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -237,20 +237,25 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Priority")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("nvarchar(64)")
+                        .HasDefaultValue("Low");
 
                     b.Property<string>("Severity")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)")
-                        .HasDefaultValue("Medium");
+                        .HasDefaultValue("Low");
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("nvarchar(64)")
+                        .HasDefaultValue("New");
 
                     b.HasKey("Id");
 
@@ -298,6 +303,10 @@ namespace ItemzApp.API.Migrations
                     b.Property<SqlHierarchyId?>("ItemzHierarchyId")
                         .HasColumnType("hierarchyid");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
                     b.Property<string>("RecordType")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -339,8 +348,7 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<bool>("IsSystem")
                         .HasColumnType("bit");
@@ -355,8 +363,10 @@ namespace ItemzApp.API.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("nvarchar(64)")
+                        .HasDefaultValue("New");
 
                     b.HasKey("Id");
 
@@ -396,8 +406,7 @@ namespace ItemzApp.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(1028)
-                        .HasColumnType("nvarchar(1028)");
+                        .HasColumnType("VARCHAR(MAX)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -406,8 +415,10 @@ namespace ItemzApp.API.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasColumnType("nvarchar(64)")
+                        .HasDefaultValue("New");
 
                     b.HasKey("Id");
 

@@ -19,15 +19,92 @@ namespace ItemzApp.API.Entities
         [MaxLength(128)]
         public string? Name { get; set; }
 
-        [Required]
-        [MaxLength(64)]
-        public string Status { get; set; } = "New";
+        //[Required]
+        //[MaxLength(64)]
+        //public string Status { get; set; } = "New";
 
-        [MaxLength(64)]
-        public string? Priority { get; set; } = "Medium";
 
-        [MaxLength(1028)]
-        public string? Description { get; set; }
+
+		// EXPLANATION: First we have introduced internal _itemzStatus field
+		// which is internal private backing field for public Status Field.
+		// Using Enum.Parse, we initialize default value for _itemzStatus.
+		// Ref : https://www.csharp-examples.net/string-to-enum/
+
+		private ItemzStatus _itemzStatus = (ItemzStatus)Enum.Parse(
+			typeof(ItemzStatus),
+			EntityPropertyDefaultValues.ItemzStatusDefaultValue,
+			true);
+
+		//[JsonConverter(typeof(StringEnumConverter))]
+		[EnumDataType(typeof(ItemzStatus))]
+		public ItemzStatus Status
+		{
+			get
+			{
+				return _itemzStatus;
+			}
+			// EXPLANATION: Status field is desgined to check if the passed in value is
+			// present in the target ItemzStatus enum or not. If it's not then
+			// it will throw ArgumentOutOfRangeException that is caught by 
+			// automapper. It's being implemented based on following answer.
+			// https://stackoverflow.com/a/35480269
+			set
+			{
+				if (Enum.IsDefined(typeof(ItemzStatus), value))
+					_itemzStatus = value;
+				else
+					// TODO: Below error that is thrown manually is not captured globally
+					// by exception handling code. In the future, we have to take care of
+					// making sure that we capture the error at global level.
+					throw new ArgumentOutOfRangeException($"{value} not supported for field Status");
+			}
+		}
+
+
+
+		//[MaxLength(64)]
+		//public string? Priority { get; set; } = "Medium";
+
+
+
+
+		// EXPLANATION: First we have introduced internal _itemzPriority field
+		// which is internal private backing field for public Priority Field.
+		// Using Enum.Parse, we initialize default value for _itemzPriority.
+		// Ref : https://www.csharp-examples.net/string-to-enum/
+
+		private ItemzPriority _itemzPriority = (ItemzPriority)Enum.Parse(
+			typeof(ItemzPriority),
+			EntityPropertyDefaultValues.ItemzPriorityDefaultValue,
+			true);
+
+		//[JsonConverter(typeof(StringEnumConverter))]
+		[EnumDataType(typeof(ItemzPriority))]
+		public ItemzPriority Priority
+		{
+			get
+			{
+				return _itemzPriority;
+			}
+			// EXPLANATION: Priority field is desgined to check if the passed in value is
+			// present in the target ItemzPriority enum or not. If it's not then
+			// it will throw ArgumentOutOfRangeException that is caught by 
+			// automapper. It's being implemented based on following answer.
+			// https://stackoverflow.com/a/35480269
+			set
+			{
+				if (Enum.IsDefined(typeof(ItemzPriority), value))
+					_itemzPriority = value;
+				else
+					// TODO: Below error that is thrown manually is not captured globally
+					// by exception handling code. In the future, we have to take care of
+					// making sure that we capture the error at global level.
+					throw new ArgumentOutOfRangeException($"{value} not supported for field Priority");
+			}
+		}
+
+		[Column(TypeName = "VARCHAR(MAX)")]
+		public string? Description { get; set; }
 
         [Required]
         [MaxLength(128)]
@@ -47,7 +124,7 @@ namespace ItemzApp.API.Entities
             true);
 
         //[JsonConverter(typeof(StringEnumConverter))]
-        //[EnumDataType(typeof(ItemzSeverity))]
+        [EnumDataType(typeof(ItemzSeverity))]
         public ItemzSeverity Severity
         {
             get

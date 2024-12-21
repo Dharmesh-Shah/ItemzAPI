@@ -1,11 +1,14 @@
+﻿
+USE ItemzAppDB
+Go
+-- ======================
 
-IF OBJECT_ID ( 'userProcCreateBaselineByItemzTypeID', 'P' ) IS NOT NULL
-		DROP PROCEDURE userProcCreateBaselineByItemzTypeID
+IF OBJECT_ID ( 'userProcCreateBaselineByProjectID', 'P' ) IS NOT NULL
+    DROP PROCEDURE userProcCreateBaselineByProjectID
 GO
 
-CREATE PROCEDURE userProcCreateBaselineByItemzTypeID
+CREATE PROCEDURE userProcCreateBaselineByProjectID
 @ProjectId [uniqueidentifier],
-@ItemzTypeId [uniqueidentifier],
 @Name [nvarchar](128),
 @Description [nvarchar](1028),
 @CreatedBy [nvarchar](128) = N'Some User',
@@ -28,7 +31,6 @@ DECLARE @TempBaselineItemzNumberOfRows int
 DECLARE @CurrentBaselineItemzTypeID [uniqueidentifier]
 DECLARE @CurrentItemzTypeID [uniqueidentifier]
 DECLARE @FoundItemzTypeInItemzHierarchy hierarchyid
-
 DECLARE @FoundRootBaselineItemzHierarchy hierarchyid
 DECLARE @FoundRootBaselineitemzHierarchyRecordCount int
 DECLARE @FoundProjectBaselineItemzHierarchy hierarchyid
@@ -37,7 +39,6 @@ DECLARE @SourceProjectItemzHierarchyId hierarchyid
 DECLARE @NewBaselineItemzHierarchyIDString varchar(127)
 DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 
-
 	INSERT into [dbo].[Baseline] (Id, Name, Description, CreatedBy, ProjectId)
 	VALUES (@NewBaselineID, @Name, @Description, @CreatedBy, @ProjectId)
 
@@ -45,9 +46,9 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 	INSERT into [dbo].[BaselineItemzType] (ItemzTypeId, Name, Status, Description, CreatedBy,CreatedDate,IsSystem,BaselineId)	
 	SELECT Id, Name, Status, Description, CreatedBy, CreatedDate, IsSystem, @NewBaselineID
 	FROM [dbo].[ItemzTypes]
-	WHERE ProjectId=@ProjectId and Id = @ItemzTypeId
+	WHERE ProjectId=@ProjectId
 
-
+	-->>>>> STARTED >>>>>>>
 	-- Make sure that BaselineItemzHierarchy table has root repository hierarchyID
 
 	SELECT @FoundRootBaselineItemzHierarchy = BaselineItemzHierarchyId
@@ -89,8 +90,8 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 								from BaselineItemzHierarchy 
 								WHERE BaselineItemzHierarchyId.GetAncestor(1) =  @FoundRootBaselineItemzHierarchy
 							)
-						,null),
-						(
+						,null)
+						,(
 							SELECT ItemzHierarchyId
 								FROM ItemzHierarchy
 								WHERE Id = @ProjectId and RecordType = 'Project'
@@ -143,7 +144,7 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 				AND baselineIT.BaselineId = @NewBaselineID
 		ORDER BY ith.ItemzHierarchyId
 
-	
+    --<<<<< ENDED <<<<<<
 
 	DECLARE @TempBaselineItemzType TABLE (
 		idx int Primary Key IDENTITY(1,1),
@@ -187,15 +188,9 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 								and ith.ItemzHierarchyId.GetLevel() = 3
 							)
 
-			--EXPLANATION: Marking following INSERT into statement as commented becauase we are now switching over to ItemzHierarchy to find all tree Itemz nodes below a given ItemzType.
-			--INSERT into [dbo].[BaselineItemz] (ItemzId, Name, Status, Priority, Description, CreatedBy,CreatedDate,Severity,IgnoreMeBaselineItemzTypeId,isIncluded)   
-			--SELECT itz.Id, itz.Name, itz.Status, itz.Priority, itz.Description, itz.CreatedBy, itz.CreatedDate, itz.Severity , @CurrentBaselineItemzTypeID, 1 as isIncluded
-			--FROM [dbo].[Itemzs] as itz
-			--LEFT JOIN [dbo].[ItemzTypeJoinItemz] as itji ON itji.ItemzId = itz.id
-			--WHERE itji.ItemzTypeId=@CurrentItemzTypeID
 
 			-- Insert records into BaselineItemzTypeJoinBaselineItemz
-			-- EXPLAINATION: Because we have just added records in 
+			-- EXPLANATION: Because we have just added records in 
 			-- BaselineItemz table that included details about BaselineItemzType as
 			-- part of [dbo].[BaselineItemz].IgnoreMeBaselineItemzTypeId column, we are
 			-- now able to run a simple Select Querty as part of INSERT INTO command
@@ -210,7 +205,7 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 			SELECT blitz.IgnoreMeBaselineItemzTypeId, blitz.id
 			FROM [dbo].[BaselineItemz] AS blitz
 			Where blitz.IgnoreMeBaselineItemzTypeId = @CurrentBaselineItemzTypeID
-
+			
 			-- EXPLANATION: We are explicitely looking for Itemz within ItemzType where GetLevel() is GREATER THEN 3. 
 			-- This way, we insert remaining child node tree Itemz into BaselineItemz. 
 
@@ -229,12 +224,11 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 			SET @TempBaselineItemzNumberOfRows = @TempBaselineItemzNumberOfRows + ( 
 					SELECT count(1) 
 					FROM [dbo].[BaselineItemz] AS blitz
-					Where blitz.IgnoreMeBaselineItemzTypeId =  @CurrentBaselineItemzTypeID)
+					Where blitz.IgnoreMeBaselineItemzTypeId = @CurrentBaselineItemzTypeID)
 
 			-- increment counter for next employee
 			SET @TempBaselineItemzTypeIterator = @TempBaselineItemzTypeIterator + 1
 		END
-
 
 
 		SET @TempBaselineItemzTypeIterator = 1
@@ -295,7 +289,6 @@ DECLARE @NextAvailableBaselineHierarchyIdUnderProject hierarchyid
 											+ SUBSTRING(BaselineItemzHierarchyId.ToString(), (LEN(@NewBaselineItemzHierarchyIDString)+1), LEN(BaselineItemzHierarchyId.ToString()))
 		WHERE BaselineItemzHierarchyId.IsDescendantOf(@NewBaselineItemzHierarchyIDString) = 1 ; 
 
-
 		---- Inserting BaselineItemzJoinItemzTraces
 
 		DECLARE @TempNewlyCreatedBaselineItemzIds TABLE (
@@ -344,16 +337,18 @@ DECLARE @ErrorSeverity INT;
 DECLARE @ErrorState INT;  
   
 SELECT   
-	@ErrorMessage = ERROR_MESSAGE(),  
-	@ErrorSeverity = ERROR_SEVERITY(),  
-	@ErrorState = ERROR_STATE();  
+    @ErrorMessage = ERROR_MESSAGE(),  
+    @ErrorSeverity = ERROR_SEVERITY(),  
+    @ErrorState = ERROR_STATE();  
   
 -- Use RAISERROR inside the CATCH block to return error  
 -- information about the original error that caused  
 -- execution to jump to the CATCH block.  
 RAISERROR (@ErrorMessage, -- Message text.  
-			@ErrorSeverity, -- Severity.  
-			@ErrorState -- State.  
-			);  
+            @ErrorSeverity, -- Severity.  
+            @ErrorState -- State.  
+            );  
 END CATCH
 END
+
+

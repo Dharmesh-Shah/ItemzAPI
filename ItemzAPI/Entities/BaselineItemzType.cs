@@ -21,10 +21,10 @@ namespace ItemzApp.API.Entities
 
         //[Required]
         [MaxLength(64)]
-        public string? Status { get; set; } 
+        public string? Status { get; set; }
 
-        [MaxLength(1028)]
-        public string? Description { get; set; }
+		[Column(TypeName = "VARCHAR(MAX)")]
+		public string? Description { get; set; }
 
         //[Required]
         [MaxLength(128)]

@@ -9758,7 +9758,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/BaselineItemz/({{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}})",
+									"raw": "http://localhost:51087/api/BaselineItemzCollection/({{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}})",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -9766,7 +9766,7 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"BaselineItemz",
+										"BaselineItemzCollection",
 										"({{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_01}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_02}},{{UpdateItemzAndCompareSnapshots_BaselineItemzId_02_02_03}})"
 									]
 								}
@@ -25876,7 +25876,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "http://localhost:51087/api/BaselineItemz/({{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_01}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_02}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_03}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_04}})",
+									"raw": "http://localhost:51087/api/BaselineItemzCollection/({{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_01}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_02}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_03}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_04}})",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -25884,7 +25884,7 @@
 									"port": "51087",
 									"path": [
 										"api",
-										"BaselineItemz",
+										"BaselineItemzCollection",
 										"({{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_01}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_02}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_03}},{{CloneBaselineAndCompareSnapshots_BaselineItemzId_02_02_04}})"
 									]
 								}

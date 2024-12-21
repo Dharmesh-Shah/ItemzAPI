@@ -1,0 +1,14 @@
+﻿@page "/projectDetails/{ProjectId:guid}"
+
+<ProjectDetailsComponent ProjectId="@ProjectId" ShowBaselineTab="@ShowBaselineTab" CalledFrom="@this.GetType().Name" />
+
+@code 
+{
+
+	[Parameter]
+	public Guid ProjectId { get; set; }
+	[Parameter]
+	[SupplyParameterFromQuery(Name = "showBaselineTab")]
+	public bool ShowBaselineTab { get; set; } = false;
+
+}

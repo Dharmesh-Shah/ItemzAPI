@@ -62,8 +62,8 @@ namespace ItemzApp.API
                         var context = scope.ServiceProvider.GetService<ItemzContext>();
                         // for demo purposes, delete the database & migrate on startup so 
                         // we can start with a clean slate
-                        context?.Database.EnsureDeleted();
-                        context?.Database.Migrate();
+                        //context?.Database.EnsureDeleted();
+                        //context?.Database.Migrate();
                         Log.Information("Database deleted >>> migrated >>> seeded completed");
                     }
                     catch (Exception ex)

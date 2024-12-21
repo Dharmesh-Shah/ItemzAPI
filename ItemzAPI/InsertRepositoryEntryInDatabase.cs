@@ -29,8 +29,9 @@ namespace ItemzApp.API
                 {
                     Id = Guid.NewGuid(),
                     RecordType = "Repository",
-                    ItemzHierarchyId = HierarchyId.Parse("/")
-                };
+                    ItemzHierarchyId = HierarchyId.Parse("/"),
+					Name = "Repository"
+				};
 
                 _itemzContext.ItemzHierarchy!.Add(newRecord);
                 _itemzContext.SaveChanges();

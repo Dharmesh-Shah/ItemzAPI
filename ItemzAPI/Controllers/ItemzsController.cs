@@ -37,17 +37,20 @@ namespace ItemzApp.API.Controllers
     public class ItemzsController : ControllerBase
     {
         private readonly IItemzRepository _itemzRepository;
-        private readonly IMapper _mapper;
+		private readonly IHierarchyRepository _hierarchyRepository;
+		private readonly IMapper _mapper;
         private readonly IPropertyMappingService _propertyMappingService;
         private readonly ILogger<ItemzsController> _logger;
 
         public ItemzsController(IItemzRepository itemzRepository,
-            IMapper mapper,
+			IHierarchyRepository hierarchyRepository,
+			IMapper mapper,
             IPropertyMappingService propertyMappingService,
             ILogger<ItemzsController> logger)
         {
             _itemzRepository = itemzRepository ?? throw new ArgumentNullException(nameof(itemzRepository));
-            _mapper = mapper ??
+			_hierarchyRepository = hierarchyRepository ?? throw new ArgumentNullException(nameof(hierarchyRepository));
+			_mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
             _propertyMappingService = propertyMappingService ??
                 throw new ArgumentNullException(nameof(propertyMappingService));
@@ -180,10 +183,10 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public ActionResult<IEnumerable<GetItemzDTO>> GetOrphanItemzs(
+        public ActionResult<IEnumerable<GetItemzWithBasePropertiesDTO>> GetOrphanItemzs(
             [FromQuery] ItemzResourceParameter itemzResourceParameter)
         {
-            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzDTO, Itemz>
+            if (!_propertyMappingService.ValidMappingExistsFor<GetItemzWithBasePropertiesDTO, GetItemzWithBasePropertiesDTO>
                 (itemzResourceParameter.OrderBy))
             {
                 _logger.LogWarning("{FormattedControllerAndActionNames}Requested Order By Field {OrderByFieldName} is not found. Property Validation Failed!",
@@ -238,7 +241,7 @@ namespace ItemzApp.API.Controllers
             _logger.LogDebug("{FormattedControllerAndActionNames}Returning results for {ItemzNumbers} orphan Itemzs",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzsFromRepo.TotalCount);
-            return Ok(_mapper.Map<IEnumerable<GetItemzDTO>>(itemzsFromRepo));
+            return Ok(itemzsFromRepo);
         }
 
         /// <summary>
@@ -312,7 +315,9 @@ namespace ItemzApp.API.Controllers
                 }
 
                 //await _itemzRepository.AddNewItemzHierarchyAsync(parentItemzId, itemzEntity.Id, atBottomOfChildNodes: AtBottomOfChildNodes);
-                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.MoveItemzHierarchyAsync(itemzEntity.Id, parentId
+                    , atBottomOfChildNodes: AtBottomOfChildNodes
+                    , movingItemzName: itemzEntity.Name);
             }
             await _itemzRepository.SaveAsync();
 
@@ -388,7 +393,7 @@ namespace ItemzApp.API.Controllers
             }
 
             try { 
-            await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id);
+            await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, itemzEntity.Id, itemzEntity.Name!);
             await _itemzRepository.SaveAsync();
             }
             catch (ApplicationException appException)
@@ -441,7 +446,9 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzBetweenExistingItemzAsync([FromQuery] Guid movingItemzId, [FromQuery] Guid firstItemzId, [FromQuery] Guid secondItemzId)
+        public async Task<ActionResult> MoveItemzBetweenExistingItemzAsync( [FromQuery, BindRequired] Guid movingItemzId
+            , [FromQuery, BindRequired] Guid firstItemzId
+            , [FromQuery, BindRequired] Guid secondItemzId)
         {
             if (movingItemzId == Guid.Empty)
             {
@@ -510,7 +517,7 @@ namespace ItemzApp.API.Controllers
 
             try
             {
-                await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, movingItemzId);
+                await _itemzRepository.AddOrMoveItemzBetweenTwoHierarchyRecordsAsync(firstItemzId, secondItemzId, movingItemzId, movingItemz.Name!);
                 await _itemzRepository.SaveAsync();
             }
             catch (ApplicationException appException)
@@ -598,7 +605,27 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+
+
+			// EXPLANATION :: as part of updating Itemz record, we are making sure that Itemz name is updated in two places.
+			// First in the Itemz record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated Itemz name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update Itemz and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(itemzFromRepo.Id, itemzFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Itemz name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Itemz with ID {itemzFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzId);
             return NoContent(); // This indicates that update was successfully saved in the DB.
@@ -684,7 +711,25 @@ namespace ItemzApp.API.Controllers
             _itemzRepository.UpdateItemz(itemzFromRepo);
             await _itemzRepository.SaveAsync();
 
-            _logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
+			// EXPLANATION :: as part of updating Itemz record, we are making sure that Itemz name is updated in two places.
+			// First in the Itemz record itself and secondly within ItemzHierarchy record as well. We are not going to update
+			// BaselineItemzHierarchy record with updated Itemz name as it's a snapshot of data from a given point in time.
+
+			// TODO :: We should update Itemz and ItemzHierarchy together rather then two separate transactions
+
+			try
+			{
+				var _discard = _hierarchyRepository.UpdateHierarchyRecordNameByID(itemzFromRepo.Id, itemzFromRepo.Name ?? "");
+			}
+			catch (Microsoft.EntityFrameworkCore.DbUpdateException dbUpdateException)
+			{
+				_logger.LogDebug("{FormattedControllerAndActionNames}Exception Occured while trying to update Itemz name in ItemzHierarchy :" + dbUpdateException.InnerException,
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext)
+					);
+				return Conflict($"Name of ItemzHierarchy record for Itemz with ID {itemzFromRepo.Id} could not be updated.");
+			}
+
+			_logger.LogDebug("{FormattedControllerAndActionNames}Update request for Itemz for ID {ItemzId} processed successfully",
                     ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
                     itemzId);
             return NoContent();
@@ -717,7 +762,9 @@ namespace ItemzApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> MoveItemzAsync([FromRoute] Guid MovingItemzId, [FromQuery] Guid TargetId, [FromQuery] bool AtBottomOfChildNodes = true)
+        public async Task<ActionResult> MoveItemzAsync([FromRoute] Guid MovingItemzId
+            , [FromQuery, BindRequired] Guid TargetId
+            , [FromQuery] bool AtBottomOfChildNodes = true)
         {
             if (!(await _itemzRepository.ItemzExistsAsync(MovingItemzId)))// Check if Itemz exists
 
@@ -739,8 +786,16 @@ namespace ItemzApp.API.Controllers
                 return NotFound();
             }
 
-            await _itemzRepository.MoveItemzHierarchyAsync(MovingItemzId, TargetId, atBottomOfChildNodes: AtBottomOfChildNodes);
-            await _itemzRepository.SaveAsync();
+            try
+            {
+
+                await _itemzRepository.MoveItemzHierarchyAsync(MovingItemzId, TargetId, atBottomOfChildNodes: AtBottomOfChildNodes);
+                await _itemzRepository.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
 
             _logger.LogDebug("{FormattedControllerAndActionNames}Itemz ID {MovingItemzId} successfully moved under Target ID {TargetId}",
                 ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext),
@@ -790,13 +845,38 @@ namespace ItemzApp.API.Controllers
             return NoContent();
         }
 
-        /// <summary>
-        /// Get list of supported HTTP Options for the Itemz controller.
-        /// </summary>
-        /// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
-        /// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+		/// <summary>
+		/// Delete All Orphan Itemz
+		/// </summary>
+		/// <response code="204">Returns status as successful</response>
+		/// <response code="404">Requested Itemz not found</response>
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[HttpDelete("DeleteAllOrphanItemz",
+			Name = "__Delete_All_Orphan_Itemz__")] // e.g. http://HOST:PORT/api/Itemzs/DeleteAllOrphanItemz
+		public async Task<ActionResult> DeleteAllOrphanItemzAsync()
+		{
 
-        [HttpOptions (Name ="__OPTIONS_for_Itemz_Controller__")]
+			_logger.LogDebug("{FormattedControllerAndActionNames}Processing request to Delete All Orphan Itemz!",
+					ControllerAndActionNames.GetFormattedControllerAndActionNames(ControllerContext));
+            try
+            {
+                await _itemzRepository.DeleteAllOrphanItemz();
+            }
+            catch (ApplicationException ex)
+            {
+				return NotFound(ex.Message);
+			}
+			return NoContent();
+		}
+
+		/// <summary>
+		/// Get list of supported HTTP Options for the Itemz controller.
+		/// </summary>
+		/// <returns>Custom response header with key as "Allow" and value as different HTTP options that are allowed</returns>
+		/// <response code="200">Custom response header with key as "Allow" and value as different HTTP options that are allowed</response>
+
+		[HttpOptions (Name ="__OPTIONS_for_Itemz_Controller__")]
         public IActionResult GetItemzOptions()
         {
             Response.Headers.Add("Allow","GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE");

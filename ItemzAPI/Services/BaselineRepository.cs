@@ -432,17 +432,24 @@ namespace ItemzApp.API.Services
             var rootProject = _itemzContext.ItemzHierarchy!.AsNoTracking()
                             .Where(ih => ih.Id == ProjectId).FirstOrDefault();
 
-            var sumOfProjectAndSubItemzType = (await _itemzContext.ItemzHierarchy!
-                   .AsNoTracking()
-                   .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
-                   .CountAsync());
+            //var sumOfProjectAndSubItemzType = (await _itemzContext.ItemzHierarchy!
+            //       .AsNoTracking()
+            //       .Where(ih => ih.ItemzHierarchyId!.GetAncestor(1) == rootProject!.ItemzHierarchyId!)
+            //       .CountAsync());
+
+            //return (await _itemzContext.ItemzHierarchy!
+            //       .AsNoTracking()
+            //       .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
+            //       .CountAsync())
+            //       - sumOfProjectAndSubItemzType; // Minus sum of Project itself and it's sub ItemzType Hierarchy records
 
             return (await _itemzContext.ItemzHierarchy!
                    .AsNoTracking()
-                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId))
-                   .CountAsync())
-                   - sumOfProjectAndSubItemzType; // Minus sum of Project itself and it's sub ItemzType Hierarchy records
-        }
+                   .Where(ih => ih.ItemzHierarchyId!.IsDescendantOf(rootProject!.ItemzHierarchyId) 
+                            && ih.ItemzHierarchyId!.GetLevel() > 2) // This way we only count for Itemz Hierarchy records
+                   .CountAsync());
+
+		}
 
         public async Task<int> GetTotalBaselineItemzCountAsync()
         {
