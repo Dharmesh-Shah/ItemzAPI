@@ -2,6 +2,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItemzApp.API.Entities
 {
@@ -30,11 +31,11 @@ namespace ItemzApp.API.Entities
         [MaxLength(128)]
         public string? Name { get; set; }
 
-        /// <summary>
-        /// Description of the Baseline
-        /// </summary>
-        [MaxLength(1028)]
-        public string? Description { get; set; }
+		/// <summary>
+		/// Description of the Baseline
+		/// </summary>
+		[Column(TypeName = "VARCHAR(MAX)")]
+		public string? Description { get; set; }
 
     }
 }

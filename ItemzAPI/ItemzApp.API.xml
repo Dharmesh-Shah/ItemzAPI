@@ -1689,6 +1689,18 @@
         <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforItemz.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforAllBaselineEntities">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforAllBaselineEntities.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforAllBaselineEntities.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ItemzApp.API.Migrations.ChangedDescriptionToVARCHARMAXforAllBaselineEntities.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="P:ItemzApp.API.Models.BaselineHierarchyIdRecordDetailsDTO.RecordId">
             <summary>
             Parent Record ID representated by a GUID.
