@@ -38,10 +38,9 @@
 	else
 	{
  		<MudItem xs="12" sm="12">
-			<MudPaper Class="pa-4" >
 			<MudCard style="background-color : #FABBBB;" >
 				<MudCardContent>
-				<MudItem Class="pa-4 align-start d-flex" Style="width: auto" Outlined="false">
+				<MudItem Class="align-start d-flex" Style="width: auto" Outlined="false">
 					<MudGrid>
 						<MudItem xs="12" sm="12" md="7" lg="7">
 							<MudText Typo="Typo.h5" Align="Align.Left"><strong>@singleBaselineItemz.Name </strong></MudText>
@@ -55,9 +54,10 @@
 						</MudItem>
 					</MudGrid>
 				</MudItem>
-
-					<MudDivider Style="color: darkgray background-color: white; border-width: 2px; border-color: black; height: 2px; " />
-					<br />
+				</MudCardContent>
+			</MudCard>
+			<MudCard>
+				<MudCardContent>
 					<MudStack Row="true" Spacing="2">
 					<MudText><strong>ID                   : </strong></MudText>
 					<CopyableText TextToCopy="@singleBaselineItemz.Id.ToString()" />
@@ -104,10 +104,18 @@
 							/> *@
 						}
 					</MudGrid>
-					<MudText><strong>Description  : </strong> @singleBaselineItemz.Description</MudText>
+					<MudText><strong>Description : </strong></MudText>
+					<br />
+					<div class="custom-markdown-editor">
+						<MudPaper Class="pa-2 fixed-height-scroll">
+							@if (!string.IsNullOrEmpty(singleBaselineItemz.Description))
+							{
+								<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+							}
+						</MudPaper>
+					</div>
 				</MudCardContent>
 			</MudCard>
-			</MudPaper>
 		</MudItem>
  		<MudItem xs="12" sm="12">
 			<MudPaper Class="pa-4 mb-3 align-start d-flex" Style="width: auto" Outlined="false">
@@ -176,6 +184,8 @@
 
 	public bool disableIncludeChildOptions { get; set; } = true;
 
+	private MarkupString convertedMarkdown;
+
 	protected override async Task OnInitializedAsync()
 	{
 		initializingPage = true;
@@ -219,6 +229,8 @@
 			disableIncludeChildOptions = !(baselineBreadcrumsService.RequestParentNodeIsIncluded());
 
 			initializingPage = false;
+
+			await ConvertMarkdownToHtml(singleBaselineItemz.Description);
 
 			StateHasChanged();
 
@@ -328,6 +340,20 @@
 		{
 			var url = $"/BaselineTreeView/{foundProjectAndBaselineIds.BaselineId}?autoSelectedRecordId={Id}";
 			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
 		}
 	}
 }

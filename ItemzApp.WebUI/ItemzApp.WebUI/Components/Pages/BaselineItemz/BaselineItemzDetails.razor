@@ -103,9 +103,20 @@
 					@bind-Value="singleBaselineItemz.Severity"
 					For="@(() => singleBaselineItemz.Severity)" FullWidth="true" />
 				</MudStack>
-				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
+@* 				<MudTextField T="string" Label="Description" Required="true" RequiredError="Description is required!"
 								@bind-Value="singleBaselineItemz.Description"
-								For="@(() => singleBaselineItemz.Description)" />
+								For="@(() => singleBaselineItemz.Description)" /> *@
+
+					<MudText><strong>Description : </strong></MudText>
+					<br />
+					<div class="custom-markdown-editor">
+						<MudPaper Class="pa-2 fixed-height-scroll">
+							@if (!string.IsNullOrEmpty(singleBaselineItemz.Description))
+							{
+								<div class="markdown-body">@((MarkupString)convertedMarkdown)</div>
+							}
+						</MudPaper>
+					</div>
 				</MudCardContent>
 		</MudForm>
 	</MudPaper>
@@ -143,6 +154,8 @@
 
 	bool hideValidationError = true;
 
+	private MarkupString convertedMarkdown;
+
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
@@ -164,8 +177,10 @@
 			if (form != null)
 			{
 				initializingPage = false;
-				StateHasChanged();
 			}
+
+			await ConvertMarkdownToHtml(singleBaselineItemz.Description);
+			StateHasChanged();
 
 			// EXPLANATION : At the start of initialization process we capture parent record ID. 
 			// Now even if user decides to Delete this Itemz Record then also we can go back to it's 
@@ -173,6 +188,8 @@
 			var httpResponse = await BaselineHierarchyService.__Get_BaselineHierarchy_Record_Details_By_GUID__Async(BaselineItemzId);
 			ParentId = httpResponse.ParentRecordId;
 			ParentRecordType = httpResponse.ParentRecordType;
+
+
 		}
 	}
 
@@ -204,6 +221,20 @@
 		{
 			var url = $"/BaselineTreeView/{foundProjectAndBaselineIds.BaselineId}?autoSelectedRecordId={BaselineItemzId}";
 			await JS.InvokeVoidAsync("openInNewTab", url);
+		}
+	}
+
+	private async Task ConvertMarkdownToHtml(string markdown)
+	{
+		if (!string.IsNullOrEmpty(markdown))
+		{
+			var html = await JS.InvokeAsync<string>("markdownToHtml", markdown);
+			convertedMarkdown = (MarkupString)html;
+			StateHasChanged();
+
+			// Apply fullscreen styles
+			// await Task.Delay(1000);
+			// await JS.InvokeVoidAsync("applyMarkdownEditorFullscreenStyles");
 		}
 	}
 
